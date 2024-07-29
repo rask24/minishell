@@ -1,0 +1,10 @@
+[submodule "libft"]
+	path = libft
+	url = https://github.com/rask24/libft
+	shallow = true
+
+[submodule "readline"]
+	path = readline
+	url = https://git.savannah.gnu.org/git/readline.git
+	ignore = untracked
+	shallow = true

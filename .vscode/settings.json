@@ -1,0 +1,30 @@
+{
+  "files.associations": {
+    "*.h": "c",
+    "test_*.cpp": "cpp"
+  },
+  "[c]": {
+    "editor.tabSize": 4,
+    "editor.insertSpaces": false,
+    "editor.rulers": [80],
+    "editor.defaultFormatter": null,
+    "editor.wordBasedSuggestions": "allDocuments",
+    "editor.suggest.insertMode": "replace",
+    "editor.semanticHighlighting.enabled": true,
+    "editor.renderWhitespace": "all",
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "always"
+    },
+    "editor.rulers": [100]
+  },
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.typeCheckingMode": "basic",
+  "isort.args": ["--settings-file", "tests/e2e/pyproject.toml"],
+  "flake8.args": ["--config=tests/e2e/.flake8"]
+}

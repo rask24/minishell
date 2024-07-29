@@ -1,0 +1,31 @@
+codecov:
+  require_ci_to_pass: yes
+
+coverage:
+  precision: 2
+  round: down
+  range: "60...80"
+
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 5%
+        base: auto
+    patch:
+      default:
+        target: auto
+        threshold: 5%
+        base: auto
+
+ignore:
+  - "main.c"
+  - "tests/*"
+
+comment:
+  layout: "reach,diff,flags,files,footer"
+  behavior: default
+  require_changes: false
+
+github_checks:
+  annotations: yes
