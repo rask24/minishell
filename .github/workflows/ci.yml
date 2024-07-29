@@ -61,13 +61,13 @@ jobs:
         run: make coverage
       - name: Generate coverage report
         run: make report_coverage
-      # - name: Upload coverage report
-      #   uses: codecov/codecov-action@v4.0.1
-      #   with:
-      #     token: ${{ secrets.CODECOV_TOKEN }}
-      #     directory: coverage
-      #     flags: unittests
-      #     fail_ci_if_error: true
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: coverage
+          flags: unittests
+          fail_ci_if_error: true
 
   e2e_test:
     name: End-to-End Test
