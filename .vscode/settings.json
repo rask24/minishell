@@ -15,6 +15,19 @@
     "files.trimTrailingWhitespace": true,
     "files.insertFinalNewline": true
   },
+  "[cpp]": {
+    "editor.defaultFormatter": "ms-vscode.cpptools",
+    "editor.formatOnSave": true,
+    "editor.rulers": [80],
+    "editor.wordBasedSuggestions": "allDocuments",
+    "editor.suggest.insertMode": "replace",
+    "editor.semanticHighlighting.enabled": true,
+    "files.insertFinalNewline": true,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2
+  },
+  "C_Cpp.default.cppStandard": "c++17",
+  "C_Cpp.clang_format_style": "{ BasedOnStyle: Google }",
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true,
