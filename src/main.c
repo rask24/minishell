@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/08/23 21:27:43 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/08/23 21:37:27 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <termios.h>
 #include <unistd.h>
 
 #include "libft.h"
@@ -57,11 +58,13 @@ static void	spawn_process(char *command, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*input;
+	char			*input;
+	struct termios	original_termios;
 
 	(void)argc;
 	(void)argv;
 	init_signal_handlers();
+	save_terminal_configuration(&original_termios);
 	while (true)
 	{
 		input = readline(PROMPT);

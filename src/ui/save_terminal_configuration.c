@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui.h                                               :+:      :+:    :+:   */
+/*   save_terminal_configuration.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/23 19:58:39 by reasuke           #+#    #+#             */
-/*   Updated: 2024/08/23 21:40:29 by reasuke          ###   ########.fr       */
+/*   Created: 2024/08/23 21:34:50 by reasuke           #+#    #+#             */
+/*   Updated: 2024/08/23 21:36:19 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UI_H
-# define UI_H
+#include <termios.h>
+#include <unistd.h>
 
-# define PROMPT "minishell$ "
-
-void	init_signal_handlers(void);
-void	reset_signal_handlers(void);
-void	save_terminal_configuration(struct termios *original_termios);
-
-#endif
+void	save_terminal_configuration(struct termios *original_termios)
+{
+	tcgetattr(STDIN_FILENO, original_termios);
+}
