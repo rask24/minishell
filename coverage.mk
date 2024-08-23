@@ -1,10 +1,10 @@
 # Coverage related variables
 COV_DIR		= coverage
-GCOV_FLAGS	= -fprofile-arcs -ftest-coverage -fno-inline -O0 -g
+GCOV_FLAGS	= -fprofile-arcs -ftest-coverage
 
 # Coverage targets
 .PHONY: coverage
-coverage: CFLAGS += $(GCOV_FLAGS)
+coverage: CFLAGS += -lgcov
 coverage: clean all $(TEST_NAME)
 	@mkdir -p $(COV_DIR)
 	@./$(TEST_NAME)
