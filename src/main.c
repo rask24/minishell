@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/08/23 19:57:00 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/08/23 19:59:47 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@
 #include "libft.h"
 #include "readline/history.h"
 #include "readline/readline.h"
-
-#define PROMPT "minishell$ "
+#include "ui.h"
 
 static void	handle_sigint(int sig)
 {
