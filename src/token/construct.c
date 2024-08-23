@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:28:06 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/23 16:09:17 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/23 19:20:26 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,4 @@ t_token_list	*construct_token(t_token_type type, char *string);
 		return (NULL);
 	}
 	return (token);
-}
-
-t_token_list	*construct_token_list(void)
-{
-	return (NULL);
 }

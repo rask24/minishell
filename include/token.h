@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 13:27:54 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/23 18:52:09 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/23 19:20:44 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ char				*get_token_value(t_token_list *token);
 
 typedef t_list		t_token_list;
 
-t_token_list		*construct_token_list(void);
-void				push_back_token(t_token_list **list, t_token *token);
 void				destroy_token_list(t_token_list *list);
 
 #endif
