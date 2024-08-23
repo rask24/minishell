@@ -7,16 +7,16 @@ extern "C" {
 }
 
 TEST(CheckToken, Check_token_list) {
-  t_token_list *list = construct_token_list();
+  t_token_list *list = NULL;
 
   // ls && cat
-  t_token *token = construct_token(strdup("ls"), TOKEN_WORD);
-  t_token *token1 = construct_token(strdup("&&"), TOKEN_AND_IF);
-  t_token *token2 = construct_token(strdup("cat"), TOKEN_WORD);
+  t_token_list *token = construct_token(TOKEN_WORD, strdup("ls"));
+  t_token_list *token1 = construct_token(TOKEN_AND_IF, strdup("&&"));
+  t_token_list *token2 = construct_token(TOKEN_WORD, strdup("cat"));
 
-  push_back_token(&list, token);
-  push_back_token(&list, token1);
-  push_back_token(&list, token2);
+  ft_lstadd_back(&list, token);
+  ft_lstadd_back(&list, token1);
+  ft_lstadd_back(&list, token2);
 
   t_token *current = (t_token *)list->content;
   EXPECT_STREQ(current->value, "ls");
