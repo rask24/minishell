@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui.h                                               :+:      :+:    :+:   */
+/*   reset_signal_handlers.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/23 19:58:39 by reasuke           #+#    #+#             */
-/*   Updated: 2024/08/23 21:22:05 by reasuke          ###   ########.fr       */
+/*   Created: 2024/08/23 20:03:51 by reasuke           #+#    #+#             */
+/*   Updated: 2024/08/23 21:21:55 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UI_H
-# define UI_H
+#include <signal.h>
 
-# define PROMPT "minishell$ "
-
-void	init_signal_handlers(void);
-void	reset_signal_handlers(void);
-
-#endif
+void	reset_signal_handlers(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}

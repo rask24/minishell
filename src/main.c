@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/08/23 21:12:13 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/08/23 21:27:43 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static void	execute_command(char *complete_commnad, char **envp)
 	argv[0] = "sh";
 	argv[1] = "-c";
 	argv[2] = complete_commnad;
+	reset_signal_handlers();
 	if (execve("/bin/sh", argv, envp) == -1)
 	{
 		perror("execve");
