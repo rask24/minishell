@@ -1,20 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui.h                                               :+:      :+:    :+:   */
+/*   init_signal_handlers.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/23 19:58:39 by reasuke           #+#    #+#             */
-/*   Updated: 2024/08/23 21:11:00 by reasuke          ###   ########.fr       */
+/*   Created: 2024/08/23 20:03:51 by reasuke           #+#    #+#             */
+/*   Updated: 2024/08/23 21:13:35 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UI_H
-# define UI_H
+#include <signal.h>
+#include <stdio.h>
+#include <unistd.h>
 
-# define PROMPT "minishell$ "
+#include "libft.h"
+#include "readline/readline.h"
 
-void	init_signal_handlers(void);
+static void	handle_sigint(int sig)
+{
+	(void)sig;
+	ft_putchar_fd('\n', STDOUT_FILENO);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
-#endif
+void	init_signal_handlers(void)
+{
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
+}

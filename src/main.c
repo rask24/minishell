@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/08/23 19:59:47 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/08/23 21:12:13 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,6 @@
 #include "readline/history.h"
 #include "readline/readline.h"
 #include "ui.h"
-
-static void	handle_sigint(int sig)
-{
-	(void)sig;
-	ft_putchar_fd('\n', STDOUT_FILENO);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
-
-static void	init_signal_handler(void)
-{
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
-}
 
 static void	execute_command(char *complete_commnad, char **envp)
 {
@@ -75,7 +60,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	init_signal_handler();
+	init_signal_handlers();
 	while (true)
 	{
 		input = readline(PROMPT);

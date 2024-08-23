@@ -20,7 +20,8 @@ LIBFT_DIR		= libft
 LIBREADLINE_DIR	= readline
 
 # Files
-SRC				= $(SRC_DIR)/main.c
+SRC				= $(SRC_DIR)/main.c \
+					$(SRC_DIR)/ui/init_signal_handlers.c
 OBJ				= $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC))
 DEP				= $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.d, $(SRC))
 HEADER			=
