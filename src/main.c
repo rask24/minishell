@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/08/23 21:37:27 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/08/23 21:43:19 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	main(int argc, char **argv, char **envp)
 		spawn_process(input, envp);
 		add_history(input);
 		free(input);
+		restore_terminal_configuration(&original_termios);
 	}
 	return (EXIT_SUCCESS);
 }
