@@ -24,7 +24,6 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/token/construct.c \
 					$(SRC_DIR)/token/destroy.c \
 					$(SRC_DIR)/token/getter.c  \
-					$(SRC_DIR)/token/push_back.c \
 
 OBJ				= $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC))
 DEP				= $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.d, $(SRC))
