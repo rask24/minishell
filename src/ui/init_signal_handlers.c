@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 20:03:51 by reasuke           #+#    #+#             */
-/*   Updated: 2024/08/23 21:13:35 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/08/27 00:52:16 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static void	handle_sigint(int sig)
 
 void	init_signal_handlers(void)
 {
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
+	if (signal(SIGINT, handle_sigint) == SIG_ERR)
+		perror("signal");
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+		perror("signal");
 }
