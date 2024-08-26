@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/08/23 22:10:21 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/08/27 01:00:38 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@
 #include "readline/readline.h"
 #include "ui.h"
 
-static void	execute_command(char *complete_commnad, char **envp)
+static void	execute_command(char *complete_command, char **envp)
 {
 	char	**argv;
 
 	argv = ft_xmalloc(sizeof(char *) * 3);
 	argv[0] = "sh";
 	argv[1] = "-c";
-	argv[2] = complete_commnad;
+	argv[2] = complete_command;
 	reset_signal_handlers();
 	if (execve("/bin/sh", argv, envp) == -1)
 	{
