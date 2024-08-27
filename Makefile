@@ -21,7 +21,7 @@ LIBREADLINE_DIR	= readline
 
 # Files
 SRC				= $(SRC_DIR)/main.c \
-					$(SRC_DIR)/token/construct.c \
+					$(SRC_DIR)/token/constructor.c \
 					$(SRC_DIR)/token/destroy.c \
 					$(SRC_DIR)/token/getter.c  \
 
