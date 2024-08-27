@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 20:03:51 by reasuke           #+#    #+#             */
-/*   Updated: 2024/08/27 00:52:16 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/08/27 15:43:25 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,7 @@ void	init_signal_handlers(void)
 	if (signal(SIGINT, handle_sigint) == SIG_ERR)
 		perror("signal");
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+		perror("signal");
+	if (signal(SIGTSTP, SIG_IGN) == SIG_ERR)
 		perror("signal");
 }
