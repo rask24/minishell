@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/08/27 01:00:38 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/08/27 16:35:57 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@
 
 static void	execute_command(char *complete_command, char **envp)
 {
-	char	**argv;
+	char	*argv[4];
 
-	argv = ft_xmalloc(sizeof(char *) * 3);
-	argv[0] = "sh";
+	argv[0] = "bash";
 	argv[1] = "-c";
 	argv[2] = complete_command;
+	argv[3] = NULL;
 	reset_signal_handlers();
-	if (execve("/bin/sh", argv, envp) == -1)
+	if (execve("/bin/bash", argv, envp) == -1)
 	{
 		perror("execve");
 		exit(EXIT_FAILURE);
