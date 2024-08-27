@@ -16,6 +16,7 @@ TEST(CheckToken, CheckOneToken) {
   destroy_token(token);
 }
 
+TEST(CheckToken, CheckTokens) {
   t_token_list *list = NULL;
 
   // ls && cat
