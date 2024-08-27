@@ -6,7 +6,16 @@ extern "C" {
 #include "token.h"
 }
 
-TEST(CheckToken, Check_token_list) {
+TEST(CheckToken, CheckOneToken) {
+  t_token_list *token = construct_token(TOKEN_WORD, strdup("ls"));
+
+  t_token *current = (t_token *)token->content;
+  EXPECT_STREQ(current->value, "ls");
+  EXPECT_EQ(current->type, TOKEN_WORD);
+
+  destroy_token(token);
+}
+
   t_token_list *list = NULL;
 
   // ls && cat
