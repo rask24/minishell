@@ -3,7 +3,7 @@
 #include "gtest/gtest.h"
 
 extern "C" {
-#include "../include/token.h"
+#include "token.h"
 }
 
 TEST(CheckToken, Check_token_list) {
