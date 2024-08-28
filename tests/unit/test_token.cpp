@@ -37,7 +37,7 @@ TEST(construct_token, CheckMultipleTokens) {
 
   // cat
   EXPECT_EQ(get_token_type(list->next->next), TOKEN_WORD);
-  EXPECT_STREQ(get_token_value(list->next->next), "ca");
+  EXPECT_STREQ(get_token_value(list->next->next), "cat");
 
   destroy_token_list(list);
 }
