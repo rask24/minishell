@@ -31,7 +31,6 @@ SRC				= $(SRC_DIR)/main.c \
 
 OBJ				= $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC))
 DEP				= $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.d, $(SRC))
-HEADER			=
 
 # Colors
 RESET			= \033[0m
