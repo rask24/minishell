@@ -34,3 +34,11 @@ TEST(store_to_buffer_statefully, store_buffer) {
   EXPECT_EQ(get_token_type(token), TOKEN_WORD);
   EXPECT_STREQ(get_token_value(token), "ls");
 }
+
+TEST(lexer, CheckToken) {
+  const char *str = "ls";
+
+  t_token_list *token = lexer(str);
+  EXPECT_EQ(get_token_type(token), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token), "ls");
+}
