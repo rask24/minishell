@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 14:59:01 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/29 16:41:32 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/29 16:43:10 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,15 @@ void push_back_char(t_token_buffer *token_buffer, char c)
 		ft_xrealloc(token_buffer);
 	token_buffer->str[token_buffer->len++] = c;
 	token_buffer->str[token_buffer->len] = '\0';
+}
+
+t_token_list	*store_to_buffer_statefully(t_token_buffer *token_buffer,
+		char c)
+{
+	push_back_char(token_buffer, c);
+	if (token_buffer->len == 2)
+	{
+		return (construct_token(TOKEN_WORD, ft_strdup(token_buffer->str)));
+	}
+	return NULL;
 }

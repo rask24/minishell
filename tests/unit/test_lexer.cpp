@@ -23,3 +23,14 @@ TEST(push_back_char, CheckPushBack) {
   EXPECT_EQ(token_buffer.len, (size_t)2);
   EXPECT_EQ(token_buffer.cap, (size_t)4);
 }
+
+TEST(store_to_buffer_statefully, store_buffer) {
+  t_token_buffer token_buffer = {.str = (char *)malloc(1), .len = 0, .cap = 1};
+
+  t_token_list *token = store_to_buffer_statefully(&token_buffer, 'l');
+  EXPECT_EQ(token, nullptr);
+
+  token = store_to_buffer_statefully(&token_buffer, 's');
+  EXPECT_EQ(get_token_type(token), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token), "ls");
+}
