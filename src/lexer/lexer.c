@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 14:59:01 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/30 16:59:19 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/30 17:47:23 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,20 @@
 static bool is_quote_char(char c)
 {
 	return (c == SINGLE_QUOTE || c == DOUBLE_QUOTE);
+}
+
+static void process_quote(t_lexer_state *lexer_state, char starting_quote_char)
+{
+	lexer_state->end++;
+	while (true)
+	{
+		if (*lexer_state->end == '\0')
+			ft_printf("Syntax error: quote not closed");
+		if (*lexer_state->end == starting_quote_char)
+			break;
+		lexer_state->end++;
+	}
+	lexer_state->end++;
 }
 
 static	t_token_list *delimit_token(t_lexer_state *lexer_state)
@@ -29,12 +43,7 @@ static	t_token_list *delimit_token(t_lexer_state *lexer_state)
 			return (construct_token(TOKEN_WORD, token_value));
 		}
 		if (is_quote_char(*lexer_state->end))
-		{
-			while(*lexer_state->end != '\0' || is_quote_char(*lexer_state->end))
-			{
-				lexer_state->end++;
-			}
-		}
+			process_quote(lexer_state, *lexer_state->end);
 
 		if (ft_isspace(*lexer_state->end))
 		{
