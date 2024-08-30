@@ -60,6 +60,14 @@ TEST(lexer, SpacesBeforeWord) {
   EXPECT_STREQ(get_token_value(token->next), "-l");
 }
 
+TEST(lexer, OnlySpaces) {
+  const char *str = "    ";
+
+  t_token_list *token = lexer(str);
+
+  EXPECT_EQ(token, nullptr);
+}
+
 TEST(lexer, SingleQuote) {
   const char *str = "echo 'hello world'";
 
