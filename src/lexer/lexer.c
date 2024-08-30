@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 14:59:01 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/30 22:48:48 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/30 22:50:51 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static bool	is_quote_char(char c)
 	return (c == SINGLE_QUOTE || c == DOUBLE_QUOTE);
 }
 
-static t_token_list	*delimit_token(t_lexer *lexer)
+static t_token_list	*get_next_token(t_lexer *lexer)
 {
 	char	*token_value;
 
@@ -49,7 +49,7 @@ t_token_list	*lexer(const char *string)
 	construct_lexer((char *)string, &lexer);
 	while (true)
 	{
-		one_token = delimit_token(&lexer);
+		one_token = get_next_token(&lexer);
 		ft_lstadd_back(&token_list, one_token);
 		if (*(lexer.end) == '\0')
 			break ;
