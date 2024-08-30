@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 14:59:01 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/30 13:51:07 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/30 13:58:32 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,16 @@
 
 static	t_token_list *delimit_token(t_lexer_state *lexer_state)
 {
-	while (*lexer_state->end != '\0')
+	while(true)
 	{
+		if (*lexer_state->end == '\0')
+		{
+			char *token_value = ft_substr(lexer_state->start, 0, lexer_state->end - lexer_state->start);
+			lexer_state->start = lexer_state->end;
+			return (construct_token(TOKEN_WORD, token_value));
+		}
 		lexer_state->end++;
 	}
-	char *token_value = ft_substr(lexer_state->start, 0, lexer_state->end - lexer_state->start);
-	lexer_state->start = lexer_state->end;
-	return (construct_token(TOKEN_WORD, token_value));
 }
 
 static void init_lexer_state(char *string, t_lexer_state *lexer_state)
