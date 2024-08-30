@@ -35,3 +35,15 @@ TEST(lexer, SingleQuote) {
   EXPECT_EQ(get_token_type(token->next), TOKEN_WORD);
   EXPECT_STREQ(get_token_value(token->next), "'hello world'");
 }
+
+TEST(lexer, DoubleQuote) {
+  const char *str = "echo \"hello world\"";
+
+  t_token_list *token = lexer(str);
+
+  EXPECT_EQ(get_token_type(token), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token), "echo");
+
+  EXPECT_EQ(get_token_type(token->next), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token->next), "\"hello world\"");
+}

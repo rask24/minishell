@@ -6,12 +6,17 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 14:59:01 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/30 14:04:03 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/30 16:59:19 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "token.h"
+
+static bool is_quote_char(char c)
+{
+	return (c == SINGLE_QUOTE || c == DOUBLE_QUOTE);
+}
 
 static	t_token_list *delimit_token(t_lexer_state *lexer_state)
 {
@@ -23,6 +28,14 @@ static	t_token_list *delimit_token(t_lexer_state *lexer_state)
 			lexer_state->start = lexer_state->end;
 			return (construct_token(TOKEN_WORD, token_value));
 		}
+		if (is_quote_char(*lexer_state->end))
+		{
+			while(*lexer_state->end != '\0' || is_quote_char(*lexer_state->end))
+			{
+				lexer_state->end++;
+			}
+		}
+
 		if (ft_isspace(*lexer_state->end))
 		{
 			char *token_value = ft_substr(lexer_state->start, 0, lexer_state->end - lexer_state->start);
@@ -39,7 +52,6 @@ static void init_lexer_state(char *string, t_lexer_state *lexer_state)
 {
 	lexer_state->start = string;
 	lexer_state->end = string;
-	lexer_state->is_inside_quote = false;
 }
 
 t_token_list	*lexer(const char *string)
