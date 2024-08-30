@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 14:59:01 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/30 13:58:32 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/30 14:04:03 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,14 @@ static	t_token_list *delimit_token(t_lexer_state *lexer_state)
 		if (*lexer_state->end == '\0')
 		{
 			char *token_value = ft_substr(lexer_state->start, 0, lexer_state->end - lexer_state->start);
+			lexer_state->start = lexer_state->end;
+			return (construct_token(TOKEN_WORD, token_value));
+		}
+		if (ft_isspace(*lexer_state->end))
+		{
+			char *token_value = ft_substr(lexer_state->start, 0, lexer_state->end - lexer_state->start);
+			// the current character shall be discarded.
+			lexer_state->end++;
 			lexer_state->start = lexer_state->end;
 			return (construct_token(TOKEN_WORD, token_value));
 		}
