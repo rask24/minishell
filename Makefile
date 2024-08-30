@@ -22,6 +22,7 @@ LIBREADLINE_DIR	= readline
 # Files
 SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/lexer/constructor.c \
+					$(SRC_DIR)/lexer/get_next_token.c \
 					$(SRC_DIR)/lexer/lexer.c \
 					$(SRC_DIR)/lexer/process_blank.c \
 					$(SRC_DIR)/lexer/process_quote.c \
