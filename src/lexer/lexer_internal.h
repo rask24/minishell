@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.h                                            :+:      :+:    :+:   */
+/*   lexer_internal.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/29 10:15:04 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/30 22:25:27 by yliu             ###   ########.fr       */
+/*   Created: 2024/08/30 22:25:14 by yliu              #+#    #+#             */
+/*   Updated: 2024/08/30 22:25:28 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-#define LEXER_H
+#ifndef LEXER_INTERNAL_H
+# define LEXER_INTERNAL_H
 
-#include "token.h"
-
-#define SINGLE_QUOTE '\''
-#define DOUBLE_QUOTE '\"'
-
-t_token_list *lexer(const char *string);
+typedef struct s_lexer_state {
+  char *start;
+  char *end;
+} t_lexer_state;
 
 #endif

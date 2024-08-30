@@ -6,11 +6,12 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 14:59:01 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/30 22:06:11 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/30 22:25:50 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include "lexer_internal.h"
 #include "token.h"
 
 static bool is_quote_char(char c)
