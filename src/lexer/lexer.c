@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 14:59:01 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/30 22:25:50 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/30 22:32:45 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,6 @@ static	t_token_list *delimit_token(t_lexer_state *lexer_state)
 			return(process_blank(lexer_state));
 		lexer_state->end++;
 	}
-}
-
-static void init_lexer_state(char *string, t_lexer_state *lexer_state)
-{
-	lexer_state->start = string;
-	lexer_state->end = string;
 }
 
 t_token_list	*lexer(const char *string)
