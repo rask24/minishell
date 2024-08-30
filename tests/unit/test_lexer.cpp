@@ -35,6 +35,31 @@ TEST(lexer, ManySpaces) {
   EXPECT_EQ(get_token_type(token->next), TOKEN_WORD);
   EXPECT_STREQ(get_token_value(token->next), "-l");
 }
+
+TEST(lexer, SpacesAfterWord) {
+  const char *str = "ls -l  ";
+
+  t_token_list *token = lexer(str);
+
+  EXPECT_EQ(get_token_type(token), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token), "ls");
+
+  EXPECT_EQ(get_token_type(token->next), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token->next), "-l");
+}
+
+TEST(lexer, SpacesBeforeWord) {
+  const char *str = "    ls -l";
+
+  t_token_list *token = lexer(str);
+
+  EXPECT_EQ(get_token_type(token), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token), "ls");
+
+  EXPECT_EQ(get_token_type(token->next), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token->next), "-l");
+}
+
 TEST(lexer, SingleQuote) {
   const char *str = "echo 'hello world'";
 
