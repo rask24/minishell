@@ -6,22 +6,22 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:45:32 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/30 22:48:46 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/30 22:59:48 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_internal.h"
 
-void	process_quote(t_lexer *lexer, char starting_quote_char)
+void	process_quote(t_lexer *lexer, char left_quote_char)
 {
-	lexer->end++;
+	lexer->right++;
 	while (true)
 	{
-		if (*lexer->end == '\0')
+		if (*lexer->right == '\0')
 			ft_printf("Syntax error: quote not closed");
-		if (*lexer->end == starting_quote_char)
+		if (*lexer->right == left_quote_char)
 			break ;
-		lexer->end++;
+		lexer->right++;
 	}
-	lexer->end++;
+	lexer->right++;
 }

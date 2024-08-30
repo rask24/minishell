@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 10:15:04 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/30 22:47:56 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/30 22:55:39 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include "token.h"
 
-t_token_list	*lexer(const char *string);
+t_token_list	*lexer(const char *input);
 
 #endif
