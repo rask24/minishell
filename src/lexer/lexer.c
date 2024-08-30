@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 14:59:01 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/30 22:32:45 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/30 22:38:43 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,57 +19,57 @@ static bool is_quote_char(char c)
 	return (c == SINGLE_QUOTE || c == DOUBLE_QUOTE);
 }
 
-static void process_quote(t_lexer_state *lexer_state, char starting_quote_char)
+static void process_quote(t_lexer *lexer, char starting_quote_char)
 {
-	lexer_state->end++;
+	lexer->end++;
 	while (true)
 	{
-		if (*lexer_state->end == '\0')
+		if (*lexer->end == '\0')
 			ft_printf("Syntax error: quote not closed");
-		if (*lexer_state->end == starting_quote_char)
+		if (*lexer->end == starting_quote_char)
 			break;
-		lexer_state->end++;
+		lexer->end++;
 	}
-	lexer_state->end++;
+	lexer->end++;
 }
 
-static void discard_char(t_lexer_state *lexer_state)
+static void discard_char(t_lexer *lexer)
 {
-	lexer_state->start++;
-	lexer_state->end++;
+	lexer->start++;
+	lexer->end++;
 }
 
-static t_token_list *process_blank(t_lexer_state *lexer_state)
+static t_token_list *process_blank(t_lexer *lexer)
 {
-	if (lexer_state->start == lexer_state->end)
+	if (lexer->start == lexer->end)
 	{
-		discard_char(lexer_state);
+		discard_char(lexer);
 		return (NULL);
 	}
-	char *token_value = ft_substr(lexer_state->start, 0, lexer_state->end - lexer_state->start);
-	while (ft_isspace(*lexer_state->end))
+	char *token_value = ft_substr(lexer->start, 0, lexer->end - lexer->start);
+	while (ft_isspace(*lexer->end))
 	{
-		lexer_state->end++;
+		lexer->end++;
 	}
-	lexer_state->start = lexer_state->end;
+	lexer->start = lexer->end;
 	return (construct_token(TOKEN_WORD, token_value));
 }
 
-static	t_token_list *delimit_token(t_lexer_state *lexer_state)
+static	t_token_list *delimit_token(t_lexer *lexer)
 {
 	while(true)
 	{
-		if (*lexer_state->end == '\0')
+		if (*lexer->end == '\0')
 		{
-			char *token_value = ft_substr(lexer_state->start, 0, lexer_state->end - lexer_state->start);
-			lexer_state->start = lexer_state->end;
+			char *token_value = ft_substr(lexer->start, 0, lexer->end - lexer->start);
+			lexer->start = lexer->end;
 			return (construct_token(TOKEN_WORD, token_value));
 		}
-		if (is_quote_char(*lexer_state->end))
-			process_quote(lexer_state, *lexer_state->end);
-		if (ft_isspace(*lexer_state->end))
-			return(process_blank(lexer_state));
-		lexer_state->end++;
+		if (is_quote_char(*lexer->end))
+			process_quote(lexer, *lexer->end);
+		if (ft_isspace(*lexer->end))
+			return(process_blank(lexer));
+		lexer->end++;
 	}
 }
 
@@ -77,15 +77,15 @@ t_token_list	*lexer(const char *string)
 {
 	t_token_list	*one_token;
 	t_token_list	*token_list;
-	t_lexer_state  lexer_state;
+	t_lexer  lexer;
 
 	token_list = NULL;
-	init_lexer_state((char *)string, &lexer_state);
+	construct_lexer((char *)string, &lexer);
 	while (true)
 	{
-		one_token = delimit_token(&lexer_state);
+		one_token = delimit_token(&lexer);
 		ft_lstadd_back(&token_list, one_token);
-		if (*(lexer_state.end) == '\0')
+		if (*(lexer.end) == '\0')
 			break;
 	}
 	return (token_list);
