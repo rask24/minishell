@@ -13,14 +13,15 @@
 #ifndef LEXER_INTERNAL_H
 # define LEXER_INTERNAL_H
 
-#include "token.h"
+# include "token.h"
 
-typedef struct s_lexer {
-  char *start;
-  char *end;
-} t_lexer;
+typedef struct s_lexer
+{
+	char		*start;
+	char		*end;
+}				t_lexer;
 
-void construct_lexer(char *string, t_lexer *lexer);
-t_token_list *process_blank(t_lexer *lexer);
+void			construct_lexer(char *string, t_lexer *lexer);
+t_token_list	*process_blank(t_lexer *lexer);
 
 #endif

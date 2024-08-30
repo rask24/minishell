@@ -11,13 +11,13 @@
 /* ************************************************************************** */
 
 #ifndef LEXER_H
-#define LEXER_H
+# define LEXER_H
 
-#include "token.h"
+# include "token.h"
 
-#define SINGLE_QUOTE '\''
-#define DOUBLE_QUOTE '\"'
+# define SINGLE_QUOTE '\''
+# define DOUBLE_QUOTE '\"'
 
-t_token_list *lexer(const char *string);
+t_token_list	*lexer(const char *string);
 
 #endif

@@ -12,20 +12,22 @@
 
 #include "lexer_internal.h"
 
-static void discard_char(t_lexer *lexer)
+static void	discard_char(t_lexer *lexer)
 {
 	lexer->start++;
 	lexer->end++;
 }
 
-t_token_list *process_blank(t_lexer *lexer)
+t_token_list	*process_blank(t_lexer *lexer)
 {
+	char	*token_value;
+
 	if (lexer->start == lexer->end)
 	{
 		discard_char(lexer);
 		return (NULL);
 	}
-	char *token_value = ft_substr(lexer->start, 0, lexer->end - lexer->start);
+	token_value = ft_substr(lexer->start, 0, lexer->end - lexer->start);
 	while (ft_isspace(*lexer->end))
 	{
 		lexer->end++;
