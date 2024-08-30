@@ -78,8 +78,7 @@ t_token_list	*lexer(const char *string)
 	while (true)
 	{
 		one_token = delimit_token(&lexer_state);
-		if (one_token != NULL)
-			ft_lstadd_back(&token_list, one_token);
+		ft_lstadd_back(&token_list, one_token);
 		if (*(lexer_state.end) == '\0')
 			break;
 	}
