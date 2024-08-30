@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 14:59:01 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/30 17:47:23 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/30 17:53:11 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static	t_token_list *delimit_token(t_lexer_state *lexer_state)
 		}
 		if (is_quote_char(*lexer_state->end))
 			process_quote(lexer_state, *lexer_state->end);
-
 		if (ft_isspace(*lexer_state->end))
 		{
 			char *token_value = ft_substr(lexer_state->start, 0, lexer_state->end - lexer_state->start);

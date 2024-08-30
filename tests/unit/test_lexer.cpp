@@ -62,3 +62,21 @@ TEST(lexer, MixedQuote) {
   EXPECT_EQ(get_token_type(token->next->next), TOKEN_WORD);
   EXPECT_STREQ(get_token_value(token->next->next), "'apple'");
 }
+
+TEST(lexer, QuoteInsideString) {
+  const char *str = "e\"ch\"o";
+
+  t_token_list *token = lexer(str);
+
+  EXPECT_EQ(get_token_type(token), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token), "e\"ch\"o");
+}
+
+TEST(lexer, QuoteInsideQuote) {
+  const char *str = "e'\"ch\"'o";
+
+  t_token_list *token = lexer(str);
+
+  EXPECT_EQ(get_token_type(token), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token), "e'\"ch\"'o");
+}
