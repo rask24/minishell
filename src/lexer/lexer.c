@@ -6,63 +6,46 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 14:59:01 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/29 16:52:26 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/30 13:51:07 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "token.h"
 
-void	ft_xrealloc(t_token_buffer *token_buffer)
+static	t_token_list *delimit_token(t_lexer_state *lexer_state)
 {
-	char	*new_buffer;
-
-	token_buffer->cap *= 2;
-	new_buffer = ft_xmalloc(token_buffer->cap);
-	ft_memcpy(new_buffer, token_buffer->str, token_buffer->len);
-	free(token_buffer->str);
-	token_buffer->str = new_buffer;
-	return ;
-}
-
-void push_back_char(t_token_buffer *token_buffer, char c)
-{
-	if (token_buffer->len + 1 == token_buffer->cap)
-		ft_xrealloc(token_buffer);
-	token_buffer->str[token_buffer->len++] = c;
-	token_buffer->str[token_buffer->len] = '\0';
-}
-
-t_token_list	*store_to_buffer_statefully(t_token_buffer *token_buffer,
-		char c)
-{
-	push_back_char(token_buffer, c);
-	if (token_buffer->len == 2)
+	while (*lexer_state->end != '\0')
 	{
-		return (construct_token(TOKEN_WORD, ft_strdup(token_buffer->str)));
+		lexer_state->end++;
 	}
-	return NULL;
+	char *token_value = ft_substr(lexer_state->start, 0, lexer_state->end - lexer_state->start);
+	lexer_state->start = lexer_state->end;
+	return (construct_token(TOKEN_WORD, token_value));
+}
+
+static void init_lexer_state(char *string, t_lexer_state *lexer_state)
+{
+	lexer_state->start = string;
+	lexer_state->end = string;
+	lexer_state->is_inside_quote = false;
 }
 
 t_token_list	*lexer(const char *string)
 {
-	size_t			cursor;
 	t_token_list	*one_token;
 	t_token_list	*token_list;
-	t_token_buffer	token_buffer;
+	t_lexer_state  lexer_state;
 
-	token_buffer = (t_token_buffer){.str = (char *)ft_xmalloc((size_t)1), .len = 0, .cap = 1};
-	cursor = 0;
 	token_list = NULL;
-	while (string[cursor])
+	init_lexer_state((char *)string, &lexer_state);
+	while (true)
 	{
-		one_token = store_to_buffer_statefully(&token_buffer, string[cursor]);
+		one_token = delimit_token(&lexer_state);
 		if (one_token != NULL)
-		{
 			ft_lstadd_back(&token_list, one_token);
-		}
-		cursor++;
+		if (*(lexer_state.end) == '\0')
+			break;
 	}
-	free(token_buffer.str);
 	return (token_list);
 }
