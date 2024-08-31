@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:52:15 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/31 16:38:12 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/31 17:48:02 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static bool	_is_quote_char(char c)
 
 static bool	_is_operator_char(char c)
 {
-	return (c == '|' || c == '&' || c == '<' || c == '>');
+	return (c == '|' || c == '&' || c == '<' || c == '>' || c == '('
+		|| c == ')');
 }
 
 void	delimit_token(t_lexer *lexer)

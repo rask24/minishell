@@ -189,3 +189,27 @@ TEST(lexer, WordsSpaceOperatorSpaceWords) {
   EXPECT_EQ(get_token_type(token->next->next), TOKEN_WORD);
   EXPECT_STREQ(get_token_value(token->next->next), "wc");
 }
+
+TEST(lexer, LotsOfOperators) {
+  const char *str = "ls |    wc>>whoami<< (ls)) cat || echo";
+  t_token_type expected_token_array[] = {
+      TOKEN_WORD,          TOKEN_PIPE, TOKEN_WORD,
+      TOKEN_DGREAT,        TOKEN_WORD, TOKEN_DLESS,
+      TOKEN_L_PARENTHESIS, TOKEN_WORD, TOKEN_R_PARENTHESIS,
+      TOKEN_R_PARENTHESIS, TOKEN_WORD, TOKEN_OR_IF,
+      TOKEN_WORD,          TOKEN_EOF};
+
+  const char *expected_value_array[] = {"ls",  "|",  "wc",  ">>", "whoami",
+                                        "<<",  "(",  "ls",  ")",  ")",
+                                        "cat", "||", "echo"};
+
+  t_token_list *token = lexer(str);
+
+  int i = 0;
+  while (get_token_type(token) != TOKEN_EOF) {
+    EXPECT_EQ(get_token_type(token), expected_token_array[i]);
+    EXPECT_STREQ(get_token_value(token), expected_value_array[i]);
+    token = token->next;
+    i++;
+  }
+}
