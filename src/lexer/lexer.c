@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 14:59:01 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/30 22:58:23 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/31 14:04:17 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_token_list	*lexer(const char *input)
 	{
 		one_token = get_next_token(&lexer);
 		ft_lstadd_back(&token_list, one_token);
-		if (*(lexer.right) == '\0')
+		if (get_token_type(one_token) == TOKEN_EOF)
 			break ;
 	}
 	return (token_list);

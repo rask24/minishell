@@ -6,32 +6,31 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:41:59 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/31 11:42:47 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/31 13:34:19 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_internal.h"
 
-static void	discard_char(t_lexer *lexer)
+void	process_blank(t_lexer *lexer)
 {
-	lexer->left++;
-	lexer->right++;
-}
-
-t_token_list	*process_blank(t_lexer *lexer)
-{
-	char	*token_value;
-
-	if (lexer->left == lexer->right)
+	if (lexer->right == lexer->left)
 	{
-		discard_char(lexer);
-		return (NULL);
+		while (ft_isblank(*lexer->right))
+		{
+			lexer->right++;
+		}
+		lexer->left = lexer->right;
+		delimit_token(lexer);
 	}
-	token_value = ft_substr(lexer->left, 0, lexer->right - lexer->left);
-	while (ft_isblank(*lexer->right))
+	else
 	{
-		lexer->right++;
+		lexer->value = ft_substr(lexer->left, 0, lexer->right - lexer->left);
+		lexer->type = TOKEN_WORD;
+		while (ft_isblank(*lexer->right))
+		{
+			lexer->right++;
+		}
+		lexer->left = lexer->right;
 	}
-	lexer->left = lexer->right;
-	return (construct_token(TOKEN_WORD, token_value));
 }

@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:52:15 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/31 11:42:47 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/31 14:05:12 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,38 @@ static bool	is_quote_char(char c)
 	return (c == SINGLE_QUOTE || c == DOUBLE_QUOTE);
 }
 
-t_token_list	*get_next_token(t_lexer *lexer)
+void delimit_token(t_lexer *lexer)
 {
-	char	*token_value;
-
 	while (true)
 	{
 		if (*lexer->right == '\0')
 		{
-			token_value = ft_substr(lexer->left, 0, lexer->right - lexer->left);
-			lexer->left = lexer->right;
-			return (construct_token(TOKEN_WORD, token_value));
+			if (lexer->left == lexer->right)
+			{
+				lexer->value = NULL;
+				lexer->type = TOKEN_EOF;
+			} else {
+				lexer->value = ft_substr(lexer->left, 0, lexer->right - lexer->left);
+				lexer->type = TOKEN_WORD;
+				lexer->left = lexer->right;
+			}
+			break;
 		}
-		if (is_quote_char(*lexer->right))
+		else if (is_quote_char(*lexer->right))
+		{
 			process_quote(lexer, *lexer->right);
-		if (ft_isblank(*lexer->right))
-			return (process_blank(lexer));
+		}
+		else if (ft_isblank(*lexer->right))
+		{
+			process_blank(lexer);
+			break;
+		}
 		lexer->right++;
 	}
+}
+
+t_token_list	*get_next_token(t_lexer *lexer)
+{
+	delimit_token(lexer);
+	return (construct_token(lexer->type, lexer->value));
 }
