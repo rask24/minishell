@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:52:15 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/31 14:05:12 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/31 14:24:48 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,7 @@ void delimit_token(t_lexer *lexer)
 	{
 		if (*lexer->right == '\0')
 		{
-			if (lexer->left == lexer->right)
-			{
-				lexer->value = NULL;
-				lexer->type = TOKEN_EOF;
-			} else {
-				lexer->value = ft_substr(lexer->left, 0, lexer->right - lexer->left);
-				lexer->type = TOKEN_WORD;
-				lexer->left = lexer->right;
-			}
+			process_eof(lexer);
 			break;
 		}
 		else if (is_quote_char(*lexer->right))
