@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:45:32 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/30 22:59:48 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/31 11:41:18 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,10 @@
 void	process_quote(t_lexer *lexer, char left_quote_char)
 {
 	lexer->right++;
-	while (true)
+	while (*lexer->right != left_quote_char)
 	{
 		if (*lexer->right == '\0')
 			ft_printf("Syntax error: quote not closed");
-		if (*lexer->right == left_quote_char)
-			break ;
 		lexer->right++;
 	}
-	lexer->right++;
 }

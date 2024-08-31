@@ -124,3 +124,21 @@ TEST(lexer, QuoteInsideQuote) {
   EXPECT_EQ(get_token_type(token), TOKEN_WORD);
   EXPECT_STREQ(get_token_value(token), "e'\"ch\"'o");
 }
+
+TEST(lexer, ConsecutiveQuotes) {
+  const char *str = "'hello'' world'";
+
+  t_token_list *token = lexer(str);
+
+  EXPECT_EQ(get_token_type(token), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token), "'hello'' world'");
+}
+
+TEST(lexer, ConsecutiveQuotes1) {
+  const char *str = "'hello''world'";
+
+  t_token_list *token = lexer(str);
+
+  EXPECT_EQ(get_token_type(token), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token), "'hello''world'");
+}
