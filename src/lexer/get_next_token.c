@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:52:15 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/31 22:04:52 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/31 22:40:02 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,32 +28,15 @@ void	delimit_token(t_lexer *lexer)
 	while (true)
 	{
 		if (_is_quote_char(*lexer->right))
-		{
 			process_quote(lexer);
-		}
-		else
-		{
-			if (*lexer->right == '\0')
-			{
-				process_eof(lexer);
-				return ;
-			}
-			else if (ft_isblank(*lexer->right))
-			{
-				process_blank(lexer);
-				return ;
-			}
-			else if (_is_operator_char(*lexer->right))
-			{
-				process_operator(lexer);
-				return ;
-			}
-			else if (lexer->right == lexer->left && *lexer->right == '#')
-			{
-				process_comment(lexer);
-				return ;
-			}
-		}
+		if (*lexer->right == '\0')
+			return (process_eof(lexer));
+		else if (ft_isblank(*lexer->right))
+			return (process_blank(lexer));
+		else if (_is_operator_char(*lexer->right))
+			return (process_operator(lexer));
+		else if (lexer->right == lexer->left && *lexer->right == '#')
+			return (process_comment(lexer));
 		lexer->right++;
 	}
 }
