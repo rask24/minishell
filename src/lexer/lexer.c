@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 14:59:01 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/31 14:04:17 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/31 14:45:50 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_token_list	*lexer(const char *input)
 	t_lexer			lexer;
 
 	token_list = NULL;
-	construct_lexer((char *)input, &lexer);
+	construct_lexer(input, &lexer);
 	while (true)
 	{
 		one_token = get_next_token(&lexer);

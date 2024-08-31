@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:25:14 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/31 14:25:03 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/31 14:46:25 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@
 
 typedef struct s_lexer
 {
-	char			*left;
-	char			*right;
+	const char			*left;
+	const char			*right;
 	char			*value;
 	t_token_type	type;
 }					t_lexer;
 
-void				construct_lexer(char *input, t_lexer *lexer);
+void				construct_lexer(const char *input, t_lexer *lexer);
 void				delimit_token(t_lexer *lexer);
 t_token_list		*get_next_token(t_lexer *lexer);
 void				process_blank(t_lexer *lexer);
