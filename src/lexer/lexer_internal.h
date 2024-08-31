@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:25:14 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/31 18:37:20 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/31 22:07:54 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void				construct_lexer(const char *input, t_lexer *lexer);
 void				delimit_token(t_lexer *lexer);
 t_token_list		*get_next_token(t_lexer *lexer);
 void				process_blank(t_lexer *lexer);
+void				process_comment(t_lexer *lexer);
 void				process_eof(t_lexer *lexer);
 void				process_operator(t_lexer *lexer);
 void				process_quote(t_lexer *lexer);

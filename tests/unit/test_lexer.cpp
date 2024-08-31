@@ -213,3 +213,24 @@ TEST(lexer, LotsOfOperators) {
     i++;
   }
 }
+
+TEST(lexer, RealCommentOut) {
+  const char *str = "ls # hello world";
+
+  t_token_list *token = lexer(str);
+
+  EXPECT_EQ(get_token_type(token), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token), "ls");
+
+  token = token->next;
+  EXPECT_EQ(get_token_type(token), TOKEN_EOF);
+}
+
+TEST(lexer, FakeCommentOut) {
+  const char *str = "ls#hello world";
+
+  t_token_list *token = lexer(str);
+
+  EXPECT_EQ(get_token_type(token), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token), "ls#hello");
+}
