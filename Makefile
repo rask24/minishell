@@ -26,6 +26,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/lexer/lexer.c \
 					$(SRC_DIR)/lexer/process_blank.c \
 					$(SRC_DIR)/lexer/process_eof.c \
+					$(SRC_DIR)/lexer/process_operator.c \
 					$(SRC_DIR)/lexer/process_quote.c \
 					$(SRC_DIR)/token/constructor.c \
 					$(SRC_DIR)/token/destructor.c \

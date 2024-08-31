@@ -150,3 +150,42 @@ TEST(lexer, ConsecutiveQuotes1) {
   EXPECT_EQ(get_token_type(token), TOKEN_WORD);
   EXPECT_STREQ(get_token_value(token), "'hello''world'");
 }
+
+TEST(lexer, Operator) {
+  const char *str = "|";
+
+  t_token_list *token = lexer(str);
+
+  EXPECT_EQ(get_token_type(token), TOKEN_PIPE);
+  EXPECT_STREQ(get_token_value(token), "|");
+}
+
+TEST(lexer, WordsOperatorWords) {
+  const char *str = "ls|wc";
+
+  t_token_list *token = lexer(str);
+
+  EXPECT_EQ(get_token_type(token), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token), "ls");
+
+  EXPECT_EQ(get_token_type(token->next), TOKEN_PIPE);
+  EXPECT_STREQ(get_token_value(token->next), "|");
+
+  EXPECT_EQ(get_token_type(token->next->next), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token->next->next), "wc");
+}
+
+TEST(lexer, WordsSpaceOperatorSpaceWords) {
+  const char *str = "ls | wc";
+
+  t_token_list *token = lexer(str);
+
+  EXPECT_EQ(get_token_type(token), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token), "ls");
+
+  EXPECT_EQ(get_token_type(token->next), TOKEN_PIPE);
+  EXPECT_STREQ(get_token_value(token->next), "|");
+
+  EXPECT_EQ(get_token_type(token->next->next), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token->next->next), "wc");
+}
