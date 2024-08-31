@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 15:25:37 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/31 17:50:06 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/31 22:48:05 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	process_operator_type(t_lexer *lexer)
 
 void	process_operator(t_lexer *lexer)
 {
-	if (lexer->right == lexer->left)
+	if (is_start_of_input(lexer))
 		process_operator_type(lexer);
 	else
 	{

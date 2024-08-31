@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:41:59 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/31 14:57:45 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/31 22:48:05 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	_discard_blanks(t_lexer *lexer)
 
 void	process_blank(t_lexer *lexer)
 {
-	if (lexer->right == lexer->left)
+	if (is_start_of_input(lexer))
 	{
 		_discard_blanks(lexer);
 		delimit_token(lexer);
