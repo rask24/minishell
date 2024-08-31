@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:52:15 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/31 22:48:05 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/31 23:08:08 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static bool	_is_operator_char(char c)
 		|| c == ')');
 }
 
-void	delimit_token(t_lexer *lexer)
+void	delmit_input(t_lexer *lexer)
 {
 	while (true)
 	{
@@ -43,6 +43,6 @@ void	delimit_token(t_lexer *lexer)
 
 t_token_list	*get_next_token(t_lexer *lexer)
 {
-	delimit_token(lexer);
+	delmit_input(lexer);
 	return (construct_token(lexer->type, lexer->value));
 }
