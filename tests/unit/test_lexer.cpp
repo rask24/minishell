@@ -65,7 +65,15 @@ TEST(lexer, OnlySpaces) {
 
   t_token_list *token = lexer(str);
 
-  EXPECT_EQ(token, nullptr);
+  EXPECT_EQ(get_token_type(token), TOKEN_EOF);
+}
+
+TEST(lexer, EmptyString) {
+  const char *str = "";
+
+  t_token_list *token = lexer(str);
+
+  EXPECT_EQ(get_token_type(token), TOKEN_EOF);
 }
 
 TEST(lexer, SingleQuote) {
