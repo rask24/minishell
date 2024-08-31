@@ -20,8 +20,8 @@
 
 typedef struct s_lexer
 {
-	const char			*left;
-	const char			*right;
+	const char		*left;
+	const char		*right;
 	char			*value;
 	t_token_type	type;
 }					t_lexer;

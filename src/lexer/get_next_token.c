@@ -6,13 +6,13 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:52:15 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/31 14:24:48 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/31 15:00:19 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_internal.h"
 
-static bool	is_quote_char(char c)
+static bool	_is_quote_char(char c)
 {
 	return (c == SINGLE_QUOTE || c == DOUBLE_QUOTE);
 }
@@ -26,7 +26,7 @@ void	delimit_token(t_lexer *lexer)
 			process_eof(lexer);
 			break ;
 		}
-		else if (is_quote_char(*lexer->right))
+		else if (_is_quote_char(*lexer->right))
 		{
 			process_quote(lexer, *lexer->right);
 		}
