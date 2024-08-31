@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 23:09:05 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/31 23:09:13 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/31 23:11:43 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static bool	_is_operator_char(char c)
 		|| c == ')');
 }
 
-void	delmit_input(t_lexer *lexer)
+void	delimit_input(t_lexer *lexer)
 {
 	while (true)
 	{

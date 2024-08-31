@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:41:59 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/31 23:08:08 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/31 23:11:43 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	process_blank(t_lexer *lexer)
 	if (is_start_of_input(lexer))
 	{
 		_discard_blanks(lexer);
-		delmit_input(lexer);
+		delimit_input(lexer);
 	}
 	else
 	{
