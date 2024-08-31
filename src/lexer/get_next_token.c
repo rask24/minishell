@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:52:15 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/30 22:58:23 by yliu             ###   ########.fr       */
+/*   Updated: 2024/08/31 11:42:47 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_token_list	*get_next_token(t_lexer *lexer)
 		}
 		if (is_quote_char(*lexer->right))
 			process_quote(lexer, *lexer->right);
-		if (ft_isspace(*lexer->right))
+		if (ft_isblank(*lexer->right))
 			return (process_blank(lexer));
 		lexer->right++;
 	}
