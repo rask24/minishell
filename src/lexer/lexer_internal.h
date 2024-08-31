@@ -20,17 +20,17 @@
 
 typedef struct s_lexer
 {
-	char		*left;
-	char		*right;
-  char *value;
-  t_token_type  type;
-}				t_lexer;
+	char			*left;
+	char			*right;
+	char			*value;
+	t_token_type	type;
+}					t_lexer;
 
-void			construct_lexer(char *input, t_lexer *lexer);
-void delimit_token(t_lexer *lexer);
-t_token_list	*get_next_token(t_lexer *lexer);
-void	process_blank(t_lexer *lexer);
-void process_eof(t_lexer *lexer);
-void			process_quote(t_lexer *lexer, char left_quote_char);
+void				construct_lexer(char *input, t_lexer *lexer);
+void				delimit_token(t_lexer *lexer);
+t_token_list		*get_next_token(t_lexer *lexer);
+void				process_blank(t_lexer *lexer);
+void				process_eof(t_lexer *lexer);
+void				process_quote(t_lexer *lexer, char left_quote_char);
 
 #endif

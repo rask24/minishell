@@ -17,14 +17,14 @@ static bool	is_quote_char(char c)
 	return (c == SINGLE_QUOTE || c == DOUBLE_QUOTE);
 }
 
-void delimit_token(t_lexer *lexer)
+void	delimit_token(t_lexer *lexer)
 {
 	while (true)
 	{
 		if (*lexer->right == '\0')
 		{
 			process_eof(lexer);
-			break;
+			break ;
 		}
 		else if (is_quote_char(*lexer->right))
 		{
@@ -33,7 +33,7 @@ void delimit_token(t_lexer *lexer)
 		else if (ft_isblank(*lexer->right))
 		{
 			process_blank(lexer);
-			break;
+			break ;
 		}
 		lexer->right++;
 	}
