@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 23:09:05 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/31 23:11:43 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/01 10:36:03 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	delimit_input(t_lexer *lexer)
 			return (process_blank(lexer));
 		else if (_is_operator_char(*lexer->right))
 			return (process_operator(lexer));
-		else if (is_start_of_input(lexer) && *lexer->right == '#')
+		else if (*lexer->right == '#' && is_start_of_input(lexer))
 			return (process_comment(lexer));
 		lexer->right++;
 	}
