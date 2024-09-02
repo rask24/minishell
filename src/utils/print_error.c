@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:20:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/01 22:57:27 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/02 23:09:43 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 #include <errno.h>
 #include <string.h>
 
+/*
+** Using printf for line buffering
+** instead of ft_dprintf (not supporting line buffering)
+** Emulates dprintf-like behavior using dup and dup2 to redirect stdout to sterr
+*/
 void	print_error(const char *func, const char *desc)
 {
 	int	stdout_fd;
