@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:41:56 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/03 21:55:32 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/03 22:02:56 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,7 @@ typedef struct s_ast
 	t_list			*cmd_args;
 	t_list			*redirects;
 }	t_ast;
+
+t_ast	*construct_ast(t_ast_node_type type, t_ast *left, t_ast *right);
 
 #endif
