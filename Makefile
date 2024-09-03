@@ -30,6 +30,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/ui/save_terminal_configuration.c \
 					$(SRC_DIR)/utils/print_error.c \
 					$(SRC_DIR)/utils/wrapper/ft_xstrndup.c \
+					$(SRC_DIR)/utils/wrapper/ft_xlstnew.c
 
 OBJ				= $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC))
 DEP				= $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.d, $(SRC))
