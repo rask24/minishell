@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   ft_xlstnew.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/03 18:48:01 by reasuke          ###   ########.fr       */
+/*   Created: 2024/09/03 18:45:00 by reasuke           #+#    #+#             */
+/*   Updated: 2024/09/03 18:46:04 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#include <stdlib.h>
 
-# include <stddef.h>
+#include "libft.h"
+#include "utils.h"
 
-# include "libft.h"
+t_list	*ft_xlstnew(void *content)
+{
+	t_list	*lst;
 
-void	print_error(const char *func, const char *desc);
-
-t_list	*ft_xlstnew(void *content);
-char	*ft_xstrndup(const char *s, size_t n);
-
-#endif
+	lst = ft_lstnew(content);
+	if (lst == NULL)
+	{
+		print_error("ft_lstnew", "cannot allocate memory");
+		exit(EXIT_FAILURE);
+	}
+	return (lst);
+}
