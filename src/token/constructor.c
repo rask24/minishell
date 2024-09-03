@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   construct.c                                        :+:      :+:    :+:   */
+/*   constructor.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:28:06 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/23 19:25:38 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/03 18:01:04 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,6 @@ t_token_list	*construct_token(t_token_type type, char *string)
 	content = (t_token *)ft_xmalloc(sizeof(t_token));
 	content->type = type;
 	content->value = string;
-	token = ft_lstnew(content);
-	if (!token)
-	{
-		free(content);
-		return (NULL);
-	}
+	token = ft_xlstnew(content);
 	return (token);
 }

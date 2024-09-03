@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 15:25:37 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/31 22:55:01 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/03 17:53:05 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	discards_chars(t_lexer *lexer, int n)
 static void	update_lexer(t_lexer *lexer, t_token_type type, size_t length)
 {
 	lexer->type = type;
-	lexer->value = ft_strndup(lexer->left, length);
+	lexer->value = ft_xstrndup(lexer->left, length);
 	discards_chars(lexer, length);
 }
 
@@ -54,7 +54,7 @@ void	process_operator(t_lexer *lexer)
 	else
 	{
 		lexer->type = TOKEN_WORD;
-		lexer->value = ft_strndup(lexer->left, lexer->right - lexer->left);
+		lexer->value = ft_xstrndup(lexer->left, lexer->right - lexer->left);
 		lexer->left = lexer->right;
 	}
 }

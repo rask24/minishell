@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 23:09:05 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/01 10:36:03 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/03 17:49:43 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	delimit_input(t_lexer *lexer)
 	{
 		if (_is_quote_char(*lexer->right))
 			process_quote(lexer);
-		if (*lexer->right == '\0')
+		else if (*lexer->right == '\0')
 			return (process_eof(lexer));
 		else if (ft_isblank(*lexer->right))
 			return (process_blank(lexer));
