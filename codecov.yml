@@ -19,8 +19,11 @@ coverage:
         base: auto
 
 ignore:
-  - "main.c"
-  - "tests/*"
+  - "**/*"
+  - "!src/token"
+  - "!src/lexer"
+  - "!src/ast"
+  - "!src/parser"
 
 comment:
   layout: "reach,diff,flags,files,footer"
