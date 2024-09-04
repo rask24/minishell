@@ -6,13 +6,13 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:45:32 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/03 20:13:32 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/04 10:34:07 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_internal.h"
 
-void	process_quote(t_lexer *lexer)
+t_token_list	*process_quote(t_lexer *lexer)
 {
 	char	left_quote_char;
 
@@ -24,4 +24,6 @@ void	process_quote(t_lexer *lexer)
 			print_error("process_quote", "unterminated quote");
 		lexer->right++;
 	}
+	lexer->right++;
+	return (get_next_token(lexer));
 }

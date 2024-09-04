@@ -6,13 +6,13 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:22:45 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/03 17:52:43 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/04 10:19:25 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_internal.h"
 
-void	process_eof(t_lexer *lexer)
+t_token_list	*process_eof(t_lexer *lexer)
 {
 	if (is_start_of_input(lexer))
 	{
@@ -25,4 +25,5 @@ void	process_eof(t_lexer *lexer)
 		lexer->value = ft_xstrndup(lexer->left, lexer->right - lexer->left);
 		lexer->left = lexer->right;
 	}
+	return (construct_token(lexer->type, lexer->value));
 }

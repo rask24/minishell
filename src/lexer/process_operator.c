@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 15:25:37 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/03 17:53:05 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/04 10:21:06 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	process_operator_type(t_lexer *lexer)
 		update_lexer(lexer, TOKEN_GREAT, 1);
 }
 
-void	process_operator(t_lexer *lexer)
+t_token_list	*process_operator(t_lexer *lexer)
 {
 	if (is_start_of_input(lexer))
 		process_operator_type(lexer);
@@ -57,4 +57,5 @@ void	process_operator(t_lexer *lexer)
 		lexer->value = ft_xstrndup(lexer->left, lexer->right - lexer->left);
 		lexer->left = lexer->right;
 	}
+	return (construct_token(lexer->type, lexer->value));
 }
