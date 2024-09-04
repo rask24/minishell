@@ -19,11 +19,10 @@ coverage:
         base: auto
 
 ignore:
-  - "**/*"
-  - "!src/token/**/*"
-  - "!src/lexer/**/*"
-  - "!src/ast/**/*"
-  - "!src/parser/**/*"
+  - "tests/**/*"
+  - "src/main.c"
+  - "src/ui/**/*"
+  - "src/utils/**/*"
 
 comment:
   layout: "reach,diff,flags,files,footer"
