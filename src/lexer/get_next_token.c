@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:52:15 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/04 10:34:01 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/04 10:57:45 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static bool	_is_operator_char(char c)
 		|| c == '(' || c == ')');
 }
 
-static t_token_list *_process_word(t_lexer *lexer)
+static t_token_list	*_process_word(t_lexer *lexer)
 {
 	lexer->right++;
 	return (get_next_token(lexer));
@@ -41,7 +41,7 @@ t_token_list	*get_next_token(t_lexer *lexer)
 	else if (*lexer->right == '#' && is_start_of_input(lexer))
 		return (process_comment(lexer));
 	else if (_is_quote_char(*lexer->right))
-		return(process_quote(lexer));
+		return (process_quote(lexer));
 	else
-		return(_process_word(lexer));
+		return (_process_word(lexer));
 }

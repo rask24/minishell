@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:41:59 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/04 10:24:06 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/04 10:57:57 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_token_list	*process_blank(t_lexer *lexer)
 	if (is_start_of_input(lexer))
 	{
 		_discard_blanks(lexer);
-		return(get_next_token(lexer));
+		return (get_next_token(lexer));
 	}
 	else
 	{
