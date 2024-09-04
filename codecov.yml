@@ -20,10 +20,10 @@ coverage:
 
 ignore:
   - "**/*"
-  - "!src/token"
-  - "!src/lexer"
-  - "!src/ast"
-  - "!src/parser"
+  - "!src/token/**/*"
+  - "!src/lexer/**/*"
+  - "!src/ast/**/*"
+  - "!src/parser/**/*"
 
 comment:
   layout: "reach,diff,flags,files,footer"
