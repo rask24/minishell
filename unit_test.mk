@@ -14,8 +14,7 @@ GTEST_VERSION		= 1.15.0
 GTEST_URL			= https://github.com/google/googletest/archive/refs/tags/v$(GTEST_VERSION).tar.gz
 
 # Source files
-TEST_SRC			= $(TEST_DIR)/test_ast.cpp \
-						$(TEST_DIR)/test_token.cpp
+TEST_SRC			= $(wildcard $(TEST_DIR)/*.cpp)
 TEST_OBJ			= $(patsubst $(TEST_DIR)/%.cpp, $(TEST_BUILD_DIR)/%.o, $(TEST_SRC))
 TEST_DEP			= $(patsubst $(TEST_DIR)/%.cpp, $(TEST_BUILD_DIR)/%.d, $(TEST_SRC))
 
