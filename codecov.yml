@@ -19,8 +19,11 @@ coverage:
         base: auto
 
 ignore:
-  - "main.c"
-  - "tests/*"
+  - "tests/**/*"
+  - "src/main.c"
+  - "src/ui/*"
+  - "src/utils/*"
+  - "src/utils/**/*"
 
 comment:
   layout: "reach,diff,flags,files,footer"
