@@ -27,3 +27,23 @@ TEST(construct_ast, MultipleNodes) {
   EXPECT_EQ(ast->cmd_args, nullptr);
   EXPECT_EQ(ast->redirects, nullptr);
 }
+
+TEST(push_cmd_args, OneArg) {
+  t_ast *ast = construct_ast(AST_COMMAND, nullptr, nullptr);
+
+  push_cmd_args(ast, "ls");
+
+  EXPECT_STREQ(get_cmd_arg(ast->cmd_args), "ls");
+}
+
+TEST(push_cmd_args, MultipleArgs) {
+  t_ast *ast = construct_ast(AST_COMMAND, nullptr, nullptr);
+
+  push_cmd_args(ast, "ls");
+  push_cmd_args(ast, "-l");
+  push_cmd_args(ast, "-a");
+
+  EXPECT_STREQ(get_cmd_arg(ast->cmd_args), "ls");
+  EXPECT_STREQ(get_cmd_arg(ast->cmd_args->next), "-l");
+  EXPECT_STREQ(get_cmd_arg(ast->cmd_args->next->next), "-a");
+}
