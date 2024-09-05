@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:24:47 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/05 18:52:42 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/05 23:47:54 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ t_redirect_info	*construct_redirect_info(t_redirect_type type,
 
 	info = ft_xmalloc(sizeof(t_redirect_info));
 	info->type = type;
-	info->filename = ft_xstrdup(filename);
+	info->filepath = ft_xstrdup(filename);
 	return (info);
 }

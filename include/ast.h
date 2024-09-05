@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:41:56 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/05 19:14:09 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/05 23:47:54 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef enum e_redirect_type
 typedef struct s_redirect_info
 {
 	t_redirect_type	type;
-	const char		*filename;
+	const char		*filepath;
 }					t_redirect_info;
 
 typedef struct s_ast
