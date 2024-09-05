@@ -14,6 +14,8 @@ TEST(construct_ast, OneNode) {
   EXPECT_EQ(ast->right, nullptr);
   EXPECT_EQ(ast->cmd_args, nullptr);
   EXPECT_EQ(ast->redirects, nullptr);
+
+  destroy_ast(ast);
 }
 
 TEST(construct_ast, MultipleNodes) {
@@ -26,6 +28,8 @@ TEST(construct_ast, MultipleNodes) {
   EXPECT_EQ(ast->right, right);
   EXPECT_EQ(ast->cmd_args, nullptr);
   EXPECT_EQ(ast->redirects, nullptr);
+
+  destroy_ast(ast);
 }
 
 TEST(push_cmd_args, OneArg) {
@@ -34,6 +38,8 @@ TEST(push_cmd_args, OneArg) {
   push_cmd_args(ast, "ls");
 
   EXPECT_STREQ(get_cmd_arg(ast->cmd_args), "ls");
+
+  destroy_ast(ast);
 }
 
 TEST(push_cmd_args, MultipleArgs) {
@@ -46,6 +52,8 @@ TEST(push_cmd_args, MultipleArgs) {
   EXPECT_STREQ(get_cmd_arg(ast->cmd_args), "ls");
   EXPECT_STREQ(get_cmd_arg(ast->cmd_args->next), "-l");
   EXPECT_STREQ(get_cmd_arg(ast->cmd_args->next->next), "-a");
+
+  destroy_ast(ast);
 }
 
 TEST(push_redirect_info, OneRedirect) {
@@ -56,6 +64,8 @@ TEST(push_redirect_info, OneRedirect) {
 
   EXPECT_EQ(get_redirect_type(ast->redirects), REDIRECT_INPUT);
   EXPECT_STREQ(get_redirect_filename(ast->redirects), "input.txt");
+
+  destroy_ast(ast);
 }
 
 TEST(push_redirect_info, MultipleRedirects) {
@@ -72,4 +82,6 @@ TEST(push_redirect_info, MultipleRedirects) {
   EXPECT_STREQ(get_redirect_filename(ast->redirects), "input.txt");
   EXPECT_EQ(get_redirect_type(ast->redirects->next), REDIRECT_OUTPUT);
   EXPECT_STREQ(get_redirect_filename(ast->redirects->next), "output.txt");
+
+  destroy_ast(ast);
 }
