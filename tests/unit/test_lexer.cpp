@@ -4,7 +4,7 @@ extern "C" {
 #include "lexer.h"
 }
 
-TEST(lexer, CheckTokenWord) {
+TEST(lexer, OneWord) {
   const char *str = "ls";
 
   t_token_list *token = lexer(str);
@@ -12,8 +12,20 @@ TEST(lexer, CheckTokenWord) {
   EXPECT_STREQ(get_token_value(token), "ls");
 }
 
-TEST(lexer, CheckTokenWords) {
+TEST(lexer, WordSpaceWord) {
   const char *str = "ls -l";
+
+  t_token_list *token = lexer(str);
+
+  EXPECT_EQ(get_token_type(token), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token), "ls");
+
+  EXPECT_EQ(get_token_type(token->next), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token->next), "-l");
+}
+
+TEST(lexer, WordTabWord) {
+  const char *str = "ls\t-l";
 
   t_token_list *token = lexer(str);
 
@@ -149,6 +161,33 @@ TEST(lexer, ConsecutiveQuotes1) {
 
   EXPECT_EQ(get_token_type(token), TOKEN_WORD);
   EXPECT_STREQ(get_token_value(token), "'hello''world'");
+}
+
+TEST(lexer, ConsecutiveQuotes2) {
+  const char *str = "'hello'\"world\"";
+
+  t_token_list *token = lexer(str);
+
+  EXPECT_EQ(get_token_type(token), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token), "'hello'\"world\"");
+}
+
+TEST(lexer, ConsecutiveQuotes3) {
+  const char *str = "\"hello\"'world'";
+
+  t_token_list *token = lexer(str);
+
+  EXPECT_EQ(get_token_type(token), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token), "\"hello\"'world'");
+}
+
+TEST(lexer, ConsecutiveQuotes4) {
+  const char *str = "'hello'' ''world'";
+
+  t_token_list *token = lexer(str);
+
+  EXPECT_EQ(get_token_type(token), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token), "'hello'' ''world'");
 }
 
 TEST(lexer, Operator) {
