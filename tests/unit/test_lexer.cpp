@@ -230,14 +230,16 @@ TEST(lexer, WordsSpaceOperatorSpaceWords) {
 }
 
 TEST(lexer, LotsOfOperators) {
-  const char *str = "ls |    wc>>whoami<<< (ls)) cat || echo";
+  const char *str = "ls |||||   wc>>whoami<<< (ls)) cat &&>|| echo";
   std::vector<std::pair<t_token_type, const char *>> expected_token_array = {
-      {TOKEN_WORD, "ls"},         {TOKEN_PIPE, "|"},
+      {TOKEN_WORD, "ls"},         {TOKEN_OR_IF, "||"},
+      {TOKEN_OR_IF, "||"},        {TOKEN_PIPE, "|"},
       {TOKEN_WORD, "wc"},         {TOKEN_DGREAT, ">>"},
       {TOKEN_WORD, "whoami"},     {TOKEN_DLESS, "<<"},
       {TOKEN_LESS, "<"},          {TOKEN_L_PARENTHESIS, "("},
       {TOKEN_WORD, "ls"},         {TOKEN_R_PARENTHESIS, ")"},
       {TOKEN_R_PARENTHESIS, ")"}, {TOKEN_WORD, "cat"},
+      {TOKEN_AND_IF, "&&"},       {TOKEN_GREAT, ">"},
       {TOKEN_OR_IF, "||"},        {TOKEN_WORD, "echo"},
   };
 
