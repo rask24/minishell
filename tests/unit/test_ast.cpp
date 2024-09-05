@@ -32,22 +32,22 @@ TEST(construct_ast, MultipleNodes) {
   destroy_ast(ast);
 }
 
-TEST(push_cmd_args, OneArg) {
+TEST(push_cmd_arg, OneArg) {
   t_ast *ast = construct_ast(AST_COMMAND, nullptr, nullptr);
 
-  push_cmd_args(ast, "ls");
+  push_cmd_arg(ast, "ls");
 
   EXPECT_STREQ(get_cmd_arg(ast->cmd_args), "ls");
 
   destroy_ast(ast);
 }
 
-TEST(push_cmd_args, MultipleArgs) {
+TEST(push_cmd_arg, MultipleArgs) {
   t_ast *ast = construct_ast(AST_COMMAND, nullptr, nullptr);
 
-  push_cmd_args(ast, "ls");
-  push_cmd_args(ast, "-l");
-  push_cmd_args(ast, "-a");
+  push_cmd_arg(ast, "ls");
+  push_cmd_arg(ast, "-l");
+  push_cmd_arg(ast, "-a");
 
   EXPECT_STREQ(get_cmd_arg(ast->cmd_args), "ls");
   EXPECT_STREQ(get_cmd_arg(ast->cmd_args->next), "-l");

@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:41:56 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/05 19:01:28 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/05 19:14:09 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_ast				*construct_ast(t_ast_node_type type,
 t_redirect_info		*construct_redirect_info(t_redirect_type type,
 						const char *filename);
 void				destroy_ast(t_ast *ast);
-void				push_cmd_args(t_ast *ast, const char *cmd_arg);
+void				push_cmd_arg(t_ast *ast, const char *cmd_arg);
 void				push_redirect_info(t_ast *ast, t_redirect_info *info);
 const char			*get_cmd_arg(t_list *cmd_args);
 t_redirect_type		get_redirect_type(t_list *redirects);
