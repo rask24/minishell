@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   constructor.c                                      :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/19 11:28:06 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/03 18:59:30 by yliu             ###   ########.fr       */
+/*   Created: 2024/08/19 14:59:01 by yliu              #+#    #+#             */
+/*   Updated: 2024/08/31 14:45:50 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "lexer.h"
+#include "lexer_internal.h"
 #include "token.h"
-#include "utils.h"
 
-t_token_list	*construct_token(t_token_type type, char *string)
+t_token_list	*lexer(const char *input)
 {
-	t_token			*content;
-	t_token_list	*token;
+	t_token_list	*one_token;
+	t_token_list	*token_list;
+	t_lexer			lexer;
 
-	content = (t_token *)ft_xmalloc(sizeof(t_token));
-	content->type = type;
-	content->value = string;
-	token = ft_xlstnew(content);
-	return (token);
+	token_list = NULL;
+	construct_lexer(input, &lexer);
+	while (true)
+	{
+		one_token = get_next_token(&lexer);
+		ft_lstadd_back(&token_list, one_token);
+		if (get_token_type(one_token) == TOKEN_EOF)
+			break ;
+	}
+	return (token_list);
 }
