@@ -192,23 +192,22 @@ TEST(lexer, WordsSpaceOperatorSpaceWords) {
 
 TEST(lexer, LotsOfOperators) {
   const char *str = "ls |    wc>>whoami<<< (ls)) cat || echo";
-  t_token_type expected_token_array[] = {
-      TOKEN_WORD,          TOKEN_PIPE,          TOKEN_WORD,
-      TOKEN_DGREAT,        TOKEN_WORD,          TOKEN_DLESS,
-      TOKEN_LESS,          TOKEN_L_PARENTHESIS, TOKEN_WORD,
-      TOKEN_R_PARENTHESIS, TOKEN_R_PARENTHESIS, TOKEN_WORD,
-      TOKEN_OR_IF,         TOKEN_WORD,          TOKEN_EOF};
-
-  const char *expected_value_array[] = {"ls", "|",   "wc", ">>",  "whoami",
-                                        "<<", "<",   "(",  "ls",  ")",
-                                        ")",  "cat", "||", "echo"};
+  std::vector<std::pair<t_token_type, const char *>> expected_token_array = {
+      {TOKEN_WORD, "ls"},         {TOKEN_PIPE, "|"},
+      {TOKEN_WORD, "wc"},         {TOKEN_DGREAT, ">>"},
+      {TOKEN_WORD, "whoami"},     {TOKEN_DLESS, "<<"},
+      {TOKEN_LESS, "<"},          {TOKEN_L_PARENTHESIS, "("},
+      {TOKEN_WORD, "ls"},         {TOKEN_R_PARENTHESIS, ")"},
+      {TOKEN_R_PARENTHESIS, ")"}, {TOKEN_WORD, "cat"},
+      {TOKEN_OR_IF, "||"},        {TOKEN_WORD, "echo"},
+  };
 
   t_token_list *token = lexer(str);
 
   int i = 0;
   while (get_token_type(token) != TOKEN_EOF) {
-    EXPECT_EQ(get_token_type(token), expected_token_array[i]);
-    EXPECT_STREQ(get_token_value(token), expected_value_array[i]);
+    EXPECT_EQ(get_token_type(token), expected_token_array[i].first);
+    EXPECT_STREQ(get_token_value(token), expected_token_array[i].second);
     token = token->next;
     i++;
   }
