@@ -122,3 +122,19 @@ TEST(construct_ast, ComplexNodes) {
 
   destroy_ast(ast);
 }
+
+TEST(push_cmd_arg, InvalidNodeType) {
+  t_ast *ast = construct_ast(AST_PIPE, nullptr, nullptr);
+
+  EXPECT_EXIT(push_cmd_arg(ast, "ls"), ::testing::ExitedWithCode(EXIT_FAILURE),
+              "minishell: push_cmd_arg: invalid node type\n");
+}
+
+TEST(push_redirect_info, InvalidNodeType) {
+  t_ast *ast = construct_ast(AST_PIPE, nullptr, nullptr);
+  t_redirect_info *info = construct_redirect_info(REDIRECT_INPUT, "input.txt");
+
+  EXPECT_EXIT(push_redirect_info(ast, info),
+              ::testing::ExitedWithCode(EXIT_FAILURE),
+              "minishell: push_redirect_info: invalid node type\n");
+}
