@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:41:56 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/07 02:03:55 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/07 02:19:45 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ typedef enum e_ast_node_type
 typedef enum e_redirect_type
 {
 	REDIRECT_UNKNOWN = -1,
-	REDIRECT_INPUT = TOKEN_GREAT,
-	REDIRECT_OUTPUT = TOKEN_LESS,
+	REDIRECT_INPUT = TOKEN_LESS,
+	REDIRECT_OUTPUT = TOKEN_GREAT,
 	REDIRECT_APPEND = TOKEN_DGREAT,
 	REDIRECT_HEREDOC = TOKEN_DLESS,
 }					t_redirect_type;
@@ -59,6 +59,6 @@ void				push_cmd_arg(t_ast *ast, const char *cmd_arg);
 void				push_redirect_info(t_ast *ast, t_redirect_info *info);
 const char			*get_cmd_arg(t_list *cmd_args);
 t_redirect_type		get_redirect_type(t_list *redirects);
-const char			*get_redirect_filename(t_list *redirects);
+const char			*get_redirect_filepath(t_list *redirects);
 
 #endif
