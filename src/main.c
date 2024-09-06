@@ -6,14 +6,13 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/06 18:18:03 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/06 18:34:30 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "libft.h"
-#include "readline/history.h"
-#include "readline/readline.h"
+#include "readline.h"
 #include "ui.h"
 #include "utils.h"
 

@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.h                                             :+:      :+:    :+:   */
+/*   readline.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/06 12:54:48 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/06 18:34:47 by yliu             ###   ########.fr       */
+/*   Created: 2024/09/06 18:33:51 by yliu              #+#    #+#             */
+/*   Updated: 2024/09/06 18:38:12 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXEC_H
-# define EXEC_H
+#ifndef READLINE_H
+# define READLINE_H
 
-# include "ui.h"
-# include "utils.h"
+# include <stdio.h>
+# include <stdlib.h>
 
-void	spawn_process(char *command, char **envp);
+# include "readline/history.h"
+# include "readline/readline.h"
 
 #endif
