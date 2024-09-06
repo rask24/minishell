@@ -34,6 +34,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/lexer/process_eof.c \
 					$(SRC_DIR)/lexer/process_operator.c \
 					$(SRC_DIR)/lexer/process_quote.c \
+					$(SRC_DIR)/parser/parse_simple_command.c \
 					$(SRC_DIR)/parser/parser.c \
 					$(SRC_DIR)/token/constructor.c \
 					$(SRC_DIR)/token/destructor.c \
