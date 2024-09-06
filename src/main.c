@@ -3,62 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/03 18:08:54 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/06 14:14:58 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
-#include <signal.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/wait.h>
-#include <termios.h>
-#include <unistd.h>
+#include <exec.h>
 
 #include "libft.h"
 #include "readline/history.h"
 #include "readline/readline.h"
 #include "ui.h"
 #include "utils.h"
-
-static void	execute_command(char *complete_command, char **envp)
-{
-	char	*argv[4];
-
-	argv[0] = "bash";
-	argv[1] = "-c";
-	argv[2] = complete_command;
-	argv[3] = NULL;
-	reset_signal_handlers();
-	if (execve("/bin/bash", argv, envp) == -1)
-	{
-		print_error("execve", strerror(errno));
-		exit(EXIT_FAILURE);
-	}
-}
-
-static void	spawn_process(char *command, char **envp)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		print_error("fork", strerror(errno));
-		exit(EXIT_FAILURE);
-	}
-	if (pid == 0)
-	{
-		execute_command(command, envp);
-		exit(EXIT_FAILURE);
-	}
-	waitpid(pid, NULL, 0);
-}
 
 int	main(int argc, char **argv, char **envp)
 {
