@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   ft_xstrdup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/05 18:19:11 by reasuke          ###   ########.fr       */
+/*   Created: 2024/09/05 18:17:18 by reasuke           #+#    #+#             */
+/*   Updated: 2024/09/05 18:17:59 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#include <stdlib.h>
 
-# include <stddef.h>
+#include "libft.h"
+#include "utils.h"
 
-# include "libft.h"
+char	*ft_xstrdup(const char *s)
+{
+	char	*dup;
 
-void	print_error(const char *func, const char *desc);
-
-t_list	*ft_xlstnew(void *content);
-char	*ft_xstrndup(const char *s, size_t n);
-char	*ft_xstrdup(const char *s);
-
-#endif
+	dup = ft_strdup(s);
+	if (dup == NULL)
+	{
+		print_error("ft_strdup", "cannot allocate memory");
+		exit(EXIT_FAILURE);
+	}
+	return (dup);
+}

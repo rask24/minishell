@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   constructor.c                                      :+:      :+:    :+:   */
+/*   readline.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/19 11:28:06 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/03 18:59:30 by yliu             ###   ########.fr       */
+/*   Created: 2024/09/06 18:33:51 by yliu              #+#    #+#             */
+/*   Updated: 2024/09/06 18:38:12 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "token.h"
-#include "utils.h"
+#ifndef READLINE_H
+# define READLINE_H
 
-t_token_list	*construct_token(t_token_type type, char *string)
-{
-	t_token			*content;
-	t_token_list	*token;
+# include <stdio.h>
+# include <stdlib.h>
 
-	content = (t_token *)ft_xmalloc(sizeof(t_token));
-	content->type = type;
-	content->value = string;
-	token = ft_xlstnew(content);
-	return (token);
-}
+# include "readline/history.h"
+# include "readline/readline.h"
+
+#endif

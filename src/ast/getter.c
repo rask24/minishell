@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   getter.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/05 18:19:11 by reasuke          ###   ########.fr       */
+/*   Created: 2024/09/05 18:25:24 by reasuke           #+#    #+#             */
+/*   Updated: 2024/09/05 23:47:54 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#include "ast.h"
 
-# include <stddef.h>
+const char	*get_cmd_arg(t_list *cmd_args)
+{
+	return ((const char *)(cmd_args->content));
+}
 
-# include "libft.h"
+t_redirect_type	get_redirect_type(t_list *redirects)
+{
+	return (((t_redirect_info *)(redirects->content))->type);
+}
 
-void	print_error(const char *func, const char *desc);
-
-t_list	*ft_xlstnew(void *content);
-char	*ft_xstrndup(const char *s, size_t n);
-char	*ft_xstrdup(const char *s);
-
-#endif
+const char	*get_redirect_filename(t_list *redirects)
+{
+	return (((t_redirect_info *)(redirects->content))->filepath);
+}

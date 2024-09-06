@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   constructor.c                                      :+:      :+:    :+:   */
+/*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/19 11:28:06 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/03 18:59:30 by yliu             ###   ########.fr       */
+/*   Created: 2024/08/29 10:15:04 by yliu              #+#    #+#             */
+/*   Updated: 2024/08/30 22:55:39 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "token.h"
-#include "utils.h"
+#ifndef LEXER_H
+# define LEXER_H
 
-t_token_list	*construct_token(t_token_type type, char *string)
-{
-	t_token			*content;
-	t_token_list	*token;
+# include "token.h"
 
-	content = (t_token *)ft_xmalloc(sizeof(t_token));
-	content->type = type;
-	content->value = string;
-	token = ft_xlstnew(content);
-	return (token);
-}
+t_token_list	*lexer(const char *input);
+
+#endif

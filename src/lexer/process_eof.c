@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   constructor.c                                      :+:      :+:    :+:   */
+/*   process_eof.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/19 11:28:06 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/03 18:59:30 by yliu             ###   ########.fr       */
+/*   Created: 2024/08/31 14:22:45 by yliu              #+#    #+#             */
+/*   Updated: 2024/09/04 10:19:25 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "token.h"
-#include "utils.h"
+#include "lexer_internal.h"
 
-t_token_list	*construct_token(t_token_type type, char *string)
+t_token_list	*process_eof(t_lexer *lexer)
 {
-	t_token			*content;
-	t_token_list	*token;
-
-	content = (t_token *)ft_xmalloc(sizeof(t_token));
-	content->type = type;
-	content->value = string;
-	token = ft_xlstnew(content);
-	return (token);
+	if (is_start_of_input(lexer))
+	{
+		lexer->type = TOKEN_EOF;
+		lexer->value = NULL;
+	}
+	else
+	{
+		lexer->type = TOKEN_WORD;
+		lexer->value = ft_xstrndup(lexer->left, lexer->right - lexer->left);
+		lexer->left = lexer->right;
+	}
+	return (construct_token(lexer->type, lexer->value));
 }

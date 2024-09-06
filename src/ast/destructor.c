@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   destructor.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/05 18:19:11 by reasuke          ###   ########.fr       */
+/*   Created: 2024/09/05 18:58:00 by reasuke           #+#    #+#             */
+/*   Updated: 2024/09/05 23:47:54 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#include "ast.h"
+#include "libft.h"
 
-# include <stddef.h>
+static void	_destroy_redirect_info(void *content)
+{
+	t_redirect_info	*info;
 
-# include "libft.h"
+	info = (t_redirect_info *)content;
+	free((char *)info->filepath);
+	free(info);
+}
 
-void	print_error(const char *func, const char *desc);
-
-t_list	*ft_xlstnew(void *content);
-char	*ft_xstrndup(const char *s, size_t n);
-char	*ft_xstrdup(const char *s);
-
-#endif
+void	destroy_ast(t_ast *ast)
+{
+	if (ast == NULL)
+		return ;
+	ft_lstclear(&ast->cmd_args, free);
+	ft_lstclear(&ast->redirects, _destroy_redirect_info);
+	destroy_ast(ast->left);
+	destroy_ast(ast->right);
+}
