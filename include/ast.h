@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:41:56 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/05 23:47:54 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/07 02:03:55 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef enum e_ast_node_type
 
 typedef enum e_redirect_type
 {
+	REDIRECT_UNKNOWN = -1,
 	REDIRECT_INPUT = TOKEN_GREAT,
 	REDIRECT_OUTPUT = TOKEN_LESS,
 	REDIRECT_APPEND = TOKEN_DGREAT,

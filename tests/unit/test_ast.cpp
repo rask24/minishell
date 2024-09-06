@@ -123,6 +123,24 @@ TEST(construct_ast, ComplexNodes) {
   destroy_ast(ast);
 }
 
+TEST(get_cmd_arg, NullCmdArgs) {
+  t_list *cmd_args = nullptr;
+
+  EXPECT_EQ(get_cmd_arg(cmd_args), nullptr);
+}
+
+TEST(get_redirect_type, NullRedirects) {
+  t_list *redirects = nullptr;
+
+  EXPECT_EQ(get_redirect_type(redirects), REDIRECT_UNKNOWN);
+}
+
+TEST(get_redirect_filename, NullRedirects) {
+  t_list *redirects = nullptr;
+
+  EXPECT_EQ(get_redirect_filename(redirects), nullptr);
+}
+
 TEST(push_cmd_arg, InvalidNodeType) {
   t_ast *ast = construct_ast(AST_PIPE, nullptr, nullptr);
 
