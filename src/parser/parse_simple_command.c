@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:26:37 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/07 02:37:20 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/07 03:02:58 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,11 @@ bool	_is_redirect_token(t_token_type type)
 		|| type == TOKEN_DGREAT);
 }
 
-// TODO: Replace the second argument of push_redirect_info
+// TODO: Handle casting from t_token_type to t_redirect_type
 t_ast	*parse_simple_command(t_token_list **cur_token)
 {
 	t_ast			*ast;
-	t_token_type	token_type;
-	const char		*filepath;
+	t_redirect_info	redirect_info;
 
 	(void)cur_token;
 	ast = construct_ast(AST_COMMAND, NULL, NULL);
@@ -42,12 +41,11 @@ t_ast	*parse_simple_command(t_token_list **cur_token)
 		}
 		else if (_is_redirect_token(get_token_type(*cur_token)))
 		{
-			token_type = get_token_type(*cur_token);
-			expect_token(cur_token, token_type);
-			filepath = get_token_value(*cur_token);
+			redirect_info.type = (t_redirect_type)get_token_type(*cur_token);
+			expect_token(cur_token, (t_token_type)redirect_info.type);
+			redirect_info.filepath = get_token_value(*cur_token);
 			expect_token(cur_token, TOKEN_WORD);
-			push_redirect_info(ast,
-				&(t_redirect_info){(t_redirect_type)token_type, filepath});
+			push_redirect_info(ast, &redirect_info);
 		}
 	}
 	return (ast);
