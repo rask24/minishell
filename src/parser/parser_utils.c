@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:55:24 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/07 01:53:50 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/07 12:49:15 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 #include "token.h"
 #include "utils.h"
 
-bool	consume_token(t_token_list **cur_token, t_token_type type)
+bool	consume_token(t_token_list **cur_token)
 {
-	if (*cur_token == NULL || get_token_type(*cur_token) != type)
+	if (*cur_token == NULL)
 		return (false);
 	*cur_token = (*cur_token)->next;
 	return (true);

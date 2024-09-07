@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:26:37 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/07 03:02:58 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/07 12:49:56 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_ast	*parse_simple_command(t_token_list **cur_token)
 		if (get_token_type(*cur_token) == TOKEN_WORD)
 		{
 			push_cmd_arg(ast, get_token_value(*cur_token));
-			expect_token(cur_token, TOKEN_WORD);
+			consume_token(cur_token);
 		}
 		else if (_is_redirect_token(get_token_type(*cur_token)))
 		{

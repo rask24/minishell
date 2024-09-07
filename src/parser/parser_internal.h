@@ -19,7 +19,7 @@
 # include "token.h"
 
 t_ast	*parse_simple_command(t_token_list **cur_token);
-bool	consume_token(t_token_list **cur_token, t_token_type type);
+bool	consume_token(t_token_list **cur_token);
 bool	expect_token(t_token_list **cur_token, t_token_type type);
 
 #endif
