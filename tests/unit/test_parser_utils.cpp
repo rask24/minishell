@@ -51,6 +51,22 @@ TEST(expect_token, MultipleTokens) {
   destroy_token_list(token_list);
 }
 
+TEST(consume_token, CurrentTokenIsNull) {
+  t_token_list *token_list = nullptr;
+
+  EXPECT_FALSE(consume_token(&token_list));
+
+  destroy_token_list(token_list);
+}
+
+TEST(expect_token, CurrentTokenIsNull) {
+  t_token_list *token_list = nullptr;
+
+  EXPECT_FALSE(expect_token(&token_list, TOKEN_WORD));
+
+  destroy_token_list(token_list);
+}
+
 TEST(expect_token, UnexpectedToken) {
   t_token_list *token_list = nullptr;
 
@@ -63,6 +79,7 @@ TEST(expect_token, UnexpectedToken) {
   EXPECT_EQ(get_token_type(token_list), TOKEN_WORD);
   EXPECT_EQ(get_token_type(token_list->next), TOKEN_GREAT);
   EXPECT_EQ(get_token_type(token_list->next->next), TOKEN_DGREAT);
+  // unexpected token
   EXPECT_FALSE(expect_token(&token_list->next->next, TOKEN_WORD));
 
   destroy_token_list(token_list);
