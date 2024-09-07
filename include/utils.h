@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/10 17:14:04 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/15 15:16:34 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <unistd.h>
 
 # include "libft.h"
+# include "stdlib.h"
+
+typedef bool	(*t_pred)(t_list *node);
 
 # define CMD_NOT_FOUND "command not found"
 
@@ -47,5 +50,7 @@ void			ft_lstiterp(t_list *lst, void (*f)(void *, void *),
 bool			xaccess_is_f_ok(const char *name);
 bool			xaccess_is_f_ok_alt(const char *name);
 bool			xaccess_is_x_ok(const char *name);
+
+void	ft_lstremove_if(t_list **lst, t_pred is_remove, void (*del)(void *));
 
 #endif
