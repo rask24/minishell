@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:55:24 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/07 12:49:15 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/07 15:15:59 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,7 @@ bool	consume_token(t_token_list **cur_token)
 bool	expect_token(t_token_list **cur_token, t_token_type type)
 {
 	if (*cur_token == NULL || get_token_type(*cur_token) != type)
-	{
-		print_error("syntax error near unexpected token",
-			get_token_value(*cur_token));
 		return (false);
-	}
 	*cur_token = (*cur_token)->next;
 	return (true);
 }

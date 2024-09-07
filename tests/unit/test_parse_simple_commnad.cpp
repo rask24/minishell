@@ -235,3 +235,49 @@ TEST(parse_simple_command, RedirectsBeforeAndAfterCommand) {
   destroy_token_list(token_list);
   destroy_ast(ast);
 }
+
+TEST(parse_simple_command, InvalidRedirect) {
+  t_token_list *token_list = nullptr;
+
+  // ls -l > >
+  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, nullptr));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, nullptr));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+
+  t_ast *ast = parser(token_list);
+
+  EXPECT_EQ(ast, nullptr);
+}
+
+TEST(parse_simple_command, InvalidRedirect2) {
+  t_token_list *token_list = nullptr;
+
+  // ls -l > out.txt >
+  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, nullptr));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("out.txt")));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, nullptr));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+
+  t_ast *ast = parser(token_list);
+
+  EXPECT_EQ(ast, nullptr);
+}
+
+TEST(parse_simple_command, InvalidRedirect3) {
+  t_token_list *token_list = nullptr;
+
+  // < in.1txt cat <
+  ft_lstadd_back(&token_list, construct_token(TOKEN_LESS, nullptr));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("in.1txt")));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("cat")));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_LESS, nullptr));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+
+  t_ast *ast = parser(token_list);
+
+  EXPECT_EQ(ast, nullptr);
+}
