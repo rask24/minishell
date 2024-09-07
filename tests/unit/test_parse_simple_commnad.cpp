@@ -5,7 +5,6 @@
 #include "gtest/gtest.h"
 
 extern "C" {
-#include "parser.h"
 #include "parser/parser_internal.h"
 #include "token.h"
 }
@@ -34,7 +33,7 @@ TEST(parse_simple_command, MultipleCommands) {
   ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("src")));
   ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
 
-  t_ast *ast = parser(token_list);
+  t_ast *ast = parse_simple_command(&token_list);
 
   // ls -l src
   EXPECT_EQ(ast->type, AST_COMMAND);
@@ -55,7 +54,7 @@ TEST(parse_simple_command, OneRedirect) {
   ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls.txt")));
   ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
 
-  t_ast *ast = parser(token_list);
+  t_ast *ast = parse_simple_command(&token_list);
 
   EXPECT_EQ(ast->type, AST_COMMAND);
   EXPECT_EQ(get_cmd_arg(ast->cmd_args), nullptr);
@@ -82,7 +81,7 @@ TEST(parse_simple_command, MultipleRedirects) {
   ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("out3.txt")));
   ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
 
-  t_ast *ast = parser(token_list);
+  t_ast *ast = parse_simple_command(&token_list);
 
   EXPECT_EQ(ast->type, AST_COMMAND);
   EXPECT_EQ(get_cmd_arg(ast->cmd_args), nullptr);
@@ -119,7 +118,7 @@ TEST(parse_simple_command, CommandAndRedirect) {
   ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("out.txt")));
   ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
 
-  t_ast *ast = parser(token_list);
+  t_ast *ast = parse_simple_command(&token_list);
 
   EXPECT_EQ(ast->type, AST_COMMAND);
   EXPECT_STREQ(get_cmd_arg(ast->cmd_args), "ls");
@@ -148,7 +147,7 @@ TEST(parse_simple_command, RedirectsAfterCommand) {
   ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("out3.txt")));
   ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
 
-  t_ast *ast = parser(token_list);
+  t_ast *ast = parse_simple_command(&token_list);
 
   EXPECT_EQ(ast->type, AST_COMMAND);
   EXPECT_STREQ(get_cmd_arg(ast->cmd_args), "ls");
@@ -182,7 +181,7 @@ TEST(parse_simple_command, RedirectsBeforeCommand) {
   ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-e")));
   ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
 
-  t_ast *ast = parser(token_list);
+  t_ast *ast = parse_simple_command(&token_list);
 
   EXPECT_EQ(ast->type, AST_COMMAND);
   EXPECT_STREQ(get_cmd_arg(ast->cmd_args), "cat");
@@ -216,7 +215,7 @@ TEST(parse_simple_command, RedirectsBeforeAndAfterCommand) {
   ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("out2.txt")));
   ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
 
-  t_ast *ast = parser(token_list);
+  t_ast *ast = parse_simple_command(&token_list);
 
   EXPECT_EQ(ast->type, AST_COMMAND);
   EXPECT_STREQ(get_cmd_arg(ast->cmd_args), "cat");
@@ -246,7 +245,7 @@ TEST(parse_simple_command, InvalidRedirect) {
   ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, strdup(">")));
   ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
 
-  t_ast *ast = parser(token_list);
+  t_ast *ast = parse_simple_command(&token_list);
 
   EXPECT_EQ(ast, nullptr);
 }
@@ -262,7 +261,7 @@ TEST(parse_simple_command, InvalidRedirect2) {
   ft_lstadd_back(&token_list, construct_token(TOKEN_LESS, strdup("<")));
   ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
 
-  t_ast *ast = parser(token_list);
+  t_ast *ast = parse_simple_command(&token_list);
 
   EXPECT_EQ(ast, nullptr);
 }
