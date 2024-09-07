@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:26:37 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/07 15:16:53 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/07 15:36:05 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,12 @@ static bool	is_redirect_token(t_token_type type)
 		|| type == TOKEN_DGREAT);
 }
 
+// TODO: Replace newline with the more appropriate token value (EOF?)
 static t_ast	*handle_error(t_ast *ast, const char *token_value)
 {
-	print_error("syntax error near unexpected token", token_value);
+	if (token_value == NULL)
+		token_value = "newline";
+	print_syntax_error(token_value);
 	destroy_ast(ast);
 	return (NULL);
 }
