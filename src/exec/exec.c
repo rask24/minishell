@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:54:34 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/06 18:41:59 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/07 19:02:33 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,38 +16,78 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#include "ast.h"
 #include "exec.h"
+#include "exec_internal.h"
+#include "lexer.h"
+#include "libft.h"
+#include "parser.h"
+#include "ui.h"
+#include "utils.h"
 
-static void	execute_command(char *complete_command, char **envp)
+static char	**convert_list_to_array(t_list *cmd_args)
 {
-	char	*argv[4];
+	char	**argv;
+	int		i;
 
-	argv[0] = "bash";
-	argv[1] = "-c";
-	argv[2] = complete_command;
-	argv[3] = NULL;
+	argv = ft_xmalloc(sizeof(char *) * (ft_lstsize(cmd_args) + 1));
+	i = 0;
+	while (cmd_args != NULL)
+	{
+		argv[i] = cmd_args->content;
+		cmd_args = cmd_args->next;
+		i++;
+	}
+	argv[i] = NULL;
+	return (argv);
+}
+
+static void	execute_command(t_list *cmd_args, t_list *redirects, char **envp)
+{
+	char	**argv;
+
+	argv = convert_list_to_array(cmd_args);
+	if (handle_redirects(redirects) == -1)
+		exit(EXIT_FAILURE);
 	reset_signal_handlers();
-	if (execve("/bin/bash", argv, envp) == -1)
+	if (execve(argv[0], argv, envp) == -1)
 	{
 		print_error("execve", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 }
 
-void	spawn_process(char *command, char **envp)
+// Note: Now supports only simple commands
+static void	spawn_process(t_list *cmd_args, t_list *redirects, char **envp)
 {
-	pid_t	pid;
+	pid_t	ch_pid;
+	int		status;
 
-	pid = fork();
-	if (pid == -1)
+	ch_pid = fork();
+	if (ch_pid == 0)
 	{
-		print_error("fork", strerror(errno));
+		execute_command(cmd_args, redirects, envp);
 		exit(EXIT_FAILURE);
 	}
-	if (pid == 0)
+	waitpid(ch_pid, &status, 0);
+}
+
+void	exec(char *input, char **envp)
+{
+	t_token_list	*token_list;
+	t_ast			*ast;
+
+	token_list = lexer(input);
+	if (token_list == NULL)
+		return ;
+	ast = parser(token_list);
+	if (ast == NULL)
 	{
-		execute_command(command, envp);
-		exit(EXIT_FAILURE);
+		destroy_token_list(token_list);
+		return ;
 	}
-	waitpid(pid, NULL, 0);
+	if (ast->type != AST_COMMAND)
+		return ;
+	spawn_process(ast->cmd_args, ast->redirects, envp);
+	destroy_token_list(token_list);
 }

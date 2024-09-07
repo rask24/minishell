@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.h                                             :+:      :+:    :+:   */
+/*   exec_internal.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/06 12:54:48 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/07 17:35:26 by reasuke          ###   ########.fr       */
+/*   Created: 2024/09/07 17:46:21 by reasuke           #+#    #+#             */
+/*   Updated: 2024/09/07 19:02:28 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXEC_H
-# define EXEC_H
+#ifndef EXEC_INTERNAL_H
+# define EXEC_INTERNAL_H
 
-void	exec(char *input, char **envp);
+# include "libft.h"
+
+int	handle_redirects(t_list *redirects);
 
 #endif
