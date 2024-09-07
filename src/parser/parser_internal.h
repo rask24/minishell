@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:22:57 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/07 22:27:42 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/07 22:34:26 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include "token.h"
 
 t_ast	*parse_simple_command(t_token_list **cur_token);
+t_ast	*parse_pipeline(t_token_list **cur_token);
+
 bool	consume_token(t_token_list **cur_token);
 bool	expect_token(t_token_list **cur_token, t_token_type type);
 t_ast	*handle_error(t_ast *ast, const char *token_value);
