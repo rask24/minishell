@@ -36,6 +36,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/env/return_entire_path.c \
 					$(SRC_DIR)/exec/handle_redirects.c \
 					$(SRC_DIR)/builtins/builtins_echo.c \
+					$(SRC_DIR)/builtins/builtins_exit.c \
 					$(SRC_DIR)/builtins/builtins_pwd.c \
 					$(SRC_DIR)/lexer/constructor.c \
 					$(SRC_DIR)/lexer/get_next_token.c \
