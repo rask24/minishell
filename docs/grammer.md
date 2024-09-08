@@ -1,4 +1,6 @@
-```
+# Grammer
+
+```bison
 %token WORD
 %token && AND_IF
 %token || OR_IF
