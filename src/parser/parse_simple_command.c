@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:26:37 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/07 22:27:18 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/08 18:27:00 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,14 @@ static bool	parse_redirect(t_ast *ast, t_token_list **cur_token)
 	return (true);
 }
 
+/*
+** simple_command   : cmd_prefix cmd_word cmd_suffix
+**                  | cmd_prefix cmd_word
+**                  | cmd_prefix
+**                  |            cmd_word cmd_suffix
+**                  |            cmd_word
+**                  ;
+*/
 t_ast	*parse_simple_command(t_token_list **cur_token)
 {
 	t_ast	*ast;
