@@ -29,6 +29,9 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/builtins/builtins_echo.c \
 					$(SRC_DIR)/builtins/builtins_exit.c \
 					$(SRC_DIR)/builtins/builtins_pwd.c \
+					$(SRC_DIR)/env/constructor.c \
+					$(SRC_DIR)/env/destructor.c \
+					$(SRC_DIR)/env/getter.c \
 					$(SRC_DIR)/lexer/constructor.c \
 					$(SRC_DIR)/lexer/get_next_token.c \
 					$(SRC_DIR)/lexer/is_start_of_input.c \
