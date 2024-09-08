@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:26:37 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/07 15:36:05 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/08 13:14:02 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_ast	*parse_simple_command(t_token_list **cur_token)
 		else if (is_redirect_token(get_token_type(*cur_token)))
 			is_valid = parse_redirect(ast, cur_token);
 		else
-			is_valid = false;
+			break ;
 		if (!is_valid)
 			return (handle_error(ast, get_token_value(*cur_token)));
 	}
