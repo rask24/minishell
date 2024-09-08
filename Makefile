@@ -25,6 +25,9 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/ast/destructor.c \
 					$(SRC_DIR)/ast/getter.c \
 					$(SRC_DIR)/ast/push.c \
+					$(SRC_DIR)/builtins/builtins_echo.c \
+					$(SRC_DIR)/builtins/builtins_exit.c \
+					$(SRC_DIR)/builtins/builtins_pwd.c \
 					$(SRC_DIR)/exec/exec.c \
 					$(SRC_DIR)/exec/execute_pipeline.c \
 					$(SRC_DIR)/exec/execute_simple_command.c \
@@ -35,9 +38,6 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/env/getter.c \
 					$(SRC_DIR)/env/return_entire_path.c \
 					$(SRC_DIR)/exec/handle_redirects.c \
-					$(SRC_DIR)/builtins/builtins_echo.c \
-					$(SRC_DIR)/builtins/builtins_exit.c \
-					$(SRC_DIR)/builtins/builtins_pwd.c \
 					$(SRC_DIR)/lexer/constructor.c \
 					$(SRC_DIR)/lexer/get_next_token.c \
 					$(SRC_DIR)/lexer/is_start_of_input.c \
