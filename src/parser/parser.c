@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/07 15:32:33 by reasuke          ###   ########.fr       */
+/*   Created: 2024/09/06 19:11:50 by reasuke           #+#    #+#             */
+/*   Updated: 2024/09/06 21:31:37 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#include "ast.h"
+#include "parser_internal.h"
+#include "token.h"
 
-# include <stddef.h>
+t_ast	*parser(t_token_list *token_list)
+{
+	t_ast			*ast;
+	t_token_list	**cur_token;
 
-# include "libft.h"
-
-void	print_error(const char *func, const char *desc);
-void	print_syntax_error(const char *token_value);
-
-t_list	*ft_xlstnew(void *content);
-char	*ft_xstrndup(const char *s, size_t n);
-char	*ft_xstrdup(const char *s);
-
-#endif
+	cur_token = &token_list;
+	ast = parse_simple_command(cur_token);
+	return (ast);
+}

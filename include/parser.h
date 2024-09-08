@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/07 15:32:33 by reasuke          ###   ########.fr       */
+/*   Created: 2024/09/06 19:23:21 by reasuke           #+#    #+#             */
+/*   Updated: 2024/09/06 19:23:47 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#ifndef PARSER_H
+# define PARSER_H
 
-# include <stddef.h>
+# include "ast.h"
+# include "token.h"
 
-# include "libft.h"
-
-void	print_error(const char *func, const char *desc);
-void	print_syntax_error(const char *token_value);
-
-t_list	*ft_xlstnew(void *content);
-char	*ft_xstrndup(const char *s, size_t n);
-char	*ft_xstrdup(const char *s);
+t_ast	*parser(t_token_list *token_list);
 
 #endif

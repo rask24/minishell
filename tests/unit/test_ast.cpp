@@ -63,7 +63,7 @@ TEST(push_redirect_info, OneRedirect) {
   push_redirect_info(ast, info);
 
   EXPECT_EQ(get_redirect_type(ast->redirects), REDIRECT_INPUT);
-  EXPECT_STREQ(get_redirect_filename(ast->redirects), "input.txt");
+  EXPECT_STREQ(get_redirect_filepath(ast->redirects), "input.txt");
 
   destroy_ast(ast);
 }
@@ -79,9 +79,9 @@ TEST(push_redirect_info, MultipleRedirects) {
   push_redirect_info(ast, info_2);
 
   EXPECT_EQ(get_redirect_type(ast->redirects), REDIRECT_INPUT);
-  EXPECT_STREQ(get_redirect_filename(ast->redirects), "input.txt");
+  EXPECT_STREQ(get_redirect_filepath(ast->redirects), "input.txt");
   EXPECT_EQ(get_redirect_type(ast->redirects->next), REDIRECT_OUTPUT);
-  EXPECT_STREQ(get_redirect_filename(ast->redirects->next), "output.txt");
+  EXPECT_STREQ(get_redirect_filepath(ast->redirects->next), "output.txt");
 
   destroy_ast(ast);
 }
@@ -116,11 +116,29 @@ TEST(construct_ast, ComplexNodes) {
   EXPECT_STREQ(get_cmd_arg(right->cmd_args->next), "file.txt");
 
   EXPECT_EQ(get_redirect_type(left->redirects), REDIRECT_INPUT);
-  EXPECT_STREQ(get_redirect_filename(left->redirects), "input.txt");
+  EXPECT_STREQ(get_redirect_filepath(left->redirects), "input.txt");
   EXPECT_EQ(get_redirect_type(right->redirects), REDIRECT_OUTPUT);
-  EXPECT_STREQ(get_redirect_filename(right->redirects), "output.txt");
+  EXPECT_STREQ(get_redirect_filepath(right->redirects), "output.txt");
 
   destroy_ast(ast);
+}
+
+TEST(get_cmd_arg, NullCmdArgs) {
+  t_list *cmd_args = nullptr;
+
+  EXPECT_EQ(get_cmd_arg(cmd_args), nullptr);
+}
+
+TEST(get_redirect_type, NullRedirects) {
+  t_list *redirects = nullptr;
+
+  EXPECT_EQ(get_redirect_type(redirects), REDIRECT_UNKNOWN);
+}
+
+TEST(get_redirect_filepath, NullRedirects) {
+  t_list *redirects = nullptr;
+
+  EXPECT_EQ(get_redirect_filepath(redirects), nullptr);
 }
 
 TEST(push_cmd_arg, InvalidNodeType) {

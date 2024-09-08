@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   parser_internal.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/07 15:32:33 by reasuke          ###   ########.fr       */
+/*   Created: 2024/09/06 19:22:57 by reasuke           #+#    #+#             */
+/*   Updated: 2024/09/07 01:55:42 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#ifndef PARSER_INTERNAL_H
+# define PARSER_INTERNAL_H
 
-# include <stddef.h>
+# include <stdbool.h>
 
-# include "libft.h"
+# include "ast.h"
+# include "token.h"
 
-void	print_error(const char *func, const char *desc);
-void	print_syntax_error(const char *token_value);
-
-t_list	*ft_xlstnew(void *content);
-char	*ft_xstrndup(const char *s, size_t n);
-char	*ft_xstrdup(const char *s);
+t_ast	*parse_simple_command(t_token_list **cur_token);
+bool	consume_token(t_token_list **cur_token);
+bool	expect_token(t_token_list **cur_token, t_token_type type);
 
 #endif
