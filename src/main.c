@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/06 18:34:30 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/07 17:35:12 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
-#include "libft.h"
 #include "readline.h"
 #include "ui.h"
 #include "utils.h"
@@ -33,7 +32,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_printf("exit\n");
 			break ;
 		}
-		spawn_process(input, envp);
+		exec(input, envp);
 		add_history(input);
 		free(input);
 		restore_terminal_configuration(&original_termios);
