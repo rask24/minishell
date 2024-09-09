@@ -6,12 +6,14 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 12:35:50 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/08 14:25:48 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/09 15:22:29 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
+
+# include <stdlib.h>
 
 # include "libft.h"
 # include "utils.h"
