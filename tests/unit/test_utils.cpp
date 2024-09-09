@@ -72,3 +72,29 @@ TEST(ft_lstremove_if, RemoveAll) {
 
   EXPECT_EQ(lst, nullptr);
 }
+
+static void capitalize(void *content, void *param) {
+  if (strlen(static_cast<char *>(content)) == *static_cast<size_t *>(param)) {
+    free(content);
+    content = strdup("CAPITALIZED");
+  }
+}
+
+TEST(ft_lstiterp, NoFunction) {
+  t_list *lst = ft_lstnew(ft_xstrdup("hello"));
+  ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("world")));
+  ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("42")));
+  ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("tokyo")));
+  ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("paris")));
+
+  size_t len = 2;
+  void *param = &len;
+  ft_lstiterp(lst, capitalize, param);
+
+  EXPECT_STREQ((char *)lst->content, "hello");
+  EXPECT_STREQ((char *)lst->next->content, "world");
+  EXPECT_STREQ((char *)lst->next->next->content, "CAPITALIZED");
+  EXPECT_STREQ((char *)lst->next->next->next->content, "tokyo");
+  EXPECT_STREQ((char *)lst->next->next->next->next->content, "paris");
+  EXPECT_EQ(lst->next->next->next->next->next, nullptr);
+}
