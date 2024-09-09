@@ -20,6 +20,7 @@
 typedef bool	(*t_pred)(t_list *node);
 
 void	print_error(const char *func, const char *desc);
+void	print_syntax_error(const char *token_value);
 
 t_list	*ft_xlstnew(void *content);
 char	*ft_xstrndup(const char *s, size_t n);
