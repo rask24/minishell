@@ -3,19 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:54:48 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/06 18:34:47 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/07 17:35:26 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
 
-# include "ui.h"
-# include "utils.h"
-
-void	spawn_process(char *command, char **envp);
+void	exec(char *input, char **envp);
 
 #endif

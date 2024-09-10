@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:26:37 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/08 14:06:57 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/08 18:27:00 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,6 @@ static bool	is_redirect_token(t_token_type type)
 		|| type == TOKEN_GREAT
 		|| type == TOKEN_DLESS
 		|| type == TOKEN_DGREAT);
-}
-
-// TODO: Replace newline with the more appropriate token value (EOF?)
-static t_ast	*handle_error(t_ast *ast, const char *token_value)
-{
-	if (token_value == NULL)
-		token_value = "newline";
-	print_syntax_error(token_value);
-	destroy_ast(ast);
-	return (NULL);
 }
 
 static bool	parse_word(t_ast *ast, t_token_list **cur_token)

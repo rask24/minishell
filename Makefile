@@ -32,6 +32,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/env/destructor.c \
 					$(SRC_DIR)/env/getter.c \
 					$(SRC_DIR)/env/return_entire_path.c \
+					$(SRC_DIR)/exec/handle_redirects.c \
 					$(SRC_DIR)/lexer/constructor.c \
 					$(SRC_DIR)/lexer/get_next_token.c \
 					$(SRC_DIR)/lexer/is_start_of_input.c \
@@ -42,6 +43,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/lexer/process_operator.c \
 					$(SRC_DIR)/lexer/process_quote.c \
 					$(SRC_DIR)/parser/parse_simple_command.c \
+					$(SRC_DIR)/parser/parse_pipeline.c \
 					$(SRC_DIR)/parser/parser_utils.c \
 					$(SRC_DIR)/parser/parser.c \
 					$(SRC_DIR)/token/constructor.c \
