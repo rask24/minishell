@@ -29,3 +29,27 @@ TEST(construct_env, TwoEnv) {
 
   destroy_env_list(env);
 }
+
+TEST(convert_env_to_array, OneEnv) {
+  t_env_list *env = construct_env(strdup("HOME"), strdup("/home/user"));
+  char **env_array = convert_env_to_array(env);
+
+  EXPECT_STREQ(env_array[0], "HOME=/home/user");
+  EXPECT_EQ(env_array[1], nullptr);
+
+  destroy_env_list(env);
+}
+
+TEST(convert_env_to_array, MultiEnv) {
+  t_env_list *env = construct_env(strdup("HOME"), strdup("/home/user"));
+  t_env_list *env2 = construct_env(strdup("PATH"), strdup("/usr/bin"));
+  ft_lstadd_back(&env, env2);
+  char **env_array = convert_env_to_array(env);
+
+  EXPECT_STREQ(env_array[0], "HOME=/home/user");
+  EXPECT_STREQ(env_array[1], "PATH=/usr/bin");
+  EXPECT_EQ(env_array[2], nullptr);
+
+  destroy_env_list(env);
+  free(env_array);
+}
