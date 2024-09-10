@@ -23,8 +23,9 @@ void	print_error(const char *func, const char *desc);
 void	print_syntax_error(const char *token_value);
 
 t_list	*ft_xlstnew(void *content);
-char	*ft_xstrndup(const char *s, size_t n);
 char	*ft_xstrdup(const char *s);
+char	*ft_xstrjoin(const char *s1, const char *s2);
+char	*ft_xstrndup(const char *s, size_t n);
 
 void	ft_lstremove_if(t_list **lst, t_pred is_remove, void (*del)(void *));
 void	ft_lstiterp(t_list *lst, void (*f)(void *, void *), void *param);

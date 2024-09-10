@@ -53,6 +53,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/utils/print_error.c \
 					$(SRC_DIR)/utils/wrapper/ft_xlstnew.c \
 					$(SRC_DIR)/utils/wrapper/ft_xstrdup.c \
+					$(SRC_DIR)/utils/wrapper/ft_xstrjoin.c \
 					$(SRC_DIR)/utils/wrapper/ft_xstrndup.c
 
 OBJ				= $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC))
