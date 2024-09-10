@@ -32,7 +32,7 @@ TEST(construct_env, TwoEnv) {
 
 TEST(convert_env_to_array, OneEnv) {
   t_env_list *env = construct_env(strdup("HOME"), strdup("/home/user"));
-  char **env_array = convert_env_to_array(env);
+  const char **env_array = convert_env_to_array(env);
 
   EXPECT_STREQ(env_array[0], "HOME=/home/user");
   EXPECT_EQ(env_array[1], nullptr);
@@ -44,7 +44,7 @@ TEST(convert_env_to_array, MultiEnv) {
   t_env_list *env = construct_env(strdup("HOME"), strdup("/home/user"));
   t_env_list *env2 = construct_env(strdup("PATH"), strdup("/usr/bin"));
   ft_lstadd_back(&env, env2);
-  char **env_array = convert_env_to_array(env);
+  const char **env_array = convert_env_to_array(env);
 
   EXPECT_STREQ(env_array[0], "HOME=/home/user");
   EXPECT_STREQ(env_array[1], "PATH=/usr/bin");
@@ -75,4 +75,14 @@ TEST(convert_array_to_env, MultiEnv) {
   EXPECT_STREQ(get_env_value(env_list->next), "/usr/bin");
 
   destroy_env_list(env_list);
+}
+
+TEST(return_entire_path, ValidPath) {
+  t_env_list *env = construct_env(strdup("HOME"), strdup("/home/user"));
+  t_env_list *env2 = construct_env(strdup("PATH"), strdup("/usr/bin:/bin"));
+  ft_lstadd_back(&env, env2);
+  const char *path = return_entire_path("ls", env);
+
+  EXPECT_STREQ(path, "/bin/ls");
+  destroy_env_list(env);
 }

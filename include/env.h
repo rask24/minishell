@@ -34,5 +34,5 @@ void			destroy_env(t_env_list *env);
 void			destroy_env_list(t_env_list *env_list);
 char			*get_env_name(t_env_list *env);
 char			*get_env_value(t_env_list *env);
-
+const char		*return_entire_path(const char *basename, t_env_list *env_list);
 #endif
