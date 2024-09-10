@@ -28,6 +28,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/exec/exec.c \
 					$(SRC_DIR)/env/constructor.c \
 					$(SRC_DIR)/env/convert_env_to_array.c \
+					$(SRC_DIR)/env/convert_array_to_env.c \
 					$(SRC_DIR)/env/destructor.c \
 					$(SRC_DIR)/env/getter.c \
 					$(SRC_DIR)/lexer/constructor.c \

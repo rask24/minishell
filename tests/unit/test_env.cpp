@@ -53,3 +53,26 @@ TEST(convert_env_to_array, MultiEnv) {
   destroy_env_list(env);
   free(env_array);
 }
+
+TEST(convert_array_to_env, OneEnv) {
+  char *envp[] = {strdup("HOME=/home/user"), nullptr};
+  t_env_list *env_list = convert_array_to_env(envp);
+
+  EXPECT_STREQ(get_env_name(env_list), "HOME");
+  EXPECT_STREQ(get_env_value(env_list), "/home/user");
+
+  destroy_env_list(env_list);
+}
+
+TEST(convert_array_to_env, MultiEnv) {
+  char *envp[] = {strdup("HOME=/home/user"), strdup("PATH=/usr/bin"), nullptr};
+  t_env_list *env_list = convert_array_to_env(envp);
+
+  EXPECT_STREQ(get_env_name(env_list), "HOME");
+  EXPECT_STREQ(get_env_value(env_list), "/home/user");
+
+  EXPECT_STREQ(get_env_name(env_list->next), "PATH");
+  EXPECT_STREQ(get_env_value(env_list->next), "/usr/bin");
+
+  destroy_env_list(env_list);
+}
