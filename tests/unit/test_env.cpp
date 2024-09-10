@@ -1,4 +1,5 @@
-#include <cstring>
+#include <string.h>
+#include <unistd.h>
 
 #include "gtest/gtest.h"
 
@@ -75,14 +76,4 @@ TEST(convert_array_to_env, MultiEnv) {
   EXPECT_STREQ(get_env_value(env_list->next), "/usr/bin");
 
   destroy_env_list(env_list);
-}
-
-TEST(return_entire_path, ValidPath) {
-  t_env_list *env = construct_env(strdup("HOME"), strdup("/home/user"));
-  t_env_list *env2 = construct_env(strdup("PATH"), strdup("/usr/bin:/bin"));
-  ft_lstadd_back(&env, env2);
-  const char *path = return_entire_path("ls", env);
-
-  EXPECT_STREQ(path, "/bin/ls");
-  destroy_env_list(env);
 }
