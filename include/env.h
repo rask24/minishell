@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 12:35:50 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/08 14:25:48 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/11 10:38:17 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef t_list	t_env_list;
 
 t_env_list		*construct_env(char *name, char *value);
 void			destroy_env(t_env_list *env);
+void			destroy_env_helper(void *content);
 void			destroy_env_list(t_env_list *env_list);
 char			*get_env_name(t_env_list *env);
 char			*get_env_value(t_env_list *env);
