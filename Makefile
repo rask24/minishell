@@ -26,6 +26,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/ast/getter.c \
 					$(SRC_DIR)/ast/push.c \
 					$(SRC_DIR)/builtins/builtins_echo.c \
+					$(SRC_DIR)/builtins/builtins_env.c \
 					$(SRC_DIR)/builtins/builtins_exit.c \
 					$(SRC_DIR)/builtins/builtins_pwd.c \
 					$(SRC_DIR)/exec/exec.c \
