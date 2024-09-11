@@ -62,6 +62,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/ui/save_terminal_configuration.c \
 					$(SRC_DIR)/utils/ft_lstiterp.c \
 					$(SRC_DIR)/utils/ft_lstremove_if.c \
+					$(SRC_DIR)/utils/ft_lstsort.c \
 					$(SRC_DIR)/utils/print_error.c \
 					$(SRC_DIR)/utils/wrapper/ft_xlstnew.c \
 					$(SRC_DIR)/utils/wrapper/ft_xstrdup.c \
