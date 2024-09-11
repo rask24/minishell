@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:44:57 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/11 12:08:08 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/11 13:41:26 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_config
 int					builtins_echo(char **args, char **env);
 int					builtins_env(char **args, t_config *config);
 int					builtins_exit(char **args, t_config *config);
+int					builtins_export(char **args, t_config *config);
 int					builtins_pwd(char **args, char **env);
 int					builtins_unset(char **args, t_config *config);
 
