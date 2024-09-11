@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/15 15:16:34 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/15 15:56:05 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 # include "libft.h"
 # include "stdlib.h"
 
-typedef bool	(*t_pred)(t_list *node);
+typedef bool	(*t_pred)(t_list *node, void *param);
+typedef void	(*t_del)(void *);
 
 # define CMD_NOT_FOUND "command not found"
 
@@ -32,8 +33,6 @@ typedef enum e_exit_status
 	NO_FILE_OR_CMD_ERR = 127
 }				t_exit_status;
 
-typedef bool	(*t_pred)(t_list *node);
-
 void			print_error(const char *func, const char *desc);
 void			print_syntax_error(const char *token_value);
 
@@ -42,15 +41,13 @@ char			*ft_xstrdup(const char *s);
 char			*ft_xstrjoin(const char *s1, const char *s2);
 char			*ft_xstrndup(const char *s, size_t n);
 
-void			ft_lstremove_if(t_list **lst, t_pred is_remove,
-					void (*del)(void *));
+void			ft_lstremove_if(t_list **lst, t_pred is_remove, void *param,
+					t_del del);
 void			ft_lstiterp(t_list *lst, void (*f)(void *, void *),
 					void *param);
 
 bool			xaccess_is_f_ok(const char *name);
 bool			xaccess_is_f_ok_alt(const char *name);
 bool			xaccess_is_x_ok(const char *name);
-
-void	ft_lstremove_if(t_list **lst, t_pred is_remove, void (*del)(void *));
 
 #endif

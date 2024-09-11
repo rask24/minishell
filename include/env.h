@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 12:35:50 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/13 16:18:12 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/15 15:30:50 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_env_list		*construct_env(char *name, char *value);
 t_env_list		*convert_array_to_env(char **envp);
 const char		**convert_env_to_array(t_env_list *env_list);
 void			destroy_env(t_env_list *env);
+void			destroy_env_helper(void *content);
 void			destroy_env_list(t_env_list *env_list);
 char			*get_env_name(t_env_list *env);
 char			*get_env_value(t_env_list *env);

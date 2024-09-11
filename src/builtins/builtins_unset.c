@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   destructor.c                                       :+:      :+:    :+:   */
+/*   builtins_unset.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/08 14:08:45 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/15 15:29:19 by yliu             ###   ########.fr       */
+/*   Created: 2024/09/10 21:45:52 by yliu              #+#    #+#             */
+/*   Updated: 2024/09/11 12:05:14 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "builtins.h"
 
-void	destroy_env_helper(void *content)
+static bool	is_remove(t_env_list *env, void *name)
 {
-	free(((t_env *)content)->key);
-	free(((t_env *)content)->value);
-	free(content);
+	return (ft_strcmp(get_env_name(env), name) == 0);
 }
 
-void	destroy_env(t_env_list *env)
+int	builtins_unset(char **args, t_config *config)
 {
-	ft_lstdelone(env, destroy_env_helper);
-}
-
-void	destroy_env_list(t_env_list *env_list)
-{
-	ft_lstclear(&env_list, destroy_env_helper);
+	++args;
+	while (*args)
+	{
+		ft_lstremove_if(&config->env, is_remove, *args, destroy_env_helper);
+		args++;
+	}
+	return (EXIT_SUCCESS);
 }
