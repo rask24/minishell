@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:18:33 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/13 17:30:00 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/13 17:35:04 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	handle_pipeline(t_pipeline_info *info)
 	}
 }
 
-void	execute_simple_command(t_ast *cmd_node, char **envp,
+pid_t	execute_simple_command(t_ast *cmd_node, char **envp,
 			t_pipeline_info *info)
 {
 	pid_t	pid;
@@ -63,7 +63,7 @@ void	execute_simple_command(t_ast *cmd_node, char **envp,
 	if (pid == -1)
 	{
 		print_error("fork", strerror(errno));
-		return ;
+		return (-1);
 	}
 	if (pid == 0)
 	{
@@ -78,5 +78,5 @@ void	execute_simple_command(t_ast *cmd_node, char **envp,
 			exit(EXIT_FAILURE);
 		}
 	}
-	waitpid(pid, NULL, 0);
+	return (pid);
 }
