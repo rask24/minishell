@@ -62,6 +62,9 @@ TEST(convert_array_to_env, OneEnv) {
   EXPECT_STREQ(get_env_name(env_list), "HOME");
   EXPECT_STREQ(get_env_value(env_list), "/home/user");
 
+  EXPECT_EQ(get_env_name(env_list->next), nullptr);
+  EXPECT_EQ(get_env_value(env_list->next), nullptr);
+
   destroy_env_list(env_list);
 }
 
@@ -74,6 +77,9 @@ TEST(convert_array_to_env, MultiEnv) {
 
   EXPECT_STREQ(get_env_name(env_list->next), "PATH");
   EXPECT_STREQ(get_env_value(env_list->next), "/usr/bin");
+
+  EXPECT_EQ(get_env_name(env_list->next->next), nullptr);
+  EXPECT_EQ(get_env_value(env_list->next->next), nullptr);
 
   destroy_env_list(env_list);
 }
