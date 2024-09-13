@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 21:32:41 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/10 16:08:18 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/13 16:24:09 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 const char	**convert_env_to_array(t_env_list *env)
 {
 	const char	**env_array;
-	const char	**ans_array;
+	const char	**tmp_array;
 
 	env_array = ft_xmalloc(sizeof(char *) * (ft_lstsize(env) + 1));
-	ans_array = env_array;
+	tmp_array = env_array;
 	while (env)
 	{
-		*env_array = ft_xstrjoin(get_env_name(env),
+		*tmp_array = ft_xstrjoin(get_env_name(env),
 				ft_xstrjoin("=", get_env_value(env)));
 		env = env->next;
-		env_array++;
+		tmp_array++;
 	}
-	return (ans_array);
+	return (env_array);
 }
