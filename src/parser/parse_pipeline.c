@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 22:18:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/14 21:38:28 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/14 23:17:12 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_ast	*parse_pipeline(t_token_list **cur_token)
 	while (get_token_type(*cur_token) != TOKEN_EOF)
 	{
 		if (get_token_type(*cur_token) != TOKEN_PIPE)
-			break;
+			break ;
 		if (!expect_token(cur_token, TOKEN_PIPE))
 			return (handle_error(ast, get_token_value(*cur_token)));
 		if (get_token_type(*cur_token) == TOKEN_EOF)
