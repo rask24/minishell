@@ -144,3 +144,84 @@ TEST(parse_list, MultipleLists) {
   destroy_ast(ast);
   destroy_token_list(token_list);
 }
+
+TEST(parse_list, MultipleListsWithPipeline) {
+  t_token_list *token_list = nullptr;
+
+  // ls | wc && pwd | cat -e || echo hello
+  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_PIPE, strdup("|")));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("wc")));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_AND_IF, strdup("&&")));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("pwd")));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_PIPE, strdup("|")));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("cat")));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-e")));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_OR_IF, strdup("||")));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("echo")));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("hello")));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+
+  t_ast *ast = parse_list(&token_list);
+
+  /*
+  **                          0.OR
+  **                       |       \
+  **                     |           \
+  **                   1.AND          8.CMD(echo hello)
+  **                |         \
+  **              |             \
+  **           2.PIPE             5.PIPE
+  **          |     \            |       \
+  **        |         \        |           \
+  **   3.CMD(ls) 4.CMD(wc)  6.CMD(pwd)   7.CMD(cat -e)
+  */
+
+  t_ast *node0 = ast;
+  t_ast *node1 = node0->left;
+  t_ast *node2 = node0->left->left;
+  t_ast *node3 = node0->left->left->left;
+  t_ast *node4 = node0->left->left->right;
+  t_ast *node5 = node0->left->right;
+  t_ast *node6 = node0->left->right->left;
+  t_ast *node7 = node0->left->right->right;
+  t_ast *node8 = node0->right;
+
+  EXPECT_EQ(node0->type, AST_OR);
+
+  EXPECT_EQ(node1->type, AST_AND);
+
+  EXPECT_EQ(node2->type, AST_PIPE);
+
+  EXPECT_EQ(node3->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node3->cmd_args), "ls");
+  EXPECT_EQ(node3->cmd_args->next, nullptr);
+  EXPECT_EQ(node3->redirects, nullptr);
+
+  EXPECT_EQ(node4->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node4->cmd_args), "wc");
+  EXPECT_EQ(node4->cmd_args->next, nullptr);
+  EXPECT_EQ(node4->redirects, nullptr);
+
+  EXPECT_EQ(node5->type, AST_PIPE);
+
+  EXPECT_EQ(node6->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node6->cmd_args), "pwd");
+  EXPECT_EQ(node6->cmd_args->next, nullptr);
+  EXPECT_EQ(node6->redirects, nullptr);
+
+  EXPECT_EQ(node7->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node7->cmd_args), "cat");
+  EXPECT_STREQ(get_cmd_arg(node7->cmd_args->next), "-e");
+  EXPECT_EQ(node7->cmd_args->next->next, nullptr);
+  EXPECT_EQ(node7->redirects, nullptr);
+
+  EXPECT_EQ(node8->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node8->cmd_args), "echo");
+  EXPECT_STREQ(get_cmd_arg(node8->cmd_args->next), "hello");
+  EXPECT_EQ(node8->cmd_args->next->next, nullptr);
+  EXPECT_EQ(node8->redirects, nullptr);
+
+  destroy_ast(ast);
+  destroy_token_list(token_list);
+}
