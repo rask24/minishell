@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 21:32:41 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/13 16:24:09 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/14 12:22:38 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ const char	**convert_env_to_array(t_env_list *env)
 		env = env->next;
 		tmp_array++;
 	}
+	tmp_array = NULL;
 	return (env_array);
 }
