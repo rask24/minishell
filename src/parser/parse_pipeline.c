@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 22:18:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/07 23:18:10 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/13 23:51:44 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 #include "parser_internal.h"
 #include "token.h"
 
+/*
+** pipeline  :              simple_command
+**           | pipeline '|' simple_command
+**           ;
+*/
 t_ast	*parse_pipeline(t_token_list **cur_token)
 {
 	t_ast	*ast;

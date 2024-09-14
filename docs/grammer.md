@@ -12,6 +12,9 @@
 %token > GREAT
 %token >> DGREAT
 
+pipeline         :              simple_command
+                 | pipeline '|' simple_command
+                 ;
 simple_command   : cmd_prefix cmd_word cmd_suffix
                  | cmd_prefix cmd_word
                  | cmd_prefix
