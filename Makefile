@@ -28,6 +28,12 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/exec/exec.c \
 					$(SRC_DIR)/exec/execute_pipeline.c \
 					$(SRC_DIR)/exec/execute_simple_command.c \
+					$(SRC_DIR)/env/constructor.c \
+					$(SRC_DIR)/env/convert_env_to_array.c \
+					$(SRC_DIR)/env/convert_array_to_env.c \
+					$(SRC_DIR)/env/destructor.c \
+					$(SRC_DIR)/env/getter.c \
+					$(SRC_DIR)/env/return_entire_path.c \
 					$(SRC_DIR)/exec/handle_redirects.c \
 					$(SRC_DIR)/lexer/constructor.c \
 					$(SRC_DIR)/lexer/get_next_token.c \
@@ -49,10 +55,14 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/ui/reset_signal_handlers.c \
 					$(SRC_DIR)/ui/restore_terminal_configuration.c \
 					$(SRC_DIR)/ui/save_terminal_configuration.c \
+					$(SRC_DIR)/utils/ft_lstiterp.c \
+					$(SRC_DIR)/utils/ft_lstremove_if.c \
 					$(SRC_DIR)/utils/print_error.c \
 					$(SRC_DIR)/utils/wrapper/ft_xlstnew.c \
 					$(SRC_DIR)/utils/wrapper/ft_xstrdup.c \
-					$(SRC_DIR)/utils/wrapper/ft_xstrndup.c
+					$(SRC_DIR)/utils/wrapper/ft_xstrjoin.c \
+					$(SRC_DIR)/utils/wrapper/ft_xstrndup.c \
+					$(SRC_DIR)/utils/wrapper/xaccess_is.c
 
 OBJ				= $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC))
 DEP				= $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.d, $(SRC))
