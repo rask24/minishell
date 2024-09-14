@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:15:45 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/14 16:18:06 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/14 17:00:42 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,9 @@ pid_t	execute_pipeline(t_ast *ast, char **envp, int fd_in, int fd_out)
 {
 	int				pipe_fds[2];
 	pid_t			pid;
-	t_pipeline_info	info;
 
 	if (ast->type == AST_COMMAND)
-	{
-		info = (t_pipeline_info){.fd_in = fd_in, .fd_out = fd_out};
-		return (execute_simple_command(ast, envp, &info));
-	}
+		return (execute_simple_command(ast, envp, fd_in, fd_out));
 	if (pipe(pipe_fds) == -1)
 	{
 		print_error("pipe", strerror(errno));
