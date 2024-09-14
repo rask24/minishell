@@ -12,6 +12,10 @@
 %token > GREAT
 %token >> DGREAT
 
+list             :           pipeline
+                 | list '&&' pipeline
+                 | list '||' pipeline
+                 ;
 pipeline         :              simple_command
                  | pipeline '|' simple_command
                  ;

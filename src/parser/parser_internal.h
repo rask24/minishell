@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:22:57 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/08 18:27:17 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/14 21:10:14 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 t_ast	*parse_simple_command(t_token_list **cur_token);
 t_ast	*parse_pipeline(t_token_list **cur_token);
+t_ast	*parse_list(t_token_list **cur_token);
 
 bool	consume_token(t_token_list **cur_token);
 bool	expect_token(t_token_list **cur_token, t_token_type type);
