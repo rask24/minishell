@@ -16,15 +16,15 @@ TEST(parse_list, OneSimplePipeline) {
   ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
   ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
 
-  t_ast *ast = parse_list(&token_list);
+  t_ast *node = parse_list(&token_list);
 
-  EXPECT_EQ(ast->type, AST_COMMAND);
-  EXPECT_STREQ(get_cmd_arg(ast->cmd_args), "ls");
-  EXPECT_STREQ(get_cmd_arg(ast->cmd_args->next), "-l");
-  EXPECT_EQ(ast->cmd_args->next->next, nullptr);
-  EXPECT_EQ(ast->redirects, nullptr);
+  EXPECT_EQ(node->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node->cmd_args), "ls");
+  EXPECT_STREQ(get_cmd_arg(node->cmd_args->next), "-l");
+  EXPECT_EQ(node->cmd_args->next->next, nullptr);
+  EXPECT_EQ(node->redirects, nullptr);
 
-  destroy_ast(ast);
+  destroy_ast(node);
   destroy_token_list(token_list);
 }
 
@@ -38,22 +38,22 @@ TEST(parse_list, OneComplexPipeline) {
   ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("wc")));
   ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
 
-  t_ast *ast = parse_list(&token_list);
+  t_ast *node = parse_list(&token_list);
 
-  EXPECT_EQ(ast->type, AST_PIPE);
+  EXPECT_EQ(node->type, AST_PIPE);
 
-  EXPECT_EQ(ast->left->type, AST_COMMAND);
-  EXPECT_STREQ(get_cmd_arg(ast->left->cmd_args), "ls");
-  EXPECT_STREQ(get_cmd_arg(ast->left->cmd_args->next), "-l");
-  EXPECT_EQ(ast->left->cmd_args->next->next, nullptr);
-  EXPECT_EQ(ast->left->redirects, nullptr);
+  EXPECT_EQ(node->left->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node->left->cmd_args), "ls");
+  EXPECT_STREQ(get_cmd_arg(node->left->cmd_args->next), "-l");
+  EXPECT_EQ(node->left->cmd_args->next->next, nullptr);
+  EXPECT_EQ(node->left->redirects, nullptr);
 
-  EXPECT_EQ(ast->right->type, AST_COMMAND);
-  EXPECT_STREQ(get_cmd_arg(ast->right->cmd_args), "wc");
-  EXPECT_EQ(ast->right->cmd_args->next, nullptr);
-  EXPECT_EQ(ast->right->redirects, nullptr);
+  EXPECT_EQ(node->right->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node->right->cmd_args), "wc");
+  EXPECT_EQ(node->right->cmd_args->next, nullptr);
+  EXPECT_EQ(node->right->redirects, nullptr);
 
-  destroy_ast(ast);
+  destroy_ast(node);
   destroy_token_list(token_list);
 }
 
@@ -72,22 +72,22 @@ TEST(parse_list, OneList) {
   **             |   \
   **  COMMAND(ls -l) COMMAND (pwd)
   */
-  t_ast *ast = parse_list(&token_list);
+  t_ast *node = parse_list(&token_list);
 
-  EXPECT_EQ(ast->type, AST_AND);
+  EXPECT_EQ(node->type, AST_AND);
 
-  EXPECT_EQ(ast->left->type, AST_COMMAND);
-  EXPECT_STREQ(get_cmd_arg(ast->left->cmd_args), "ls");
-  EXPECT_STREQ(get_cmd_arg(ast->left->cmd_args->next), "-l");
-  EXPECT_EQ(ast->left->cmd_args->next->next, nullptr);
-  EXPECT_EQ(ast->left->redirects, nullptr);
+  EXPECT_EQ(node->left->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node->left->cmd_args), "ls");
+  EXPECT_STREQ(get_cmd_arg(node->left->cmd_args->next), "-l");
+  EXPECT_EQ(node->left->cmd_args->next->next, nullptr);
+  EXPECT_EQ(node->left->redirects, nullptr);
 
-  EXPECT_EQ(ast->right->type, AST_COMMAND);
-  EXPECT_STREQ(get_cmd_arg(ast->right->cmd_args), "pwd");
-  EXPECT_EQ(ast->right->cmd_args->next, nullptr);
-  EXPECT_EQ(ast->right->redirects, nullptr);
+  EXPECT_EQ(node->right->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node->right->cmd_args), "pwd");
+  EXPECT_EQ(node->right->cmd_args->next, nullptr);
+  EXPECT_EQ(node->right->redirects, nullptr);
 
-  destroy_ast(ast);
+  destroy_ast(node);
   destroy_token_list(token_list);
 }
 
@@ -106,7 +106,7 @@ TEST(parse_list, MultipleLists) {
   ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("hello")));
   ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
 
-  t_ast *ast = parse_list(&token_list);
+  t_ast *node = parse_list(&token_list);
 
   /*
   **              OR
@@ -115,33 +115,33 @@ TEST(parse_list, MultipleLists) {
   **           |   \
   **  COMMAND(ls -l) REDIRECT(pwd > out.txt)
   */
-  EXPECT_EQ(ast->type, AST_OR);
+  EXPECT_EQ(node->type, AST_OR);
 
-  EXPECT_EQ(ast->left->type, AST_AND);
+  EXPECT_EQ(node->left->type, AST_AND);
 
-  EXPECT_EQ(ast->left->left->type, AST_COMMAND);
-  EXPECT_STREQ(get_cmd_arg(ast->left->left->cmd_args), "ls");
-  EXPECT_STREQ(get_cmd_arg(ast->left->left->cmd_args->next), "-l");
-  EXPECT_EQ(ast->left->left->cmd_args->next->next, nullptr);
-  EXPECT_EQ(ast->left->left->redirects, nullptr);
+  EXPECT_EQ(node->left->left->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node->left->left->cmd_args), "ls");
+  EXPECT_STREQ(get_cmd_arg(node->left->left->cmd_args->next), "-l");
+  EXPECT_EQ(node->left->left->cmd_args->next->next, nullptr);
+  EXPECT_EQ(node->left->left->redirects, nullptr);
 
-  EXPECT_EQ(ast->left->right->type, AST_COMMAND);
-  EXPECT_STREQ(get_cmd_arg(ast->left->right->cmd_args), "pwd");
-  EXPECT_EQ(get_cmd_arg(ast->left->right->cmd_args->next), nullptr);
-  EXPECT_EQ(get_redirect_type(ast->left->right->redirects), REDIRECT_OUTPUT);
-  EXPECT_EQ(get_redirect_type(ast->left->right->redirects->next),
+  EXPECT_EQ(node->left->right->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node->left->right->cmd_args), "pwd");
+  EXPECT_EQ(get_cmd_arg(node->left->right->cmd_args->next), nullptr);
+  EXPECT_EQ(get_redirect_type(node->left->right->redirects), REDIRECT_OUTPUT);
+  EXPECT_EQ(get_redirect_type(node->left->right->redirects->next),
             REDIRECT_UNKNOWN);
-  EXPECT_STREQ(get_redirect_filepath(ast->left->right->redirects), "out.txt");
-  EXPECT_EQ(get_redirect_filepath(ast->left->right->redirects->next), nullptr);
-  EXPECT_EQ(ast->left->right->redirects->next, nullptr);
+  EXPECT_STREQ(get_redirect_filepath(node->left->right->redirects), "out.txt");
+  EXPECT_EQ(get_redirect_filepath(node->left->right->redirects->next), nullptr);
+  EXPECT_EQ(node->left->right->redirects->next, nullptr);
 
-  EXPECT_EQ(ast->right->type, AST_COMMAND);
-  EXPECT_STREQ(get_cmd_arg(ast->right->cmd_args), "echo");
-  EXPECT_STREQ(get_cmd_arg(ast->right->cmd_args->next), "hello");
-  EXPECT_EQ(ast->right->cmd_args->next->next, nullptr);
-  EXPECT_EQ(ast->right->redirects, nullptr);
+  EXPECT_EQ(node->right->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node->right->cmd_args), "echo");
+  EXPECT_STREQ(get_cmd_arg(node->right->cmd_args->next), "hello");
+  EXPECT_EQ(node->right->cmd_args->next->next, nullptr);
+  EXPECT_EQ(node->right->redirects, nullptr);
 
-  destroy_ast(ast);
+  destroy_ast(node);
   destroy_token_list(token_list);
 }
 
@@ -162,7 +162,7 @@ TEST(parse_list, MultipleListsWithPipeline) {
   ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("hello")));
   ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
 
-  t_ast *ast = parse_list(&token_list);
+  t_ast *node = parse_list(&token_list);
 
   /*
   **                          0.OR
@@ -177,7 +177,7 @@ TEST(parse_list, MultipleListsWithPipeline) {
   **   3.CMD(ls) 4.CMD(wc)  6.CMD(pwd)   7.CMD(cat -e)
   */
 
-  t_ast *node0 = ast;
+  t_ast *node0 = node;
   t_ast *node1 = node0->left;
   t_ast *node2 = node0->left->left;
   t_ast *node3 = node0->left->left->left;
@@ -222,7 +222,7 @@ TEST(parse_list, MultipleListsWithPipeline) {
   EXPECT_EQ(node8->cmd_args->next->next, nullptr);
   EXPECT_EQ(node8->redirects, nullptr);
 
-  destroy_ast(ast);
+  destroy_ast(node);
   destroy_token_list(token_list);
 }
 
@@ -235,9 +235,9 @@ TEST(parse_list, InvalidToken) {
   ft_lstadd_back(&token_list, construct_token(TOKEN_AND_IF, strdup("&&")));
   ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
 
-  t_ast *ast = parse_list(&token_list);
+  t_ast *node = parse_list(&token_list);
 
-  EXPECT_EQ(ast, nullptr);
+  EXPECT_EQ(node, nullptr);
 
   destroy_token_list(token_list);
 }
