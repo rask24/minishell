@@ -225,3 +225,19 @@ TEST(parse_list, MultipleListsWithPipeline) {
   destroy_ast(ast);
   destroy_token_list(token_list);
 }
+
+TEST(parse_list, InvalidToken) {
+  t_token_list *token_list = nullptr;
+
+  // ls -l &&
+  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_AND_IF, strdup("&&")));
+  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+
+  t_ast *ast = parse_list(&token_list);
+
+  EXPECT_EQ(ast, nullptr);
+
+  destroy_token_list(token_list);
+}
