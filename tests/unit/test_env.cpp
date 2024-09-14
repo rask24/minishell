@@ -87,7 +87,7 @@ TEST(convert_array_to_env, MultiEnv) {
 TEST(return_entire_path, lsPath) {
   char *tmp = getenv("PATH");
   char **envp = (char **)malloc(sizeof(char *) * 2);
-  envp[0] = ft_strjoin("PATH=", (const char *)(tmp + strlen("PATH: ")));
+  envp[0] = ft_strjoin("PATH=", (const char *)(tmp));
   envp[1] = nullptr;
 
   t_env_list *env_list = convert_array_to_env(envp);
