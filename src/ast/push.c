@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:13:36 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/05 23:47:54 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/14 23:29:46 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,23 @@
 #include "ast.h"
 #include "utils.h"
 
-void	push_cmd_arg(t_ast *ast, const char *arg)
+void	push_cmd_arg(t_ast *node, const char *arg)
 {
-	if (ast->type != AST_COMMAND)
+	if (node->type != AST_COMMAND)
 	{
 		print_error(__func__, "invalid node type");
 		return ;
 	}
-	ft_lstadd_back(&ast->cmd_args, ft_xlstnew(ft_xstrdup(arg)));
+	ft_lstadd_back(&node->cmd_args, ft_xlstnew(ft_xstrdup(arg)));
 }
 
-void	push_redirect_info(t_ast *ast, t_redirect_info *info)
+void	push_redirect_info(t_ast *node, t_redirect_info *info)
 {
-	if (ast->type != AST_COMMAND)
+	if (node->type != AST_COMMAND)
 	{
 		print_error(__func__, "invalid node type");
 		return ;
 	}
-	ft_lstadd_back(&ast->redirects,
+	ft_lstadd_back(&node->redirects,
 		ft_lstnew(construct_redirect_info(info->type, info->filepath)));
 }

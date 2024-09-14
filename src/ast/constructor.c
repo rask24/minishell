@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:24:47 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/05 23:47:54 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/14 23:28:08 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 
 t_ast	*construct_ast(t_ast_node_type type, t_ast *left, t_ast *right)
 {
-	t_ast	*ast;
+	t_ast	*node;
 
-	ast = ft_xmalloc(sizeof(t_ast));
-	ast->type = type;
-	ast->left = left;
-	ast->right = right;
-	ast->cmd_args = NULL;
-	ast->redirects = NULL;
-	return (ast);
+	node = ft_xmalloc(sizeof(t_ast));
+	node->type = type;
+	node->left = left;
+	node->right = right;
+	node->cmd_args = NULL;
+	node->redirects = NULL;
+	return (node);
 }
 
 t_redirect_info	*construct_redirect_info(t_redirect_type type,
