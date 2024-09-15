@@ -6,13 +6,11 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 14:42:55 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/11 14:47:03 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/15 16:24:40 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
-
-typedef bool	(*t_cmp)(t_list *, t_list *);
 
 static void	swap(t_list *list, t_list *a, t_list *b, t_cmp cmp)
 {

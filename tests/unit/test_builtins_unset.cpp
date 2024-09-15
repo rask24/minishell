@@ -8,7 +8,11 @@ extern "C" {
 
 TEST(builtins_unset, OneEnv) {
   t_env_list *env = construct_env(strdup("HOME"), strdup("/home/user"));
-  t_config config = {.env = env};
+  t_config config = {
+      .env = env,
+      .exit_status = 0,
+      .cwd = nullptr,
+  };
 
   char *args[] = {strdup("unset"), strdup("HOME"), NULL};
   builtins_unset(args, &config);
@@ -20,7 +24,11 @@ TEST(builtins_unset, TwoEnv) {
   t_env_list *env = construct_env(strdup("HOME"), strdup("/home/user"));
   t_env_list *env2 = construct_env(strdup("PATH"), strdup("/usr/bin"));
   ft_lstadd_back(&env, env2);
-  t_config config = {.env = env};
+  t_config config = {
+      .env = env,
+      .exit_status = 0,
+      .cwd = nullptr,
+  };
 
   char *args[] = {strdup("unset"), strdup("HOME"), strdup("PATH"), NULL};
   builtins_unset(args, &config);
