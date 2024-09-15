@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:54:34 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/13 17:53:31 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/14 23:33:24 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,22 @@
 void	exec(char *input, char **envp)
 {
 	t_token_list	*token_list;
-	t_ast			*ast;
+	t_ast			*node;
 	pid_t			last_pid;
 	int				status;
 
 	token_list = lexer(input);
 	if (token_list == NULL)
 		return ;
-	ast = parser(token_list);
-	if (ast == NULL)
+	node = parser(token_list);
+	if (node == NULL)
 	{
 		destroy_token_list(token_list);
 		return ;
 	}
-	if (ast->type == AST_PIPE || ast->type == AST_COMMAND)
+	if (node->type == AST_PIPE || node->type == AST_COMMAND)
 	{
-		last_pid = execute_pipeline(ast, envp, STDIN_FILENO, STDOUT_FILENO);
+		last_pid = execute_pipeline(node, envp, STDIN_FILENO, STDOUT_FILENO);
 		waitpid(last_pid, &status, 0);
 		while (waitpid(-1, NULL, 0) > 0)
 			;
@@ -45,5 +45,5 @@ void	exec(char *input, char **envp)
 	else
 		print_error("exec", "unsupported AST type");
 	destroy_token_list(token_list);
-	destroy_ast(ast);
+	destroy_ast(node);
 }
