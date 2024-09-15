@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 13:41:00 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/11 14:43:35 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/15 16:21:00 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	print_a_export(void *content)
 {
-	printf("declare -x %s=\"%s\"\n", ((t_env *)content)->name,
+	printf("declare -x %s=\"%s\"\n", ((t_env *)content)->key,
 		((t_env *)content)->value);
 }
 
