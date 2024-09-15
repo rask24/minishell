@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:58:00 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/05 23:47:54 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/14 23:28:38 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ static void	_destroy_redirect_info(void *content)
 	free(info);
 }
 
-void	destroy_ast(t_ast *ast)
+void	destroy_ast(t_ast *node)
 {
-	if (ast == NULL)
+	if (node == NULL)
 		return ;
-	ft_lstclear(&ast->cmd_args, free);
-	ft_lstclear(&ast->redirects, _destroy_redirect_info);
-	destroy_ast(ast->left);
-	destroy_ast(ast->right);
+	ft_lstclear(&node->cmd_args, free);
+	ft_lstclear(&node->redirects, _destroy_redirect_info);
+	destroy_ast(node->left);
+	destroy_ast(node->right);
 }
