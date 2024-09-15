@@ -242,7 +242,7 @@ TEST(parse_list, InvalidToken) {
   destroy_token_list(token_list);
 }
 
-TEST(parse_list, InvalidTOken2) {
+TEST(parse_list, InvalidToken2) {
   t_token_list *token_list = nullptr;
 
   // ls && &&
