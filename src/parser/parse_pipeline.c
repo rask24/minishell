@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 22:18:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/15 13:32:45 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/16 23:51:01 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 t_ast	*parse_pipeline(t_token_list **cur_token)
 {
 	t_ast	*node;
+	t_ast	*tmp;
 
 	node = parse_simple_command(cur_token);
 	if (node == NULL)
@@ -30,11 +31,11 @@ t_ast	*parse_pipeline(t_token_list **cur_token)
 	{
 		if (get_token_type(*cur_token) != TOKEN_PIPE)
 			break ;
-		if (!expect_token(cur_token, TOKEN_PIPE))
-			return (handle_error(node, get_token_value(*cur_token)));
-		if (get_token_type(*cur_token) == TOKEN_EOF)
-			return (handle_error(node, get_token_value(*cur_token)));
-		node = construct_ast(AST_PIPE, node, parse_simple_command(cur_token));
+		consume_token(cur_token);
+		tmp = parse_simple_command(cur_token);
+		if (tmp == NULL)
+			return (NULL);
+		node = construct_ast(AST_PIPE, node, tmp);
 	}
 	return (node);
 }

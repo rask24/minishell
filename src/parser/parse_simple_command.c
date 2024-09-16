@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:26:37 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/14 23:31:18 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/16 23:58:08 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ t_ast	*parse_simple_command(t_token_list **cur_token)
 	t_ast	*node;
 	bool	is_valid;
 
+	if (!(get_token_type(*cur_token) == TOKEN_WORD
+			|| is_redirect_token(get_token_type(*cur_token))))
+		return (handle_error(NULL, get_token_value(*cur_token)));
 	node = construct_ast(AST_COMMAND, NULL, NULL);
 	is_valid = true;
 	while (get_token_type(*cur_token) != TOKEN_EOF)

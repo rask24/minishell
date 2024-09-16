@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:48:52 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/14 23:58:14 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/16 23:54:54 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,6 @@ static t_ast_node_type	convert_token_to_node(t_token_type token_type)
 	return (AST_UNKNOWN);
 }
 
-static bool	is_pipeline_head_token(t_token_type type)
-{
-	return (type == TOKEN_WORD
-		|| type == TOKEN_LESS
-		|| type == TOKEN_GREAT
-		|| type == TOKEN_DLESS
-		|| type == TOKEN_DGREAT);
-}
-
 /*
 ** list  :           pipeline
 **       | list '&&' pipeline
@@ -41,6 +32,7 @@ static bool	is_pipeline_head_token(t_token_type type)
 t_ast	*parse_list(t_token_list **cur_token)
 {
 	t_ast			*node;
+	t_ast			*tmp;
 	t_ast_node_type	node_type;
 
 	node = parse_pipeline(cur_token);
@@ -52,9 +44,10 @@ t_ast	*parse_list(t_token_list **cur_token)
 		if (node_type != AST_AND && node_type != AST_OR)
 			return (handle_error(node, get_token_value(*cur_token)));
 		consume_token(cur_token);
-		if (!is_pipeline_head_token(get_token_type(*cur_token)))
-			return (handle_error(node, get_token_value(*cur_token)));
-		node = construct_ast(node_type, node, parse_pipeline(cur_token));
+		tmp = parse_pipeline(cur_token);
+		if (tmp == NULL)
+			return (NULL);
+		node = construct_ast(node_type, node, tmp);
 	}
 	return (node);
 }
