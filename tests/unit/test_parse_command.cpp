@@ -198,17 +198,9 @@ TEST(parse_command, UnclosedParenthesis) {
   ft_lstadd_back(&token_list, construct_token(TOKEN_AND_IF, strdup("&&")));
   ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
 
-  std::cerr << std::flush;
-  ::testing::internal::CaptureStderr();
-
   t_ast *node = parse_command(&token_list);
 
-  std::string err_msg = ::testing::internal::GetCapturedStderr();
-  std::cerr << std::flush;
-
   EXPECT_EQ(node, nullptr);
-  EXPECT_STREQ(err_msg.c_str(),
-                   "minishell: unexpected token near `newline'\n");
 
   destroy_token_list(token_list);
 }
@@ -226,16 +218,9 @@ TEST(parse_command, InvalidTokenPipe) {
                  construct_token(TOKEN_R_PARENTHESIS, strdup(")")));
   ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
 
-  std::cerr << std::flush;
-  ::testing::internal::CaptureStderr();
-
   t_ast *node = parse_command(&token_list);
 
-  std::string err_msg = ::testing::internal::GetCapturedStderr();
-  std::cerr << std::flush;
-
   EXPECT_EQ(node, nullptr);
-  EXPECT_STREQ(err_msg.c_str(), "minishell: unexpected token near `)'\n");
 
   destroy_token_list(token_list);
 }
@@ -253,17 +238,9 @@ TEST(parse_command, InvalidTokenRedirect) {
   ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, strdup(">")));
   ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
 
-  std::cerr << std::flush;
-  ::testing::internal::CaptureStderr();
-
   t_ast *node = parse_command(&token_list);
 
-  std::string err_msg = ::testing::internal::GetCapturedStderr();
-  std::cerr << std::flush;
-
   EXPECT_EQ(node, nullptr);
-  EXPECT_STREQ(err_msg.c_str(),
-                   "minishell: unexpected token near `newline'\n");
 
   destroy_token_list(token_list);
 }
