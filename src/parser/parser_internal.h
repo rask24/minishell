@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:22:57 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/17 02:33:59 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/18 00:41:12 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,6 @@ bool	is_redirect_token(t_token_type type);
 
 bool	consume_token(t_token_list **cur_token);
 bool	expect_token(t_token_list **cur_token, t_token_type type);
-t_ast	*handle_error(t_ast *node, const char *token_value);
+t_ast	*handle_syntax_error(t_ast *node, const char *token_value);
 
 #endif
