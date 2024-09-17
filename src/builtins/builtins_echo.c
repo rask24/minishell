@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:44:03 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/11 11:36:01 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/17 19:28:14 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 #include "builtins.h"
 
-static void	_print_args(char **args)
+static void	print_args(char **args)
 {
 	int	i;
 
@@ -30,7 +30,7 @@ static void	_print_args(char **args)
 	}
 }
 
-static bool	_is_option(char *arg)
+static bool	is_option(char *arg)
 {
 	int	i;
 
@@ -49,11 +49,11 @@ static bool	_is_option(char *arg)
 int	builtins_echo(char **args, char **env)
 {
 	(void)env;
-	if (_is_option(*++args))
-		_print_args(++args);
+	if (is_option(*++args))
+		print_args(++args);
 	else
 	{
-		_print_args(args);
+		print_args(args);
 		printf("\n");
 	}
 	return (EXIT_SUCCESS);
