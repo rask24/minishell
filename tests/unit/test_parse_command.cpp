@@ -205,7 +205,7 @@ TEST(parse_command, UnclosedParenthesis) {
   std::string err_msg = ::testing::internal::GetCapturedStderr();
 
   EXPECT_EQ(node, nullptr);
-  EXPECT_STRCASEEQ(err_msg.c_str(),
+  EXPECT_STREQ(err_msg.c_str(),
                    "minishell: unexpected token near `newline'\n");
 
   destroy_token_list(token_list);
@@ -231,7 +231,7 @@ TEST(parse_command, InvalidTokenPipe) {
   std::string err_msg = ::testing::internal::GetCapturedStderr();
 
   EXPECT_EQ(node, nullptr);
-  EXPECT_STRCASEEQ(err_msg.c_str(), "minishell: unexpected token near `)'\n");
+  EXPECT_STREQ(err_msg.c_str(), "minishell: unexpected token near `)'\n");
 
   destroy_token_list(token_list);
 }
@@ -256,7 +256,7 @@ TEST(parse_command, InvalidTokenRedirect) {
   std::string err_msg = ::testing::internal::GetCapturedStderr();
 
   EXPECT_EQ(node, nullptr);
-  EXPECT_STRCASEEQ(err_msg.c_str(),
+  EXPECT_STREQ(err_msg.c_str(),
                    "minishell: unexpected token near `newline'\n");
 
   destroy_token_list(token_list);
