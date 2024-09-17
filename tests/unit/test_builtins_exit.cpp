@@ -12,49 +12,6 @@ typedef struct s_result {
   int res;
 } t_result;
 
-typedef int (*builtins_func)(char **args, t_config *config);
-
-static void *test_helper(builtins_func f, char **args, t_config *config,
-                         t_result *result) {
-  int pipefd[2];
-  pipe(pipefd);
-  if (errno) {
-    return (NULL);
-  }
-  int write_fd = pipefd[1];
-  int read_fd = pipefd[0];
-  int stolen_fd = STDERR_FILENO;
-
-  int in_fd = dup(stolen_fd);
-  if (errno) {
-    return (NULL);
-  }
-  dup2(write_fd, stolen_fd);
-  if (errno) {
-    return (NULL);
-  }
-
-  result->res = f(args, config);
-
-  result->buf = (char *)malloc(100);
-  if (errno) {
-    return (NULL);
-  }
-  read(read_fd, result->buf, 100);
-  if (errno) {
-    return (NULL);
-  }
-
-  dup2(in_fd, stolen_fd);
-  if (errno) {
-    return (NULL);
-  }
-
-  close(read_fd);
-  close(write_fd);
-  return (result);
-}
-
 TEST(builtins_exit, NoArg) {
   char *args[] = {strdup("exit"), NULL};
 
