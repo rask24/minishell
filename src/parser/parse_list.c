@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:48:52 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/16 23:54:54 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/17 02:50:44 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_ast	*parse_list(t_token_list **cur_token)
 	{
 		node_type = convert_token_to_node(get_token_type(*cur_token));
 		if (node_type != AST_AND && node_type != AST_OR)
-			return (handle_error(node, get_token_value(*cur_token)));
+			break ;
 		consume_token(cur_token);
 		tmp = parse_pipeline(cur_token);
 		if (tmp == NULL)
