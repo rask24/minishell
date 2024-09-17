@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:41:56 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/07 02:19:45 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/14 21:04:57 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ typedef enum e_ast_node_type
 	AST_AND,
 	AST_OR,
 	AST_SUBSHELL,
-	AST_REDIRECT
+	AST_REDIRECT,
+	AST_UNKNOWN,
 }					t_ast_node_type;
 
 typedef enum e_redirect_type
