@@ -9,6 +9,7 @@ extern "C" {
 }
 
 TEST(builtins_echo, WithoutN) {
+  // echo Hello, world!
   char *args[] = {strdup("echo"), strdup("Hello, world!"), NULL};
   char *env[] = {NULL};
 
@@ -19,6 +20,7 @@ TEST(builtins_echo, WithoutN) {
 }
 
 TEST(builtins_echo, WithN) {
+  // echo -n Hello, world!
   char *args[] = {strdup("echo"), strdup("-n"), strdup("Hello, world!"), NULL};
   char *env[] = {NULL};
 
@@ -28,6 +30,7 @@ TEST(builtins_echo, WithN) {
 }
 
 TEST(builtins_echo, WithMultipleN) {
+  // echo -nnnnn Hello, world!
   char *args[] = {strdup("echo"), strdup("-nnnnn"), strdup("Hello, world!"),
                   NULL};
   char *env[] = {NULL};
@@ -38,6 +41,7 @@ TEST(builtins_echo, WithMultipleN) {
 }
 
 TEST(builtins_echo, WithMultipleFakeN) {
+  // echo -nnnnng Hello, world!
   char *args[] = {strdup("echo"), strdup("-nnnnng"), strdup("Hello, world!"),
                   NULL};
   char *env[] = {NULL};
@@ -49,6 +53,7 @@ TEST(builtins_echo, WithMultipleFakeN) {
 }
 
 TEST(builtins_echo, WithMultipleNWithMultipleWords) {
+  // echo -n Hello, world! 42
   char *args[] = {strdup("echo"), strdup("-n"), strdup("Hello, world!"),
                   strdup("42"), NULL};
   char *env[] = {NULL};
@@ -60,6 +65,7 @@ TEST(builtins_echo, WithMultipleNWithMultipleWords) {
 }
 
 TEST(builtins_echo, WithoutNWithMultipleWords) {
+  // echo Hello, world! 42
   char *args[] = {strdup("echo"), strdup("Hello, world!"), strdup("42"), NULL};
   char *env[] = {NULL};
 
