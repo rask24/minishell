@@ -5,7 +5,7 @@
 #include "gtest/gtest.h"
 
 extern "C" {
-#include "../../include/builtins.h"
+#include "builtins.h"
 }
 
 TEST(builtins_echo, WithoutN) {

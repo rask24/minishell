@@ -5,7 +5,7 @@
 #include "gtest/gtest.h"
 
 extern "C" {
-#include "../../include/builtins.h"
+#include "builtins.h"
 }
 
 typedef int (*builtins_func)(char **argc, char **argv);
