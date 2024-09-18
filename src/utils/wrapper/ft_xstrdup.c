@@ -6,13 +6,10 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:17:18 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/05 18:17:59 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:27:54 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
-#include "libft.h"
 #include "utils.h"
 
 char	*ft_xstrdup(const char *s)

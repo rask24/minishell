@@ -6,13 +6,10 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 18:35:37 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/03 18:42:44 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:28:09 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
-#include "libft.h"
 #include "utils.h"
 
 char	*ft_xstrndup(const char *s, size_t n)

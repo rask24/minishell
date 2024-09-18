@@ -6,13 +6,10 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 18:45:00 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/03 18:46:04 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:27:47 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
-#include "libft.h"
 #include "utils.h"
 
 t_list	*ft_xlstnew(void *content)

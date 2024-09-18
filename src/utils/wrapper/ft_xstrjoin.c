@@ -3,16 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_xstrjoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 22:15:39 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/10 12:32:00 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/18 20:28:00 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
-#include "libft.h"
 #include "utils.h"
 
 char	*ft_xstrjoin(const char *s1, const char *s2)

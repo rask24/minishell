@@ -6,14 +6,11 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:20:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/07 15:33:43 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:28:23 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
-#include <errno.h>
-#include <string.h>
+#include "utils.h"
 
 /*
 ** Using printf for line buffering
