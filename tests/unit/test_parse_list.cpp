@@ -354,7 +354,7 @@ TEST(parse_list, ListsInSubshell) {
   t_ast *node6 = node0->right->left;
   t_ast *node7 = node0->right->left->left;
   t_ast *node8 = node0->right->left->left->left;
-  t_ast *node9 = node0->right->left->left->right;
+  t_ast *node9 = node0->right->left->right;
 
   EXPECT_EQ(node0->type, AST_AND);
 
