@@ -15,7 +15,7 @@ TEST(builtins_export, NoArgs) {
   ft_lstadd_back(&env, env1);
   ft_lstadd_back(&env, env2);
 
-  t_config config;
+  t_builtins_ctx config;
   config.env = env;
 
   testing::internal::CaptureStdout();

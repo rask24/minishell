@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:47:26 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/07 12:07:14 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/17 19:27:01 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static bool	is_numeric(const char *exit_status)
 	return (true);
 }
 
-int	builtins_exit(char **args, t_config *config)
+int	builtins_exit(char **args, t_builtins_ctx *config)
 {
 	long	res;
 	int		i;

@@ -8,7 +8,7 @@ extern "C" {
 
 TEST(builtins_unset, OneEnv) {
   t_env_list *env = construct_env(strdup("HOME"), strdup("/home/user"));
-  t_config config = {
+  t_builtins_ctx config = {
       .cwd = nullptr,
       .env = env,
       .exit_status = 0,
@@ -24,7 +24,7 @@ TEST(builtins_unset, TwoEnv) {
   t_env_list *env = construct_env(strdup("HOME"), strdup("/home/user"));
   t_env_list *env2 = construct_env(strdup("PATH"), strdup("/usr/bin"));
   ft_lstadd_back(&env, env2);
-  t_config config = {
+  t_builtins_ctx config = {
       .cwd = nullptr,
       .env = env,
       .exit_status = 0,

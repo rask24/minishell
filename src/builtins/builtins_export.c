@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 13:41:00 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/15 16:21:00 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/17 19:27:01 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static bool	cmp_func(t_env_list *a, t_env_list *b)
 	return (ft_strcmp(get_env_name(a), get_env_name(b)) > 0);
 }
 
-int	builtins_export(char **args, t_config *config)
+int	builtins_export(char **args, t_builtins_ctx *config)
 {
 	(void)args;
 	ft_lstsort(&config->env, cmp_func);
