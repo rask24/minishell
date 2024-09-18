@@ -6,12 +6,11 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:58:00 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/14 23:28:38 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:18:15 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
-#include "libft.h"
 
 static void	_destroy_redirect_info(void *content)
 {

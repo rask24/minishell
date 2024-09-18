@@ -6,12 +6,11 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:24:47 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/14 23:28:08 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:18:06 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
-#include "utils.h"
 
 t_ast	*construct_ast(t_ast_node_type type, t_ast *left, t_ast *right)
 {

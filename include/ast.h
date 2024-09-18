@@ -6,15 +6,18 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:41:56 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/14 21:04:57 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:18:28 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
 
+# include <stdlib.h>
+
 # include "libft.h"
 # include "token.h"
+# include "utils.h"
 
 typedef enum e_ast_node_type
 {
