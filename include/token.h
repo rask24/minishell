@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 13:27:54 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/30 15:32:32 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/18 20:12:49 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKEN_H
 # define TOKEN_H
-
-# include <stdlib.h>
 
 # include "libft.h"
 
