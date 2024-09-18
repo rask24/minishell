@@ -6,22 +6,13 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:48:52 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/17 02:50:44 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/18 13:47:18 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "parser_internal.h"
 #include "token.h"
-
-static t_ast_node_type	convert_token_to_node(t_token_type token_type)
-{
-	if (token_type == TOKEN_AND_IF)
-		return (AST_AND);
-	else if (token_type == TOKEN_OR_IF)
-		return (AST_OR);
-	return (AST_UNKNOWN);
-}
 
 /*
 ** list  :           pipeline
@@ -40,7 +31,7 @@ t_ast	*parse_list(t_token_list **cur_token)
 		return (NULL);
 	while (get_token_type(*cur_token) != TOKEN_EOF)
 	{
-		node_type = convert_token_to_node(get_token_type(*cur_token));
+		node_type = (t_ast_node_type)get_token_type(*cur_token);
 		if (node_type != AST_AND && node_type != AST_OR)
 			break ;
 		consume_token(cur_token);
