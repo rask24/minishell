@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   process_blank.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:41:59 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/05 13:56:47 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/18 20:32:05 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_internal.h"
+#include "utils.h"
 
 static void	_discard_blanks(t_lexer *lexer)
 {
