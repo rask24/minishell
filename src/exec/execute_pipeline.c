@@ -6,17 +6,11 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:15:45 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/14 23:33:50 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:21:29 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
-#include <string.h>
-#include <unistd.h>
-
-#include "ast.h"
 #include "exec_internal.h"
-#include "utils.h"
 
 #define PIPE_IN 0
 #define PIPE_OUT 1

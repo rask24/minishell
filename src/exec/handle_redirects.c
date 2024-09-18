@@ -6,18 +6,11 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:45:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/07 19:02:54 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:22:12 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
-#include <fcntl.h>
-#include <string.h>
-#include <unistd.h>
-
-#include "ast.h"
-#include "libft.h"
-#include "utils.h"
+#include "exec_internal.h"
 
 static int	handle_redirect_input(const char *filepath)
 {

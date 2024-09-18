@@ -6,18 +6,11 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:54:34 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/14 23:33:24 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:21:03 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/wait.h>
-#include <unistd.h>
-
-#include "ast.h"
 #include "exec_internal.h"
-#include "lexer.h"
-#include "parser.h"
-#include "utils.h"
 
 void	exec(char *input, char **envp)
 {
