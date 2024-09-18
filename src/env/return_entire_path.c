@@ -6,10 +6,11 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:43:11 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/18 20:11:48 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:14:07 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <unistd.h>
 
 #include "env.h"

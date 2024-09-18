@@ -6,9 +6,11 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/07 17:35:12 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:13:43 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdlib.h>
 
 #include "exec.h"
 #include "readline.h"
