@@ -6,19 +6,11 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 20:03:51 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/03 17:52:03 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:27:12 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
-#include <signal.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-
-#include "libft.h"
-#include "readline/readline.h"
-#include "utils.h"
+#include "ui.h"
 
 static void	handle_sigint(int sig)
 {
