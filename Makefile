@@ -31,10 +31,10 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/builtins/builtins_exit.c \
 					$(SRC_DIR)/builtins/builtins_export.c \
 					$(SRC_DIR)/builtins/builtins_pwd.c \
+					$(SRC_DIR)/builtins/builtins_unset.c \
 					$(SRC_DIR)/exec/exec.c \
 					$(SRC_DIR)/exec/execute_pipeline.c \
 					$(SRC_DIR)/exec/execute_simple_command.c \
-					$(SRC_DIR)/builtins/builtins_unset.c \
 					$(SRC_DIR)/env/constructor.c \
 					$(SRC_DIR)/env/convert_env_to_array.c \
 					$(SRC_DIR)/env/convert_array_to_env.c \
