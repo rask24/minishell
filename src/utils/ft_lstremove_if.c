@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 15:07:14 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/11 12:05:43 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/18 10:59:51 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,19 @@ static void	ft_lstremove(t_list **lst, t_list *node, void (*del)(void *))
 	ft_lstdelone(node, del);
 }
 
-void	ft_lstremove_if(t_list **lst, t_pred is_remove, void *param, t_del del)
+void	ft_lstremove_if(t_list **lst, t_pred should_remove, void *param,
+							t_del del)
 {
 	t_list	*curr;
 	t_list	*next;
 
-	if (!lst || !*lst || !is_remove || !del)
+	if (!lst || !*lst || !should_remove || !del)
 		return ;
 	curr = *lst;
 	while (curr)
 	{
 		next = curr->next;
-		if (is_remove(curr, param))
+		if (should_remove(curr, param))
 			ft_lstremove(lst, curr, del);
 		curr = next;
 	}

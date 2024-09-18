@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/15 16:25:00 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/17 19:31:56 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char			*ft_xstrdup(const char *s);
 char			*ft_xstrjoin(const char *s1, const char *s2);
 char			*ft_xstrndup(const char *s, size_t n);
 
-void			ft_lstremove_if(t_list **lst, t_pred is_remove, void *param,
+void			ft_lstremove_if(t_list **lst, t_pred should_remove, void *param,
 					t_del del);
 void			ft_lstsort(t_list **list, bool (*cmp)(t_list *, t_list *));
 void			ft_lstiterp(t_list *lst, void (*f)(void *, void *),
