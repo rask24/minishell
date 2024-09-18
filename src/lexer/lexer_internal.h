@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_internal.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:25:14 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/04 10:35:04 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/18 20:23:09 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_INTERNAL_H
 # define LEXER_INTERNAL_H
 
+# include "lexer.h"
 # include "token.h"
 # include "utils.h"
 
