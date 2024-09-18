@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 18:33:51 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/06 18:38:12 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/18 20:12:24 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define READLINE_H
 
 # include <stdio.h>
-# include <stdlib.h>
 
 # include "readline/history.h"
 # include "readline/readline.h"
