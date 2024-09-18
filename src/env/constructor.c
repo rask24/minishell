@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   constructor.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 12:31:39 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/13 16:18:12 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/18 20:11:07 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+#include "utils.h"
 
 t_env_list	*construct_env(char *name, char *value)
 {

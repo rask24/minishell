@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   convert_array_to_env.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:35:42 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/13 15:33:54 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/18 20:11:26 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+#include "utils.h"
 
 t_env_list	*convert_array_to_env(char **envp)
 {

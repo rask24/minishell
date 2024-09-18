@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   return_entire_path.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:43:11 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/10 16:51:36 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/18 20:11:48 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
+
 #include "env.h"
+#include "utils.h"
 
 static bool	is_basename_has_slash(const char *basename)
 {
