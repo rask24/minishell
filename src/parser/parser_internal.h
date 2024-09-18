@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:22:57 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/17 00:12:53 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:24:23 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 # include "ast.h"
 # include "token.h"
+# include "utils.h"
 
 typedef bool	(*t_parse_simple_commnad)(t_ast *node, t_token_list **token);
 

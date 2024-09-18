@@ -6,13 +6,11 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 22:18:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/16 23:51:01 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:24:10 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
 #include "parser_internal.h"
-#include "token.h"
 
 /*
 ** pipeline  :              simple_command

@@ -6,15 +6,11 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:55:24 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/14 23:31:43 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:24:55 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
-
-#include "ast.h"
-#include "token.h"
-#include "utils.h"
+#include "parser_internal.h"
 
 bool	consume_token(t_token_list **cur_token)
 {

@@ -6,16 +6,11 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:26:37 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/17 00:16:17 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:24:20 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
-
-#include "ast.h"
 #include "parser_internal.h"
-#include "token.h"
-#include "utils.h"
 
 static bool	is_redirect_token(t_token_type type)
 {

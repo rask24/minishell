@@ -6,13 +6,11 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:48:52 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/16 23:54:54 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:24:05 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
 #include "parser_internal.h"
-#include "token.h"
 
 static t_ast_node_type	convert_token_to_node(t_token_type token_type)
 {
