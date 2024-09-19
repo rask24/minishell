@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:20:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/07 15:33:43 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/18 00:47:46 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ void	print_syntax_error(const char *token_value)
 		close(stdout_fd);
 		return ;
 	}
-	res = printf("minishell: unexpected token near `%s'\n", token_value);
+	res = printf("minishell: syntax error near unexpected token `%s'\n",
+			token_value);
 	if (res < 0)
 		perror("minishell: printf");
 	if (dup2(stdout_fd, STDOUT_FILENO) == -1)

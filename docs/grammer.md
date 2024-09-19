@@ -16,8 +16,12 @@ list             :           pipeline
                  | list '&&' pipeline
                  | list '||' pipeline
                  ;
-pipeline         :              simple_command
-                 | pipeline '|' simple_command
+pipeline         :              command
+                 | pipeline '|' command
+                 ;
+command          : simple_command
+                 | '(' list ')'
+                 | '(' list ')' redirect_list
                  ;
 simple_command   : cmd_prefix cmd_word cmd_suffix
                  | cmd_prefix cmd_word
