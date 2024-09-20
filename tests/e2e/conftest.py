@@ -28,14 +28,14 @@ def shell_session(request):
     with open(log_file_name, "w") as log_file:
         child.logfile = log_file
 
-    # Wait for the shell prompt
-    child.expect(PROMPT)
+        # Wait for the shell prompt
+        child.expect(PROMPT)
 
-    yield child
+        yield child
 
-    # Close the shell
-    child.sendcontrol("D")
-    child.close()
+        # Close the shell
+        child.sendcontrol("D")
+        child.close()
 
 
 def clean_output(output):
