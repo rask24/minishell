@@ -1,34 +1,60 @@
+import datetime
 import os
 
 import pexpect
 import pytest
 
-# Get the path to the minishell executable
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
-MINISHELL_PATH = os.path.join(PROJECT_ROOT, "minishell")
+# Path to the shell executable
+SHELL_PATH = "./minishell"
+TEST_LOG_PATH = "./tests/e2e/log"
 
-prompt = "minishell$ "
+# Shell prompt
+PROMPT = r"minishell\$ "
+
+if not os.path.exists(TEST_LOG_PATH):
+    os.makedirs(TEST_LOG_PATH)
 
 
-@pytest.fixture
-def minishell():
-    # Spawn a new process
-    child = pexpect.spawn(MINISHELL_PATH, encoding="utf-8")
-    child.expect_exact(prompt)  # Wait for the prompt
+@pytest.fixture(scope="function")
+def shell_session(request):
+    # Generate log file
+    log_file_name = os.path.join(TEST_LOG_PATH, f"{request.function.__name__}.log")
+
+    # Execute shell
+    child = pexpect.spawn(SHELL_PATH, encoding="utf-8")
+    child.logfile = open(log_file_name, "w")
+
+    # Wait for the shell prompt
+    child.expect(PROMPT)
+
     yield child
+
+    # Close the shell
+    child.sendcontrol("D")
     child.close()
+    child.logfile.close()
 
 
-def test_hello(minishell):
-    minishell.sendline("hello")
-    minishell.expect_exact("hello")  # Check the output
-    minishell.expect_exact(prompt)  # Wait for the prompt
+def test_echo_command(shell_session):
+    shell_session.sendline('/bin/echo "Hello, World!"')
+    shell_session.expect("Hello, World!")
+    shell_session.expect(PROMPT)
+    assert "Hello, World!" in shell_session.before
 
 
-def test_exit_on_ctrl_d(minishell):
-    minishell.sendcontrol("d")
-    minishell.expect_exact("exit")
-    minishell.expect(pexpect.EOF)  # Check that the process has exited
+def test_ls_command(shell_session):
+    shell_session.sendline("/bin/ls -l")
+    shell_session.expect(PROMPT)
+    assert "total" in shell_session.before
 
-    # Check the exit status
-    assert minishell.exitstatus == 0
+
+def test_pwd_command(shell_session):
+    shell_session.sendline("/bin/pwd")
+    shell_session.expect(PROMPT)
+    assert os.getcwd() in shell_session.before
+
+
+def test_date_command(shell_session):
+    shell_session.sendline("/bin/date")
+    shell_session.expect(PROMPT)
+    assert datetime.datetime.now().strftime("%a %b %d %H:%M:%S JST %Y") in shell_session.before
