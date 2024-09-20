@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/17 19:31:56 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/20 12:08:37 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <unistd.h>
 
 # include "libft.h"
-# include "stdlib.h"
 
 typedef bool	(*t_pred)(t_list *node, void *param);
 typedef void	(*t_del)(void *);

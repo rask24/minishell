@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:37:58 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/17 19:27:01 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/20 12:09:14 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char	*join_path(const char *cwd, const char *dirname)
 	return (tmp2);
 }
 
-int	builtins_cd(char **args, t_builtins_ctx *config)
+int	builtins_cd(char **args, t_builtins_ctx *ctx)
 {
 	char	*dirname;
 	char	*fullpath;
@@ -56,12 +56,12 @@ int	builtins_cd(char **args, t_builtins_ctx *config)
 	if (dirname[0] == '/')
 		fullpath = dirname;
 	else
-		fullpath = join_path(config->cwd, dirname);
+		fullpath = join_path(ctx->cwd, dirname);
 	res = chdir(fullpath);
 	if (res == 0)
 	{
-		free(config->cwd);
-		config->cwd = fullpath;
+		free(ctx->cwd);
+		ctx->cwd = fullpath;
 	}
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:44:57 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/17 19:27:01 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/20 12:08:13 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-typedef struct s_config
+typedef struct s_builtins_ctx
 {
 	char		*cwd;
 	t_env_list	*env;

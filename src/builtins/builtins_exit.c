@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:47:26 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/17 19:27:01 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/20 12:09:52 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ static bool	is_numeric(const char *exit_status)
 	return (true);
 }
 
-int	builtins_exit(char **args, t_builtins_ctx *config)
+int	builtins_exit(char **args, t_builtins_ctx *ctx)
 {
 	long	res;
 	int		i;
 
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (args[1] == NULL)
-		exit(config->exit_status & 0xFF);
+		exit(ctx->exit_status & 0xFF);
 	i = 1;
 	if (ft_strcmp(args[1], "--") == 0)
 		i++;
