@@ -1,6 +1,6 @@
 import os
 
-from conftest import PROMPT
+from conftest import PROMPT, get_command_output
 
 
 def test_output_redirection(shell_session):
@@ -41,8 +41,10 @@ def test_input_redirection(shell_session):
         shell_session.sendline(f"/bin/echo Input! > {test_file}")
         shell_session.expect(PROMPT)
         shell_session.sendline(f"/bin/cat < {test_file}")
-        shell_session.expect("Input!")
         shell_session.expect(PROMPT)
+
+        result = get_command_output(shell_session.before)
+        assert result == "Input!"
     finally:
         if os.path.exists(test_file):
             os.remove(test_file)
@@ -105,10 +107,10 @@ def test_multiple_input_redirection(shell_session):
         shell_session.sendline(f"/bin/echo 42 > {file3}")
         shell_session.expect(PROMPT)
         shell_session.sendline(f" < {file1} /bin/cat < {file2} < {file3}")
-        assert "Hello" not in shell_session.before
-        assert "World" not in shell_session.before
-        assert "42" in shell_session.before
         shell_session.expect(PROMPT)
+
+        result = get_command_output(shell_session.before)
+        assert result == "42"
     finally:
         for file in [file1, file2, file3]:
             if os.path.exists(file):

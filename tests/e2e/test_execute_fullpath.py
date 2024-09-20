@@ -1,22 +1,27 @@
 import os
 
-from conftest import PROMPT
+from conftest import PROMPT, get_command_output
 
 
 def test_echo_command(shell_session):
-    shell_session.sendline('/bin/echo "Hello, World!"')
-    shell_session.expect("Hello, World!")
+    shell_session.sendline("/bin/echo Hello")
     shell_session.expect(PROMPT)
-    assert "Hello, World!" in shell_session.before
+
+    result = get_command_output(shell_session.before)
+    assert result == "Hello"
 
 
 def test_ls_command(shell_session):
     shell_session.sendline("/bin/ls -l")
     shell_session.expect(PROMPT)
-    assert "total" in shell_session.before
+
+    result = get_command_output(shell_session.before)
+    assert "total" in result
 
 
 def test_pwd_command(shell_session):
     shell_session.sendline("/bin/pwd")
     shell_session.expect(PROMPT)
-    assert os.getcwd() in shell_session.before
+
+    result = get_command_output(shell_session.before)
+    assert os.getcwd() == result

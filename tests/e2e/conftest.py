@@ -1,4 +1,5 @@
 import os
+import re
 
 import pexpect
 import pytest
@@ -35,3 +36,25 @@ def shell_session(request):
     child.sendcontrol("D")
     child.close()
     child.logfile.close()
+
+
+def clean_output(output):
+    # Remove all ANSI escape sequences, including [?2004h and [?2004l
+    clean = re.sub(r"\x1b\[[?]?[0-9;]*[a-zA-Z]", "", output)
+
+    # Remove carriage returns and split by newlines
+    lines = clean.replace("\r", "").split("\n")
+
+    # Remove empty lines and strip each line
+    cleaned_lines = [line.strip() for line in lines if line.strip()]
+
+    # Join the non-empty lines
+    return "\n".join(cleaned_lines)
+
+
+def get_command_output(full_output):
+    # Split the output and remove the first line (command)
+    output_lines = full_output.split("\n")[1:]
+
+    # Join the remaining lines and clean the output
+    return clean_output("\n".join(output_lines))
