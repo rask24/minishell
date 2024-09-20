@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:45:52 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/20 12:10:08 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/20 21:58:34 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static bool	should_remove(t_env_list *env, void *name)
 {
-	return (ft_strcmp(get_env_name(env), name) == 0);
+	return (ft_strcmp(get_env_key(env), name) == 0);
 }
 
 int	builtins_unset(char **args, t_builtins_ctx *ctx)
