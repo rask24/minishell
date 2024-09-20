@@ -25,7 +25,8 @@ def shell_session(request):
 
     # Execute shell
     child = pexpect.spawn(SHELL_PATH, encoding="utf-8")
-    child.logfile = open(log_file_name, "w")
+    with open(log_file_name, "w") as log_file:
+        child.logfile = log_file
 
     # Wait for the shell prompt
     child.expect(PROMPT)
@@ -35,7 +36,6 @@ def shell_session(request):
     # Close the shell
     child.sendcontrol("D")
     child.close()
-    child.logfile.close()
 
 
 def clean_output(output):
