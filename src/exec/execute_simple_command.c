@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:18:33 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/20 15:01:42 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/21 00:01:23 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static bool	handle_pipeline(int fd_in, int fd_out)
 	return (true);
 }
 
-pid_t	execute_simple_command(t_ast *node, char **envp,
+pid_t	execute_simple_command(t_ast *node, t_env_list *env_list,
 			int fd_in, int fd_out)
 {
 	pid_t	pid;
@@ -81,7 +81,8 @@ pid_t	execute_simple_command(t_ast *node, char **envp,
 		if (!handle_redirects(node->redirects))
 			exit(EXIT_FAILURE);
 		reset_signal_handlers();
-		if (execve(argv[0], argv, envp) == -1)
+		if (execve(argv[0], argv,
+				(char **)convert_env_to_array(env_list)) == -1)
 		{
 			print_error("execve", strerror(errno));
 			exit(EXIT_FAILURE);
