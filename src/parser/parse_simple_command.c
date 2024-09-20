@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:26:37 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/20 15:19:28 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/21 00:10:36 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static bool	is_valid_head_token_simple_command(t_token_list **cur_token)
 		|| is_redirect_token(get_token_type(*cur_token)));
 }
 
-static bool	parse_cmd_arg(t_ast *node, t_token_list **cur_token)
+static bool	try_parse_cmd_arg(t_ast *node, t_token_list **cur_token)
 {
 	push_cmd_arg(node, get_token_value(*cur_token));
 	return (consume_token(cur_token));
@@ -48,7 +48,7 @@ t_ast	*parse_simple_command(t_token_list **cur_token)
 	while (get_token_type(*cur_token) != TOKEN_EOF)
 	{
 		if (get_token_type(*cur_token) == TOKEN_WORD)
-			parse_func = parse_cmd_arg;
+			parse_func = try_parse_cmd_arg;
 		else if (is_redirect_token(get_token_type(*cur_token)))
 			parse_func = try_parse_redirect;
 		else
