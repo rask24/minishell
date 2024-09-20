@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:18:33 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/14 23:34:24 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/20 15:00:58 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ pid_t	execute_simple_command(t_ast *node, char **envp,
 		argv = convert_list_to_array(node->cmd_args);
 		if (handle_pipeline(fd_in, fd_out) == -1)
 			exit(EXIT_FAILURE);
-		if (handle_redirects(node->redirects) == -1)
+		if (!handle_redirects(node->redirects))
 			exit(EXIT_FAILURE);
 		reset_signal_handlers();
 		if (execve(argv[0], argv, envp) == -1)
