@@ -10,9 +10,9 @@ def test_output_redirection(shell_session):
         shell_session.sendline(f"/bin/echo Output! > {test_file}")
         shell_session.expect(PROMPT)
 
-        assert os.path.exists(test_file), f"Failed to create the file: {test_file}"
+        assert os.path.exists(test_file)
         with open(test_file, "r") as f:
-            assert f.read().strip() == "Output!", "File content doesn't match expected output"
+            assert f.read() == "Output!\n"
     finally:
         if os.path.exists(test_file):
             os.remove(test_file)
@@ -28,8 +28,8 @@ def test_append_redirection(shell_session):
         shell_session.expect(PROMPT)
 
         with open(test_file, "r") as f:
-            content = f.read().strip()
-            assert content == "Line1\nLine2", "File content doesn't match expected output"
+            content = f.read()
+            assert content == "Line1\nLine2\n"
     finally:
         if os.path.exists(test_file):
             os.remove(test_file)
@@ -61,7 +61,7 @@ def test_combined_redirection(shell_session):
         shell_session.expect(PROMPT)
 
         with open(output_file, "r") as f:
-            assert f.read().strip() == "Combined!", "File content doesn't match expected output"
+            assert f.read() == "Combined!\n"
     finally:
         for file in [input_file, output_file]:
             if os.path.exists(file):
@@ -77,17 +77,17 @@ def test_multiple_output_redirection(shell_session):
         shell_session.sendline(f"> {file1} /bin/echo Hello > {file2} > {file3}")
         shell_session.expect(PROMPT)
 
-        assert os.path.exists(file1), f"Failed to create the file: {file1}"
+        assert os.path.exists(file1)
         with open(file1, "r") as f:
-            assert f.read().strip() == "", f"Content of {file1} doesn't match expected output"
+            assert f.read() == ""
 
-        assert os.path.exists(file2), f"Failed to create the file: {file2}"
+        assert os.path.exists(file2)
         with open(file2, "r") as f:
-            assert f.read().strip() == "", f"Content of {file2} doesn't match expected output"
+            assert f.read() == ""
 
-        assert os.path.exists(file3), f"Failed to create the file: {file3}"
+        assert os.path.exists(file3)
         with open(file3, "r") as f:
-            assert f.read().strip() == "Hello", f"Content of {file3} doesn't match expected output"
+            assert f.read() == "Hello\n"
     finally:
         for file in [file1, file2, file3]:
             if os.path.exists(file):
