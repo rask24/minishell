@@ -10,8 +10,11 @@ TEST_LOG_PATH = "./tests/e2e/log"
 # Shell prompt
 PROMPT = r"minishell\$ "
 
-if not os.path.exists(TEST_LOG_PATH):
-    os.makedirs(TEST_LOG_PATH)
+
+@pytest.fixture(scope="session", autouse=True)
+def setup():
+    if not os.path.exists(TEST_LOG_PATH):
+        os.makedirs(TEST_LOG_PATH)
 
 
 @pytest.fixture(scope="function")

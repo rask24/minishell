@@ -1,6 +1,6 @@
 import os
 
-from config import PROMPT, shell_session
+from conftest import PROMPT
 
 
 def test_echo_command(shell_session):
