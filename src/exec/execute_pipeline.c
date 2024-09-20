@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:15:45 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/20 14:41:22 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/20 14:57:26 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 #define PIPE_IN 0
 #define PIPE_OUT 1
 
-pid_t	execute_pipeline(t_ast *node, t_env_list *env_list, int fd_in, int fd_out)
+pid_t	execute_pipeline(t_ast *node, t_env_list *env_list,
+			int fd_in, int fd_out)
 {
 	int				pipe_fds[2];
 	pid_t			pid;
