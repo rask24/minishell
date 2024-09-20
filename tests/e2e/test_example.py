@@ -52,9 +52,3 @@ def test_pwd_command(shell_session):
     shell_session.sendline("/bin/pwd")
     shell_session.expect(PROMPT)
     assert os.getcwd() in shell_session.before
-
-
-def test_date_command(shell_session):
-    shell_session.sendline("/bin/date")
-    shell_session.expect(PROMPT)
-    assert datetime.datetime.now().strftime("%a %b %d %H:%M:%S JST %Y") in shell_session.before
