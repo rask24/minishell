@@ -6,12 +6,13 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:45:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/07 19:02:54 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/20 15:00:15 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <errno.h>
 #include <fcntl.h>
+#include <stdbool.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -19,7 +20,7 @@
 #include "libft.h"
 #include "utils.h"
 
-static int	handle_redirect_input(const char *filepath)
+static bool	handle_redirect_input(const char *filepath)
 {
 	int	fd;
 
@@ -27,17 +28,17 @@ static int	handle_redirect_input(const char *filepath)
 	if (fd == -1)
 	{
 		print_error(filepath, strerror(errno));
-		return (-1);
+		return (false);
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
 		print_error("dup2", strerror(errno));
-		return (-1);
+		return (false);
 	}
-	return (0);
+	return (true);
 }
 
-static int	handle_redirect_output(const char *filepath)
+static bool	handle_redirect_output(const char *filepath)
 {
 	int	fd;
 
@@ -46,17 +47,17 @@ static int	handle_redirect_output(const char *filepath)
 	if (fd == -1)
 	{
 		print_error(filepath, strerror(errno));
-		return (-1);
+		return (false);
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
 		print_error("dup2", strerror(errno));
-		return (-1);
+		return (false);
 	}
-	return (0);
+	return (true);
 }
 
-static int	handle_redirects_append(const char *filepath)
+static bool	handle_redirects_append(const char *filepath)
 {
 	int	fd;
 
@@ -65,17 +66,17 @@ static int	handle_redirects_append(const char *filepath)
 	if (fd == -1)
 	{
 		print_error(filepath, strerror(errno));
-		return (-1);
+		return (false);
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
 		print_error("dup2", strerror(errno));
-		return (-1);
+		return (false);
 	}
-	return (0);
+	return (true);
 }
 
-int	handle_redirects(t_list *redirects)
+bool	handle_redirects(t_list *redirects)
 {
 	int	status;
 
@@ -89,8 +90,8 @@ int	handle_redirects(t_list *redirects)
 		else if (get_redirect_type(redirects) == REDIRECT_APPEND)
 			status = handle_redirects_append(get_redirect_filepath(redirects));
 		if (status == -1)
-			return (-1);
+			return (false);
 		redirects = redirects->next;
 	}
-	return (0);
+	return (true);
 }
