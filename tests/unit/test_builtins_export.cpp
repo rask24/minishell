@@ -23,7 +23,8 @@ TEST(builtins_export, NoArgs) {
   std::string output = testing::internal::GetCapturedStdout();
 
   EXPECT_STREQ(output.c_str(),
-               "declare -x key=\"value\"\ndeclare -x key1=\"value1\"\ndeclare "
-               "-x key2=\"value2\"\n");
+               "declare -x key=\"value\"\n"
+               "declare -x key1=\"value1\"\n"
+               "declare -x key2=\"value2\"\n");
   EXPECT_EQ(result, 0);
 }
