@@ -6,13 +6,15 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:54:48 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/07 17:35:26 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/20 14:39:55 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
 
-void	exec(char *input, char **envp);
+# include "env.h"
+
+void	exec(char *input, t_env_list *env_list);
 
 #endif
