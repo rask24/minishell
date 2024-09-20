@@ -6,11 +6,12 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:18:33 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/20 15:00:58 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/20 15:01:42 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <errno.h>
+#include <stdbool.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -37,14 +38,14 @@ static char	**convert_list_to_array(t_list *cmd_args)
 	return (argv);
 }
 
-static int	handle_pipeline(int fd_in, int fd_out)
+static bool	handle_pipeline(int fd_in, int fd_out)
 {
 	if (fd_in != STDIN_FILENO)
 	{
 		if (dup2(fd_in, STDIN_FILENO) == -1)
 		{
 			print_error("dup2", strerror(errno));
-			return (-1);
+			return (false);
 		}
 		close(fd_in);
 	}
@@ -53,11 +54,11 @@ static int	handle_pipeline(int fd_in, int fd_out)
 		if (dup2(fd_out, STDOUT_FILENO) == -1)
 		{
 			print_error("dup2", strerror(errno));
-			return (-1);
+			return (false);
 		}
 		close(fd_out);
 	}
-	return (0);
+	return (true);
 }
 
 pid_t	execute_simple_command(t_ast *node, char **envp,
@@ -75,7 +76,7 @@ pid_t	execute_simple_command(t_ast *node, char **envp,
 	if (pid == 0)
 	{
 		argv = convert_list_to_array(node->cmd_args);
-		if (handle_pipeline(fd_in, fd_out) == -1)
+		if (!handle_pipeline(fd_in, fd_out))
 			exit(EXIT_FAILURE);
 		if (!handle_redirects(node->redirects))
 			exit(EXIT_FAILURE);
