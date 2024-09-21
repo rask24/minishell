@@ -6,50 +6,41 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:47:26 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/21 14:56:35 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/21 15:18:14 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include <errno.h>
 
-static bool	is_numeric(const char *exit_status)
+static int	exec_valid_exit(int exit_pos, char **args)
 {
-	if (*exit_status == '-' || *exit_status == '+')
-		exit_status++;
-	if (*exit_status == '\0')
-		return (false);
-	while (*exit_status)
+	long	res;
+	char	*end_ptr;
+
+	errno = 0;
+	res = ft_strtol(args[exit_pos], &end_ptr, 10);
+	if (errno == ERANGE || errno == EINVAL || *end_ptr != '\0')
 	{
-		if (!ft_isdigit(*exit_status))
-			return (false);
-		exit_status++;
+		print_error("exit", ft_strjoin(args[exit_pos],
+				": numeric argument required"));
+		return (2);
 	}
-	return (true);
+	return (res & 0xFF);
 }
 
 int	builtins_exit(char **args, t_builtins_ctx *ctx)
 {
-	long	res;
-	int		i;
+	int		exit_pos;
 
+	exit_pos = 1;
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (args[1] == NULL)
 		exit(ctx->exit_status & 0xFF);
-	i = 1;
 	if (ft_strcmp(args[1], "--") == 0)
-		i++;
-	if (args[++i] == NULL)
-	{
-		res = ft_strtol(args[--i], NULL, 10);
-		if (errno == ERANGE || !is_numeric(args[i]))
-		{
-			print_error("exit", ft_strjoin(args[i],
-					": numeric argument required"));
-			exit(2);
-		}
-		exit(res & 0xFF);
-	}
+		exit_pos++;
+	if (args[exit_pos] != NULL && args[exit_pos + 1] == NULL)
+		exit(exec_valid_exit(exit_pos, args));
 	else
 	{
 		print_error("exit", "too many arguments");
