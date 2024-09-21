@@ -30,6 +30,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/builtins/builtins_env.c \
 					$(SRC_DIR)/builtins/builtins_exit.c \
 					$(SRC_DIR)/builtins/builtins_export.c \
+					$(SRC_DIR)/builtins/builtins_export_utils.c \
 					$(SRC_DIR)/builtins/builtins_pwd.c \
 					$(SRC_DIR)/builtins/builtins_unset.c \
 					$(SRC_DIR)/exec/exec.c \

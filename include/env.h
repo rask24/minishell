@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 12:35:50 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/21 14:09:48 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/21 14:55:19 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ typedef struct s_env
 typedef t_list	t_env_list;
 
 t_env_list		*construct_env(char *name, char *value);
-t_env_list		*construct_env_with_bool(char *key, char *value, bool is_valid_value);
+t_env_list		*construct_env_with_bool(char *key, char *value,
+					bool is_valid_value);
 t_env_list		*convert_array_to_env(char **envp);
 const char		**convert_env_to_array(t_env_list *env_list);
 void			destroy_env(t_env_list *env);

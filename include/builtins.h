@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:44:57 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/20 12:08:13 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/21 14:54:08 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,9 @@ int				builtins_export(char **args, t_builtins_ctx *config);
 int				builtins_pwd(char **args, char **env);
 int				builtins_unset(char **args, t_builtins_ctx *config);
 
+// export utils
+void			print_a_export(void *content);
+bool			cmp_func(t_env_list *a, t_env_list *b);
+void			update_env_value(t_env_list *env, char *value);
+t_env_list		*is_already_exist(char *key, t_env_list *env);
 #endif

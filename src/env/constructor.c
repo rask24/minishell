@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 12:31:39 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/21 14:09:39 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/21 14:55:32 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ t_env_list	*construct_env(char *key, char *value)
 	return (env);
 }
 
-t_env_list	*construct_env_with_bool(char *key, char *value, bool is_valid_value)
+t_env_list	*construct_env_with_bool(char *key, char *value,
+							bool is_valid_value)
 {
 	t_env_list	*env;
 	t_env		*content;
