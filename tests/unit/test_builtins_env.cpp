@@ -36,9 +36,9 @@ TEST(builtins_env, moreArgs) {
   config.env = env;
 
   char *args[] = {ft_strdup("env"), ft_strdup("key3=value3"), NULL};
-  testing::internal::CaptureStderr();
+  testing::internal::CaptureStdout();
   int result = builtins_env(args, &config);
-  std::string output = testing::internal::GetCapturedStderr();
+  std::string output = testing::internal::GetCapturedStdout();
 
   EXPECT_STREQ(output.c_str(), "minishell: env: too many arguments\n");
   EXPECT_EQ(result, 1);
