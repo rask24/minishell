@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:47:26 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/20 12:09:52 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/21 14:56:35 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	builtins_exit(char **args, t_builtins_ctx *ctx)
 	if (args[++i] == NULL)
 	{
 		res = ft_strtol(args[--i], NULL, 10);
-		if (errno == ERANGE || is_numeric(args[i]) == false)
+		if (errno == ERANGE || !is_numeric(args[i]))
 		{
 			print_error("exit", ft_strjoin(args[i],
 					": numeric argument required"));
