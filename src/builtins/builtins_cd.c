@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:37:58 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/20 12:09:14 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/21 15:20:44 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,12 @@ int	builtins_cd(char **args, t_builtins_ctx *ctx)
 	else
 		fullpath = join_path(ctx->cwd, dirname);
 	res = chdir(fullpath);
-	if (res == 0)
+	if (res == -1)
 	{
-		free(ctx->cwd);
-		ctx->cwd = fullpath;
+		print_error("chdir", "no such file or directory");
+		return (EXIT_FAILURE);
 	}
+	free(ctx->cwd);
+	ctx->cwd = fullpath;
 	return (res);
 }
