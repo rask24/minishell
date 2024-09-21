@@ -47,10 +47,10 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/parser/parse_command.c \
 					$(SRC_DIR)/parser/parse_list.c \
 					$(SRC_DIR)/parser/parse_simple_command.c \
-					$(SRC_DIR)/parser/parse_redirect.c \
 					$(SRC_DIR)/parser/parse_pipeline.c \
 					$(SRC_DIR)/parser/parser_utils.c \
 					$(SRC_DIR)/parser/parser.c \
+					$(SRC_DIR)/parser/try_parse_redirect.c \
 					$(SRC_DIR)/token/constructor.c \
 					$(SRC_DIR)/token/destructor.c \
 					$(SRC_DIR)/token/getter.c  \
