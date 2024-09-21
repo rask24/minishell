@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:18:33 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/21 00:01:23 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/21 12:32:39 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ pid_t	execute_simple_command(t_ast *node, t_env_list *env_list,
 		if (!handle_redirects(node->redirects))
 			exit(EXIT_FAILURE);
 		reset_signal_handlers();
-		if (execve(argv[0], argv,
+		if (execve(return_entire_path(argv[0], env_list), argv,
 				(char **)convert_env_to_array(env_list)) == -1)
 		{
 			print_error("execve", strerror(errno));
