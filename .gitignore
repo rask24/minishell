@@ -67,3 +67,6 @@ coverage/
 # Python
 __pycache__/
 .pytest_cache/
+
+# Log files
+log/
