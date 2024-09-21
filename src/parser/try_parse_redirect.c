@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_redirect.c                                   :+:      :+:    :+:   */
+/*   try_parse_redirect.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 02:28:39 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/17 02:31:10 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/20 16:59:03 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	is_redirect_token(t_token_type type)
 		|| type == TOKEN_DGREAT);
 }
 
-bool	parse_redirect(t_ast *node, t_token_list **cur_token)
+bool	try_parse_redirect(t_ast *node, t_token_list **cur_token)
 {
 	t_redirect_info	redirect_info;
 	t_token_type	token_type;
