@@ -6,18 +6,23 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:37:58 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/21 15:20:44 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/22 21:58:56 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-static int	move_to_home(void)
+static int	move_to_home(t_env_list *env)
 {
 	char	*home_dir;
 	int		ret;
 
-	home_dir = getenv("HOME");
+	home_dir = lookup_value("HOME", env);
+	if (!home_dir)
+	{
+		print_error("cd", "HOME not set");
+		return (EXIT_FAILURE);
+	}
 	ret = chdir(home_dir);
 	if (ret != 0)
 		return (ret);
@@ -51,7 +56,7 @@ int	builtins_cd(char **args, t_builtins_ctx *ctx)
 	int		res;
 
 	if (args[1] == NULL)
-		return (move_to_home());
+		return (move_to_home(ctx->env));
 	dirname = args[1];
 	if (dirname[0] == '/')
 		fullpath = dirname;
