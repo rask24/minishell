@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 11:50:40 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/22 11:52:49 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/22 14:12:54 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@ char	**convert_cmd_args_to_array(t_ast *node)
 	int		i;
 
 	cmd_args = node->cmd_args;
+	if (cmd_args == NULL)
+		return (NULL);
 	argv = ft_xmalloc(sizeof(char *) * (ft_lstsize(cmd_args) + 1));
 	i = 0;
 	while (cmd_args != NULL)
 	{
-		argv[i] = cmd_args->content;
+		argv[i] = ft_strdup(cmd_args->content);
 		cmd_args = cmd_args->next;
 		i++;
 	}
