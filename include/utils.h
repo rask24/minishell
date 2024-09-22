@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/22 02:54:25 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/22 11:47:27 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,5 @@ void			ft_lstremove_if(t_list **lst, t_pred is_remove,
 					void (*del)(void *));
 void			ft_lstiterp(t_list *lst, void (*f)(void *, void *),
 					void *param);
-
-bool			xaccess_is_f_ok(const char *name);
-bool			xaccess_is_f_ok_alt(const char *name);
-bool			xaccess_is_x_ok(const char *name);
 
 #endif
