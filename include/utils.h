@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/20 12:08:37 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/22 23:22:21 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ typedef enum e_exit_status
 	NOT_EXECUTABLE = 126,
 	NO_FILE_OR_CMD_ERR = 127
 }				t_exit_status;
+
+bool			is_identifier(const char *input);
 
 void			print_error(const char *func, const char *desc);
 void			print_syntax_error(const char *token_value);
