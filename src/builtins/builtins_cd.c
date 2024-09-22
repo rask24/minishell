@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:37:58 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/22 21:58:56 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/22 22:01:28 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	move_to_home(t_env_list *env)
 		return (EXIT_FAILURE);
 	}
 	ret = chdir(home_dir);
-	if (ret != 0)
+	if (ret == -1)
 		return (ret);
 	return (0);
 }
