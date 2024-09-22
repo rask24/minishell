@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:18:33 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/22 11:39:47 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/22 11:53:37 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,6 @@
 #include "libft.h"
 #include "ui.h"
 #include "utils.h"
-
-static char	**convert_list_to_array(t_list *cmd_args)
-{
-	char	**argv;
-	int		i;
-
-	argv = ft_xmalloc(sizeof(char *) * (ft_lstsize(cmd_args) + 1));
-	i = 0;
-	while (cmd_args != NULL)
-	{
-		argv[i] = cmd_args->content;
-		cmd_args = cmd_args->next;
-		i++;
-	}
-	argv[i] = NULL;
-	return (argv);
-}
 
 static bool	handle_pipeline(int fd_in, int fd_out)
 {
@@ -71,7 +54,7 @@ static bool	is_a_directory(const char *path)
 	return (S_ISDIR(st.st_mode));
 }
 
-static char *search_for_command(char *basename, t_env_list *env_list)
+static char	*search_for_command(char *basename, t_env_list *env_list)
 {
 	char	**paths;
 	char	*joined_path;
@@ -141,7 +124,7 @@ pid_t	execute_simple_command(t_ast *node, t_env_list *env_list,
 	}
 	if (pid == 0)
 	{
-		argv = convert_list_to_array(node->cmd_args);
+		argv = convert_cmd_args_to_array(node);
 		if (!handle_pipeline(fd_in, fd_out))
 			exit(EXIT_FAILURE);
 		if (!handle_redirects(node->redirects))

@@ -22,6 +22,7 @@ LIBREADLINE_DIR	= readline
 # Files
 SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/ast/constructor.c \
+					$(SRC_DIR)/ast/convert_cmd_args_to_array.c \
 					$(SRC_DIR)/ast/destructor.c \
 					$(SRC_DIR)/ast/getter.c \
 					$(SRC_DIR)/ast/push.c \
