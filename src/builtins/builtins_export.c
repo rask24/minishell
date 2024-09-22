@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 13:41:00 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/21 14:52:45 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/22 22:04:30 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,25 +56,27 @@ int	builtins_export(char **args, t_builtins_ctx *ctx)
 {
 	int		exit_status;
 	char	*equal_index;
+	int		i;
 
 	exit_status = 0;
-	if (*(args + 1))
-	{
-		while (*++args)
-		{
-			equal_index = ft_strchr(*args, '=');
-			if (equal_index == *args)
-				exit_status = add_no_key_env(*args);
-			else if (equal_index != NULL)
-				exit_status = add_complete_env(*args, equal_index, ctx);
-			else
-				exit_status = add_incomplete_env(*args, ctx);
-		}
-	}
-	else
+	if (args[1] == NULL)
 	{
 		ft_lstsort(&ctx->env, cmp_func);
 		ft_lstiter(ctx->env, print_a_export);
+		return (EXIT_SUCCESS);
+	}
+	exit_status = 0;
+	i = 1;
+	while (args[i])
+	{
+		equal_index = ft_strchr(args[i], '=');
+		if (equal_index == args[i])
+			exit_status = add_no_key_env(args[i]);
+		else if (equal_index != NULL)
+			exit_status = add_complete_env(args[i], equal_index, ctx);
+		else
+			exit_status = add_incomplete_env(args[i], ctx);
+		i++;
 	}
 	return (exit_status);
 }
