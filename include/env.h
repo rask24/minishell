@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 12:35:50 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/22 11:19:12 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/22 21:35:25 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,5 @@ char			*lookup_value(const char *key, t_env_list *env_list);
 const char		*return_entire_path(const char *basename, t_env_list *env_list);
 void			set_env_is_valid_value(t_env_list *env, bool is_valid_value);
 void			set_env_value(t_env_list *env, char *value);
+
 #endif
