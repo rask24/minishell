@@ -124,9 +124,14 @@ TEST(builtins_export, NokeyArg) {
   config.env = env;
 
   char *args[] = {ft_strdup("export"), ft_strdup("=value3"), NULL};
+  // redirect STDOUT to STDERR because GitHubActions does not support stderr
+  // capture
+  int tmp_stderr = dup(STDERR_FILENO);
+  dup2(STDOUT_FILENO, STDERR_FILENO);
   testing::internal::CaptureStderr();
   int result = builtins_export(args, &config);
   std::string output = testing::internal::GetCapturedStderr();
+  dup2(tmp_stderr, STDERR_FILENO);
 
   EXPECT_STREQ(output.c_str(),
                "minishell: export: =value3: not a valid identifier\n");

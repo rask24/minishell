@@ -36,9 +36,15 @@ TEST(builtins_env, moreArgs) {
   config.env = env;
 
   char *args[] = {ft_strdup("env"), ft_strdup("key3=value3"), NULL};
-  testing::internal::CaptureStdout();
+
+  // redirect STDOUT to STDERR because GitHubActions does not support stderr
+  // capture
+  int tmp_stderr = dup(STDERR_FILENO);
+  dup2(STDOUT_FILENO, STDERR_FILENO);
+  testing::internal::CaptureStderr();
   int result = builtins_env(args, &config);
-  std::string output = testing::internal::GetCapturedStdout();
+  std::string output = testing::internal::GetCapturedStderr();
+  dup2(tmp_stderr, STDERR_FILENO);
 
   EXPECT_STREQ(output.c_str(), "minishell: env: too many arguments\n");
   EXPECT_EQ(result, 1);
