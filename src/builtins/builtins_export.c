@@ -6,20 +6,20 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 13:41:00 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/22 22:04:30 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/22 22:05:42 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-static int	add_complete_env(const char *input, char *equal_index,
+static int	add_complete_env(const char *input, char *equal_ptr,
 		t_builtins_ctx *ctx)
 {
 	char		*key;
 	char		*value;
 	t_env_list	*update_target;
 
-	key = ft_xstrndup(input, equal_index - input);
+	key = ft_xstrndup(input, equal_ptr - input);
 	value = ft_xstrdup(ft_strchr(input, '=') + 1);
 	update_target = is_already_exist(key, ctx->env);
 	if (update_target)
@@ -55,7 +55,7 @@ static int	add_no_key_env(char *input)
 int	builtins_export(char **args, t_builtins_ctx *ctx)
 {
 	int		exit_status;
-	char	*equal_index;
+	char	*equal_ptr;
 	int		i;
 
 	exit_status = 0;
@@ -69,11 +69,11 @@ int	builtins_export(char **args, t_builtins_ctx *ctx)
 	i = 1;
 	while (args[i])
 	{
-		equal_index = ft_strchr(args[i], '=');
-		if (equal_index == args[i])
+		equal_ptr = ft_strchr(args[i], '=');
+		if (equal_ptr == args[i])
 			exit_status = add_no_key_env(args[i]);
-		else if (equal_index != NULL)
-			exit_status = add_complete_env(args[i], equal_index, ctx);
+		else if (equal_ptr != NULL)
+			exit_status = add_complete_env(args[i], equal_ptr, ctx);
 		else
 			exit_status = add_incomplete_env(args[i], ctx);
 		i++;
