@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 21:32:41 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/14 12:22:38 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/22 10:03:46 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ const char	**convert_env_to_array(t_env_list *env)
 	tmp_array = env_array;
 	while (env)
 	{
-		*tmp_array = ft_xstrjoin(get_env_name(env),
+		*tmp_array = ft_xstrjoin(get_env_key(env),
 				ft_xstrjoin("=", get_env_value(env)));
 		env = env->next;
 		tmp_array++;
