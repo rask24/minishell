@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:47:26 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/21 15:18:14 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/22 22:02:03 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	exec_valid_exit(int exit_pos, char **args)
 	res = ft_strtol(args[exit_pos], &end_ptr, 10);
 	if (errno == ERANGE || errno == EINVAL || *end_ptr != '\0')
 	{
-		print_error("exit", ft_strjoin(args[exit_pos],
+		print_error("exit", ft_xstrjoin(args[exit_pos],
 				": numeric argument required"));
 		return (2);
 	}
