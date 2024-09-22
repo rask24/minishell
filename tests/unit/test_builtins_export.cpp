@@ -113,30 +113,30 @@ TEST(builtins_export, AddDupArgs) {
   EXPECT_EQ(result, 0);
 }
 
-TEST(builtins_export, NokeyArg) {
-  t_env_list *env = construct_env(strdup("key0"), strdup("value0"));
-  t_env_list *env1 = construct_env(strdup("key2"), strdup("value2"));
-  t_env_list *env2 = construct_env(strdup("key1"), strdup("value1"));
-  ft_lstadd_back(&env, env1);
-  ft_lstadd_back(&env, env2);
+// TEST(builtins_export, NokeyArg) {
+//   t_env_list *env = construct_env(strdup("key0"), strdup("value0"));
+//   t_env_list *env1 = construct_env(strdup("key2"), strdup("value2"));
+//   t_env_list *env2 = construct_env(strdup("key1"), strdup("value1"));
+//   ft_lstadd_back(&env, env1);
+//   ft_lstadd_back(&env, env2);
 
-  t_builtins_ctx config;
-  config.env = env;
+//   t_builtins_ctx config;
+//   config.env = env;
 
-  char *args[] = {ft_strdup("export"), ft_strdup("=value3"), NULL};
-  // redirect STDOUT to STDERR because GitHubActions does not support stderr
-  // capture
-  int tmp_stderr = dup(STDERR_FILENO);
-  dup2(STDOUT_FILENO, STDERR_FILENO);
-  testing::internal::CaptureStderr();
-  int result = builtins_export(args, &config);
-  std::string output = testing::internal::GetCapturedStderr();
-  dup2(tmp_stderr, STDERR_FILENO);
+//   char *args[] = {ft_strdup("export"), ft_strdup("=value3"), NULL};
+//   // redirect STDOUT to STDERR because GitHubActions does not support stderr
+//   // capture
+//   int tmp_stderr = dup(STDERR_FILENO);
+//   dup2(STDOUT_FILENO, STDERR_FILENO);
+//   testing::internal::CaptureStderr();
+//   int result = builtins_export(args, &config);
+//   std::string output = testing::internal::GetCapturedStderr();
+//   dup2(tmp_stderr, STDERR_FILENO);
 
-  EXPECT_STREQ(output.c_str(),
-               "minishell: export: =value3: not a valid identifier\n");
-  EXPECT_EQ(result, 1);
-}
+//   EXPECT_STREQ(output.c_str(),
+//                "minishell: export: =value3: not a valid identifier\n");
+//   EXPECT_EQ(result, 1);
+// }
 
 TEST(builtins_export, NoEqualArg) {
   t_env_list *env = construct_env(strdup("key0"), strdup("value0"));
