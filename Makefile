@@ -22,6 +22,7 @@ LIBREADLINE_DIR	= readline
 # Files
 SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/ast/constructor.c \
+					$(SRC_DIR)/ast/convert_cmd_args_to_array.c \
 					$(SRC_DIR)/ast/destructor.c \
 					$(SRC_DIR)/ast/getter.c \
 					$(SRC_DIR)/ast/push.c \
@@ -42,7 +43,6 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/env/destructor.c \
 					$(SRC_DIR)/env/getter.c \
 					$(SRC_DIR)/env/lookup_value.c \
-					$(SRC_DIR)/env/return_entire_path.c \
 					$(SRC_DIR)/env/setter.c \
 					$(SRC_DIR)/exec/handle_redirects.c \
 					$(SRC_DIR)/lexer/constructor.c \
@@ -76,8 +76,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/utils/wrapper/ft_xlstnew.c \
 					$(SRC_DIR)/utils/wrapper/ft_xstrdup.c \
 					$(SRC_DIR)/utils/wrapper/ft_xstrjoin.c \
-					$(SRC_DIR)/utils/wrapper/ft_xstrndup.c \
-					$(SRC_DIR)/utils/wrapper/xaccess_is.c
+					$(SRC_DIR)/utils/wrapper/ft_xstrndup.c
 
 OBJ				= $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC))
 DEP				= $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.d, $(SRC))

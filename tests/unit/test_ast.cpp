@@ -155,3 +155,45 @@ TEST(push_redirect_info, InvalidNodeType) {
   push_redirect_info(node, info);
   EXPECT_EQ(node->redirects, nullptr);
 }
+
+TEST(convert_cmd_args_to_array, NullCmdArgs) {
+  t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
+
+  char **cmd_args = convert_cmd_args_to_array(node);
+
+  EXPECT_EQ(cmd_args, nullptr);
+
+  destroy_ast(node);
+}
+
+TEST(convert_cmd_args_to_array, OneArg) {
+  t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
+
+  push_cmd_arg(node, "ls");
+
+  char **cmd_args = convert_cmd_args_to_array(node);
+
+  EXPECT_STREQ(cmd_args[0], "ls");
+  EXPECT_EQ(cmd_args[1], nullptr);
+
+  destroy_ast(node);
+  ft_free_strs(cmd_args);
+}
+
+TEST(convert_cmd_args_to_array, MultipleArgs) {
+  t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
+
+  push_cmd_arg(node, "ls");
+  push_cmd_arg(node, "-l");
+  push_cmd_arg(node, "-a");
+
+  char **cmd_args = convert_cmd_args_to_array(node);
+
+  EXPECT_STREQ(cmd_args[0], "ls");
+  EXPECT_STREQ(cmd_args[1], "-l");
+  EXPECT_STREQ(cmd_args[2], "-a");
+  EXPECT_EQ(cmd_args[3], nullptr);
+
+  destroy_ast(node);
+  ft_free_strs(cmd_args);
+}
