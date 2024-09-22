@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/22 11:47:27 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/22 11:55:57 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 typedef bool	(*t_pred)(t_list *node);
 
 void			print_error(const char *func, const char *desc);
+void			print_error_exit(const char *func, const char *desc,
+					int exit_status);
 void			print_syntax_error(const char *token_value);
 
 t_list			*ft_xlstnew(void *content);

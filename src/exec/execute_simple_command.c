@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:18:33 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/22 11:53:37 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/22 12:03:55 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,23 +90,16 @@ static void	execute_command_internal(char **argv, t_env_list *env_list)
 	{
 		cmd_path = search_for_command(cmd_path, env_list);
 		if (cmd_path == NULL)
-		{
-			print_error(argv[0], CMD_NOT_FOUND);
-			exit(EXIT_NOT_FOUND_ERR);
-		}
+			print_error_exit(argv[0], CMD_NOT_FOUND, EXIT_NOT_FOUND_ERR);
 	}
 	if (is_a_directory(cmd_path))
-	{
-		print_error(cmd_path, strerror(EISDIR));
-		exit(EXIT_OTHER_ERR);
-	}
+		print_error_exit(cmd_path, strerror(EISDIR), EXIT_OTHER_ERR);
 	if (execve(cmd_path, argv, (char **)convert_env_to_array(env_list)) == -1)
 	{
-		print_error(cmd_path, strerror(errno));
 		if (errno == ENOENT)
-			exit(EXIT_NOT_FOUND_ERR);
+			print_error_exit(argv[0], strerror(errno), EXIT_NOT_FOUND_ERR);
 		else
-			exit(EXIT_OTHER_ERR);
+			print_error_exit(argv[0], strerror(errno), EXIT_OTHER_ERR);
 	}
 }
 
@@ -118,11 +111,8 @@ pid_t	execute_simple_command(t_ast *node, t_env_list *env_list,
 
 	pid = fork();
 	if (pid == -1)
-	{
-		print_error("fork", strerror(errno));
-		return (-1);
-	}
-	if (pid == 0)
+		print_error_exit("fork", strerror(errno), -1);
+	else if (pid == 0)
 	{
 		argv = convert_cmd_args_to_array(node);
 		if (!handle_pipeline(fd_in, fd_out))
