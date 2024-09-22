@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/10 17:14:04 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/22 02:54:25 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,6 @@
 # include <unistd.h>
 
 # include "libft.h"
-
-# define CMD_NOT_FOUND "command not found"
-
-typedef enum e_exit_status
-{
-	NOT_EXECUTABLE = 126,
-	NO_FILE_OR_CMD_ERR = 127
-}				t_exit_status;
 
 typedef bool	(*t_pred)(t_list *node);
 
