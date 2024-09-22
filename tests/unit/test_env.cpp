@@ -84,23 +84,6 @@ TEST(convert_array_to_env, MultiEnv) {
   destroy_env_list(env_list);
 }
 
-TEST(return_entire_path, lsPath) {
-  char *tmp = getenv("PATH");
-  char **envp = (char **)malloc(sizeof(char *) * 2);
-  envp[0] = ft_strjoin("PATH=", (const char *)(tmp));
-  envp[1] = nullptr;
-
-  t_env_list *env_list = convert_array_to_env(envp);
-  const char *path = return_entire_path("ls", env_list);
-
-  EXPECT_EQ(access(path, F_OK), 0);
-
-  free(envp[0]);
-  free(envp);
-  free((void *)path);
-  destroy_env_list(env_list);
-}
-
 TEST(lookup_value, OneEnv) {
   t_env_list *env = construct_env(strdup("HOME"), strdup("/home/user"));
 

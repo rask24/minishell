@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:46:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/21 00:01:13 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/22 02:55:15 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 
 # include "env.h"
 # include "libft.h"
+
+# define CMD_NOT_FOUND "command not found"
+
+typedef enum e_exit_status
+{
+	EXIT_OTHER_ERR = 126,
+	EXIT_NOT_FOUND_ERR = 127,
+}	t_exit_status;
 
 pid_t	execute_pipeline(t_ast *node, t_env_list *env_list,
 			int fd_in, int fd_out);
