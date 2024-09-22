@@ -66,3 +66,15 @@ TEST(expand, DoubleVariables) {
 
   destroy_env_list(env_list);
 }
+
+TEST(expand, SingleQuoteSimple) {
+  char *envp[] = {strdup("USER=Alice"), nullptr};
+  t_env_list *env_list = convert_array_to_env(envp);
+
+  char *command = strdup("'$USER'''");
+
+  char *result = expand(command, env_list);
+  EXPECT_STREQ(result, "$USER");
+
+  destroy_env_list(env_list);
+}

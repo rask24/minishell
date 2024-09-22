@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 15:59:45 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/22 15:59:47 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/22 16:14:21 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,5 @@ typedef struct s_expansion
 	char	*left;
 	char	*right;
 }			t_expansion;
-
 
 #endif
