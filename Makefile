@@ -33,6 +33,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/env/convert_array_to_env.c \
 					$(SRC_DIR)/env/destructor.c \
 					$(SRC_DIR)/env/getter.c \
+					$(SRC_DIR)/env/lookup_value.c \
 					$(SRC_DIR)/env/return_entire_path.c \
 					$(SRC_DIR)/exec/handle_redirects.c \
 					$(SRC_DIR)/lexer/constructor.c \
