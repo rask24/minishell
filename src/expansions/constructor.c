@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansions.h                                       :+:      :+:    :+:   */
+/*   constructor.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/21 16:49:20 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/22 16:36:14 by yliu             ###   ########.fr       */
+/*   Created: 2024/09/22 16:30:22 by yliu              #+#    #+#             */
+/*   Updated: 2024/09/22 16:30:35 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPANSIONS_H
-# define EXPANSIONS_H
+#include "expansions_internal.h"
 
-# include "env.h"
-
-char	*expand(char *input, t_list *env);
-
-#endif
+void	construct_expansions(char *input, t_expansion *expansions)
+{
+	expansions->left = input;
+	expansions->right = input;
+}

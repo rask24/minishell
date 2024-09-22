@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansions.h                                       :+:      :+:    :+:   */
+/*   process_quote.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/21 16:49:20 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/22 16:36:14 by yliu             ###   ########.fr       */
+/*   Created: 2024/09/22 16:21:33 by yliu              #+#    #+#             */
+/*   Updated: 2024/09/22 17:15:24 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPANSIONS_H
-# define EXPANSIONS_H
+#include "expansions_internal.h"
 
-# include "env.h"
+char	*process_single_quote(t_expansion *expansions)
+{
+	char	*section;
 
-char	*expand(char *input, t_list *env);
-
-#endif
+	expansions->right++;
+	expansions->left++;
+	while (*expansions->right && *expansions->right != '\'')
+		expansions->right++;
+	section = ft_xstrndup(expansions->left,
+			expansions->right - expansions->left);
+	expansions->right++;
+	expansions->left = expansions->right;
+	return (section);
+}

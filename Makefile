@@ -28,7 +28,12 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/exec/exec.c \
 					$(SRC_DIR)/exec/execute_pipeline.c \
 					$(SRC_DIR)/exec/execute_simple_command.c \
+					$(SRC_DIR)/expansions/constructor.c \
 					$(SRC_DIR)/expansions/expand.c \
+					$(SRC_DIR)/expansions/get_next_section.c \
+					$(SRC_DIR)/expansions/is_start_of_input.c \
+					$(SRC_DIR)/expansions/process_quote.c \
+					$(SRC_DIR)/expansions/process_variable.c \
 					$(SRC_DIR)/env/constructor.c \
 					$(SRC_DIR)/env/convert_env_to_array.c \
 					$(SRC_DIR)/env/convert_array_to_env.c \
