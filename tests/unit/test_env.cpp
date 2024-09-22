@@ -100,3 +100,12 @@ TEST(return_entire_path, lsPath) {
   free((void *)path);
   destroy_env_list(env_list);
 }
+
+TEST(lookup_value, OneEnv) {
+  t_env_list *env = construct_env(strdup("HOME"), strdup("/home/user"));
+
+  EXPECT_STREQ(lookup_value("HOME", env), "/home/user");
+  EXPECT_EQ(lookup_value("PATH", env), nullptr);
+
+  destroy_env_list(env);
+}
