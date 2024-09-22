@@ -6,11 +6,12 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:20:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/18 00:47:46 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/22 11:56:56 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
@@ -43,6 +44,12 @@ void	print_error(const char *func, const char *desc)
 	if (dup2(stdout_fd, STDOUT_FILENO) == -1)
 		perror("minishell: dup2");
 	close(stdout_fd);
+}
+
+void	print_error_exit(const char *func, const char *desc, int exit_status)
+{
+	print_error(func, desc);
+	exit(exit_status);
 }
 
 void	print_syntax_error(const char *token_value)
