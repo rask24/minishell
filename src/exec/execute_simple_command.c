@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:18:33 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/22 12:03:55 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/22 14:19:35 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static char	*search_for_command(char *basename, t_env_list *env_list)
 		free(joined_path);
 		i++;
 	}
+	ft_free_strs(paths);
 	return (NULL);
 }
 
