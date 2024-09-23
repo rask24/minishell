@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:37:58 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/23 22:39:50 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/23 22:49:41 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int	builtins_cd(char **args, t_builtins_ctx *ctx)
 
 	if (args[1] == NULL)
 		return (move_to_home(ctx->env));
+	if (args[2] != NULL)
+		return (print_error("cd", "too many arguments"), EXIT_FAILURE);
 	dirname = args[1];
 	if (dirname[0] == '/')
 		fullpath = ft_xstrdup(dirname);
