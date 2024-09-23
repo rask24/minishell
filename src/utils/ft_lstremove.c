@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstremove_if.c                                  :+:      :+:    :+:   */
+/*   ft_lstremove.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/07 15:07:14 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/24 01:16:45 by yliu             ###   ########.fr       */
+/*   Created: 2024/09/24 01:16:49 by yliu              #+#    #+#             */
+/*   Updated: 2024/09/24 01:18:29 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-void	ft_lstremove_if(t_list **lst, t_pred should_remove, void *param,
-							t_del del)
+void	ft_lstremove(t_list **lst, t_list *node, t_del del)
 {
-	t_list	*curr;
-	t_list	*next;
+	t_list	*prev;
 
-	if (!lst || !*lst || !should_remove || !del)
+	if (!lst || !*lst || !node || !del)
 		return ;
-	curr = *lst;
-	while (curr)
-	{
-		next = curr->next;
-		if (should_remove(curr, param))
-			ft_lstremove(lst, curr, del);
-		curr = next;
-	}
+	prev = ft_lst_before(*lst, node);
+	if (!prev)
+		*lst = node->next;
+	else
+		prev->next = node->next;
+	ft_lstdelone(node, del);
 }
