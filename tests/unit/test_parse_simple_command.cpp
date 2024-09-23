@@ -1,8 +1,7 @@
 // Copyright 2024, reasuke
 
-#include <cstring>
-
 #include "gtest/gtest.h"
+#include "utils_parser.hpp"
 
 extern "C" {
 #include "parser/parser_internal.h"
@@ -10,10 +9,9 @@ extern "C" {
 }
 
 TEST(parse_simple_command, OneCommand) {
-  t_token_list *token_list = nullptr;
-
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  // ls
+  t_token_list *token_list =
+      construct_token_list({{TOKEN_WORD, "ls"}, {TOKEN_EOF, nullptr}});
 
   t_ast *node = parse_simple_command(&token_list);
 
@@ -26,12 +24,11 @@ TEST(parse_simple_command, OneCommand) {
 }
 
 TEST(parse_simple_command, MultipleCommands) {
-  t_token_list *token_list = nullptr;
-
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("src")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  // ls -l src
+  t_token_list *token_list = construct_token_list({{TOKEN_WORD, "ls"},
+                                                   {TOKEN_WORD, "-l"},
+                                                   {TOKEN_WORD, "src"},
+                                                   {TOKEN_EOF, nullptr}});
 
   t_ast *node = parse_simple_command(&token_list);
 
@@ -47,12 +44,9 @@ TEST(parse_simple_command, MultipleCommands) {
 }
 
 TEST(parse_simple_command, OneRedirect) {
-  t_token_list *token_list = nullptr;
-
   // > ls.txt
-  ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, nullptr));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls.txt")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  t_token_list *token_list = construct_token_list(
+      {{TOKEN_GREAT, ">"}, {TOKEN_WORD, "ls.txt"}, {TOKEN_EOF, nullptr}});
 
   t_ast *node = parse_simple_command(&token_list);
 
@@ -66,20 +60,18 @@ TEST(parse_simple_command, OneRedirect) {
 }
 
 TEST(parse_simple_command, MultipleRedirects) {
-  t_token_list *token_list = nullptr;
-
   // < in1.txt > out1.txt >> out2.txt < in2.txt > out3.txt
-  ft_lstadd_back(&token_list, construct_token(TOKEN_LESS, strdup("<")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("in1.txt")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, strdup(">")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("out1.txt")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_DGREAT, strdup(">>")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("out2.txt")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_LESS, strdup("<")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("in2.txt")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, strdup(">")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("out3.txt")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  t_token_list *token_list = construct_token_list({{TOKEN_LESS, "<"},
+                                                   {TOKEN_WORD, "in1.txt"},
+                                                   {TOKEN_GREAT, ">"},
+                                                   {TOKEN_WORD, "out1.txt"},
+                                                   {TOKEN_DGREAT, ">>"},
+                                                   {TOKEN_WORD, "out2.txt"},
+                                                   {TOKEN_LESS, "<"},
+                                                   {TOKEN_WORD, "in2.txt"},
+                                                   {TOKEN_GREAT, ">"},
+                                                   {TOKEN_WORD, "out3.txt"},
+                                                   {TOKEN_EOF, nullptr}});
 
   t_ast *node = parse_simple_command(&token_list);
 
@@ -101,22 +93,21 @@ TEST(parse_simple_command, MultipleRedirects) {
                "out3.txt");
   EXPECT_EQ(get_redirect_type(node->redirects->next->next->next->next->next),
             REDIRECT_UNKNOWN);
-  EXPECT_EQ(get_redirect_filepath(node->redirects->next->next->next->next->next),
-            nullptr);
+  EXPECT_EQ(
+      get_redirect_filepath(node->redirects->next->next->next->next->next),
+      nullptr);
 
   destroy_token_list(token_list);
   destroy_ast(node);
 }
 
 TEST(parse_simple_command, CommandAndRedirect) {
-  t_token_list *token_list = nullptr;
-
   // ls -l > out.txt
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, strdup(">")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("out.txt")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  t_token_list *token_list = construct_token_list({{TOKEN_WORD, "ls"},
+                                                   {TOKEN_WORD, "-l"},
+                                                   {TOKEN_GREAT, ">"},
+                                                   {TOKEN_WORD, "out.txt"},
+                                                   {TOKEN_EOF, nullptr}});
 
   t_ast *node = parse_simple_command(&token_list);
 
@@ -134,18 +125,16 @@ TEST(parse_simple_command, CommandAndRedirect) {
 }
 
 TEST(parse_simple_command, RedirectsAfterCommand) {
-  t_token_list *token_list = nullptr;
-
   // ls -l > out1.txt >> out2.txt > out3.txt
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, strdup(">")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("out1.txt")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_DGREAT, strdup(">>")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("out2.txt")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, strdup(">")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("out3.txt")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  t_token_list *token_list = construct_token_list({{TOKEN_WORD, "ls"},
+                                                   {TOKEN_WORD, "-l"},
+                                                   {TOKEN_GREAT, ">"},
+                                                   {TOKEN_WORD, "out1.txt"},
+                                                   {TOKEN_DGREAT, ">>"},
+                                                   {TOKEN_WORD, "out2.txt"},
+                                                   {TOKEN_GREAT, ">"},
+                                                   {TOKEN_WORD, "out3.txt"},
+                                                   {TOKEN_EOF, nullptr}});
 
   t_ast *node = parse_simple_command(&token_list);
 
@@ -168,18 +157,16 @@ TEST(parse_simple_command, RedirectsAfterCommand) {
 }
 
 TEST(parse_simple_command, RedirectsBeforeCommand) {
-  t_token_list *token_list = nullptr;
-
   // < in1.txt > out.txt < in2.txt cat -e
-  ft_lstadd_back(&token_list, construct_token(TOKEN_LESS, strdup("<")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("in1.txt")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, strdup(">")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("out.txt")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_LESS, strdup("<")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("in2.txt")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("cat")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-e")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  t_token_list *token_list = construct_token_list({{TOKEN_LESS, "<"},
+                                                   {TOKEN_WORD, "in1.txt"},
+                                                   {TOKEN_GREAT, ">"},
+                                                   {TOKEN_WORD, "out.txt"},
+                                                   {TOKEN_LESS, "<"},
+                                                   {TOKEN_WORD, "in2.txt"},
+                                                   {TOKEN_WORD, "cat"},
+                                                   {TOKEN_WORD, "-e"},
+                                                   {TOKEN_EOF, nullptr}});
 
   t_ast *node = parse_simple_command(&token_list);
 
@@ -202,18 +189,16 @@ TEST(parse_simple_command, RedirectsBeforeCommand) {
 }
 
 TEST(parse_simple_command, RedirectsBeforeAndAfterCommand) {
-  t_token_list *token_list = nullptr;
-
   // < in1.txt > out1.txt cat -e > out2.txt
-  ft_lstadd_back(&token_list, construct_token(TOKEN_LESS, strdup("<")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("in1.txt")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, strdup(">")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("out1.txt")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("cat")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-e")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, strdup(">")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("out2.txt")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  t_token_list *token_list = construct_token_list({{TOKEN_LESS, "<"},
+                                                   {TOKEN_WORD, "in1.txt"},
+                                                   {TOKEN_GREAT, ">"},
+                                                   {TOKEN_WORD, "out1.txt"},
+                                                   {TOKEN_WORD, "cat"},
+                                                   {TOKEN_WORD, "-e"},
+                                                   {TOKEN_GREAT, ">"},
+                                                   {TOKEN_WORD, "out2.txt"},
+                                                   {TOKEN_EOF, nullptr}});
 
   t_ast *node = parse_simple_command(&token_list);
 
@@ -236,14 +221,12 @@ TEST(parse_simple_command, RedirectsBeforeAndAfterCommand) {
 }
 
 TEST(parse_simple_command, InvalidRedirect) {
-  t_token_list *token_list = nullptr;
-
   // ls -l >> >
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_DGREAT, strdup(">>")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, strdup(">")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  t_token_list *token_list = construct_token_list({{TOKEN_WORD, "ls"},
+                                                   {TOKEN_WORD, "-l"},
+                                                   {TOKEN_DGREAT, ">>"},
+                                                   {TOKEN_GREAT, ">"},
+                                                   {TOKEN_EOF, nullptr}});
 
   t_ast *node = parse_simple_command(&token_list);
 
@@ -251,15 +234,13 @@ TEST(parse_simple_command, InvalidRedirect) {
 }
 
 TEST(parse_simple_command, InvalidRedirect2) {
-  t_token_list *token_list = nullptr;
-
   // ls -l > out.txt <
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, strdup(">")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("out.txt")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_LESS, strdup("<")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  t_token_list *token_list = construct_token_list({{TOKEN_WORD, "ls"},
+                                                   {TOKEN_WORD, "-l"},
+                                                   {TOKEN_GREAT, ">"},
+                                                   {TOKEN_WORD, "out.txt"},
+                                                   {TOKEN_LESS, "<"},
+                                                   {TOKEN_EOF, nullptr}});
 
   t_ast *node = parse_simple_command(&token_list);
 

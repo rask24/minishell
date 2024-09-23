@@ -1,8 +1,7 @@
 // Copyright 2024, reasuke
 
-#include <cstring>
-
 #include "gtest/gtest.h"
+#include "utils_parser.hpp"
 
 extern "C" {
 #include "ast.h"
@@ -11,12 +10,9 @@ extern "C" {
 }
 
 TEST(parse_pipeline, SimpleCommand) {
-  t_token_list *token_list = nullptr;
-
   // ls -l
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  t_token_list *token_list = construct_token_list(
+      {{TOKEN_WORD, "ls"}, {TOKEN_WORD, "-l"}, {TOKEN_EOF, nullptr}});
 
   t_ast *node = parse_pipeline(&token_list);
 
@@ -30,14 +26,12 @@ TEST(parse_pipeline, SimpleCommand) {
 }
 
 TEST(parse_pipeline, OnePipeline) {
-  t_token_list *token_list = nullptr;
-
   // ls -l | wc
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_PIPE, strdup("|")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("wc")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  t_token_list *token_list = construct_token_list({{TOKEN_WORD, "ls"},
+                                                   {TOKEN_WORD, "-l"},
+                                                   {TOKEN_PIPE, "|"},
+                                                   {TOKEN_WORD, "wc"},
+                                                   {TOKEN_EOF, nullptr}});
 
   t_ast *node = parse_pipeline(&token_list);
 
@@ -55,9 +49,16 @@ TEST(parse_pipeline, OnePipeline) {
 }
 
 TEST(parse_pipeline, MultiplePipelines) {
-  t_token_list *token_list = nullptr;
-
   // ls -l | wc | cat -e
+  t_token_list *token_list = construct_token_list({{TOKEN_WORD, "ls"},
+                                                   {TOKEN_WORD, "-l"},
+                                                   {TOKEN_PIPE, "|"},
+                                                   {TOKEN_WORD, "wc"},
+                                                   {TOKEN_PIPE, "|"},
+                                                   {TOKEN_WORD, "cat"},
+                                                   {TOKEN_WORD, "-e"},
+                                                   {TOKEN_EOF, nullptr}});
+
   /*
   **                    PIPE
   **                   |    \
@@ -65,15 +66,6 @@ TEST(parse_pipeline, MultiplePipelines) {
   **                |    \
   **   COMMAND(ls -l) COMMAND (wc)
   */
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_PIPE, strdup("|")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("wc")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_PIPE, strdup("|")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("cat")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-e")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
-
   t_ast *node = parse_pipeline(&token_list);
 
   EXPECT_EQ(node->type, AST_PIPE);
@@ -97,25 +89,19 @@ TEST(parse_pipeline, MultiplePipelines) {
 }
 
 TEST(parse_pipeline, MultiplePipelinesWithSubshells) {
-  t_token_list *token_list = nullptr;
-
   // (ls -l) | (cat -e) > out.txt
-  ft_lstadd_back(&token_list,
-                 construct_token(TOKEN_L_PARENTHESIS, strdup("(")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
-  ft_lstadd_back(&token_list,
-                 construct_token(TOKEN_R_PARENTHESIS, strdup(")")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_PIPE, strdup("|")));
-  ft_lstadd_back(&token_list,
-                 construct_token(TOKEN_L_PARENTHESIS, strdup("(")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("cat")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-e")));
-  ft_lstadd_back(&token_list,
-                 construct_token(TOKEN_R_PARENTHESIS, strdup(")")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, strdup(">")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("out.txt")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  t_token_list *token_list = construct_token_list({{TOKEN_L_PARENTHESIS, "("},
+                                                   {TOKEN_WORD, "ls"},
+                                                   {TOKEN_WORD, "-l"},
+                                                   {TOKEN_R_PARENTHESIS, ")"},
+                                                   {TOKEN_PIPE, "|"},
+                                                   {TOKEN_L_PARENTHESIS, "("},
+                                                   {TOKEN_WORD, "cat"},
+                                                   {TOKEN_WORD, "-e"},
+                                                   {TOKEN_R_PARENTHESIS, ")"},
+                                                   {TOKEN_GREAT, ">"},
+                                                   {TOKEN_WORD, "out.txt"},
+                                                   {TOKEN_EOF, nullptr}});
 
   /*
   **                PIPE
@@ -152,13 +138,11 @@ TEST(parse_pipeline, MultiplePipelinesWithSubshells) {
 }
 
 TEST(parse_pipeline, InvalidToken) {
-  t_token_list *token_list = nullptr;
-
   // ls -l |
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_PIPE, strdup("|")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  t_token_list *token_list = construct_token_list({{TOKEN_WORD, "ls"},
+                                                   {TOKEN_WORD, "-l"},
+                                                   {TOKEN_PIPE, "|"},
+                                                   {TOKEN_EOF, nullptr}});
 
   t_ast *node = parse_pipeline(&token_list);
 
@@ -168,17 +152,13 @@ TEST(parse_pipeline, InvalidToken) {
 }
 
 TEST(parse_pipline, InvalidTokenPipe) {
-  t_token_list *token_list = nullptr;
-
   // (ls -l ) |
-  ft_lstadd_back(&token_list,
-                 construct_token(TOKEN_L_PARENTHESIS, strdup("(")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
-  ft_lstadd_back(&token_list,
-                 construct_token(TOKEN_R_PARENTHESIS, strdup(")")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_PIPE, strdup("|")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  t_token_list *token_list = construct_token_list({{TOKEN_L_PARENTHESIS, "("},
+                                                   {TOKEN_WORD, "ls"},
+                                                   {TOKEN_WORD, "-l"},
+                                                   {TOKEN_R_PARENTHESIS, ")"},
+                                                   {TOKEN_PIPE, "|"},
+                                                   {TOKEN_EOF, nullptr}});
 
   t_ast *node = parse_pipeline(&token_list);
 
