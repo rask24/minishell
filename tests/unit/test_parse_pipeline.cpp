@@ -33,16 +33,31 @@ TEST(parse_pipeline, OnePipeline) {
                                                    {TOKEN_WORD, "wc"},
                                                    {TOKEN_EOF, nullptr}});
 
+  /*
+  **              PIPE
+  **            |     \
+  ** COMMAND(ls -l)   PIPE
+  **                |      \
+  **            COMMAND(wc) NULL
+  */
   t_ast *node = parse_pipeline(&token_list);
 
   EXPECT_EQ(node->type, AST_PIPE);
+
   EXPECT_EQ(node->left->type, AST_COMMAND);
   EXPECT_STREQ(get_cmd_arg(node->left->cmd_args), "ls");
   EXPECT_STREQ(get_cmd_arg(node->left->cmd_args->next), "-l");
+  EXPECT_EQ(node->left->cmd_args->next->next, nullptr);
   EXPECT_EQ(node->left->redirects, nullptr);
-  EXPECT_EQ(node->right->type, AST_COMMAND);
-  EXPECT_STREQ(get_cmd_arg(node->right->cmd_args), "wc");
-  EXPECT_EQ(node->right->redirects, nullptr);
+
+  EXPECT_EQ(node->right->type, AST_PIPE);
+
+  EXPECT_EQ(node->right->left->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node->right->left->cmd_args), "wc");
+  EXPECT_EQ(node->right->left->cmd_args->next, nullptr);
+  EXPECT_EQ(node->right->left->redirects, nullptr);
+
+  EXPECT_EQ(node->right->right, nullptr);
 
   destroy_ast(node);
   destroy_token_list(token_list);
@@ -60,29 +75,40 @@ TEST(parse_pipeline, MultiplePipelines) {
                                                    {TOKEN_EOF, nullptr}});
 
   /*
-  **                    PIPE
-  **                   |    \
-  **                 PIPE  COMMAND (cat -e)
-  **                |    \
-  **   COMMAND(ls -l) COMMAND (wc)
+  **             PIPE
+  **            |    \
+  **   CMD(ls -l)     PIPE
+  **                |      \
+  **           CMD(wc)     PIPE
+  **                     |     \
+  **              CMD(cat -e)  NULL
   */
   t_ast *node = parse_pipeline(&token_list);
 
   EXPECT_EQ(node->type, AST_PIPE);
 
-  EXPECT_EQ(node->left->type, AST_PIPE);
-  EXPECT_EQ(node->right->type, AST_COMMAND);
-  EXPECT_STREQ(get_cmd_arg(node->right->cmd_args), "cat");
-  EXPECT_STREQ(get_cmd_arg(node->right->cmd_args->next), "-e");
-  EXPECT_STREQ(get_cmd_arg(node->right->cmd_args->next->next), nullptr);
+  EXPECT_EQ(node->left->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node->left->cmd_args), "ls");
+  EXPECT_STREQ(get_cmd_arg(node->left->cmd_args->next), "-l");
+  EXPECT_EQ(node->left->cmd_args->next->next, nullptr);
+  EXPECT_EQ(node->left->redirects, nullptr);
 
-  EXPECT_EQ(node->left->left->type, AST_COMMAND);
-  EXPECT_STREQ(get_cmd_arg(node->left->left->cmd_args), "ls");
-  EXPECT_STREQ(get_cmd_arg(node->left->left->cmd_args->next), "-l");
-  EXPECT_STREQ(get_cmd_arg(node->left->left->cmd_args->next->next), nullptr);
-  EXPECT_EQ(node->left->right->type, AST_COMMAND);
-  EXPECT_STREQ(get_cmd_arg(node->left->right->cmd_args), "wc");
-  EXPECT_STREQ(get_cmd_arg(node->left->right->cmd_args->next), nullptr);
+  EXPECT_EQ(node->right->type, AST_PIPE);
+
+  EXPECT_EQ(node->right->left->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node->right->left->cmd_args), "wc");
+  EXPECT_EQ(node->right->left->cmd_args->next, nullptr);
+  EXPECT_EQ(node->right->left->redirects, nullptr);
+
+  EXPECT_EQ(node->right->right->type, AST_PIPE);
+
+  EXPECT_EQ(node->right->right->left->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node->right->right->left->cmd_args), "cat");
+  EXPECT_STREQ(get_cmd_arg(node->right->right->left->cmd_args->next), "-e");
+  EXPECT_EQ(node->right->right->left->cmd_args->next->next, nullptr);
+  EXPECT_EQ(node->right->right->left->redirects, nullptr);
+
+  EXPECT_EQ(node->right->right->right, nullptr);
 
   destroy_ast(node);
   destroy_token_list(token_list);
@@ -104,11 +130,14 @@ TEST(parse_pipeline, MultiplePipelinesWithSubshells) {
                                                    {TOKEN_EOF, nullptr}});
 
   /*
-  **                PIPE
-  **               |    \
-  **   SUBSHELL(ls -l)  SUBSHELL(cat -e > out.txt)
-  **     |                   |
-  **  COMMAND(ls -l)     COMMAND(cat -e)
+  **                    PIPE
+  **                 |      \
+  **               |           \
+  **        SUBSHELL              PIPE
+  **         |                  |      \
+  **  CMD(ls -l)  SUBSHELL(> out.txt)  NULL
+  **                     |
+  **             CMD(cat -e)
   */
   t_ast *node = parse_pipeline(&token_list);
 
@@ -116,22 +145,30 @@ TEST(parse_pipeline, MultiplePipelinesWithSubshells) {
 
   EXPECT_EQ(node->left->type, AST_SUBSHELL);
 
-  EXPECT_EQ(node->right->type, AST_SUBSHELL);
-  EXPECT_EQ(get_redirect_type(node->right->redirects), REDIRECT_OUTPUT);
-  EXPECT_STREQ(get_redirect_filepath(node->right->redirects), "out.txt");
-  EXPECT_EQ(node->right->redirects->next, nullptr);
-
   EXPECT_EQ(node->left->left->type, AST_COMMAND);
   EXPECT_STREQ(get_cmd_arg(node->left->left->cmd_args), "ls");
   EXPECT_STREQ(get_cmd_arg(node->left->left->cmd_args->next), "-l");
   EXPECT_EQ(node->left->left->cmd_args->next->next, nullptr);
   EXPECT_EQ(node->left->left->redirects, nullptr);
 
-  EXPECT_EQ(node->right->left->type, AST_COMMAND);
-  EXPECT_STREQ(get_cmd_arg(node->right->left->cmd_args), "cat");
-  EXPECT_STREQ(get_cmd_arg(node->right->left->cmd_args->next), "-e");
-  EXPECT_EQ(node->right->left->cmd_args->next->next, nullptr);
-  EXPECT_EQ(node->right->left->redirects, nullptr);
+  EXPECT_EQ(node->left->right, nullptr);
+
+  EXPECT_EQ(node->right->type, AST_PIPE);
+
+  EXPECT_EQ(node->right->left->type, AST_SUBSHELL);
+  EXPECT_EQ(get_redirect_type(node->right->left->redirects), REDIRECT_OUTPUT);
+  EXPECT_STREQ(get_redirect_filepath(node->right->left->redirects), "out.txt");
+  EXPECT_EQ(node->right->left->redirects->next, nullptr);
+
+  EXPECT_EQ(node->right->left->left->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node->right->left->left->cmd_args), "cat");
+  EXPECT_STREQ(get_cmd_arg(node->right->left->left->cmd_args->next), "-e");
+  EXPECT_EQ(node->right->left->left->cmd_args->next->next, nullptr);
+  EXPECT_EQ(node->right->left->left->redirects, nullptr);
+
+  EXPECT_EQ(node->right->left->right, nullptr);
+
+  EXPECT_EQ(node->right->right, nullptr);
 
   destroy_ast(node);
   destroy_token_list(token_list);
