@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   getter.c                                           :+:      :+:    :+:   */
+/*   is_identifier.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/08 13:16:13 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/20 22:05:19 by yliu             ###   ########.fr       */
+/*   Created: 2024/09/22 22:24:56 by yliu              #+#    #+#             */
+/*   Updated: 2024/09/22 23:21:33 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "utils.h"
 
-bool	get_env_is_valid_value(t_env_list *env)
+bool	is_identifier(const char *input)
 {
-	if (env == NULL)
+	if (!(ft_isalpha(*input) || *input == '_'))
 		return (false);
-	return (((t_env *)env->content)->is_valid_value);
-}
-
-char	*get_env_key(t_env_list *env)
-{
-	if (env == NULL)
-		return (NULL);
-	return (((t_env *)env->content)->key);
-}
-
-char	*get_env_value(t_env_list *env)
-{
-	if (env == NULL)
-		return (NULL);
-	return (((t_env *)env->content)->value);
+	while (*input)
+	{
+		if (!(ft_isalnum(*input) || *input == '_'))
+			return (false);
+		input++;
+	}
+	return (true);
 }

@@ -6,13 +6,13 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:08:45 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/13 16:18:12 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/15 15:29:19 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 
-static void	destroy_env_helper(void *content)
+void	destroy_env_helper(void *content)
 {
 	free(((t_env *)content)->key);
 	free(((t_env *)content)->value);

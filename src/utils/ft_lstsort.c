@@ -1,45 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstremove_if.c                                  :+:      :+:    :+:   */
+/*   ft_lstsort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/07 15:07:14 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/18 10:59:51 by yliu             ###   ########.fr       */
+/*   Created: 2024/09/11 14:42:55 by yliu              #+#    #+#             */
+/*   Updated: 2024/09/15 16:24:40 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-static void	ft_lstremove(t_list **lst, t_list *node, void (*del)(void *))
+static void	swap(t_list *list, t_list *a, t_list *b, t_cmp cmp)
 {
-	t_list	*prev;
+	t_list	*a_before;
+	t_list	*b_before;
+	t_list	*tmp;
 
-	if (!lst || !*lst || !node || !del)
-		return ;
-	prev = ft_lst_before(*lst, node);
-	if (!prev)
-		*lst = node->next;
-	else
-		prev->next = node->next;
-	ft_lstdelone(node, del);
+	if (cmp(a, b))
+	{
+		a_before = ft_lst_before(list, a);
+		b_before = ft_lst_before(list, b);
+		a_before->next = b;
+		b_before->next = a;
+		tmp = a->next;
+		a->next = b->next;
+		b->next = tmp;
+	}
 }
 
-void	ft_lstremove_if(t_list **lst, t_pred should_remove, void *param,
-							t_del del)
+void	ft_lstsort(t_list **list, t_cmp cmp)
 {
 	t_list	*curr;
 	t_list	*next;
 
-	if (!lst || !*lst || !should_remove || !del)
-		return ;
-	curr = *lst;
+	curr = *list;
 	while (curr)
 	{
 		next = curr->next;
-		if (should_remove(curr, param))
-			ft_lstremove(lst, curr, del);
-		curr = next;
+		while (next)
+		{
+			swap(*list, curr, next, cmp);
+			next = next->next;
+		}
+		curr = curr->next;
 	}
 }

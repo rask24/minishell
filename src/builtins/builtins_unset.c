@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   getter.c                                           :+:      :+:    :+:   */
+/*   builtins_unset.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/08 13:16:13 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/20 22:05:19 by yliu             ###   ########.fr       */
+/*   Created: 2024/09/10 21:45:52 by yliu              #+#    #+#             */
+/*   Updated: 2024/09/20 21:58:34 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "builtins.h"
 
-bool	get_env_is_valid_value(t_env_list *env)
+static bool	should_remove(t_env_list *env, void *name)
 {
-	if (env == NULL)
-		return (false);
-	return (((t_env *)env->content)->is_valid_value);
+	return (ft_strcmp(get_env_key(env), name) == 0);
 }
 
-char	*get_env_key(t_env_list *env)
+int	builtins_unset(char **args, t_builtins_ctx *ctx)
 {
-	if (env == NULL)
-		return (NULL);
-	return (((t_env *)env->content)->key);
-}
-
-char	*get_env_value(t_env_list *env)
-{
-	if (env == NULL)
-		return (NULL);
-	return (((t_env *)env->content)->value);
+	++args;
+	while (*args)
+	{
+		ft_lstremove_if(&ctx->env, should_remove, *args, destroy_env_helper);
+		args++;
+	}
+	return (EXIT_SUCCESS);
 }

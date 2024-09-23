@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   getter.c                                           :+:      :+:    :+:   */
+/*   builtins_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/08 13:16:13 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/20 22:05:19 by yliu             ###   ########.fr       */
+/*   Created: 2024/09/08 14:41:44 by yliu              #+#    #+#             */
+/*   Updated: 2024/09/20 22:33:19 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "builtins.h"
 
-bool	get_env_is_valid_value(t_env_list *env)
+static void	print_env_entry(void *content)
 {
-	if (env == NULL)
-		return (false);
-	return (((t_env *)env->content)->is_valid_value);
+	if (((t_env *)content)->is_valid_value)
+		printf("%s=%s\n", ((t_env *)content)->key, ((t_env *)content)->value);
 }
 
-char	*get_env_key(t_env_list *env)
+int	builtins_env(char **args, t_builtins_ctx *ctx)
 {
-	if (env == NULL)
-		return (NULL);
-	return (((t_env *)env->content)->key);
-}
-
-char	*get_env_value(t_env_list *env)
-{
-	if (env == NULL)
-		return (NULL);
-	return (((t_env *)env->content)->value);
+	if (args[1])
+	{
+		print_error("env", "too many arguments");
+		return (EXIT_FAILURE);
+	}
+	ft_lstiter(ctx->env, print_env_entry);
+	return (EXIT_SUCCESS);
 }
