@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:54:34 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/20 14:56:04 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/24 01:27:49 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	exec(char *input, t_env_list *env_list)
 {
 	t_token_list	*token_list;
 	t_ast			*node;
-	pid_t			last_pid;
 
 	token_list = lexer(input);
 	if (token_list == NULL)
@@ -45,11 +44,7 @@ void	exec(char *input, t_env_list *env_list)
 		return ;
 	}
 	if (node->type == AST_PIPE || node->type == AST_COMMAND)
-	{
-		last_pid
-			= execute_pipeline(node, env_list, STDIN_FILENO, STDOUT_FILENO);
-		wait_for_children(last_pid);
-	}
+		execute_pipeline(node, env_list, STDIN_FILENO, STDOUT_FILENO);
 	else
 		print_error("exec", "unsupported AST type");
 	destroy_token_list(token_list);

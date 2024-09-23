@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:18:33 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/22 14:19:35 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/24 01:30:17 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static void	execute_command_internal(char **argv, t_env_list *env_list)
 	}
 }
 
-pid_t	execute_simple_command(t_ast *node, t_env_list *env_list,
+int	execute_simple_command(t_ast *node, t_env_list *env_list,
 			int fd_in, int fd_out)
 {
 	pid_t		pid;
@@ -112,7 +112,10 @@ pid_t	execute_simple_command(t_ast *node, t_env_list *env_list,
 
 	pid = fork();
 	if (pid == -1)
-		print_error_exit("fork", strerror(errno), -1);
+	{
+		print_error("fork", strerror(errno));
+		return (EXIT_FAILURE);
+	}
 	else if (pid == 0)
 	{
 		argv = convert_cmd_args_to_array(node);
@@ -123,5 +126,6 @@ pid_t	execute_simple_command(t_ast *node, t_env_list *env_list,
 		reset_signal_handlers();
 		execute_command_internal(argv, env_list);
 	}
-	return (pid);
+	wait_for_children(pid);
+	return (EXIT_SUCCESS);
 }
