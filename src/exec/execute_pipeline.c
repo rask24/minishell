@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:15:45 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/20 14:57:26 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/24 01:33:01 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ pid_t	execute_pipeline(t_ast *node, t_env_list *env_list,
 	pid_t			pid;
 
 	if (node->type == AST_COMMAND)
-		return (execute_simple_command(node, env_list, fd_in, fd_out));
+		return (execute_command(node, env_list, fd_in, fd_out));
 	if (pipe(pipe_fds) == -1)
 	{
 		print_error("pipe", strerror(errno));

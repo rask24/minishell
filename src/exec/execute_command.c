@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_simple_command.c                           :+:      :+:    :+:   */
+/*   execute_command.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -104,8 +104,7 @@ static void	execute_command_internal(char **argv, t_env_list *env_list)
 	}
 }
 
-int	execute_simple_command(t_ast *node, t_env_list *env_list,
-			int fd_in, int fd_out)
+int	execute_command(t_ast *node, t_env_list *env_list, int fd_in, int fd_out)
 {
 	pid_t		pid;
 	char		**argv;
