@@ -6,11 +6,22 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:37:58 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/22 22:01:28 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/23 13:57:33 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
+
+static void	print_error_cd(const char *dirname, const char *strerror)
+{
+	char	*error_msg;
+	char	*tmp;
+
+	tmp = ft_xstrjoin(dirname, ": ");
+	error_msg = ft_xstrjoin(tmp, strerror);
+	print_error("cd", error_msg);
+	free(error_msg);
+}
 
 static int	move_to_home(t_env_list *env)
 {
@@ -65,7 +76,7 @@ int	builtins_cd(char **args, t_builtins_ctx *ctx)
 	res = chdir(fullpath);
 	if (res == -1)
 	{
-		print_error("chdir", "no such file or directory");
+		print_error_cd(dirname, strerror(errno));
 		return (EXIT_FAILURE);
 	}
 	free(ctx->cwd);
