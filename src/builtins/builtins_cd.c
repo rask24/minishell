@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:37:58 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/23 22:39:10 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/23 22:39:50 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ static char	*join_path(const char *cwd, const char *dirname)
 	char	*full_path;
 
 	if (cwd[ft_strlen(cwd) - 1] == '/')
-	    path_with_slash = ft_xstrdup(cwd);
+		path_with_slash = ft_xstrdup(cwd);
 	else
-	    path_with_slash = ft_xstrjoin(cwd, "/");
+		path_with_slash = ft_xstrjoin(cwd, "/");
 	full_path = ft_xstrjoin(path_with_slash, dirname);
 	free(path_with_slash);
 	return (full_path);
