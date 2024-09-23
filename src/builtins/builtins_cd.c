@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:37:58 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/23 13:57:33 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/23 22:39:10 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	print_error_cd(const char *dirname, const char *strerror)
 
 	tmp = ft_xstrjoin(dirname, ": ");
 	error_msg = ft_xstrjoin(tmp, strerror);
+	free(tmp);
 	print_error("cd", error_msg);
 	free(error_msg);
 }
@@ -36,28 +37,25 @@ static int	move_to_home(t_env_list *env)
 	}
 	ret = chdir(home_dir);
 	if (ret == -1)
-		return (ret);
+	{
+		print_error("chdir", strerror(errno));
+		return (EXIT_FAILURE);
+	}
 	return (0);
 }
 
 static char	*join_path(const char *cwd, const char *dirname)
 {
-	int		i;
-	char	*tmp;
-	char	*tmp2;
+	char	*path_with_slash;
+	char	*full_path;
 
-	i = 0;
-	while (cwd[i])
-		i++;
-	if (i == 0)
-		return (ft_xstrdup(dirname));
-	else if (cwd[i - 1] == '/')
-		tmp = ft_xstrdup(cwd);
+	if (cwd[ft_strlen(cwd) - 1] == '/')
+	    path_with_slash = ft_xstrdup(cwd);
 	else
-		tmp = ft_xstrjoin(cwd, "/");
-	tmp2 = ft_xstrjoin(tmp, dirname);
-	free(tmp);
-	return (tmp2);
+	    path_with_slash = ft_xstrjoin(cwd, "/");
+	full_path = ft_xstrjoin(path_with_slash, dirname);
+	free(path_with_slash);
+	return (full_path);
 }
 
 int	builtins_cd(char **args, t_builtins_ctx *ctx)
@@ -70,13 +68,14 @@ int	builtins_cd(char **args, t_builtins_ctx *ctx)
 		return (move_to_home(ctx->env));
 	dirname = args[1];
 	if (dirname[0] == '/')
-		fullpath = dirname;
+		fullpath = ft_xstrdup(dirname);
 	else
 		fullpath = join_path(ctx->cwd, dirname);
 	res = chdir(fullpath);
 	if (res == -1)
 	{
 		print_error_cd(dirname, strerror(errno));
+		free(fullpath);
 		return (EXIT_FAILURE);
 	}
 	free(ctx->cwd);

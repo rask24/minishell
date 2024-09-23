@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 13:41:00 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/23 00:00:44 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/23 22:30:11 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,13 @@ int	builtins_export(char **args, t_builtins_ctx *ctx)
 	char	*equal_ptr;
 	int		i;
 
-	exit_status = 0;
 	if (args[1] == NULL)
 	{
 		ft_lstsort(&ctx->env, cmp_func);
 		ft_lstiter(ctx->env, print_a_export);
 		return (EXIT_SUCCESS);
 	}
-	exit_status = 0;
+	exit_status = EXIT_SUCCESS;
 	i = 1;
 	while (args[i])
 	{
