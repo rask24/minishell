@@ -183,8 +183,8 @@ TEST(parse_list, MultipleListsWithPipeline) {
   t_ast *node2 = node->left->left;
   t_ast *node3 = node->left->left->left;
   t_ast *node4 = node->left->left->right;
-  t_ast *node5 = node->left->left->left->left;
-  t_ast *node6 = node->left->left->left->right;
+  t_ast *node5 = node->left->left->right->left;
+  t_ast *node6 = node->left->left->right->right;
   t_ast *node7 = node->left->right;
   t_ast *node8 = node->left->right->left;
   t_ast *node9 = node->left->right->right;
@@ -271,8 +271,8 @@ TEST(parse_list, ListsWithSubshells) {
   t_ast *node2 = node0->left->left;
   t_ast *node3 = node0->left->left->left;
   t_ast *node4 = node0->left->left->right;
-  t_ast *node5 = node0->left->left->left;
-  t_ast *node6 = node0->left->left->right;
+  t_ast *node5 = node0->left->left->right->left;
+  t_ast *node6 = node0->left->left->right->right;
   t_ast *node7 = node0->left->right;
   t_ast *node8 = node0->right;
   t_ast *node9 = node0->right->left;
