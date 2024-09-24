@@ -73,6 +73,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/utils/is_identifier.c \
 					$(SRC_DIR)/utils/ft_lstremove.c \
 					$(SRC_DIR)/utils/ft_lstremove_if.c \
+					$(SRC_DIR)/utils/ft_lstreplace.c \
 					$(SRC_DIR)/utils/ft_lstsort.c \
 					$(SRC_DIR)/utils/print_error.c \
 					$(SRC_DIR)/utils/wrapper/ft_xlstnew.c \
