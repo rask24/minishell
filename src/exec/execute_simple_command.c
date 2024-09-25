@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:18:33 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/22 14:19:35 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/25 18:12:45 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ pid_t	execute_simple_command(t_ast *node, t_env_list *env_list,
 		print_error_exit("fork", strerror(errno), -1);
 	else if (pid == 0)
 	{
-		argv = convert_cmd_args_to_array(node);
+		argv = convert_cmd_args_to_array(node->cmd_args);
 		if (!handle_pipeline(fd_in, fd_out))
 			exit(EXIT_FAILURE);
 		if (!handle_redirects(node->redirects))
