@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/24 09:45:07 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/25 18:54:09 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void			print_syntax_error(const char *token_value);
 t_list			*ft_xlstnew(void *content);
 char			*ft_xstrdup(const char *s);
 char			*ft_xstrjoin(const char *s1, const char *s2);
+char			*ft_xstrjoin2(char *s1, const char *s2);
 char			*ft_xstrndup(const char *s, size_t n);
 
 void			ft_lstremove(t_list **lst, t_list *node, t_del del);
