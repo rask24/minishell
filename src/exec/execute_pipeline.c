@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:15:45 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/25 15:15:06 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/25 15:44:47 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,16 @@ int	execute_left_node(t_ast *node, t_env_list *env_list,
 int	execute_right_node(t_ast *node, t_env_list *env_list,
 		t_pipeline_conf *conf, int *pipe_fd)
 {
+	int	ret;
+
 	if (conf->fd_in != STDIN_FILENO)
 		close(conf->fd_in);
 	conf->fd_in = pipe_fd[PIPE_READ];
 	if (node->type != AST_PIPE)
 		conf->fd_out = STDOUT_FILENO;
-	return (execute_ast_node(node, env_list, conf));
+	ret = execute_ast_node(node, env_list, conf);
+	close(pipe_fd[PIPE_READ]);
+	return (ret);
 }
 
 int	execute_pipeline(t_ast *node, t_env_list *env_list, t_pipeline_conf *conf)
