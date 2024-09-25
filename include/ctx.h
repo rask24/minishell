@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.h                                             :+:      :+:    :+:   */
+/*   ctx.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/06 12:54:48 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/25 16:04:11 by reasuke          ###   ########.fr       */
+/*   Created: 2024/09/25 16:01:26 by reasuke           #+#    #+#             */
+/*   Updated: 2024/09/25 16:02:18 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXEC_H
-# define EXEC_H
+#ifndef CTX_H
+# define CTX_H
 
-# include "ctx.h"
 # include "env.h"
 
-void	exec(char *input, t_ctx *env_list);
+typedef struct s_ctx
+{
+	char		*cwd;
+	t_env_list	*env;
+	int			exit_status;
+}				t_ctx;
 
 #endif

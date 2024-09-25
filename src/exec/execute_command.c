@@ -17,6 +17,7 @@
 #include <unistd.h>
 
 #include "ast.h"
+#include "ctx.h"
 #include "exec_internal.h"
 #include "libft.h"
 #include "ui.h"
@@ -82,20 +83,20 @@ static char	*search_for_command(char *basename, t_env_list *env_list)
 	return (NULL);
 }
 
-static void	execute_command_internal(char **argv, t_env_list *env_list)
+static void	execute_command_internal(char **argv, t_ctx *ctx)
 {
 	char	*cmd_path;
 
 	cmd_path = argv[0];
-	if (lookup_value("PATH", env_list) && ft_strchr(cmd_path, '/') == NULL)
+	if (lookup_value("PATH", ctx->env) && ft_strchr(cmd_path, '/') == NULL)
 	{
-		cmd_path = search_for_command(cmd_path, env_list);
+		cmd_path = search_for_command(cmd_path, ctx->env);
 		if (cmd_path == NULL)
 			print_error_exit(argv[0], CMD_NOT_FOUND, EXIT_NOT_FOUND_ERR);
 	}
 	if (is_a_directory(cmd_path))
 		print_error_exit(cmd_path, strerror(EISDIR), EXIT_OTHER_ERR);
-	if (execve(cmd_path, argv, (char **)convert_env_to_array(env_list)) == -1)
+	if (execve(cmd_path, argv, (char **)convert_env_to_array(ctx->env)) == -1)
 	{
 		if (errno == ENOENT)
 			print_error_exit(argv[0], strerror(errno), EXIT_NOT_FOUND_ERR);
@@ -104,7 +105,7 @@ static void	execute_command_internal(char **argv, t_env_list *env_list)
 	}
 }
 
-int	execute_command(t_ast *node, t_env_list *env_list, t_pipeline_conf *conf)
+int	execute_command(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
 {
 	pid_t		pid;
 	char		**argv;
@@ -123,7 +124,7 @@ int	execute_command(t_ast *node, t_env_list *env_list, t_pipeline_conf *conf)
 		if (!handle_redirects(node->redirects))
 			exit(EXIT_FAILURE);
 		reset_signal_handlers();
-		execute_command_internal(argv, env_list);
+		execute_command_internal(argv, ctx);
 	}
 	if (conf->fd_out == STDOUT_FILENO)
 		wait_for_children(pid);
