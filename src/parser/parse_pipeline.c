@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 22:18:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/23 17:56:48 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/25 14:15:41 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,11 @@
 
 t_ast	*push_pipe_node(t_ast *node, t_ast *new_node)
 {
-	t_ast	*cur;
-
 	if (node == NULL || new_node == NULL)
 		return (NULL);
 	if (node->type != AST_PIPE)
-		return (construct_ast(AST_PIPE, node,
-				construct_ast(AST_PIPE, new_node, NULL)));
-	cur = node;
-	while (cur->right != NULL)
-		cur = cur->right;
-	cur->right = construct_ast(AST_PIPE, new_node, NULL);
+		return (construct_ast(AST_PIPE, node, new_node));
+	node->right = push_pipe_node(node->right, new_node);
 	return (node);
 }
 
