@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:41:44 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/20 22:33:19 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/25 18:20:07 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	print_env_entry(void *content)
 		printf("%s=%s\n", ((t_env *)content)->key, ((t_env *)content)->value);
 }
 
-int	builtins_env(char **args, t_builtins_ctx *ctx)
+int	builtins_env(char **args, t_ctx *ctx)
 {
 	if (args[1])
 	{

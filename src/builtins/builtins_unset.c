@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_unset.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:45:52 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/20 21:58:34 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/25 18:21:48 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static bool	should_remove(t_env_list *env, void *name)
 	return (ft_strcmp(get_env_key(env), name) == 0);
 }
 
-int	builtins_unset(char **args, t_builtins_ctx *ctx)
+int	builtins_unset(char **args, t_ctx *ctx)
 {
 	++args;
 	while (*args)
