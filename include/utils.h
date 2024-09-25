@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/22 23:33:21 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/25 15:36:25 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@
 typedef bool	(*t_pred)(t_list *node, void *param);
 typedef void	(*t_del)(void *);
 typedef bool	(*t_cmp)(t_list *, t_list *);
-
-# define CMD_NOT_FOUND "command not found"
 
 bool			is_identifier(const char *input);
 

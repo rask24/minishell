@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:54:34 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/25 00:02:12 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/25 15:36:48 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ void	exec(char *input, t_env_list *env_list)
 		destroy_token_list(token_list);
 		return ;
 	}
-	conf = (t_pipeline_conf){.fd_in = STDIN_FILENO, .fd_out = STDOUT_FILENO,
-		.is_last = true};
+	conf = (t_pipeline_conf){.fd_in = STDIN_FILENO, .fd_out = STDOUT_FILENO};
 	if (execute_ast_node(node, env_list, &conf) == EXIT_FAILURE)
 		print_error("exec", "unsupported AST type");
 	destroy_token_list(token_list);

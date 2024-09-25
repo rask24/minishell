@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:46:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/24 17:16:55 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/25 15:36:09 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ typedef struct s_pipeline_conf
 {
 	int		fd_in;
 	int		fd_out;
-	bool	is_last;
 }	t_pipeline_conf;
 
 typedef enum e_exit_status
