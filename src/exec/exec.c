@@ -6,10 +6,13 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:54:34 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/25 16:05:38 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/25 17:53:05 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <errno.h>
+#include <stdbool.h>
+#include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -21,13 +24,24 @@
 #include "parser.h"
 #include "utils.h"
 
-void	wait_for_children(pid_t last_pid)
+void wait_for_children(pid_t last_pid, t_ctx *ctx)
 {
 	int		status;
+	pid_t	wpid;
 
-	waitpid(last_pid, &status, WNOHANG);
-	while (waitpid(-1, NULL, 0) > 0)
-		;
+	while (true)
+	{
+		wpid = waitpid(-1, &status, 0);
+		if (wpid == -1)
+			return ;
+		if (wpid == last_pid)
+		{
+			if (WIFEXITED(status))
+				ctx->exit_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				ctx->exit_status = WTERMSIG(status) + 128;
+		}
+	}
 }
 
 int	execute_ast_node(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)

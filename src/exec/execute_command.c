@@ -127,6 +127,6 @@ int	execute_command(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
 		execute_command_internal(argv, ctx);
 	}
 	if (conf->fd_out == STDOUT_FILENO)
-		wait_for_children(pid);
+		wait_for_children(pid, ctx);
 	return (EXIT_SUCCESS);
 }

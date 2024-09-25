@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:46:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/25 16:07:29 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/25 16:10:42 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ int		execute_pipeline(t_ast *node, t_ctx *ctx,
 int		execute_command(t_ast *cmd_node, t_ctx *ctx,
 			t_pipeline_conf *conf);
 bool	handle_redirects(t_list *redirects);
-void	wait_for_children(pid_t last_pid);
+void	wait_for_children(pid_t last_pid, t_ctx *ctx);
 
 #endif
