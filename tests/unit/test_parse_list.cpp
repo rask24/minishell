@@ -37,9 +37,7 @@ TEST(parse_list, OneComplexPipeline) {
   /*
   **             PIPE
   **            |    \
-  **   CMD(ls -l)    PIPE
-  **                |     \
-  **           CMD(wc)    NULL
+  **   CMD(ls -l)   CMD(wc)
   */
   t_ast *node = parse_list(&token_list);
 
@@ -51,14 +49,10 @@ TEST(parse_list, OneComplexPipeline) {
   EXPECT_EQ(node->left->cmd_args->next->next, nullptr);
   EXPECT_EQ(node->left->redirects, nullptr);
 
-  EXPECT_EQ(node->right->type, AST_PIPE);
-
-  EXPECT_EQ(node->right->left->type, AST_COMMAND);
-  EXPECT_STREQ(get_cmd_arg(node->right->left->cmd_args), "wc");
-  EXPECT_EQ(node->right->left->cmd_args->next, nullptr);
-  EXPECT_EQ(node->right->left->redirects, nullptr);
-
-  EXPECT_EQ(node->right->right, nullptr);
+  EXPECT_EQ(node->right->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node->right->cmd_args), "wc");
+  EXPECT_EQ(node->right->cmd_args->next, nullptr);
+  EXPECT_EQ(node->right->redirects, nullptr);
 
   destroy_ast(node);
   destroy_token_list(token_list);
@@ -167,30 +161,22 @@ TEST(parse_list, MultipleListsWithPipeline) {
   **                    0.OR
   **                  /     \
   **                /         \
-  **               1.AND    12.CMD(echo hello)
-  **             /      \
-  **            /         \
-  **          2.PIPE         7.PIPE
-  **          /    \        |      \
-  **    3.CMD(ls) 4.PIPE 8.CMD(pwd) 9.PIPE
-  **             |   \             |     \
-  **       5.CMD(wc) 6.NULL  10.CMD(cat -e) 11.NULL
+  **               1.AND    8.CMD(echo hello)
+  **             /        \
+  **            /            \
+  **          2.PIPE           5.PIPE
+  **          /    \          |        \
+  **    3.CMD(ls) 4.CMD(wc) 6.CMD(pwd) 7.CMD(cat -e)
   */
-  t_ast *node = parse_list(&token_list);
-
-  t_ast *node0 = node;
-  t_ast *node1 = node->left;
-  t_ast *node2 = node->left->left;
-  t_ast *node3 = node->left->left->left;
-  t_ast *node4 = node->left->left->right;
-  t_ast *node5 = node->left->left->right->left;
-  t_ast *node6 = node->left->left->right->right;
-  t_ast *node7 = node->left->right;
-  t_ast *node8 = node->left->right->left;
-  t_ast *node9 = node->left->right->right;
-  t_ast *node10 = node->left->right->right->left;
-  t_ast *node11 = node->left->right->right->right;
-  t_ast *node12 = node->right;
+  t_ast *node0 = parse_list(&token_list);
+  t_ast *node1 = node0->left;
+  t_ast *node2 = node0->left->left;
+  t_ast *node3 = node0->left->left->left;
+  t_ast *node4 = node0->left->left->right;
+  t_ast *node5 = node0->left->right;
+  t_ast *node6 = node0->left->right->left;
+  t_ast *node7 = node0->left->right->right;
+  t_ast *node8 = node0->right;
 
   EXPECT_EQ(node0->type, AST_OR);
 
@@ -203,37 +189,31 @@ TEST(parse_list, MultipleListsWithPipeline) {
   EXPECT_EQ(node3->cmd_args->next, nullptr);
   EXPECT_EQ(node3->redirects, nullptr);
 
-  EXPECT_EQ(node4->type, AST_PIPE);
+  EXPECT_EQ(node4->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node4->cmd_args), "wc");
+  EXPECT_EQ(node4->cmd_args->next, nullptr);
+  EXPECT_EQ(node4->redirects, nullptr);
 
-  EXPECT_EQ(node5->type, AST_COMMAND);
-  EXPECT_STREQ(get_cmd_arg(node5->cmd_args), "wc");
-  EXPECT_EQ(node5->cmd_args->next, nullptr);
+  EXPECT_EQ(node5->type, AST_PIPE);
 
-  EXPECT_EQ(node6, nullptr);
+  EXPECT_EQ(node6->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node6->cmd_args), "pwd");
+  EXPECT_EQ(node6->cmd_args->next, nullptr);
+  EXPECT_EQ(node6->redirects, nullptr);
 
-  EXPECT_EQ(node7->type, AST_PIPE);
+  EXPECT_EQ(node7->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node7->cmd_args), "cat");
+  EXPECT_STREQ(get_cmd_arg(node7->cmd_args->next), "-e");
+  EXPECT_EQ(node7->cmd_args->next->next, nullptr);
+  EXPECT_EQ(node7->redirects, nullptr);
 
   EXPECT_EQ(node8->type, AST_COMMAND);
-  EXPECT_STREQ(get_cmd_arg(node8->cmd_args), "pwd");
-  EXPECT_EQ(node8->cmd_args->next, nullptr);
+  EXPECT_STREQ(get_cmd_arg(node8->cmd_args), "echo");
+  EXPECT_STREQ(get_cmd_arg(node8->cmd_args->next), "hello");
+  EXPECT_EQ(node8->cmd_args->next->next, nullptr);
+  EXPECT_EQ(node8->redirects, nullptr);
 
-  EXPECT_EQ(node9->type, AST_PIPE);
-
-  EXPECT_EQ(node10->type, AST_COMMAND);
-  EXPECT_STREQ(get_cmd_arg(node10->cmd_args), "cat");
-  EXPECT_STREQ(get_cmd_arg(node10->cmd_args->next), "-e");
-  EXPECT_EQ(node10->cmd_args->next->next, nullptr);
-  EXPECT_EQ(node10->redirects, nullptr);
-
-  EXPECT_EQ(node11, nullptr);
-
-  EXPECT_EQ(node12->type, AST_COMMAND);
-  EXPECT_STREQ(get_cmd_arg(node12->cmd_args), "echo");
-  EXPECT_STREQ(get_cmd_arg(node12->cmd_args->next), "hello");
-  EXPECT_EQ(node12->cmd_args->next->next, nullptr);
-  EXPECT_EQ(node12->redirects, nullptr);
-
-  destroy_ast(node);
+  destroy_ast(node0);
   destroy_token_list(token_list);
 }
 
@@ -258,29 +238,23 @@ TEST(parse_list, ListsWithSubshells) {
   **                  /         \
   **                /             \
   **              /                 \
-  **       1.SUBSHELL               8.SUBSHELL
+  **        1.SUBSHEL               6.SUBSHELL
   **           |     \                 |    \
-  **         2.PIPE  7.NULL         9.PIPE  14.NULL
+  **         2.PIPE  5.NULL         7.PIPE  10.NULL
   **       |       \                |      \
-  **  3.CMD(ls -l) 4.PIPE   10.CMD(pwd)   11.PIPE
-  **              |     \                |      \
-  **      5.CMD(cat)  6.NULL       12.CMD(wc)   13.NULL
+  **  3.CMD(ls -l) 4.CMD(cat)  8.CMD(pwd) 9.CMD(wc)
   */
   t_ast *node0 = parse_list(&token_list);
   t_ast *node1 = node0->left;
   t_ast *node2 = node0->left->left;
   t_ast *node3 = node0->left->left->left;
   t_ast *node4 = node0->left->left->right;
-  t_ast *node5 = node0->left->left->right->left;
-  t_ast *node6 = node0->left->left->right->right;
-  t_ast *node7 = node0->left->right;
-  t_ast *node8 = node0->right;
-  t_ast *node9 = node0->right->left;
-  t_ast *node10 = node0->right->left->left;
-  t_ast *node11 = node0->right->left->right;
-  t_ast *node12 = node0->right->left->right->left;
-  t_ast *node13 = node0->right->left->right->right;
-  t_ast *node14 = node0->right->right;
+  t_ast *node5 = node0->left->right;
+  t_ast *node6 = node0->right;
+  t_ast *node7 = node0->right->left;
+  t_ast *node8 = node0->right->left->left;
+  t_ast *node9 = node0->right->left->right;
+  t_ast *node10 = node0->right->right;
 
   EXPECT_EQ(node0->type, AST_AND);
 
@@ -294,36 +268,28 @@ TEST(parse_list, ListsWithSubshells) {
   EXPECT_EQ(node3->cmd_args->next->next, nullptr);
   EXPECT_EQ(node3->redirects, nullptr);
 
-  EXPECT_EQ(node4->type, AST_PIPE);
+  EXPECT_EQ(node4->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node4->cmd_args), "cat");
+  EXPECT_EQ(node4->cmd_args->next, nullptr);
+  EXPECT_EQ(node4->redirects, nullptr);
 
-  EXPECT_EQ(node5->type, AST_COMMAND);
-  EXPECT_STREQ(get_cmd_arg(node5->cmd_args), "cat");
-  EXPECT_EQ(node5->cmd_args->next, nullptr);
-  EXPECT_EQ(node5->redirects, nullptr);
+  EXPECT_EQ(node5, nullptr);
 
-  EXPECT_EQ(node6, nullptr);
+  EXPECT_EQ(node6->type, AST_SUBSHELL);
 
-  EXPECT_EQ(node7, nullptr);
+  EXPECT_EQ(node7->type, AST_PIPE);
 
-  EXPECT_EQ(node8->type, AST_SUBSHELL);
+  EXPECT_EQ(node8->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node8->cmd_args), "pwd");
+  EXPECT_EQ(node8->cmd_args->next, nullptr);
+  EXPECT_EQ(node8->redirects, nullptr);
 
-  EXPECT_EQ(node9->type, AST_PIPE);
+  EXPECT_EQ(node9->type, AST_COMMAND);
+  EXPECT_STREQ(get_cmd_arg(node9->cmd_args), "wc");
+  EXPECT_EQ(node9->cmd_args->next, nullptr);
+  EXPECT_EQ(node9->redirects, nullptr);
 
-  EXPECT_EQ(node10->type, AST_COMMAND);
-  EXPECT_STREQ(get_cmd_arg(node10->cmd_args), "pwd");
-  EXPECT_EQ(node10->cmd_args->next, nullptr);
-  EXPECT_EQ(node10->redirects, nullptr);
-
-  EXPECT_EQ(node11->type, AST_PIPE);
-
-  EXPECT_EQ(node12->type, AST_COMMAND);
-  EXPECT_STREQ(get_cmd_arg(node12->cmd_args), "wc");
-  EXPECT_EQ(node12->cmd_args->next, nullptr);
-  EXPECT_EQ(node12->redirects, nullptr);
-
-  EXPECT_EQ(node13, nullptr);
-
-  EXPECT_EQ(node14, nullptr);
+  EXPECT_EQ(node10, nullptr);
 
   destroy_ast(node0);
   destroy_token_list(token_list);
