@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:13:36 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/17 19:15:26 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/26 17:06:59 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ void	push_redirect_info(t_ast *node, t_redirect_info *info)
 		return ;
 	}
 	ft_lstadd_back(&node->redirects,
-		ft_lstnew(construct_redirect_info(info->type, info->filepath)));
+		ft_lstnew(construct_redirect_info(info->type, info->filepath,
+				info->heredoc_fd)));
 }
