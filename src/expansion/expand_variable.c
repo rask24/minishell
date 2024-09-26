@@ -6,85 +6,40 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:08:50 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/24 15:49:31 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/26 20:46:03 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expansion.h"
+#include "expansion_internal.h"
 
-typedef char	*(*t_exec_func)(char *string, int *i, t_builtins_ctx *ctx);
-
-static char	*update_expanded(char *expanded, char *result)
+static char	*skip_quotes(t_expand_info *expand_info, char c)
 {
-	char	*tmp;
-
-	if (result == NULL)
-		return (expanded);
-	if (expanded == NULL)
-		expanded = ft_xstrdup(result);
-	else
-	{
-		tmp = ft_xstrjoin(expanded, result);
-		free(expanded);
-		expanded = tmp;
-	}
-	return (expanded);
-}
-
-static char	*get_untill_dollar(char *string, int *i, t_builtins_ctx *ctx)
-{
-	char	*result;
-
-	(void)ctx;
-	while (string[*i] && string[*i] != '$')
-		(*i)++;
-	result = ft_xstrndup(string, *i);
-	return (result);
-}
-
-static char	*get_expanded_variable(char *string, int *i, t_builtins_ctx *ctx)
-{
-	char	*tmp;
-	char	*result;
-	char	*ans;
-
-	if (!*string)
-		return (ft_xstrdup("$"));
-	while (string[*i] && (ft_isalnum(string[*i]) || string[*i] == '_'))
-		(*i)++;
-	tmp = ft_xstrndup(string, *i);
-	if (!is_identifier(tmp))
-		return (ft_xstrdup(""));
-	result = lookup_value(tmp, ctx->env);
-	if (!result)
-		return (ft_xstrdup(""));
-	ans = ft_xstrdup(result);
-	free(tmp);
-	return (ans);
+	expand_info->right++;
+	while (*expand_info->right && *expand_info->right != c)
+		expand_info->right++;
+	expand_info->right++;
+	return (expand_info->trim(expand_info));
 }
 
 char	*expand_variable(char *string, t_builtins_ctx *ctx)
 {
-	int			len;
-	t_exec_func	get_expanded_str;
-	char		*result;
-	char		*expanded;
+	t_expand_info	expand_info;
+	char			*expanded;
+	char			*result;
 
-	expanded = NULL;
-	while (*string)
+	construct_expand_info(string, &expand_info);
+	result = NULL;
+	while (*expand_info.right)
 	{
-		if (*string == '$')
-		{
-			++string;
-			get_expanded_str = get_expanded_variable;
-		}
+		if (*expand_info.right == '\'' || *expand_info.right == '\"')
+			expanded = skip_quotes(&expand_info, *expand_info.right);
+		else if (*expand_info.right == '$')
+			expanded = get_expanded_variable(&expand_info, ctx);
 		else
-			get_expanded_str = get_untill_dollar;
-		len = 0;
-		result = get_expanded_str(string, &len, ctx);
-		string += len;
-		expanded = update_expanded(expanded, result);
-		free(result);
+			expanded = expand_info.trim_till(&expand_info, "$");
+		result = ft_xstrjoin2(result, expanded);
+		free(expanded);
 	}
-	return (expanded);
+	return (result);
 }

@@ -13,7 +13,9 @@ TEST(expand_variable, NoExpand) {
   t_env_list *env_list = convert_array_to_env(envp);
   t_builtins_ctx ctx;
 
-  EXPECT_STREQ(expand_variable(strdup("USER"), &ctx), "USER");
+  char *string = strdup("USER");
+
+  EXPECT_STREQ(expand_variable(string, &ctx), "USER");
 
   destroy_env_list(env_list);
 }
@@ -24,7 +26,9 @@ TEST(expand_variable, OneVariable) {
   t_builtins_ctx ctx;
   ctx.env = env_list;
 
-  EXPECT_STREQ(expand_variable(strdup("$USER"), &ctx), "Alice");
+  char *string = strdup("$USER");
+
+  EXPECT_STREQ(expand_variable(string, &ctx), "Alice");
 
   destroy_env_list(env_list);
 }
@@ -34,8 +38,9 @@ TEST(expand_variable, NoVariable) {
   t_env_list *env_list = convert_array_to_env(envp);
   t_builtins_ctx ctx;
   ctx.env = env_list;
+  char *string = strdup("$USERRRRR");
 
-  EXPECT_STREQ(expand_variable(strdup("$USERRRRR"), &ctx), "");
+  EXPECT_STREQ(expand_variable(string, &ctx), "");
 
   destroy_env_list(env_list);
 }
@@ -45,8 +50,10 @@ TEST(expand_variable, StringAfterVariable) {
   t_env_list *env_list = convert_array_to_env(envp);
   t_builtins_ctx ctx;
   ctx.env = env_list;
+  char *string = strdup("student$USER");
 
-  EXPECT_STREQ(expand_variable(strdup("student$USER"), &ctx), "studentAlice");
+  EXPECT_STREQ(expand_variable(string, &ctx), "studentAlice");
+
   destroy_env_list(env_list);
 }
 
