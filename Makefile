@@ -40,6 +40,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/expansion/constructor.c \
 					$(SRC_DIR)/expansion/expand.c \
 					$(SRC_DIR)/expansion/expand_variable.c \
+					$(SRC_DIR)/expansion/expand_quotes.c \
 					$(SRC_DIR)/expansion/get_expand_variable.c \
 					$(SRC_DIR)/env/constructor.c \
 					$(SRC_DIR)/env/convert_env_to_array.c \
