@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:47:26 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/22 22:02:03 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/25 18:20:46 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	exec_valid_exit(int exit_pos, char **args)
 	return (res & 0xFF);
 }
 
-int	builtins_exit(char **args, t_builtins_ctx *ctx)
+int	builtins_exit(char **args, t_ctx *ctx)
 {
 	int		exit_pos;
 

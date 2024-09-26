@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_export.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 13:41:00 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/23 22:30:11 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/25 18:21:58 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	print_error_export(const char *input)
 }
 
 static int	add_complete_env(const char *input, char *equal_ptr,
-		t_builtins_ctx *ctx)
+		t_ctx *ctx)
 {
 	char		*key;
 	char		*value;
@@ -47,7 +47,7 @@ static int	add_complete_env(const char *input, char *equal_ptr,
 	return (EXIT_SUCCESS);
 }
 
-static int	add_no_value_env(char *input, t_builtins_ctx *ctx)
+static int	add_no_value_env(char *input, t_ctx *ctx)
 {
 	t_env_list	*env;
 
@@ -74,7 +74,7 @@ static int	add_no_key_env(char *input)
 	return (EXIT_FAILURE);
 }
 
-int	builtins_export(char **args, t_builtins_ctx *ctx)
+int	builtins_export(char **args, t_ctx *ctx)
 {
 	int		exit_status;
 	char	*equal_ptr;

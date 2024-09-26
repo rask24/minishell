@@ -15,7 +15,7 @@ TEST(builtins_export, NoArgs) {
   ft_lstadd_back(&env, env1);
   ft_lstadd_back(&env, env2);
 
-  t_builtins_ctx config;
+  t_ctx config;
   config.env = env;
 
   char *args[] = {ft_strdup("export"), NULL};
@@ -37,7 +37,7 @@ TEST(builtins_export, AddArgs) {
   ft_lstadd_back(&env, env1);
   ft_lstadd_back(&env, env2);
 
-  t_builtins_ctx config;
+  t_ctx config;
   config.env = env;
 
   char *args[] = {ft_strdup("export"), ft_strdup("key3=value3"), NULL};
@@ -63,7 +63,7 @@ TEST(builtins_export, AddMoreArgs) {
   ft_lstadd_back(&env, env1);
   ft_lstadd_back(&env, env2);
 
-  t_builtins_ctx config;
+  t_ctx config;
   config.env = env;
 
   char *args[] = {ft_strdup("export"), ft_strdup("key3=value3"),
@@ -92,7 +92,7 @@ TEST(builtins_export, AddDupArgs) {
   ft_lstadd_back(&env, env1);
   ft_lstadd_back(&env, env2);
 
-  t_builtins_ctx config;
+  t_ctx config;
   config.env = env;
 
   char *args[] = {ft_strdup("export"), ft_strdup("key3=value3"),
@@ -120,7 +120,7 @@ TEST(builtins_export, AddDupArgs) {
 //   ft_lstadd_back(&env, env1);
 //   ft_lstadd_back(&env, env2);
 
-//   t_builtins_ctx config;
+//   t_ctx config;
 //   config.env = env;
 
 //   char *args[] = {ft_strdup("export"), ft_strdup("=value3"), NULL};
@@ -145,7 +145,7 @@ TEST(builtins_export, NoEqualArg) {
   ft_lstadd_back(&env, env1);
   ft_lstadd_back(&env, env2);
 
-  t_builtins_ctx config;
+  t_ctx config;
   config.env = env;
 
   char *args[] = {ft_strdup("export"), ft_strdup("key3"), NULL};

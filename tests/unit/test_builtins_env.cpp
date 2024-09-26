@@ -13,7 +13,7 @@ TEST(builtins_env, builtin_env) {
   ft_lstadd_back(&env, env1);
   ft_lstadd_back(&env, env2);
 
-  t_builtins_ctx config;
+  t_ctx config;
   config.env = env;
 
   char *args[] = {ft_strdup("env"), NULL};
@@ -32,7 +32,7 @@ TEST(builtins_env, builtin_env) {
 //   ft_lstadd_back(&env, env1);
 //   ft_lstadd_back(&env, env2);
 
-//   t_builtins_ctx config;
+//   t_ctx config;
 //   config.env = env;
 
 //   char *args[] = {ft_strdup("env"), ft_strdup("key3=value3"), NULL};
