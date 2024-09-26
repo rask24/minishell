@@ -15,7 +15,7 @@ typedef struct s_result {
 TEST(builtins_exit, NoArg) {
   char *args[] = {strdup("exit"), NULL};
 
-  t_builtins_ctx config;
+  t_ctx config;
   config.exit_status = 0;
 
   EXPECT_EXIT(builtins_exit(args, &config), ::testing::ExitedWithCode(0),
