@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/25 16:04:30 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/26 22:31:22 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "ui.h"
 #include "utils.h"
 
-t_ctx	*construct_ctx(char **envp)
+static t_ctx	*construct_ctx(char **envp)
 {
 	t_ctx	*ctx;
 
@@ -51,5 +51,7 @@ int	main(int argc, char **argv, char **envp)
 		free(input);
 		restore_terminal_configuration(&original_termios);
 	}
+	destroy_env_list(ctx->env);
+	free(ctx);
 	return (EXIT_SUCCESS);
 }
