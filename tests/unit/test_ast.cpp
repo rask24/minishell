@@ -159,7 +159,7 @@ TEST(push_redirect_info, InvalidNodeType) {
 TEST(convert_cmd_args_to_array, NullCmdArgs) {
   t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
 
-  char **cmd_args = convert_cmd_args_to_array(node);
+  char **cmd_args = convert_cmd_args_to_array(node->cmd_args);
 
   EXPECT_EQ(cmd_args, nullptr);
 
@@ -171,7 +171,7 @@ TEST(convert_cmd_args_to_array, OneArg) {
 
   push_cmd_arg(node, "ls");
 
-  char **cmd_args = convert_cmd_args_to_array(node);
+  char **cmd_args = convert_cmd_args_to_array(node->cmd_args);
 
   EXPECT_STREQ(cmd_args[0], "ls");
   EXPECT_EQ(cmd_args[1], nullptr);
@@ -187,7 +187,7 @@ TEST(convert_cmd_args_to_array, MultipleArgs) {
   push_cmd_arg(node, "-l");
   push_cmd_arg(node, "-a");
 
-  char **cmd_args = convert_cmd_args_to_array(node);
+  char **cmd_args = convert_cmd_args_to_array(node->cmd_args);
 
   EXPECT_STREQ(cmd_args[0], "ls");
   EXPECT_STREQ(cmd_args[1], "-l");
