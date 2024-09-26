@@ -23,29 +23,6 @@
 #include "ui.h"
 #include "utils.h"
 
-static bool	handle_pipeline(t_pipeline_conf *conf)
-{
-	if (conf->fd_in != STDIN_FILENO)
-	{
-		if (dup2(conf->fd_in, STDIN_FILENO) == -1)
-		{
-			print_error("dup2", strerror(errno));
-			return (false);
-		}
-		close(conf->fd_in);
-	}
-	if (conf->fd_out != STDOUT_FILENO)
-	{
-		if (dup2(conf->fd_out, STDOUT_FILENO) == -1)
-		{
-			print_error("dup2", strerror(errno));
-			return (false);
-		}
-		close(conf->fd_out);
-	}
-	return (true);
-}
-
 static bool	is_a_directory(const char *path)
 {
 	struct stat	st;
@@ -119,10 +96,7 @@ int	execute_command(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
 	else if (pid == 0)
 	{
 		argv = convert_cmd_args_to_array(node->cmd_args);
-		if (!handle_pipeline(conf))
-			exit(EXIT_FAILURE);
-		if (!handle_redirects(node->redirects))
-			exit(EXIT_FAILURE);
+		handle_io(conf, node->redirects);
 		reset_signal_handlers();
 		execute_command_internal(argv, ctx);
 	}
