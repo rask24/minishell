@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:44:57 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/22 21:35:04 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/25 18:22:32 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,18 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+# include "ctx.h"
 # include "env.h"
 # include "libft.h"
 # include "utils.h"
 
-typedef struct s_builtins_ctx
-{
-	char		*cwd;
-	t_env_list	*env;
-	int			exit_status;
-}				t_builtins_ctx;
-
-int				builtins_cd(char **args, t_builtins_ctx *config);
+int				builtins_cd(char **args, t_ctx *ctx);
 int				builtins_echo(char **args, char **env);
-int				builtins_env(char **args, t_builtins_ctx *config);
-int				builtins_exit(char **args, t_builtins_ctx *config);
-int				builtins_export(char **args, t_builtins_ctx *config);
+int				builtins_env(char **args, t_ctx *ctx);
+int				builtins_exit(char **args, t_ctx *ctx);
+int				builtins_export(char **args, t_ctx *ctx);
 int				builtins_pwd(char **args, char **env);
-int				builtins_unset(char **args, t_builtins_ctx *config);
+int				builtins_unset(char **args, t_ctx *ctx);
 
 // export utils
 void			print_a_export(void *content);

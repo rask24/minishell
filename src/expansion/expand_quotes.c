@@ -6,14 +6,13 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:59:47 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/26 19:42:11 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/27 00:16:02 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expansion_internal.h"
 
-static char	*remove_double_quote(t_expand_info *expand_info,
-		t_builtins_ctx *ctx)
+static char	*remove_double_quote(t_expand_info *expand_info, t_ctx *ctx)
 {
 	char	*unquoted;
 	char	*result;
@@ -31,7 +30,7 @@ static char	*remove_double_quote(t_expand_info *expand_info,
 	return (result);
 }
 
-char	*expand_quotes(char *string, t_builtins_ctx *ctx)
+char	*expand_quotes(char *string, t_ctx *ctx)
 {
 	t_expand_info	expand_info;
 	char			*unquoted;

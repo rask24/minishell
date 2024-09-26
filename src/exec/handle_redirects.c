@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:45:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/20 15:00:15 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/24 01:24:02 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ bool	handle_redirects(t_list *redirects)
 			status = handle_redirect_output(get_redirect_filepath(redirects));
 		else if (get_redirect_type(redirects) == REDIRECT_APPEND)
 			status = handle_redirects_append(get_redirect_filepath(redirects));
-		if (status == -1)
+		if (!status)
 			return (false);
 		redirects = redirects->next;
 	}

@@ -35,8 +35,8 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/builtins/builtins_pwd.c \
 					$(SRC_DIR)/builtins/builtins_unset.c \
 					$(SRC_DIR)/exec/exec.c \
+					$(SRC_DIR)/exec/execute_command.c \
 					$(SRC_DIR)/exec/execute_pipeline.c \
-					$(SRC_DIR)/exec/execute_simple_command.c \
 					$(SRC_DIR)/expansion/constructor.c \
 					$(SRC_DIR)/expansion/expand.c \
 					$(SRC_DIR)/expansion/expand_variable.c \

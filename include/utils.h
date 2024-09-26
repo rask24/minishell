@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/25 18:54:09 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/27 00:10:42 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ typedef bool	(*t_pred)(t_list *node, void *param);
 typedef void	(*t_del)(void *);
 typedef bool	(*t_cmp)(t_list *, t_list *);
 
-# define CMD_NOT_FOUND "command not found"
-
 bool			is_identifier(const char *input);
 
 void			print_error(const char *func, const char *desc);
@@ -44,8 +42,8 @@ void			ft_lstremove(t_list **lst, t_list *node, t_del del);
 void			ft_lstremove_if(t_list **lst, t_pred should_remove, void *param,
 					t_del del);
 void			ft_lstreplace(t_list **lst, t_list *node, t_list *new_node);
-void			ft_lstsort(t_list **list, bool (*cmp)(t_list *, t_list *));
 void			ft_lstinsert(t_list **lst, t_list *insert_ptr, t_list *insert);
+void			ft_lstsort(t_list **list, t_cmp cmp);
 void			ft_lstiterp(t_list *lst, void (*f)(void *, void *),
 					void *param);
 

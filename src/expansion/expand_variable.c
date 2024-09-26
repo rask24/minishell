@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:08:50 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/26 20:46:03 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/27 00:14:12 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char	*skip_quotes(t_expand_info *expand_info, char c)
 	return (expand_info->trim(expand_info));
 }
 
-char	*expand_variable(char *string, t_builtins_ctx *ctx)
+char	*expand_variable(char *string, t_ctx *ctx)
 {
 	t_expand_info	expand_info;
 	char			*expanded;

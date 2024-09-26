@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:37:58 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/23 22:49:41 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/25 18:19:26 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static char	*join_path(const char *cwd, const char *dirname)
 	return (full_path);
 }
 
-int	builtins_cd(char **args, t_builtins_ctx *ctx)
+int	builtins_cd(char **args, t_ctx *ctx)
 {
 	char	*dirname;
 	char	*fullpath;

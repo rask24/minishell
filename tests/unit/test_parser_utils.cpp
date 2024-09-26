@@ -1,8 +1,7 @@
 // Copyright 2024, reasuke
 
-#include <cstring>
-
 #include "gtest/gtest.h"
+#include "utils_parser.hpp"
 
 extern "C" {
 #include "parser/parser_internal.h"
@@ -10,11 +9,11 @@ extern "C" {
 }
 
 TEST(consume_token, MultipleTokens) {
-  t_token_list *token_list = nullptr;
-
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("src")));
+  // ls -l src
+  t_token_list *token_list = construct_token_list({{TOKEN_WORD, "ls"},
+                                                   {TOKEN_WORD, "-l"},
+                                                   {TOKEN_WORD, "src"},
+                                                   {TOKEN_EOF, nullptr}});
 
   EXPECT_EQ(get_token_type(token_list), TOKEN_WORD);
   EXPECT_STREQ(get_token_value(token_list), "ls");
@@ -24,6 +23,8 @@ TEST(consume_token, MultipleTokens) {
   EXPECT_TRUE(consume_token(&token_list));
   EXPECT_EQ(get_token_type(token_list), TOKEN_WORD);
   EXPECT_STREQ(get_token_value(token_list), "src");
+  EXPECT_TRUE(consume_token(&token_list));
+  EXPECT_EQ(get_token_type(token_list), TOKEN_EOF);
   EXPECT_TRUE(consume_token(&token_list));
   EXPECT_EQ(token_list, nullptr);
 
@@ -31,11 +32,11 @@ TEST(consume_token, MultipleTokens) {
 }
 
 TEST(expect_token, MultipleTokens) {
-  t_token_list *token_list = nullptr;
-
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("src")));
+  // ls -l src
+  t_token_list *token_list = construct_token_list({{TOKEN_WORD, "ls"},
+                                                   {TOKEN_WORD, "-l"},
+                                                   {TOKEN_WORD, "src"},
+                                                   {TOKEN_EOF, nullptr}});
 
   EXPECT_EQ(get_token_type(token_list), TOKEN_WORD);
   EXPECT_STREQ(get_token_value(token_list), "ls");
@@ -46,6 +47,8 @@ TEST(expect_token, MultipleTokens) {
   EXPECT_EQ(get_token_type(token_list), TOKEN_WORD);
   EXPECT_STREQ(get_token_value(token_list), "src");
   EXPECT_TRUE(expect_token(&token_list, TOKEN_WORD));
+  EXPECT_EQ(get_token_type(token_list), TOKEN_EOF);
+  EXPECT_TRUE(expect_token(&token_list, TOKEN_EOF));
   EXPECT_EQ(token_list, nullptr);
 
   destroy_token_list(token_list);
@@ -68,13 +71,11 @@ TEST(expect_token, CurrentTokenIsNull) {
 }
 
 TEST(expect_token, UnexpectedToken) {
-  t_token_list *token_list = nullptr;
-
   // ls > >>
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, nullptr));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_DGREAT, nullptr));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  t_token_list *token_list = construct_token_list({{TOKEN_WORD, "ls"},
+                                                   {TOKEN_GREAT, ">"},
+                                                   {TOKEN_DGREAT, ">>"},
+                                                   {TOKEN_EOF, nullptr}});
 
   EXPECT_EQ(get_token_type(token_list), TOKEN_WORD);
   EXPECT_EQ(get_token_type(token_list->next), TOKEN_GREAT);

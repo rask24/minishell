@@ -11,7 +11,7 @@ extern "C" {
 TEST(expand_variable, NoExpand) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
-  t_builtins_ctx ctx;
+  t_ctx ctx;
 
   char *string = strdup("USER");
 
@@ -23,7 +23,7 @@ TEST(expand_variable, NoExpand) {
 TEST(expand_variable, OneVariable) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
-  t_builtins_ctx ctx;
+  t_ctx ctx;
   ctx.env = env_list;
 
   char *string = strdup("$USER");
@@ -36,7 +36,7 @@ TEST(expand_variable, OneVariable) {
 TEST(expand_variable, NoVariable) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
-  t_builtins_ctx ctx;
+  t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USERRRRR");
 
@@ -48,7 +48,7 @@ TEST(expand_variable, NoVariable) {
 TEST(expand_variable, StringAfterVariable) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
-  t_builtins_ctx ctx;
+  t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("student$USER");
 
@@ -60,7 +60,7 @@ TEST(expand_variable, StringAfterVariable) {
 TEST(expand_variable, ManyVariables) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
-  t_builtins_ctx ctx;
+  t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USERis$USER$USER$");
 
@@ -72,7 +72,7 @@ TEST(expand_variable, ManyVariables) {
 TEST(expand_variable, IgnoreSingleQuote) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
-  t_builtins_ctx ctx;
+  t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USER'$USER'");
 
@@ -84,7 +84,7 @@ TEST(expand_variable, IgnoreSingleQuote) {
 TEST(expand_variable, IgnoreDoubleQuote) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
-  t_builtins_ctx ctx;
+  t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USER\"$USER\"");
 
@@ -96,7 +96,7 @@ TEST(expand_variable, IgnoreDoubleQuote) {
 TEST(expand_quotes, NoSingleQuote) {
   char *envp[] = {nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
-  t_builtins_ctx ctx;
+  t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("hello");
 
@@ -108,7 +108,7 @@ TEST(expand_quotes, NoSingleQuote) {
 TEST(expand_quotes, ManySingleQuotes) {
   char *envp[] = {nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
-  t_builtins_ctx ctx;
+  t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("'hello'''");
 
@@ -120,7 +120,7 @@ TEST(expand_quotes, ManySingleQuotes) {
 TEST(expand_quotes, ManyDoubleQuotes) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
-  t_builtins_ctx ctx;
+  t_ctx ctx;
   ctx.env = env_list;
 
   char *result = expand_quotes(strdup("\"$USER\"\"\""), &ctx);
