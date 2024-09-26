@@ -56,6 +56,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/lexer/process_eof.c \
 					$(SRC_DIR)/lexer/process_operator.c \
 					$(SRC_DIR)/lexer/process_quote.c \
+					$(SRC_DIR)/parser/handle_heredoc.c \
 					$(SRC_DIR)/parser/parse_command.c \
 					$(SRC_DIR)/parser/parse_list.c \
 					$(SRC_DIR)/parser/parse_simple_command.c \
