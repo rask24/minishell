@@ -82,10 +82,10 @@ static void	execute_command_internal(char **argv, t_ctx *ctx)
 	}
 }
 
-int	execute_command(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
+static int	spawn_command(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
 {
-	pid_t		pid;
-	char		**argv;
+	pid_t	pid;
+	char	**argv;
 
 	pid = fork();
 	if (pid == -1)
@@ -103,4 +103,9 @@ int	execute_command(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
 	if (conf->fd_out == STDOUT_FILENO)
 		wait_for_children(pid, ctx);
 	return (EXIT_SUCCESS);
+}
+
+int	execute_command(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
+{
+	return (spawn_command(node, ctx, conf));
 }
