@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:41:56 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/22 11:48:52 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/25 18:11:09 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ void				push_redirect_info(t_ast *ast, t_redirect_info *info);
 const char			*get_cmd_arg(t_list *cmd_args);
 t_redirect_type		get_redirect_type(t_list *redirects);
 const char			*get_redirect_filepath(t_list *redirects);
-char				**convert_cmd_args_to_array(t_ast *ast);
+char				**convert_cmd_args_to_array(t_list *cmd_args);
 
 #endif

@@ -6,20 +6,18 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 11:50:40 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/22 14:15:03 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/25 18:13:46 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "utils.h"
 
-char	**convert_cmd_args_to_array(t_ast *node)
+char	**convert_cmd_args_to_array(t_list *cmd_args)
 {
-	t_list	*cmd_args;
 	char	**argv;
 	int		i;
 
-	cmd_args = node->cmd_args;
 	if (cmd_args == NULL)
 		return (NULL);
 	argv = ft_xmalloc(sizeof(char *) * (ft_lstsize(cmd_args) + 1));
