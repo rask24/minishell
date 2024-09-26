@@ -27,3 +27,18 @@ def test_heredoc_many_inputs(shell_session):
 
     result = get_command_output(shell_session.before)
     assert result == f"{str}\n" * (iters - 1) + str
+
+
+def test_warning_heredoc(shell_session):
+    shell_session.sendline("cat << EOF")
+    shell_session.expect("> ")
+    shell_session.sendline("Hello, world!")
+    shell_session.expect("> ")
+    shell_session.sendcontrol("D")
+    shell_session.expect(PROMPT)
+
+    result = get_command_output(shell_session.before)
+    assert (
+        result
+        == "minishell: warning: here-document delimited by end-of-file (wanted `EOF')\nHello, world!"
+    )

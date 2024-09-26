@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 19:38:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/27 00:56:41 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/27 01:14:14 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ int	handle_heredoc(const char *delimiter)
 	{
 		line = readline("> ");
 		if (line == NULL)
+		{
+			print_heredoc_warning(delimiter);
 			break ;
+		}
 		if (ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
