@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 02:28:39 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/26 19:39:34 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/27 00:54:13 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@ bool	try_parse_redirect(t_ast *node, t_token_list **cur_token)
 	if (!expect_token(cur_token, TOKEN_WORD))
 		return (false);
 	if (redirect_info.type == REDIRECT_HEREDOC)
+	{
 		redirect_info.heredoc_fd = handle_heredoc(redirect_info.filepath);
+		if (redirect_info.heredoc_fd == -1)
+			return (false);
+	}
 	push_redirect_info(node, &redirect_info);
 	return (true);
 }
