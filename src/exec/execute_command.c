@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_simple_command.c                           :+:      :+:    :+:   */
+/*   execute_command.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -22,25 +22,25 @@
 #include "ui.h"
 #include "utils.h"
 
-static bool	handle_pipeline(int fd_in, int fd_out)
+static bool	handle_pipeline(t_pipeline_conf *conf)
 {
-	if (fd_in != STDIN_FILENO)
+	if (conf->fd_in != STDIN_FILENO)
 	{
-		if (dup2(fd_in, STDIN_FILENO) == -1)
+		if (dup2(conf->fd_in, STDIN_FILENO) == -1)
 		{
 			print_error("dup2", strerror(errno));
 			return (false);
 		}
-		close(fd_in);
+		close(conf->fd_in);
 	}
-	if (fd_out != STDOUT_FILENO)
+	if (conf->fd_out != STDOUT_FILENO)
 	{
-		if (dup2(fd_out, STDOUT_FILENO) == -1)
+		if (dup2(conf->fd_out, STDOUT_FILENO) == -1)
 		{
 			print_error("dup2", strerror(errno));
 			return (false);
 		}
-		close(fd_out);
+		close(conf->fd_out);
 	}
 	return (true);
 }
@@ -104,24 +104,28 @@ static void	execute_command_internal(char **argv, t_env_list *env_list)
 	}
 }
 
-pid_t	execute_simple_command(t_ast *node, t_env_list *env_list,
-			int fd_in, int fd_out)
+int	execute_command(t_ast *node, t_env_list *env_list, t_pipeline_conf *conf)
 {
 	pid_t		pid;
 	char		**argv;
 
 	pid = fork();
 	if (pid == -1)
-		print_error_exit("fork", strerror(errno), -1);
+	{
+		print_error("fork", strerror(errno));
+		return (EXIT_FAILURE);
+	}
 	else if (pid == 0)
 	{
 		argv = convert_cmd_args_to_array(node->cmd_args);
-		if (!handle_pipeline(fd_in, fd_out))
+		if (!handle_pipeline(conf))
 			exit(EXIT_FAILURE);
 		if (!handle_redirects(node->redirects))
 			exit(EXIT_FAILURE);
 		reset_signal_handlers();
 		execute_command_internal(argv, env_list);
 	}
-	return (pid);
+	if (conf->fd_out == STDOUT_FILENO)
+		wait_for_children(pid);
+	return (EXIT_SUCCESS);
 }

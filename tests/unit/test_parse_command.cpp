@@ -1,8 +1,7 @@
 // Copyright 2024, reasuke
 
-#include <string>
-
 #include "gtest/gtest.h"
+#include "utils_parser.hpp"
 
 extern "C" {
 #include "ast.h"
@@ -11,12 +10,9 @@ extern "C" {
 }
 
 TEST(parse_command, SimpleCommand) {
-  t_token_list *token_list = nullptr;
-
   // ls -l
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  t_token_list *token_list = construct_token_list(
+      {{TOKEN_WORD, "ls"}, {TOKEN_WORD, "-l"}, {TOKEN_EOF, nullptr}});
 
   t_ast *node = parse_command(&token_list);
 
@@ -31,16 +27,12 @@ TEST(parse_command, SimpleCommand) {
 }
 
 TEST(parse_command, OneSubshell) {
-  t_token_list *token_list = nullptr;
-
   // (ls -l)
-  ft_lstadd_back(&token_list,
-                 construct_token(TOKEN_L_PARENTHESIS, strdup("(")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
-  ft_lstadd_back(&token_list,
-                 construct_token(TOKEN_R_PARENTHESIS, strdup(")")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  t_token_list *token_list = construct_token_list({{TOKEN_L_PARENTHESIS, "("},
+                                                   {TOKEN_WORD, "ls"},
+                                                   {TOKEN_WORD, "-l"},
+                                                   {TOKEN_R_PARENTHESIS, ")"},
+                                                   {TOKEN_EOF, nullptr}});
 
   t_ast *node = parse_command(&token_list);
 
@@ -63,26 +55,22 @@ TEST(parse_command, OneSubshell) {
 }
 
 TEST(parse_command, OneSubshellWithOneRedirect) {
-  t_token_list *token_list = nullptr;
-
   // (ls -l) > out.txt
-  ft_lstadd_back(&token_list,
-                 construct_token(TOKEN_L_PARENTHESIS, strdup("(")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
-  ft_lstadd_back(&token_list,
-                 construct_token(TOKEN_R_PARENTHESIS, strdup(")")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, strdup(">")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("out.txt")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
-
-  t_ast *node = parse_command(&token_list);
+  t_token_list *token_list = construct_token_list({{TOKEN_L_PARENTHESIS, "("},
+                                                   {TOKEN_WORD, "ls"},
+                                                   {TOKEN_WORD, "-l"},
+                                                   {TOKEN_R_PARENTHESIS, ")"},
+                                                   {TOKEN_GREAT, ">"},
+                                                   {TOKEN_WORD, "out.txt"},
+                                                   {TOKEN_EOF, nullptr}});
 
   /*
   **  SUBSHELL(> out.txt)
   **     |
   **  COMMAND(ls -l)
   */
+  t_ast *node = parse_command(&token_list);
+
   EXPECT_EQ(node->type, AST_SUBSHELL);
   EXPECT_STREQ(get_redirect_filepath(node->redirects), "out.txt");
   EXPECT_EQ(get_redirect_type(node->redirects), REDIRECT_OUTPUT);
@@ -100,20 +88,16 @@ TEST(parse_command, OneSubshellWithOneRedirect) {
 }
 
 TEST(parse_command, OneSubsellWithMultipleRedirects) {
-  t_token_list *token_list = nullptr;
-
   // (ls -l) > out1.txt >> out2.txt
-  ft_lstadd_back(&token_list,
-                 construct_token(TOKEN_L_PARENTHESIS, strdup("(")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
-  ft_lstadd_back(&token_list,
-                 construct_token(TOKEN_R_PARENTHESIS, strdup(")")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, strdup(">")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("out1.txt")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_DGREAT, strdup(">>")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("out2.txt")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  t_token_list *token_list = construct_token_list({{TOKEN_L_PARENTHESIS, "("},
+                                                   {TOKEN_WORD, "ls"},
+                                                   {TOKEN_WORD, "-l"},
+                                                   {TOKEN_R_PARENTHESIS, ")"},
+                                                   {TOKEN_GREAT, ">"},
+                                                   {TOKEN_WORD, "out1.txt"},
+                                                   {TOKEN_DGREAT, ">>"},
+                                                   {TOKEN_WORD, "out2.txt"},
+                                                   {TOKEN_EOF, nullptr}});
 
   /*
   ** SUBSHELL(> out1.txt >> out2.txt)
@@ -142,21 +126,14 @@ TEST(parse_command, OneSubsellWithMultipleRedirects) {
 }
 
 TEST(parse_command, MultipleSubshells) {
-  t_token_list *token_list = nullptr;
-
   // ((ls -l))
-  ft_lstadd_back(&token_list,
-                 construct_token(TOKEN_L_PARENTHESIS, strdup("(")));
-  ft_lstadd_back(&token_list,
-
-                 construct_token(TOKEN_L_PARENTHESIS, strdup("(")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
-  ft_lstadd_back(&token_list,
-                 construct_token(TOKEN_R_PARENTHESIS, strdup(")")));
-  ft_lstadd_back(&token_list,
-                 construct_token(TOKEN_R_PARENTHESIS, strdup(")")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  t_token_list *token_list = construct_token_list({{TOKEN_L_PARENTHESIS, "("},
+                                                   {TOKEN_L_PARENTHESIS, "("},
+                                                   {TOKEN_WORD, "ls"},
+                                                   {TOKEN_WORD, "-l"},
+                                                   {TOKEN_R_PARENTHESIS, ")"},
+                                                   {TOKEN_R_PARENTHESIS, ")"},
+                                                   {TOKEN_EOF, nullptr}});
 
   /*
   **  SUBSHELL
@@ -188,15 +165,11 @@ TEST(parse_command, MultipleSubshells) {
 }
 
 TEST(parse_command, UnclosedParenthesis) {
-  t_token_list *token_list = nullptr;
-
   // (ls -l
-  ft_lstadd_back(&token_list,
-                 construct_token(TOKEN_L_PARENTHESIS, strdup("(")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_AND_IF, strdup("&&")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  t_token_list *token_list = construct_token_list({{TOKEN_L_PARENTHESIS, "("},
+                                                   {TOKEN_WORD, "ls"},
+                                                   {TOKEN_WORD, "-l"},
+                                                   {TOKEN_EOF, nullptr}});
 
   t_ast *node = parse_command(&token_list);
 
@@ -206,17 +179,13 @@ TEST(parse_command, UnclosedParenthesis) {
 }
 
 TEST(parse_command, InvalidTokenPipe) {
-  t_token_list *token_list = nullptr;
-
   // (ls -l | )
-  ft_lstadd_back(&token_list,
-                 construct_token(TOKEN_L_PARENTHESIS, strdup("(")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_PIPE, strdup("|")));
-  ft_lstadd_back(&token_list,
-                 construct_token(TOKEN_R_PARENTHESIS, strdup(")")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  t_token_list *token_list = construct_token_list({{TOKEN_L_PARENTHESIS, "("},
+                                                   {TOKEN_WORD, "ls"},
+                                                   {TOKEN_WORD, "-l"},
+                                                   {TOKEN_PIPE, "|"},
+                                                   {TOKEN_R_PARENTHESIS, ")"},
+                                                   {TOKEN_EOF, nullptr}});
 
   t_ast *node = parse_command(&token_list);
 
@@ -226,17 +195,13 @@ TEST(parse_command, InvalidTokenPipe) {
 }
 
 TEST(parse_command, InvalidTokenRedirect) {
-  t_token_list *token_list = nullptr;
-
   // (ls -l ) >
-  ft_lstadd_back(&token_list,
-                 construct_token(TOKEN_L_PARENTHESIS, strdup("(")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("ls")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_WORD, strdup("-l")));
-  ft_lstadd_back(&token_list,
-                 construct_token(TOKEN_R_PARENTHESIS, strdup(")")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_GREAT, strdup(">")));
-  ft_lstadd_back(&token_list, construct_token(TOKEN_EOF, nullptr));
+  t_token_list *token_list = construct_token_list({{TOKEN_L_PARENTHESIS, "("},
+                                                   {TOKEN_WORD, "ls"},
+                                                   {TOKEN_WORD, "-l"},
+                                                   {TOKEN_R_PARENTHESIS, ")"},
+                                                   {TOKEN_GREAT, ">"},
+                                                   {TOKEN_EOF, nullptr}});
 
   t_ast *node = parse_command(&token_list);
 
