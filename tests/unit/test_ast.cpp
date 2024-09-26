@@ -58,7 +58,8 @@ TEST(push_cmd_arg, MultipleArgs) {
 
 TEST(push_redirect_info, OneRedirect) {
   t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
-  t_redirect_info *info = construct_redirect_info(REDIRECT_INPUT, "input.txt");
+  t_redirect_info *info =
+      construct_redirect_info(REDIRECT_INPUT, "input.txt", -1);
 
   push_redirect_info(node, info);
 
@@ -71,9 +72,9 @@ TEST(push_redirect_info, OneRedirect) {
 TEST(push_redirect_info, MultipleRedirects) {
   t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
   t_redirect_info *info_1 =
-      construct_redirect_info(REDIRECT_INPUT, "input.txt");
+      construct_redirect_info(REDIRECT_INPUT, "input.txt", -1);
   t_redirect_info *info_2 =
-      construct_redirect_info(REDIRECT_OUTPUT, "output.txt");
+      construct_redirect_info(REDIRECT_OUTPUT, "output.txt", -1);
 
   push_redirect_info(node, info_1);
   push_redirect_info(node, info_2);
@@ -98,9 +99,9 @@ TEST(construct_ast, ComplexNodes) {
   push_cmd_arg(right, "file.txt");
 
   t_redirect_info *info_1 =
-      construct_redirect_info(REDIRECT_INPUT, "input.txt");
+      construct_redirect_info(REDIRECT_INPUT, "input.txt", -1);
   t_redirect_info *info_2 =
-      construct_redirect_info(REDIRECT_OUTPUT, "output.txt");
+      construct_redirect_info(REDIRECT_OUTPUT, "output.txt", -1);
 
   push_redirect_info(left, info_1);
   push_redirect_info(right, info_2);
@@ -150,7 +151,8 @@ TEST(push_cmd_arg, InvalidNodeType) {
 
 TEST(push_redirect_info, InvalidNodeType) {
   t_ast *node = construct_ast(AST_PIPE, nullptr, nullptr);
-  t_redirect_info *info = construct_redirect_info(REDIRECT_INPUT, "input.txt");
+  t_redirect_info *info =
+      construct_redirect_info(REDIRECT_INPUT, "input.txt", -1);
 
   push_redirect_info(node, info);
   EXPECT_EQ(node->redirects, nullptr);
