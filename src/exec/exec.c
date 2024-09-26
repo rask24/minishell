@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:54:34 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/25 17:53:05 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/26 22:39:13 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 #include "parser.h"
 #include "utils.h"
 
-void wait_for_children(pid_t last_pid, t_ctx *ctx)
+void	wait_for_children(pid_t last_pid, t_ctx *ctx)
 {
 	int		status;
 	pid_t	wpid;
