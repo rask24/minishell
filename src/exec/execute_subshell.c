@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 18:29:00 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/25 18:43:50 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/27 16:11:33 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ int	execute_subshell(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
 	}
 	if (pid == 0)
 	{
+		handle_io(NULL, node->redirects);
 		execute_ast_node(node->left, ctx, conf);
 		exit(ctx->exit_status);
 	}
-	wait_for_children(pid, ctx);
+	if (conf->fd_out == STDOUT_FILENO)
+		wait_for_children(pid, ctx);
 	return (EXIT_SUCCESS);
 }

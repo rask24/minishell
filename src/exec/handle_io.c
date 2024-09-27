@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_redirects.c                                 :+:      :+:    :+:   */
+/*   handle_io.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:45:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/26 14:15:08 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/27 16:11:21 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ static void	handle_pipeline(t_pipeline_conf *conf)
 
 void	handle_io(t_pipeline_conf *conf, t_list *redirects)
 {
-	handle_pipeline(conf);
+	if (conf)
+		handle_pipeline(conf);
 	while (redirects)
 	{
 		handle_redirect(redirects);
