@@ -6,13 +6,13 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 14:42:55 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/28 14:17:49 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/28 14:42:09 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-static void update_head_node(t_list **list, t_list *b)
+static void	update_head_node(t_list **list, t_list *b)
 {
 	*list = b;
 }
@@ -45,7 +45,7 @@ void	ft_lstsort(t_list **list, t_cmp cmp)
 	bool	is_sorted;
 
 	is_sorted = true;
-	while(true)
+	while (true)
 	{
 		curr_p = *list;
 		next_p = curr_p->next;

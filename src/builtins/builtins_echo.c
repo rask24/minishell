@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:44:03 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/28 10:22:20 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/28 14:41:46 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static bool	has_option(char *arg)
 int	builtins_echo(char **args, t_ctx *ctx)
 {
 	(void)ctx;
-
 	++args;
 	if (has_option(*args))
 		print_args(++args);
