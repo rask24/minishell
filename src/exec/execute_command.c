@@ -34,15 +34,24 @@ static bool	is_builtin(char *cmd_name)
 static void	push_io(int *fd_array)
 {
 	fd_array[0] = dup(STDIN_FILENO);
+	if (fd_array[0] == -1)
+		perror("minishell: dup");
 	fd_array[1] = dup(STDOUT_FILENO);
+	if (fd_array[1] == -1)
+		perror("minishell: dup");
 	fd_array[2] = dup(STDERR_FILENO);
+	if (fd_array[2] == -1)
+		perror("minishell: dup");
 }
 
 static void	pop_io(int *fd_array)
 {
-	dup2(fd_array[0], STDIN_FILENO);
-	dup2(fd_array[1], STDOUT_FILENO);
-	dup2(fd_array[2], STDERR_FILENO);
+	if (dup2(fd_array[0], STDIN_FILENO) == -1)
+		perror("minishell: dup2");
+	if (dup2(fd_array[1], STDOUT_FILENO) == -1)
+		perror("minishell: dup2");
+	if (dup2(fd_array[2], STDERR_FILENO) == -1)
+		perror("minishell: dup2");
 	close(fd_array[0]);
 	close(fd_array[1]);
 	close(fd_array[2]);
