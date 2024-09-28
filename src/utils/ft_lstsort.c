@@ -6,44 +6,61 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 14:42:55 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/15 16:24:40 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/28 14:17:49 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-static void	swap(t_list *list, t_list *a, t_list *b, t_cmp cmp)
+static void update_head_node(t_list **list, t_list *b)
+{
+	*list = b;
+}
+
+static void	swap(t_list **list, t_list *a, t_list *b)
 {
 	t_list	*a_before;
 	t_list	*b_before;
-	t_list	*tmp;
 
-	if (cmp(a, b))
-	{
-		a_before = ft_lst_before(list, a);
-		b_before = ft_lst_before(list, b);
+	a_before = ft_lst_before(*list, a);
+	b_before = ft_lst_before(*list, b);
+	if (a_before)
 		a_before->next = b;
+	a->next = b->next;
+	if (b_before == a)
+		b->next = a;
+	else
+	{
+		b->next = a->next;
 		b_before->next = a;
-		tmp = a->next;
-		a->next = b->next;
-		b->next = tmp;
 	}
+	if (a_before == NULL)
+		update_head_node(list, b);
 }
 
 void	ft_lstsort(t_list **list, t_cmp cmp)
 {
-	t_list	*curr;
-	t_list	*next;
+	t_list	*curr_p;
+	t_list	*next_p;
+	bool	is_sorted;
 
-	curr = *list;
-	while (curr)
+	is_sorted = true;
+	while(true)
 	{
-		next = curr->next;
-		while (next)
+		curr_p = *list;
+		next_p = curr_p->next;
+		is_sorted = true;
+		while (next_p)
 		{
-			swap(*list, curr, next, cmp);
-			next = next->next;
+			if (cmp(curr_p, next_p))
+			{
+				swap(list, curr_p, next_p);
+				is_sorted = false;
+			}
+			curr_p = next_p;
+			next_p = next_p->next;
 		}
-		curr = curr->next;
+		if (is_sorted)
+			break ;
 	}
 }
