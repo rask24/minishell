@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_internal.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:46:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/26 23:27:02 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/28 00:16:41 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define EXEC_INTERNAL_H
 
 # include "ast.h"
+# include "builtins.h"
 # include "ctx.h"
 # include "env.h"
 # include "libft.h"
