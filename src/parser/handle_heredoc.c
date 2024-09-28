@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 19:38:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/27 01:14:14 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/28 16:02:30 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,25 @@
 
 static int	open_heredoc_tmpfile(void)
 {
-	int	fd;
+	int		fd;
+	char	*paths[5];
+	char	*path;
+	int		i;
 
-	fd = open("heredoc", O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
-	if (fd == -1)
+	paths[0] = "/tmp/";
+	paths[1] = "/var/tmp/";
+	paths[2] = "/usr/tmp/";
+	paths[3] = "./";
+	paths[4] = NULL;
+	i = 0;
+	while(paths[i])
 	{
-		print_error("open", strerror(errno));
-		return (-1);
+		path = ft_xstrjoin(paths[i], HEREDOC_TMPFILE);
+		fd = open(path, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR);
+		free(path);
+		if (fd != -1)
+			break ;
+		i++;
 	}
 	return (fd);
 }
@@ -65,8 +77,8 @@ static int	open_heredoc(t_list *input_list, size_t heredoc_size)
 			return (-1);
 		write_heredoc(fd, input_list);
 		close(fd);
-		fd = open("heredoc", O_RDONLY | O_CLOEXEC, S_IRUSR | S_IWUSR);
-		unlink("heredoc");
+		fd = open(HEREDOC_TMPFILE, O_RDONLY);
+		unlink(HEREDOC_TMPFILE);
 		return (fd);
 	}
 }
