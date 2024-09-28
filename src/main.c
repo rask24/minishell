@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/28 14:40:11 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/28 15:38:29 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ static t_ctx	*construct_ctx(char **envp)
 	ctx->env = convert_array_to_env(envp);
 	ctx->exit_status = EXIT_SUCCESS;
 	return (ctx);
+}
+
+static void	destruct(t_ctx *ctx)
+{
+	free(ctx->cwd);
+	free(ctx);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -53,6 +59,6 @@ int	main(int argc, char **argv, char **envp)
 		restore_terminal_configuration(&original_termios);
 	}
 	destroy_env_list(ctx->env);
-	free(ctx);
+	destruct(ctx);
 	return (EXIT_SUCCESS);
 }
