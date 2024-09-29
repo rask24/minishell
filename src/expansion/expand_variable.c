@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:08:50 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/27 00:14:12 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/29 10:17:32 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*skip_quotes(t_expand_info *expand_info, char c)
 	while (*expand_info->right && *expand_info->right != c)
 		expand_info->right++;
 	expand_info->right++;
-	return (expand_info->trim(expand_info));
+	return (trim(expand_info));
 }
 
 char	*expand_variable(char *string, t_ctx *ctx)
@@ -37,7 +37,7 @@ char	*expand_variable(char *string, t_ctx *ctx)
 		else if (*expand_info.right == '$')
 			expanded = get_expanded_variable(&expand_info, ctx);
 		else
-			expanded = expand_info.trim_till(&expand_info, "$");
+			expanded = trim_till(&expand_info, "$");
 		result = ft_xstrjoin2(result, expanded);
 		free(expanded);
 	}

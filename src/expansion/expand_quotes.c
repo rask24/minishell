@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:59:47 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/28 20:39:12 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/29 10:24:24 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*remove_double_quote(t_expand_info *expand_info, t_ctx *ctx)
 		if (*expand_info->right == '$')
 			unquoted = get_expanded_variable(expand_info, ctx);
 		else
-			unquoted = expand_info->trim_till(expand_info, "\"$");
+			unquoted = trim_till(expand_info, "\"$");
 		result = ft_xstrjoin2(result, unquoted);
 		free(unquoted);
 	}
@@ -32,9 +32,9 @@ static char	*remove_double_quote(t_expand_info *expand_info, t_ctx *ctx)
 
 static void	deal_with_single(t_expand_info *expand_info, char **unquoted)
 {
-	expand_info->consume_char(expand_info);
-	*unquoted = expand_info->trim_till(expand_info, "\'");
-	expand_info->consume_char(expand_info);
+	consume_char(expand_info);
+	*unquoted = trim_till(expand_info, "\'");
+	consume_char(expand_info);
 }
 
 char	*expand_quotes(char *string, t_ctx *ctx)
@@ -51,12 +51,12 @@ char	*expand_quotes(char *string, t_ctx *ctx)
 			deal_with_single(&expand_info, &unquoted);
 		else if (*expand_info.right == '\"')
 		{
-			expand_info.consume_char(&expand_info);
+			consume_char(&expand_info);
 			unquoted = remove_double_quote(&expand_info, ctx);
-			expand_info.consume_char(&expand_info);
+			consume_char(&expand_info);
 		}
 		else
-			unquoted = expand_info.trim_till(&expand_info, "\'\"");
+			unquoted = trim_till(&expand_info, "\'\"");
 		expanded = ft_xstrjoin2(expanded, unquoted);
 		free(unquoted);
 	}
