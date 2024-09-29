@@ -81,19 +81,19 @@ TEST(expand_variable, IgnoreSingleQuote) {
   destroy_env_list(env_list);
 }
 
-TEST(expand_variable, IgnoreDoubleQuote) {
+TEST(expand_variable, DoNotIgnoreDoubleQuote) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USER\"$USER\"");
 
-  EXPECT_STREQ(expand_variable(string, &ctx), "Alice\"$USER\"");
+  EXPECT_STREQ(expand_variable(string, &ctx), "Alice\"Alice\"");
 
   destroy_env_list(env_list);
 }
 
-TEST(expand_variable, IgnoreSingleQuotePutAmongNonIdentifierChars) {
+TEST(expand_variable, SingleQuotePutAmongNonIdentifierChars) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
@@ -105,7 +105,19 @@ TEST(expand_variable, IgnoreSingleQuotePutAmongNonIdentifierChars) {
   destroy_env_list(env_list);
 }
 
-TEST(expand_quotes, NoSingleQuote) {
+TEST(expand_variable, DoubleQuoteAmongNonIdentifierChars) {
+  char *envp[] = {strdup("USER=Alice"), nullptr};
+  t_env_list *env_list = convert_array_to_env(envp);
+  t_ctx ctx;
+  ctx.env = env_list;
+  char *string = strdup("$USER,\"$USER\"");
+
+  EXPECT_STREQ(expand_variable(string, &ctx), "Alice,\"Alice\"");
+
+  destroy_env_list(env_list);
+}
+
+TEST(expand_quotes, NoQuote) {
   char *envp[] = {nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
@@ -117,26 +129,38 @@ TEST(expand_quotes, NoSingleQuote) {
   destroy_env_list(env_list);
 }
 
-TEST(expand_quotes, ManySingleQuotes) {
-  char *envp[] = {nullptr};
-  t_env_list *env_list = convert_array_to_env(envp);
-  t_ctx ctx;
-  ctx.env = env_list;
-  char *string = strdup("'hello'''");
-
-  EXPECT_STREQ(expand_quotes(string, &ctx), "hello");
-
-  destroy_env_list(env_list);
-}
-
-TEST(expand_quotes, ManyDoubleQuotes) {
+TEST(expand_quotes, SingleQuote) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
   ctx.env = env_list;
+  char *string = strdup("'$USER'");
 
-  char *result = expand_quotes(strdup("\"$USER\"\"\""), &ctx);
-  EXPECT_STREQ(result, "Alice");
+  EXPECT_STREQ(expand_quotes(string, &ctx), "$USER");
+
+  destroy_env_list(env_list);
+}
+
+TEST(expand_quotes, DoubleQuote) {
+  char *envp[] = {strdup("USER=Alice"), nullptr};
+  t_env_list *env_list = convert_array_to_env(envp);
+  t_ctx ctx;
+  ctx.env = env_list;
+  char *string = strdup("\"Alice\"");
+
+  EXPECT_STREQ(expand_quotes(string, &ctx), "Alice");
+
+  destroy_env_list(env_list);
+}
+
+TEST(expand_quotes, QuotesAmongChars) {
+  char *envp[] = {strdup("USER=Alice"), nullptr};
+  t_env_list *env_list = convert_array_to_env(envp);
+  t_ctx ctx;
+  ctx.env = env_list;
+  char *string = strdup("TheNameIs\"Alice\",And'Bob'.");
+
+  EXPECT_STREQ(expand_quotes(string, &ctx), "TheNameIsAlice,AndBob.");
 
   destroy_env_list(env_list);
 }

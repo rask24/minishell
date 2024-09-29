@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 22:59:05 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/29 10:37:57 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/29 11:58:20 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static bool	is_identifier_char(char c)
 	return (c && (ft_isalnum(c) || c == '_'));
 }
 
-char	*get_expanded_variable(t_expand_info *expand_info, t_ctx *ctx)
+char	*trim_expanded_variable(t_expand_info *expand_info, t_ctx *ctx)
 {
 	char	*candidate_key;
 	char	*value;
