@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:44:03 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/29 16:21:26 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/29 16:23:12 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,11 @@ static bool	has_n_option(char *arg)
 int	builtins_echo(char **args, t_ctx *ctx)
 {
 	(void)ctx;
-	++args;
-	if (has_n_option(*args))
-		print_args(++args);
+	if (has_n_option(args[1]))
+		print_args(args + 2);
 	else
 	{
-		print_args(args);
+		print_args(args + 1);
 		printf("\n");
 	}
 	return (EXIT_SUCCESS);
