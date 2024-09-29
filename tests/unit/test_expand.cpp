@@ -3,9 +3,9 @@
 #include "gtest/gtest.h"
 
 extern "C" {
-#include "../../src/expansion/expansion_internal.h"
 #include "env.h"
 #include "expansion.h"
+#include "expansion/expansion_internal.h"
 }
 
 TEST(expand_variable, NoExpand) {
