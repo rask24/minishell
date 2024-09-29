@@ -103,6 +103,57 @@ TEST(ft_lstiterp, NoFunction) {
   EXPECT_EQ(lst->next->next->next->next->next, nullptr);
 }
 
+TEST(ft_lstinsert, InsertMiddle) {
+  t_list *lst = ft_lstnew(ft_xstrdup("hello"));
+  ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("tokyo")));
+  ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("paris")));
+
+  t_list *insert = ft_lstnew(ft_xstrdup("world"));
+  t_list *insert_ptr = lst;
+
+  ft_lstinsert(&lst, insert_ptr, insert);
+
+  EXPECT_STREQ((char *)lst->content, "hello");
+  EXPECT_STREQ((char *)lst->next->content, "world");
+  EXPECT_STREQ((char *)lst->next->next->content, "tokyo");
+  EXPECT_STREQ((char *)lst->next->next->next->content, "paris");
+  EXPECT_EQ(lst->next->next->next->next, nullptr);
+}
+
+TEST(ft_lstinsert, InsertHead) {
+  t_list *lst = ft_lstnew(ft_xstrdup("world"));
+  ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("tokyo")));
+  ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("paris")));
+
+  t_list *insert = ft_lstnew(ft_xstrdup("hello"));
+  t_list *insert_ptr = NULL;
+
+  ft_lstinsert(&lst, insert_ptr, insert);
+
+  EXPECT_STREQ((char *)lst->content, "hello");
+  EXPECT_STREQ((char *)lst->next->content, "world");
+  EXPECT_STREQ((char *)lst->next->next->content, "tokyo");
+  EXPECT_STREQ((char *)lst->next->next->next->content, "paris");
+  EXPECT_EQ(lst->next->next->next->next, nullptr);
+}
+
+TEST(ft_lstinsert, InsertLast) {
+  t_list *lst = ft_lstnew(ft_xstrdup("hello"));
+  ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("world")));
+  ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("tokyo")));
+
+  t_list *insert = ft_lstnew(ft_xstrdup("paris"));
+  t_list *insert_ptr = ft_lstlast(lst);
+
+  ft_lstinsert(&lst, insert_ptr, insert);
+
+  EXPECT_STREQ((char *)lst->content, "hello");
+  EXPECT_STREQ((char *)lst->next->content, "world");
+  EXPECT_STREQ((char *)lst->next->next->content, "tokyo");
+  EXPECT_STREQ((char *)lst->next->next->next->content, "paris");
+  EXPECT_EQ(lst->next->next->next->next, nullptr);
+}
+
 TEST(ft_lstsort, SimpleSort) {
   t_list *lst = ft_lstnew(ft_xstrdup("world"));
   ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("hello")));
