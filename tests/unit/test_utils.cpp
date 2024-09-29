@@ -102,3 +102,86 @@ TEST(ft_lstiterp, NoFunction) {
   EXPECT_STREQ((char *)lst->next->next->next->next->content, "paris");
   EXPECT_EQ(lst->next->next->next->next->next, nullptr);
 }
+
+TEST(ft_lstinsert, InsertMiddle) {
+  t_list *lst = ft_lstnew(ft_xstrdup("hello"));
+  ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("tokyo")));
+  ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("paris")));
+
+  t_list *insert = ft_lstnew(ft_xstrdup("world"));
+  t_list *insert_ptr = lst;
+
+  ft_lstinsert(&lst, insert_ptr, insert);
+
+  EXPECT_STREQ((char *)lst->content, "hello");
+  EXPECT_STREQ((char *)lst->next->content, "world");
+  EXPECT_STREQ((char *)lst->next->next->content, "tokyo");
+  EXPECT_STREQ((char *)lst->next->next->next->content, "paris");
+  EXPECT_EQ(lst->next->next->next->next, nullptr);
+}
+
+TEST(ft_lstinsert, InsertHead) {
+  t_list *lst = ft_lstnew(ft_xstrdup("world"));
+  ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("tokyo")));
+  ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("paris")));
+
+  t_list *insert = ft_lstnew(ft_xstrdup("hello"));
+  t_list *insert_ptr = NULL;
+
+  ft_lstinsert(&lst, insert_ptr, insert);
+
+  EXPECT_STREQ((char *)lst->content, "hello");
+  EXPECT_STREQ((char *)lst->next->content, "world");
+  EXPECT_STREQ((char *)lst->next->next->content, "tokyo");
+  EXPECT_STREQ((char *)lst->next->next->next->content, "paris");
+  EXPECT_EQ(lst->next->next->next->next, nullptr);
+}
+
+TEST(ft_lstinsert, InsertLast) {
+  t_list *lst = ft_lstnew(ft_xstrdup("hello"));
+  ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("world")));
+  ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("tokyo")));
+
+  t_list *insert = ft_lstnew(ft_xstrdup("paris"));
+  t_list *insert_ptr = ft_lstlast(lst);
+
+  ft_lstinsert(&lst, insert_ptr, insert);
+
+  EXPECT_STREQ((char *)lst->content, "hello");
+  EXPECT_STREQ((char *)lst->next->content, "world");
+  EXPECT_STREQ((char *)lst->next->next->content, "tokyo");
+  EXPECT_STREQ((char *)lst->next->next->next->content, "paris");
+  EXPECT_EQ(lst->next->next->next->next, nullptr);
+}
+
+TEST(ft_lstsort, SimpleSort) {
+  t_list *lst = ft_lstnew(ft_xstrdup("world"));
+  ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("hello")));
+
+  ft_lstsort(&lst, [](t_list *a, t_list *b) {
+    return (strcmp((char *)(a->content), (char *)(b->content)) > 0);
+  });
+
+  EXPECT_STREQ((char *)lst->content, "hello");
+  EXPECT_STREQ((char *)lst->next->content, "world");
+  EXPECT_EQ(lst->next->next, nullptr);
+}
+
+TEST(ft_lstsort, Sort) {
+  t_list *lst = ft_lstnew(ft_xstrdup("world"));
+  ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("hello")));
+  ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("42")));
+  ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("tokyo")));
+  ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("paris")));
+
+  ft_lstsort(&lst, [](t_list *a, t_list *b) {
+    return (strcmp((char *)(a->content), (char *)(b->content)) > 0);
+  });
+
+  EXPECT_STREQ((char *)lst->content, "42");
+  EXPECT_STREQ((char *)lst->next->content, "hello");
+  EXPECT_STREQ((char *)lst->next->next->content, "paris");
+  EXPECT_STREQ((char *)lst->next->next->next->content, "tokyo");
+  EXPECT_STREQ((char *)lst->next->next->next->next->content, "world");
+  EXPECT_EQ(lst->next->next->next->next->next, nullptr);
+}

@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstremove_if.c                                  :+:      :+:    :+:   */
+/*   ft_xstrjoin2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/07 15:07:14 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/24 01:16:45 by yliu             ###   ########.fr       */
+/*   Created: 2024/09/25 18:51:10 by yliu              #+#    #+#             */
+/*   Updated: 2024/09/25 18:55:09 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-void	ft_lstremove_if(t_list **lst, t_pred should_remove, void *param,
-							t_del del)
+char	*ft_xstrjoin2(char *s1, const char *s2)
 {
-	t_list	*curr;
-	t_list	*next;
+	char	*tmp;
 
-	if (!lst || !*lst || !should_remove || !del)
-		return ;
-	curr = *lst;
-	while (curr)
+	if (s2 == NULL)
+		return (s1);
+	if (s1 == NULL)
+		s1 = ft_xstrdup(s2);
+	else
 	{
-		next = curr->next;
-		if (should_remove(curr, param))
-			ft_lstremove(lst, curr, del);
-		curr = next;
+		tmp = ft_xstrjoin(s1, s2);
+		free(s1);
+		s1 = tmp;
 	}
+	return (s1);
 }
