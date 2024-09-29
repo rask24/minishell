@@ -39,6 +39,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/exec/exec.c \
 					$(SRC_DIR)/exec/execute_and_or.c \
 					$(SRC_DIR)/exec/execute_pipeline.c \
+					$(SRC_DIR)/exec/execute_command.c \
 					$(SRC_DIR)/exec/execute_subshell.c \
 					$(SRC_DIR)/exec/execute_command.c \
 					$(SRC_DIR)/exec/handle_io.c \
