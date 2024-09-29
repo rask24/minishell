@@ -36,8 +36,13 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/builtins/builtins_unset.c \
 					$(SRC_DIR)/exec/exec.c \
 					$(SRC_DIR)/exec/execute_and_or.c \
-					$(SRC_DIR)/exec/execute_pipeline.c \
 					$(SRC_DIR)/exec/execute_command.c \
+					$(SRC_DIR)/exec/execute_pipeline.c \
+					$(SRC_DIR)/expansion/expand.c \
+					$(SRC_DIR)/expansion/expand_variable.c \
+					$(SRC_DIR)/expansion/expand_quotes.c \
+					$(SRC_DIR)/expansion/expansion_utils.c \
+					$(SRC_DIR)/expansion/trim_expanded_variable.c \
 					$(SRC_DIR)/env/constructor.c \
 					$(SRC_DIR)/env/convert_env_to_array.c \
 					$(SRC_DIR)/env/convert_array_to_env.c \
@@ -71,10 +76,14 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/ui/reset_signal_handlers.c \
 					$(SRC_DIR)/ui/restore_terminal_configuration.c \
 					$(SRC_DIR)/ui/save_terminal_configuration.c \
+					$(SRC_DIR)/utils/ft_lstinsert.c \
 					$(SRC_DIR)/utils/ft_lstiterp.c \
 					$(SRC_DIR)/utils/is_identifier.c \
+					$(SRC_DIR)/utils/ft_lstremove.c \
 					$(SRC_DIR)/utils/ft_lstremove_if.c \
+					$(SRC_DIR)/utils/ft_lstreplace.c \
 					$(SRC_DIR)/utils/ft_lstsort.c \
+					$(SRC_DIR)/utils/ft_xstrjoin2.c \
 					$(SRC_DIR)/utils/print_error.c \
 					$(SRC_DIR)/utils/wrapper/ft_xlstnew.c \
 					$(SRC_DIR)/utils/wrapper/ft_xstrdup.c \
