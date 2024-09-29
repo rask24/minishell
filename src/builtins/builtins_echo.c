@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:44:03 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/29 16:20:57 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/29 16:21:26 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static bool	has_n_option(char *arg)
 {
 	int	i;
 
-	if (!arg)
+	if (arg == NULL)
 		return (false);
 	if (arg[0] != '-')
 		return (false);
