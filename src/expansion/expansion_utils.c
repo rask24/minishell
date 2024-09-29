@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 16:09:38 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/29 10:23:52 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/29 10:34:27 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,25 @@ void	consume_char(t_expand_info *expand_info)
 	expand_info->right++;
 }
 
-void	find_set(t_expand_info *expand_info, char *set)
+char	*trim_till(t_expand_info *expand_info, char *set)
 {
 	while (*expand_info->right && !ft_strchr(set, *expand_info->right))
 		expand_info->right++;
-}
-
-char	*trim_till(t_expand_info *expand_info, char *set)
-{
-	find_set(expand_info, set);
 	return (trim(expand_info));
 }
 
-void	construct_expand_info(char *input, t_expand_info *expand_info)
+t_expand_info	*construct_expand_info(char *input)
 {
+	t_expand_info	*expand_info;
+
+	expand_info = ft_xmalloc(sizeof(t_expand_info));
 	expand_info->left = input;
 	expand_info->right = input;
+	return (expand_info);
+}
+
+void	destory_expand_info(t_expand_info *expand_info)
+{
+	free(expand_info);
 	return ;
 }
