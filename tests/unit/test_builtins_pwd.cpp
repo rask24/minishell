@@ -11,6 +11,7 @@ extern "C" {
 TEST(builtins_pwd, WithoutArgs) {
   char *args[] = {strdup("pwd"), NULL};
   t_ctx ctx;
+  ctx.cwd = getcwd(NULL, 0);
   testing::internal::CaptureStdout();
   int res = builtins_pwd(args, &ctx);
   EXPECT_EQ(res, 0);
