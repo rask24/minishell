@@ -35,23 +35,23 @@ static void	save_std_io(int *fd_array)
 {
 	fd_array[0] = dup(STDIN_FILENO);
 	if (fd_array[0] == -1)
-		perror("minishell: dup");
+		print_error("dup", strerror(errno));
 	fd_array[1] = dup(STDOUT_FILENO);
 	if (fd_array[1] == -1)
-		perror("minishell: dup");
+		print_error("dup", strerror(errno));
 	fd_array[2] = dup(STDERR_FILENO);
 	if (fd_array[2] == -1)
-		perror("minishell: dup");
+		print_error("dup", strerror(errno));
 }
 
 static void	restore_std_io(int *std_fds)
 {
 	if (dup2(std_fds[0], STDIN_FILENO) == -1)
-		perror("minishell: dup2");
+		print_error("dup2", strerror(errno));
 	if (dup2(std_fds[1], STDOUT_FILENO) == -1)
-		perror("minishell: dup2");
+		print_error("dup2", strerror(errno));
 	if (dup2(std_fds[2], STDERR_FILENO) == -1)
-		perror("minishell: dup2");
+		print_error("dup2", strerror(errno));
 	close(std_fds[0]);
 	close(std_fds[1]);
 	close(std_fds[2]);
