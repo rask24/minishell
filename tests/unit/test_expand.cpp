@@ -117,6 +117,12 @@ TEST(expand_variable, DoubleQuoteAmongNonIdentifierChars) {
   destroy_env_list(env_list);
 }
 
+TEST(expand_variable, ExitStatus) {
+  t_ctx ctx;
+  ctx.exit_status = 42;
+  EXPECT_STREQ(expand_variable(strdup("$?$?"), &ctx), "4242");
+}
+
 TEST(expand_quotes, NoQuote) {
   char *envp[] = {nullptr};
   t_env_list *env_list = convert_array_to_env(envp);

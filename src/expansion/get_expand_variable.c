@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 22:59:05 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/29 11:58:20 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/29 13:27:17 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ char	*trim_expanded_variable(t_expand_info *expand_info, t_ctx *ctx)
 	consume_char(expand_info);
 	if (*expand_info->right == '\0')
 		return (ft_xstrdup("$"));
+	if (*expand_info->right == '?')
+	{
+		consume_char(expand_info);
+		return (ft_itoa(ctx->exit_status));
+	}
 	while (is_identifier_char(*expand_info->right))
 		expand_info->right++;
 	candidate_key = trim(expand_info);
