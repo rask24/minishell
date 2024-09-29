@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:45:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/27 00:41:24 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/29 17:21:49 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,6 @@ static int	open_redirect_file(t_redirect_type type, const char *filepath
 		fd = heredoc_fd;
 	else
 		fd = -1;
-	if (fd == -1)
-	{
-		print_error(filepath, strerror(errno));
-		return (-1);
-	}
 	return (fd);
 }
 
