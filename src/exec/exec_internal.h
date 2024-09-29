@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:46:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/27 04:54:54 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/29 21:11:10 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define EXEC_INTERNAL_H
 
 # include "ast.h"
+# include "builtins.h"
 # include "ctx.h"
 # include "env.h"
 # include "libft.h"
@@ -33,7 +34,7 @@ typedef enum e_exit_status
 }	t_exit_status;
 
 int		execute_ast_node(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf);
-
+int		execute_and_or(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf);
 int		execute_subshell(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf);
 int		execute_pipeline(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf);
 int		execute_command(t_ast *cmd_node, t_ctx *ctx, t_pipeline_conf *conf);

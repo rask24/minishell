@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:54:34 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/27 04:53:57 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/29 21:10:26 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	execute_ast_node(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
 		return (execute_pipeline(node, ctx, conf));
 	else if (node->type == AST_SUBSHELL)
 		return (execute_subshell(node, ctx, conf));
+	else if (node->type == AST_AND || node->type == AST_OR)
+		return (execute_and_or(node, ctx, conf));
 	else
 		return (EXIT_FAILURE);
 }
@@ -53,7 +55,7 @@ void	exec(char *input, t_ctx *ctx)
 	}
 	conf = (t_pipeline_conf){.fd_in = STDIN_FILENO, .fd_out = STDOUT_FILENO};
 	if (execute_ast_node(node, ctx, &conf) == EXIT_FAILURE)
-		print_error("exec", "unsupported AST type");
+		print_error(__func__, "failed to execute command");
 	destroy_token_list(token_list);
 	destroy_ast(node);
 }
