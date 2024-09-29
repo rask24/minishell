@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:09:46 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/29 11:58:20 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/29 13:43:53 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ typedef struct s_expand_info
 typedef char	*(*t_exec_func)(t_expand_info *, t_ctx*);
 
 t_expand_info	*construct_expand_info(char *input);
-void			destory_expand_info(t_expand_info *expand_info);
+void			destroy_expand_info(t_expand_info *expand_info);
 char			*expand_variable(char *str, t_ctx *ctx);
-char			*expand_quotes(char *str, t_ctx *ctx);
+char			*expand_quotes(char *str);
 char			*trim_expanded_variable(t_expand_info *expand_info, t_ctx *ctx);
 
 char			*trim(t_expand_info *expand_info);

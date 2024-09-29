@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 16:09:38 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/29 10:34:27 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/29 13:41:28 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_expand_info	*construct_expand_info(char *input)
 	return (expand_info);
 }
 
-void	destory_expand_info(t_expand_info *expand_info)
+void	destroy_expand_info(t_expand_info *expand_info)
 {
 	free(expand_info);
 	return ;

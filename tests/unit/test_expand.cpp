@@ -124,49 +124,25 @@ TEST(expand_variable, ExitStatus) {
 }
 
 TEST(expand_quotes, NoQuote) {
-  char *envp[] = {nullptr};
-  t_env_list *env_list = convert_array_to_env(envp);
-  t_ctx ctx;
-  ctx.env = env_list;
   char *string = strdup("hello");
 
-  EXPECT_STREQ(expand_quotes(string, &ctx), "hello");
-
-  destroy_env_list(env_list);
+  EXPECT_STREQ(expand_quotes(string), "hello");
 }
 
 TEST(expand_quotes, SingleQuote) {
-  char *envp[] = {strdup("USER=Alice"), nullptr};
-  t_env_list *env_list = convert_array_to_env(envp);
-  t_ctx ctx;
-  ctx.env = env_list;
   char *string = strdup("'$USER'");
 
-  EXPECT_STREQ(expand_quotes(string, &ctx), "$USER");
-
-  destroy_env_list(env_list);
+  EXPECT_STREQ(expand_quotes(string), "$USER");
 }
 
 TEST(expand_quotes, DoubleQuote) {
-  char *envp[] = {strdup("USER=Alice"), nullptr};
-  t_env_list *env_list = convert_array_to_env(envp);
-  t_ctx ctx;
-  ctx.env = env_list;
   char *string = strdup("\"Alice\"");
 
-  EXPECT_STREQ(expand_quotes(string, &ctx), "Alice");
-
-  destroy_env_list(env_list);
+  EXPECT_STREQ(expand_quotes(string), "Alice");
 }
 
 TEST(expand_quotes, QuotesAmongChars) {
-  char *envp[] = {strdup("USER=Alice"), nullptr};
-  t_env_list *env_list = convert_array_to_env(envp);
-  t_ctx ctx;
-  ctx.env = env_list;
   char *string = strdup("TheNameIs\"Alice\",And'Bob'.");
 
-  EXPECT_STREQ(expand_quotes(string, &ctx), "TheNameIsAlice,AndBob.");
-
-  destroy_env_list(env_list);
+  EXPECT_STREQ(expand_quotes(string), "TheNameIsAlice,AndBob.");
 }
