@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 19:38:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/29 16:30:47 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/29 16:49:37 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	write_heredoc(int fd, t_list *input_list)
 	ft_lstclear(&input_list, free);
 }
 
-static int	create_heredoc_tmpfile(void)
+static int	create_heredoc_tmpfile(char *tmpfile)
 {
 	int		fd;
 	char	*paths[5];
@@ -46,6 +46,7 @@ static int	create_heredoc_tmpfile(void)
 	{
 		path = ft_xstrjoin(paths[i], HEREDOC_TMPFILE);
 		fd = open(path, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR);
+		ft_strlcpy(tmpfile, path, HEREDOC_TMPFILE_LEN);
 		free(path);
 		if (fd != -1)
 			break ;
@@ -56,15 +57,16 @@ static int	create_heredoc_tmpfile(void)
 
 static int	open_heredoc_tmpfile(t_list *input_list)
 {
-	int	fd;
+	int		fd;
+	char	tmpfile[HEREDOC_TMPFILE_LEN];
 
-	fd = create_heredoc_tmpfile();
+	fd = create_heredoc_tmpfile(tmpfile);
 	if (fd == -1)
 		return (-1);
 	write_heredoc(fd, input_list);
 	close(fd);
 	fd = open(HEREDOC_TMPFILE, O_RDONLY);
-	unlink(HEREDOC_TMPFILE);
+	unlink(tmpfile);
 	return (fd);
 }
 

@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:22:57 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/28 15:02:23 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/29 16:40:27 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 # define HEREDOC_PIPESIZE 4096
 # define HEREDOC_TMPFILE "minishell-thd"
+# define HEREDOC_TMPFILE_LEN 25
 
 typedef bool	(*t_parse_simple_commnad)(t_ast *node, t_token_list **token);
 
