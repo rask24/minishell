@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 22:59:05 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/29 10:24:45 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/29 10:37:57 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*get_expanded_variable(t_expand_info *expand_info, t_ctx *ctx)
 	char	*result;
 
 	consume_char(expand_info);
-	if (!*expand_info->right)
+	if (*expand_info->right == '\0')
 		return (ft_xstrdup("$"));
 	while (is_identifier_char(*expand_info->right))
 		expand_info->right++;
