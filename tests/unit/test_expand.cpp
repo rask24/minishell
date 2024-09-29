@@ -93,6 +93,18 @@ TEST(expand_variable, IgnoreDoubleQuote) {
   destroy_env_list(env_list);
 }
 
+TEST(expand_variable, IgnoreSingleQuotePutAmongNonIdentifierChars) {
+  char *envp[] = {strdup("USER=Alice"), nullptr};
+  t_env_list *env_list = convert_array_to_env(envp);
+  t_ctx ctx;
+  ctx.env = env_list;
+  char *string = strdup("$USER,'$USER'");
+
+  EXPECT_STREQ(expand_variable(string, &ctx), "Alice,'$USER'");
+
+  destroy_env_list(env_list);
+}
+
 TEST(expand_quotes, NoSingleQuote) {
   char *envp[] = {nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
@@ -125,4 +137,6 @@ TEST(expand_quotes, ManyDoubleQuotes) {
 
   char *result = expand_quotes(strdup("\"$USER\"\"\""), &ctx);
   EXPECT_STREQ(result, "Alice");
+
+  destroy_env_list(env_list);
 }
