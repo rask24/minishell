@@ -31,7 +31,7 @@ static bool	is_builtin(char *cmd_name)
 	return (false);
 }
 
-static void	push_io(int *fd_array)
+static void	save_std_io(int *fd_array)
 {
 	fd_array[0] = dup(STDIN_FILENO);
 	if (fd_array[0] == -1)
@@ -44,17 +44,17 @@ static void	push_io(int *fd_array)
 		perror("minishell: dup");
 }
 
-static void	pop_io(int *fd_array)
+static void	restore_std_io(int *std_fds)
 {
-	if (dup2(fd_array[0], STDIN_FILENO) == -1)
+	if (dup2(std_fds[0], STDIN_FILENO) == -1)
 		perror("minishell: dup2");
-	if (dup2(fd_array[1], STDOUT_FILENO) == -1)
+	if (dup2(std_fds[1], STDOUT_FILENO) == -1)
 		perror("minishell: dup2");
-	if (dup2(fd_array[2], STDERR_FILENO) == -1)
+	if (dup2(std_fds[2], STDERR_FILENO) == -1)
 		perror("minishell: dup2");
-	close(fd_array[0]);
-	close(fd_array[1]);
-	close(fd_array[2]);
+	close(std_fds[0]);
+	close(std_fds[1]);
+	close(std_fds[2]);
 }
 
 static int	execute_builtin_command(t_ast *node, t_ctx *ctx)
@@ -88,17 +88,15 @@ static int	execute_builtin_command(t_ast *node, t_ctx *ctx)
 
 int	execute_command(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
 {
-	int	status;
-	int	fd_array[3];
+	int	std_fds[3];
 
-	status = 0;
 	if (is_builtin(node->cmd_args->content))
 	{
-		push_io(fd_array);
+		save_std_io(std_fds);
 		handle_io(conf, node->redirects);
-		status = execute_builtin_command(node, ctx);
-		pop_io(fd_array);
-		return (status);
+		ctx->exit_status = execute_builtin_command(node, ctx);
+		restore_std_io(std_fds);
+		return (EXIT_SUCCESS);
 	}
 	else
 		return (spawn_command(node, ctx, conf));
