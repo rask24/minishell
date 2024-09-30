@@ -8,8 +8,8 @@ CFLAGS			= -Wall -Wextra -Werror
 PROD_FLAGS		= -O3
 DEV_FLAGS		= -O0 -g -fsanitize=address,undefined,integer
 DEP_FLAGS		= -MMD -MP
-INCLUDE			= -I $(INC_DIR) -I $(LIBFT_DIR)/$(INC_DIR) -I $(LIBREADLINE_DIR)/$(INC_DIR)
-LD_FLAGS		= -L $(LIBFT_DIR) -L $(LIBREADLINE_DIR)/lib
+INCLUDE			= -I$(INC_DIR) -I$(LIBFT_DIR)/$(INC_DIR) -I$(LIBREADLINE_DIR)/$(INC_DIR)
+LD_FLAGS		= -L$(LIBFT_DIR) -L$(LIBREADLINE_DIR)/lib
 LD_LIBS			= -lft -lreadline -lncurses
 
 # Directories
@@ -62,6 +62,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/lexer/process_eof.c \
 					$(SRC_DIR)/lexer/process_operator.c \
 					$(SRC_DIR)/lexer/process_quote.c \
+					$(SRC_DIR)/parser/handle_heredoc.c \
 					$(SRC_DIR)/parser/parse_command.c \
 					$(SRC_DIR)/parser/parse_list.c \
 					$(SRC_DIR)/parser/parse_simple_command.c \

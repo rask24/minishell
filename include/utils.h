@@ -31,6 +31,7 @@ void			print_error(const char *func, const char *desc);
 void			print_error_exit(const char *func, const char *desc,
 					int exit_status);
 void			print_syntax_error(const char *token_value);
+void			print_heredoc_warning(const char *delimiter);
 
 t_list			*ft_xlstnew(void *content);
 char			*ft_xstrdup(const char *s);
