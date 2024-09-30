@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:20:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/22 11:56:56 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/27 01:14:40 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,33 @@ void	print_syntax_error(const char *token_value)
 	}
 	res = printf("minishell: syntax error near unexpected token `%s'\n",
 			token_value);
+	if (res < 0)
+		perror("minishell: printf");
+	if (dup2(stdout_fd, STDOUT_FILENO) == -1)
+		perror("minishell: dup2");
+	close(stdout_fd);
+}
+
+void	print_heredoc_warning(const char *delimiter)
+{
+	int		stdout_fd;
+	int		res;
+
+	stdout_fd = dup(STDOUT_FILENO);
+	if (stdout_fd == -1)
+	{
+		perror("minishell: dup");
+		return ;
+	}
+	if (dup2(STDERR_FILENO, STDOUT_FILENO) == -1)
+	{
+		perror("minishell: dup2");
+		close(stdout_fd);
+		return ;
+	}
+	res = printf("%s: %s: %s`%s')\n",
+			"minishell", "warning",
+			"here-document delimited by end-of-file (wanted ", delimiter);
 	if (res < 0)
 		perror("minishell: printf");
 	if (dup2(stdout_fd, STDOUT_FILENO) == -1)
