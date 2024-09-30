@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstremove_if.c                                  :+:      :+:    :+:   */
+/*   expansion.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/07 15:07:14 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/24 01:16:45 by yliu             ###   ########.fr       */
+/*   Created: 2024/09/23 14:58:13 by yliu              #+#    #+#             */
+/*   Updated: 2024/09/27 00:12:15 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#ifndef EXPANSION_H
+# define EXPANSION_H
 
-void	ft_lstremove_if(t_list **lst, t_pred should_remove, void *param,
-							t_del del)
-{
-	t_list	*curr;
-	t_list	*next;
+# include "builtins.h"
+# include "libft.h"
+# include "env.h"
 
-	if (!lst || !*lst || !should_remove || !del)
-		return ;
-	curr = *lst;
-	while (curr)
-	{
-		next = curr->next;
-		if (should_remove(curr, param))
-			ft_lstremove(lst, curr, del);
-		curr = next;
-	}
-}
+t_list	*expand(t_list *cmd_args, t_ctx *ctx);
+
+#endif
