@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:45:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/29 17:24:02 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/30 19:34:32 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	open_redirect_file(t_redirect_type type, const char *filepath
 	return (fd);
 }
 
-static void	handle_redirect(t_list *redirects)
+static bool	handle_redirect(t_list *redirects)
 {
 	int				fd;
 	int				std_fd;
@@ -54,7 +54,7 @@ static void	handle_redirect(t_list *redirects)
 	if (fd == -1)
 	{
 		print_error(filepath, strerror(errno));
-		return ;
+		return (false);
 	}
 	if (type == REDIRECT_OUTPUT || type == REDIRECT_APPEND)
 		std_fd = STDOUT_FILENO;
@@ -63,6 +63,7 @@ static void	handle_redirect(t_list *redirects)
 	if (dup2(fd, std_fd) == -1)
 		print_error("dup2", strerror(errno));
 	close(fd);
+	return (true);
 }
 
 static void	handle_pipeline(t_pipeline_conf *conf)
@@ -83,12 +84,14 @@ static void	handle_pipeline(t_pipeline_conf *conf)
 	}
 }
 
-void	handle_io(t_pipeline_conf *conf, t_list *redirects)
+bool	handle_io(t_pipeline_conf *conf, t_list *redirects)
 {
 	handle_pipeline(conf);
 	while (redirects)
 	{
-		handle_redirect(redirects);
+		if (!handle_redirect(redirects))
+			return (false);
 		redirects = redirects->next;
 	}
+	return (true);
 }
