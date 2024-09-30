@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 19:38:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/29 17:22:16 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/30 19:27:41 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	write_heredoc(int fd, t_list *input_list)
 	t_list	*node;
 
 	node = input_list;
-	while (node != NULL)
+	while (node)
 	{
 		ft_putendl_fd(node->content, fd);
 		node = node->next;
@@ -113,7 +113,7 @@ int	handle_heredoc(const char *delimiter)
 			break ;
 		}
 		heredoc_size += ft_strlen(line) + 1;
-		ft_lstadd_back(&input_list, ft_xlstnew(ft_xstrdup(line)));
+		ft_lstadd_back(&input_list, ft_xlstnew(line));
 	}
 	return (open_heredoc(input_list, heredoc_size));
 }
