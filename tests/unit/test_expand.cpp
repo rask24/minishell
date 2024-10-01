@@ -248,3 +248,9 @@ TEST_F(FileTest, FailsInShortMatchButNotInLongMatch) {
   char **ans = expand_wildcard(strdup("*e"), nullptr);
   EXPECT_TRUE(areCharArraysEqual(ans, expected));
 }
+
+TEST_F(FileTest, FullNameWithWildcardCrazy) {
+  char *expected[] = {strdup("file1"), nullptr};
+  char **ans = expand_wildcard(strdup("**fi**le1*********"), nullptr);
+  EXPECT_TRUE(areCharArraysEqual(ans, expected));
+}
