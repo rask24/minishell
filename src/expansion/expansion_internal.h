@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:09:46 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/01 13:29:21 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/01 13:33:36 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ typedef struct s_expand_info
 
 t_expand_info	*construct_expand_info(char *input);
 void			destroy_expand_info(t_expand_info *expand_info);
-char			*expand_variable(char *str, t_ctx *ctx);
-char			*expand_quotes(char *str);
 char			*trim_expanded_variable(t_expand_info *expand_info, t_ctx *ctx);
 
 char			*trim(t_expand_info *expand_info);

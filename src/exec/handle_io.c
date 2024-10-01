@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:45:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/30 19:34:32 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/01 13:37:31 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 #include "ast.h"
 #include "exec_internal.h"
+#include "expansion.h"
 #include "libft.h"
 #include "utils.h"
 
@@ -41,14 +42,16 @@ static int	open_redirect_file(t_redirect_type type, const char *filepath
 	return (fd);
 }
 
-static bool	handle_redirect(t_list *redirects)
+static bool	handle_redirect(t_list *redirects, t_ctx *ctx)
 {
 	int				fd;
 	int				std_fd;
 	t_redirect_type	type;
+	char			*tmp;
 	const char		*filepath;
 
-	filepath = get_redirect_filepath(redirects);
+	tmp = expand_variable((char *)get_redirect_filepath(redirects), ctx);
+	filepath = expand_quotes(tmp);
 	type = get_redirect_type(redirects);
 	fd = open_redirect_file(type, filepath, get_heredoc_fd(redirects));
 	if (fd == -1)
@@ -84,12 +87,12 @@ static void	handle_pipeline(t_pipeline_conf *conf)
 	}
 }
 
-bool	handle_io(t_pipeline_conf *conf, t_list *redirects)
+bool	handle_io(t_pipeline_conf *conf, t_list *redirects, t_ctx *ctx)
 {
 	handle_pipeline(conf);
 	while (redirects)
 	{
-		if (!handle_redirect(redirects))
+		if (!handle_redirect(redirects, ctx))
 			return (false);
 		redirects = redirects->next;
 	}
