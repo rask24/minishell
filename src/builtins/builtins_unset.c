@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_unset.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:45:52 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/25 18:21:48 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/01 17:55:04 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	builtins_unset(char **args, t_ctx *ctx)
 	++args;
 	while (*args)
 	{
-		ft_lstremove_if(&ctx->env, should_remove, *args, destroy_env_helper);
+		ft_lstremove_if(&ctx->env, should_remove, *args, free);
 		args++;
 	}
 	return (EXIT_SUCCESS);

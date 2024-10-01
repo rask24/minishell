@@ -6,14 +6,14 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:45:09 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/01 10:49:50 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/01 18:32:10 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expansion_internal.h"
 #include <dirent.h>
 
-static char	**convert_t_list_array(t_list *list)
+static char	**convert_list_to_char_array(t_list *list)
 {
 	char	**array;
 	int		i;
@@ -52,13 +52,39 @@ static t_list	*initialize_files(t_ctx *ctx)
 	return (files);
 }
 
-char	**expand_wildcard(char *str, t_ctx *ctx)
+static bool should_remove(t_list *node, void *wildcard_exp1)
+{
+	const char *file_name;
+
+	char *wildcard_exp = (char *)wildcard_exp1;
+	file_name = node->content;
+	while (*wildcard_exp)
+	{
+		if (*wildcard_exp == '*')
+		{
+			if (*(wildcard_exp + 1) == '\0')
+				return (false);
+			while (*file_name && *file_name != *(wildcard_exp + 1))
+				file_name++;
+			if (*file_name == '\0')
+				return (true);
+			wildcard_exp++;
+		}
+		else if (*wildcard_exp != *file_name)
+			return (true);
+		wildcard_exp++;
+		file_name++;
+	}
+	return (false);
+}
+
+char	**expand_wildcard(char *wildcard_exp, t_ctx *ctx)
 {
 	t_list	*files;
 	char	**array;
 
-	(void)str;
 	files = initialize_files(ctx);
-	array = convert_t_list_array(files);
+	ft_lstremove_if(&files, should_remove, wildcard_exp, free);
+	array = convert_list_to_char_array(files);
 	return (array);
 }

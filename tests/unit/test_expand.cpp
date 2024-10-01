@@ -155,8 +155,8 @@ TEST(expand_quotes, QuotesAmongChars) {
 class FileTest : public testing::Test {
  protected:
   //  private:
-  char *create_files[4] = {strdup("file1"), strdup("file2"), strdup("file3"),
-                           nullptr};
+  char *create_files[6] = {strdup("file1"),    strdup("file2"), strdup("file3"),
+                           strdup("filefile"), strdup("dir1"),  nullptr};
   char *test_dir = strdup("wildcard_test_dir");
 
   void SetUp() override {
@@ -192,19 +192,43 @@ std::set<std::string> charArrayToStringSet(char **arr) {
 bool areCharArraysEqual(char **arr1, char **arr2) {
   std::set<std::string> set1 = charArrayToStringSet(arr1);
   std::set<std::string> set2 = charArrayToStringSet(arr2);
-  return set1 == set2;
+  bool res = (set1 == set2);
+  if (res == false) {
+    for (auto &i : set1) {
+      std::cout << i << std::endl;
+    }
+  };
+  return res;
 }
 
 TEST_F(FileTest, OneWildcard) {
-  char *expected[] = {strdup("file1"), strdup("file2"), strdup("file3"),
-                      nullptr};
+  char *expected[] = {strdup("file1"),    strdup("file2"), strdup("file3"),
+                      strdup("filefile"), strdup("dir1"),  nullptr};
   char **ans = expand_wildcard(strdup("*"), nullptr);
   EXPECT_TRUE(areCharArraysEqual(ans, expected));
 }
 
 TEST_F(FileTest, OneWildcardWithCommonPrefix) {
   char *expected[] = {strdup("file1"), strdup("file2"), strdup("file3"),
-                      nullptr};
+                      strdup("filefile"), nullptr};
   char **ans = expand_wildcard(strdup("file*"), nullptr);
+  EXPECT_TRUE(areCharArraysEqual(ans, expected));
+}
+
+TEST_F(FileTest, OneWildcardWithCommonSuffix) {
+  char *expected[] = {strdup("file1"), strdup("dir1"), nullptr};
+  char **ans = expand_wildcard(strdup("*1"), nullptr);
+  EXPECT_TRUE(areCharArraysEqual(ans, expected));
+}
+
+TEST_F(FileTest, FullNameWithWildcard) {
+  char *expected[] = {strdup("file1"), nullptr};
+  char **ans = expand_wildcard(strdup("*file1"), nullptr);
+  EXPECT_TRUE(areCharArraysEqual(ans, expected));
+}
+
+TEST_F(FileTest, FullNameWithWildcard2) {
+  char *expected[] = {strdup("file1"), nullptr};
+  char **ans = expand_wildcard(strdup("file1*"), nullptr);
   EXPECT_TRUE(areCharArraysEqual(ans, expected));
 }
