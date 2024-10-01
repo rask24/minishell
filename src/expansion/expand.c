@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:57:48 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/29 14:35:16 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/01 19:43:20 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,24 @@
 
 static t_list	*expand_token(t_list *token, t_ctx *ctx)
 {
-	t_list	*new_args;
+	t_list	*result_list;
 	char	*var_expanded;
 	char	*quote_expanded;
+	char	**wildcard_expanded;
+	int		i;
 
+	i = 0;
 	var_expanded = expand_variable(token->content, ctx);
 	quote_expanded = expand_quotes(var_expanded);
+	wildcard_expanded = expand_wildcard(quote_expanded, ctx);
 	free(var_expanded);
-	new_args = ft_lstnew(quote_expanded);
-	return (new_args);
+	free(quote_expanded);
+	while (wildcard_expanded[i])
+	{
+		ft_lstadd_back(&result_list, ft_xlstnew(wildcard_expanded[i]));
+		i++;
+	}
+	return (result_list);
 }
 
 t_list	*expand(t_list *cmd_args, t_ctx *ctx)

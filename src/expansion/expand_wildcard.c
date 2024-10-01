@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:45:09 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/01 19:16:33 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/01 19:40:57 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ static t_list	*initialize_files(t_ctx *ctx)
 	(void)ctx;
 	files = NULL;
 	tmp = opendir("./");
+	if (tmp == NULL)
+		return (NULL);
 	while (true)
 	{
 		dp = readdir(tmp);
@@ -78,16 +80,19 @@ static bool	should_remove(t_list *file, void *wildcard_exp)
 	return (!wildcard_lazy_match(file->content, wildcard_exp));
 }
 
-char	**expand_wildcard(char *wildcard_exp, t_ctx *ctx)
+char	**expand_wildcard(char *wildcard, t_ctx *ctx)
 {
 	t_list	*files;
 	char	**array;
 
 	files = initialize_files(ctx);
-	ft_lstremove_if(&files, should_remove, wildcard_exp, free);
 	if (files == NULL)
-		array = convert_list_to_char_array(ft_lstnew(ft_xstrdup(wildcard_exp)));
+		return (NULL);
+	ft_lstremove_if(&files, should_remove, wildcard, free);
+	if (files == NULL)
+		array = convert_list_to_char_array(ft_xlstnew(ft_xstrdup(wildcard)));
 	else
 		array = convert_list_to_char_array(files);
+	ft_lstclear(&files, free);
 	return (array);
 }

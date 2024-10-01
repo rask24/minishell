@@ -169,14 +169,12 @@ class FileTest : public testing::Test {
 
   void TearDown() override {
     for (int i = 0; create_files[i] != nullptr; i++) {
-      if (remove(create_files[i]) == -1) {
-        perror("remove");
-      }
+      remove(create_files[i]);
+      free(create_files[i]);
     }
     chdir("..");
-    if (rmdir(test_dir) == -1) {
-      perror("rmdir");
-    }
+    rmdir(test_dir);
+    free(test_dir);
   }
 };
 
@@ -210,6 +208,10 @@ TEST_F(FileTest, OneWildcard) {
                       strdup("filefile"), strdup("dir1"),  nullptr};
   char **ans = expand_wildcard(strdup("*"), nullptr);
   EXPECT_TRUE(areCharArraysEqual(ans, expected));
+  ft_free_strs(ans);
+  for (int i = 0; expected[i] != nullptr; i++) {
+    free(expected[i]);
+  }
 }
 
 TEST_F(FileTest, OneWildcardWithCommonPrefix) {
@@ -217,40 +219,68 @@ TEST_F(FileTest, OneWildcardWithCommonPrefix) {
                       strdup("filefile"), nullptr};
   char **ans = expand_wildcard(strdup("file*"), nullptr);
   EXPECT_TRUE(areCharArraysEqual(ans, expected));
+  ft_free_strs(ans);
+  for (int i = 0; expected[i] != nullptr; i++) {
+    free(expected[i]);
+  }
 }
 
 TEST_F(FileTest, OneWildcardWithCommonSuffix) {
   char *expected[] = {strdup("file1"), strdup("dir1"), nullptr};
   char **ans = expand_wildcard(strdup("*1"), nullptr);
   EXPECT_TRUE(areCharArraysEqual(ans, expected));
+  ft_free_strs(ans);
+  for (int i = 0; expected[i] != nullptr; i++) {
+    free(expected[i]);
+  }
 }
 
 TEST_F(FileTest, FullNameWithWildcard) {
   char *expected[] = {strdup("file1"), nullptr};
   char **ans = expand_wildcard(strdup("*file1"), nullptr);
   EXPECT_TRUE(areCharArraysEqual(ans, expected));
+  ft_free_strs(ans);
+  for (int i = 0; expected[i] != nullptr; i++) {
+    free(expected[i]);
+  }
 }
 
 TEST_F(FileTest, FullNameWithWildcard2) {
   char *expected[] = {strdup("file1"), nullptr};
   char **ans = expand_wildcard(strdup("file1*"), nullptr);
   EXPECT_TRUE(areCharArraysEqual(ans, expected));
+  ft_free_strs(ans);
+  for (int i = 0; expected[i] != nullptr; i++) {
+    free(expected[i]);
+  }
 }
 
 TEST_F(FileTest, Nomatch) {
   char *expected[] = {strdup("*11"), nullptr};
   char **ans = expand_wildcard(strdup("*11"), nullptr);
   EXPECT_TRUE(areCharArraysEqual(ans, expected));
+  ft_free_strs(ans);
+  for (int i = 0; expected[i] != nullptr; i++) {
+    free(expected[i]);
+  }
 }
 
 TEST_F(FileTest, FailsInShortMatchButNotInLongMatch) {
   char *expected[] = {strdup("filefile"), nullptr};
   char **ans = expand_wildcard(strdup("*e"), nullptr);
   EXPECT_TRUE(areCharArraysEqual(ans, expected));
+  ft_free_strs(ans);
+  for (int i = 0; expected[i] != nullptr; i++) {
+    free(expected[i]);
+  }
 }
 
 TEST_F(FileTest, FullNameWithWildcardCrazy) {
   char *expected[] = {strdup("file1"), nullptr};
   char **ans = expand_wildcard(strdup("**fi**le1*********"), nullptr);
   EXPECT_TRUE(areCharArraysEqual(ans, expected));
+  ft_free_strs(ans);
+  for (int i = 0; expected[i] != nullptr; i++) {
+    free(expected[i]);
+  }
 }
