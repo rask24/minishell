@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:42:23 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/01 19:35:40 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/01 23:17:44 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	create_tmpfile(char *tmp, const char *target)
 	{
 		path = ft_xstrjoin(dirs[i], target);
 		fd = open(path, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR);
-		ft_strlcpy(tmp, path, TMPLATE_LEN);
+		ft_strlcpy(tmp, path, TEMPLATE_LEN);
 		free(path);
 		if (fd != -1)
 			break ;

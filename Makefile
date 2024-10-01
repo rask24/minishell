@@ -38,6 +38,10 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/exec/execute_and_or.c \
 					$(SRC_DIR)/exec/execute_command.c \
 					$(SRC_DIR)/exec/execute_pipeline.c \
+					$(SRC_DIR)/exec/handle_io.c \
+					$(SRC_DIR)/exec/open_expanded_heredoc.c \
+					$(SRC_DIR)/exec/spawn_command.c \
+					$(SRC_DIR)/exec/wait_for_children.c \
 					$(SRC_DIR)/expansion/expand.c \
 					$(SRC_DIR)/expansion/expand_variable.c \
 					$(SRC_DIR)/expansion/expand_quotes.c \
@@ -50,9 +54,6 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/env/getter.c \
 					$(SRC_DIR)/env/lookup_value.c \
 					$(SRC_DIR)/env/setter.c \
-					$(SRC_DIR)/exec/handle_io.c \
-					$(SRC_DIR)/exec/spawn_command.c \
-					$(SRC_DIR)/exec/wait_for_children.c \
 					$(SRC_DIR)/lexer/constructor.c \
 					$(SRC_DIR)/lexer/get_next_token.c \
 					$(SRC_DIR)/lexer/is_start_of_input.c \

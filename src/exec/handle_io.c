@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:45:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/01 13:37:31 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/01 23:24:33 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #include "utils.h"
 
 static int	open_redirect_file(t_redirect_type type, const char *filepath
-				, int heredoc_fd)
+				, t_redirect_info *info, t_ctx *ctx)
 {
 	int	fd;
 
@@ -36,7 +36,7 @@ static int	open_redirect_file(t_redirect_type type, const char *filepath
 		fd = open(filepath, O_WRONLY | O_CREAT | O_APPEND,
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	else if (type == REDIRECT_HEREDOC)
-		fd = heredoc_fd;
+		fd = open_expanded_heredoc(info, ctx);
 	else
 		fd = -1;
 	return (fd);
@@ -53,7 +53,7 @@ static bool	handle_redirect(t_list *redirects, t_ctx *ctx)
 	tmp = expand_variable((char *)get_redirect_filepath(redirects), ctx);
 	filepath = expand_quotes(tmp);
 	type = get_redirect_type(redirects);
-	fd = open_redirect_file(type, filepath, get_heredoc_fd(redirects));
+	fd = open_redirect_file(type, filepath, redirects->content, ctx);
 	if (fd == -1)
 	{
 		print_error(filepath, strerror(errno));

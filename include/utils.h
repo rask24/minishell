@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/01 19:35:18 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/01 23:21:16 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@
 
 # include "libft.h"
 
-# define TMPLATE_LEN 40
+# define TEMPLATE_LEN 40
+# define HEREDOC_PIPESIZE 4096
+# define HEREDOC_TMPFILE "minishell-thd"
+# define EX_HEREDOC_TMPFILE "ex-minishell-thd"
 
 typedef bool	(*t_pred)(t_list *node, void *param);
 typedef void	(*t_del)(void *);

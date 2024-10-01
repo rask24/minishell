@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:46:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/01 13:34:56 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/01 23:25:41 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ typedef enum e_exit_status
 	EXIT_NOT_FOUND_ERR = 127,
 }	t_exit_status;
 
-int		execute_ast_node(t_ast *node, t_ctx *ctx,
-			t_pipeline_conf *conf);
+int		execute_ast_node(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf);
 int		execute_and_or(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf);
 int		execute_pipeline(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf);
 int		execute_command(t_ast *cmd_node, t_ctx *ctx, t_pipeline_conf *conf);
 bool	handle_io(t_pipeline_conf *conf, t_list *redirects, t_ctx *ctx);
+int		open_expanded_heredoc(t_redirect_info *info, t_ctx *ctx);
 void	wait_for_children(pid_t last_pid, t_ctx *ctx);
 int		spawn_command(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf);
 
