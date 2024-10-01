@@ -58,8 +58,7 @@ TEST(push_cmd_arg, MultipleArgs) {
 
 TEST(push_redirect_info, OneRedirect) {
   t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
-  t_redirect_info *info =
-      construct_redirect_info(REDIRECT_INPUT, "input.txt", -1);
+  t_redirect_info *info = construct_redirect_info(REDIRECT_INPUT, "input.txt");
 
   push_redirect_info(node, info);
 
@@ -72,9 +71,9 @@ TEST(push_redirect_info, OneRedirect) {
 TEST(push_redirect_info, MultipleRedirects) {
   t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
   t_redirect_info *info_1 =
-      construct_redirect_info(REDIRECT_INPUT, "input.txt", -1);
+      construct_redirect_info(REDIRECT_INPUT, "input.txt");
   t_redirect_info *info_2 =
-      construct_redirect_info(REDIRECT_OUTPUT, "output.txt", -1);
+      construct_redirect_info(REDIRECT_OUTPUT, "output.txt");
 
   push_redirect_info(node, info_1);
   push_redirect_info(node, info_2);
@@ -83,6 +82,41 @@ TEST(push_redirect_info, MultipleRedirects) {
   EXPECT_STREQ(get_redirect_filepath(node->redirects), "input.txt");
   EXPECT_EQ(get_redirect_type(node->redirects->next), REDIRECT_OUTPUT);
   EXPECT_STREQ(get_redirect_filepath(node->redirects->next), "output.txt");
+
+  destroy_ast(node);
+}
+
+TEST(push_redirect_info, OneRedirect) {
+  t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
+  t_redirect_info *info =
+      construct_heredoc_redirect_info("delimiter", 42, 4096, true);
+
+  push_redirect_info(node, info);
+
+  EXPECT_EQ(get_redirect_type(node->redirects), REDIRECT_HEREDOC);
+  EXPECT_STREQ(get_redirect_filepath(node->redirects), "delimiter");
+  EXPECT_EQ(get_heredoc_fd(node->redirects), 42);
+
+  destroy_ast(node);
+}
+
+TEST(push_redirect_info, MultipleRedirects) {
+  t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
+  t_redirect_info *info_1 =
+      construct_heredoc_redirect_info("delimiter_1", 42, 4096, true);
+  t_redirect_info *info_2 =
+      construct_heredoc_redirect_info("delimiter_2", 43, 8192, false);
+
+  push_redirect_info(node, info_1);
+  push_redirect_info(node, info_2);
+
+  EXPECT_EQ(get_redirect_type(node->redirects), REDIRECT_HEREDOC);
+  EXPECT_STREQ(get_redirect_filepath(node->redirects), "delimiter_1");
+  EXPECT_EQ(get_heredoc_fd(node->redirects), 42);
+  node->redirects = node->redirects->next;
+  EXPECT_EQ(get_redirect_type(node->redirects), REDIRECT_HEREDOC);
+  EXPECT_STREQ(get_redirect_filepath(node->redirects), "delimiter_2");
+  EXPECT_EQ(get_heredoc_fd(node->redirects), 43);
 
   destroy_ast(node);
 }
@@ -99,9 +133,9 @@ TEST(construct_ast, ComplexNodes) {
   push_cmd_arg(right, "file.txt");
 
   t_redirect_info *info_1 =
-      construct_redirect_info(REDIRECT_INPUT, "input.txt", -1);
+      construct_redirect_info(REDIRECT_INPUT, "input.txt");
   t_redirect_info *info_2 =
-      construct_redirect_info(REDIRECT_OUTPUT, "output.txt", -1);
+      construct_redirect_info(REDIRECT_OUTPUT, "output.txt");
 
   push_redirect_info(left, info_1);
   push_redirect_info(right, info_2);
@@ -151,8 +185,7 @@ TEST(push_cmd_arg, InvalidNodeType) {
 
 TEST(push_redirect_info, InvalidNodeType) {
   t_ast *node = construct_ast(AST_PIPE, nullptr, nullptr);
-  t_redirect_info *info =
-      construct_redirect_info(REDIRECT_INPUT, "input.txt", -1);
+  t_redirect_info *info = construct_redirect_info(REDIRECT_INPUT, "input.txt");
 
   push_redirect_info(node, info);
   EXPECT_EQ(node->redirects, nullptr);
