@@ -194,8 +194,12 @@ bool areCharArraysEqual(char **arr1, char **arr2) {
   std::set<std::string> set2 = charArrayToStringSet(arr2);
   bool res = (set1 == set2);
   if (res == false) {
-    for (auto &i : set1) {
-      std::cout << i << std::endl;
+    if (set1.empty()) {
+      std::cout << "set1 is empty" << std::endl;
+    } else {
+      for (auto &i : set1) {
+        std::cout << i << std::endl;
+      }
     }
   };
   return res;
@@ -230,5 +234,11 @@ TEST_F(FileTest, FullNameWithWildcard) {
 TEST_F(FileTest, FullNameWithWildcard2) {
   char *expected[] = {strdup("file1"), nullptr};
   char **ans = expand_wildcard(strdup("file1*"), nullptr);
+  EXPECT_TRUE(areCharArraysEqual(ans, expected));
+}
+
+TEST_F(FileTest, Nomatch) {
+  char *expected[] = {strdup("*11"), nullptr};
+  char **ans = expand_wildcard(strdup("*11"), nullptr);
   EXPECT_TRUE(areCharArraysEqual(ans, expected));
 }

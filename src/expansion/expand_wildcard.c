@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:45:09 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/01 18:32:10 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/01 18:39:14 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ char	**expand_wildcard(char *wildcard_exp, t_ctx *ctx)
 
 	files = initialize_files(ctx);
 	ft_lstremove_if(&files, should_remove, wildcard_exp, free);
+	if (files == NULL)
+			return (convert_list_to_char_array(ft_lstnew(ft_xstrdup(wildcard_exp))));
 	array = convert_list_to_char_array(files);
 	return (array);
 }
