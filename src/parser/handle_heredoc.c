@@ -6,12 +6,13 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 19:38:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/30 19:27:41 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/01 13:47:50 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 
+#include "expansion.h"
 #include "parser_internal.h"
 #include "readline.h"
 #include "utils.h"
@@ -96,9 +97,11 @@ int	handle_heredoc(const char *delimiter)
 	char	*line;
 	t_list	*input_list;
 	size_t	heredoc_size;
+	char	*expanded_delimiter;
 
 	input_list = NULL;
 	heredoc_size = 0;
+	expanded_delimiter = expand_quotes((char *)delimiter);
 	while (true)
 	{
 		line = readline("> ");
@@ -107,7 +110,7 @@ int	handle_heredoc(const char *delimiter)
 			print_heredoc_warning(delimiter);
 			break ;
 		}
-		if (ft_strcmp(line, delimiter) == 0)
+		if (ft_strcmp(line, expanded_delimiter) == 0)
 		{
 			free(line);
 			break ;
@@ -115,5 +118,6 @@ int	handle_heredoc(const char *delimiter)
 		heredoc_size += ft_strlen(line) + 1;
 		ft_lstadd_back(&input_list, ft_xlstnew(line));
 	}
+	free(expanded_delimiter);
 	return (open_heredoc(input_list, heredoc_size));
 }
