@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:45:09 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/01 19:11:19 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/01 19:16:33 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static t_list	*initialize_files(t_ctx *ctx)
 	return (files);
 }
 
-static bool wildcard_lazy_match(const char *file_name, const char *wildcard_exp)
+static bool	wildcard_lazy_match(const char *file_name, const char *wildcard_exp)
 {
 	if (*wildcard_exp == '\0')
 		return (*file_name == '\0');
@@ -73,7 +73,7 @@ static bool wildcard_lazy_match(const char *file_name, const char *wildcard_exp)
 	return (false);
 }
 
-static bool should_remove(t_list *file, void *wildcard_exp)
+static bool	should_remove(t_list *file, void *wildcard_exp)
 {
 	return (!wildcard_lazy_match(file->content, wildcard_exp));
 }
@@ -86,7 +86,8 @@ char	**expand_wildcard(char *wildcard_exp, t_ctx *ctx)
 	files = initialize_files(ctx);
 	ft_lstremove_if(&files, should_remove, wildcard_exp, free);
 	if (files == NULL)
-			return (convert_list_to_char_array(ft_lstnew(ft_xstrdup(wildcard_exp))));
-	array = convert_list_to_char_array(files);
+		array = convert_list_to_char_array(ft_lstnew(ft_xstrdup(wildcard_exp)));
+	else
+		array = convert_list_to_char_array(files);
 	return (array);
 }
