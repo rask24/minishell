@@ -95,8 +95,10 @@ int	execute_command(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
 	if (is_builtin(get_cmd_arg(node->cmd_args)))
 	{
 		save_std_io(std_fds);
-		handle_io(conf, node->redirects);
-		ctx->exit_status = execute_builtin_command(node, ctx);
+		if (handle_io(conf, node->redirects))
+			ctx->exit_status = execute_builtin_command(node, ctx);
+		else
+			ctx->exit_status = EXIT_FAILURE;
 		restore_std_io(std_fds);
 		return (EXIT_SUCCESS);
 	}
