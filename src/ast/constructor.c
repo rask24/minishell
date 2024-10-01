@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:24:47 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/14 23:28:08 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/26 17:02:31 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,13 @@ t_ast	*construct_ast(t_ast_node_type type, t_ast *left, t_ast *right)
 }
 
 t_redirect_info	*construct_redirect_info(t_redirect_type type,
-					const char *filename)
+					const char *filename, int heredoc_fd)
 {
 	t_redirect_info	*info;
 
 	info = ft_xmalloc(sizeof(t_redirect_info));
 	info->type = type;
 	info->filepath = ft_xstrdup(filename);
+	info->heredoc_fd = heredoc_fd;
 	return (info);
 }
