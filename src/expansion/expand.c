@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:57:48 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/01 19:43:20 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/01 19:56:23 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static t_list	*expand_token(t_list *token, t_ctx *ctx)
 	int		i;
 
 	i = 0;
+	result_list = NULL;
 	var_expanded = expand_variable(token->content, ctx);
 	quote_expanded = expand_quotes(var_expanded);
 	wildcard_expanded = expand_wildcard(quote_expanded, ctx);
@@ -32,6 +33,7 @@ static t_list	*expand_token(t_list *token, t_ctx *ctx)
 		ft_lstadd_back(&result_list, ft_xlstnew(wildcard_expanded[i]));
 		i++;
 	}
+	ft_free_strs(wildcard_expanded);
 	return (result_list);
 }
 
