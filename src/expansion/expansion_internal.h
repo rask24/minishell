@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_internal.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:09:46 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/29 14:49:22 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/01 13:29:21 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ char			*trim_expanded_variable(t_expand_info *expand_info, t_ctx *ctx);
 
 char			*trim(t_expand_info *expand_info);
 void			consume_char(t_expand_info *expand_info);
-void			find_set(t_expand_info *expand_info, char *set);
 char			*trim_till(t_expand_info *expand_info, char *set);
 
 #endif
