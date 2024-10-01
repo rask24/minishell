@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/27 00:10:42 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/01 19:35:18 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,15 @@
 
 # include "libft.h"
 
+# define TMPLATE_LEN 40
+
 typedef bool	(*t_pred)(t_list *node, void *param);
 typedef void	(*t_del)(void *);
 typedef bool	(*t_cmp)(t_list *, t_list *);
 
 bool			is_identifier(const char *input);
+
+int				create_tmpfile(char *tmp, const char *target);
 
 void			print_error(const char *func, const char *desc);
 void			print_error_exit(const char *func, const char *desc,

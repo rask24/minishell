@@ -77,6 +77,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/ui/reset_signal_handlers.c \
 					$(SRC_DIR)/ui/restore_terminal_configuration.c \
 					$(SRC_DIR)/ui/save_terminal_configuration.c \
+					$(SRC_DIR)/utils/create_tmpfile.c \
 					$(SRC_DIR)/utils/ft_lstinsert.c \
 					$(SRC_DIR)/utils/ft_lstiterp.c \
 					$(SRC_DIR)/utils/is_identifier.c \

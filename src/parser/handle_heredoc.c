@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 19:38:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/01 18:07:25 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/01 18:55:04 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,38 +30,12 @@ static void	write_heredoc(int fd, t_list *input_list)
 	ft_lstclear(&input_list, free);
 }
 
-static int	create_heredoc_tmpfile(char *tmpfile)
-{
-	int		fd;
-	char	*paths[5];
-	char	*path;
-	int		i;
-
-	paths[0] = "/tmp/";
-	paths[1] = "/var/tmp/";
-	paths[2] = "/usr/tmp/";
-	paths[3] = "./";
-	paths[4] = NULL;
-	i = 0;
-	while (paths[i])
-	{
-		path = ft_xstrjoin(paths[i], HEREDOC_TMPFILE);
-		fd = open(path, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR);
-		ft_strlcpy(tmpfile, path, HEREDOC_TMPFILE_LEN);
-		free(path);
-		if (fd != -1)
-			break ;
-		i++;
-	}
-	return (fd);
-}
-
 static int	open_heredoc_tmpfile(t_list *input_list)
 {
 	int		fd;
 	char	tmpfile[HEREDOC_TMPFILE_LEN];
 
-	fd = create_heredoc_tmpfile(tmpfile);
+	fd = create_tmpfile(tmpfile, HEREDOC_TMPFILE);
 	if (fd == -1)
 		return (-1);
 	write_heredoc(fd, input_list);
