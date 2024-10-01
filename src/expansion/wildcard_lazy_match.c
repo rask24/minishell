@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 20:20:45 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/01 20:53:42 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/01 21:51:23 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ static void	construct_dp(bool ***dp, int pattern_len, int str_len)
 {
 	int	i;
 
-	*dp = (bool **)malloc(sizeof(bool *) * (pattern_len + 1));
+	*dp = (bool **)ft_xmalloc(sizeof(bool *) * (pattern_len + 1));
 	i = 0;
 	while (i <= pattern_len)
 	{
-		(*dp)[i] = (bool *)malloc(sizeof(bool) * (str_len + 1));
+		(*dp)[i] = (bool *)ft_xmalloc(sizeof(bool) * (str_len + 1));
 		i++;
 	}
 }

@@ -199,7 +199,7 @@ bool areCharArraysEqual(char **arr1, char **arr2) {
         std::cout << i << std::endl;
       }
     }
-  };
+  }
   return res;
 }
 
