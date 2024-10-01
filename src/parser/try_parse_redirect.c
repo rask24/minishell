@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 02:28:39 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/01 19:56:00 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/01 23:38:57 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,7 @@ bool	try_parse_redirect(t_ast *node, t_token_list **cur_token)
 	{
 		handle_heredoc(redirect_info.filepath, &redirect_info);
 		if (redirect_info.heredoc_fd == -1)
-		{
 			print_error("heredoc", "failed to open heredoc file");
-			return (false);
-		}
 	}
 	push_redirect_info(node, &redirect_info);
 	return (true);

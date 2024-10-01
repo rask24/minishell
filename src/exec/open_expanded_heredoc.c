@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 23:24:42 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/01 23:26:18 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/01 23:43:23 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ static int	open_tmpfile_expanded_heredoc(t_redirect_info *info, t_ctx *ctx)
 
 int	open_expanded_heredoc(t_redirect_info *info, t_ctx *ctx)
 {
+	if (info->heredoc_fd == -1)
+		return (-1);
 	if (!info->should_expand)
 		return (info->heredoc_fd);
 	if (info->heredoc_size <= HEREDOC_PIPESIZE)
