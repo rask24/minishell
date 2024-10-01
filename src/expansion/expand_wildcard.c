@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:45:09 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/01 18:51:28 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/01 19:11:19 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,32 +52,30 @@ static t_list	*initialize_files(t_ctx *ctx)
 	return (files);
 }
 
-static bool should_remove(t_list *node, void *wildcard_exp1)
+static bool wildcard_lazy_match(const char *file_name, const char *wildcard_exp)
 {
-	const char *file_name;
-
-	char *wildcard_exp = (char *)wildcard_exp1;
-	file_name = node->content;
-	while (*wildcard_exp)
+	if (*wildcard_exp == '\0')
+		return (*file_name == '\0');
+	if (*wildcard_exp == '*')
 	{
-		if (*wildcard_exp == '*')
+		while (*file_name)
 		{
-			if (*(wildcard_exp + 1) == '\0')
-				return (false);
-			while (*file_name && *file_name != *(wildcard_exp + 1))
-				file_name++;
-			if (*file_name == '\0')
+			if (wildcard_lazy_match(file_name, wildcard_exp + 1))
 				return (true);
-			wildcard_exp++;
+			file_name++;
 		}
-		else if (*wildcard_exp != *file_name)
-			return (true);
-		wildcard_exp++;
-		file_name++;
+		return (wildcard_lazy_match(file_name, wildcard_exp + 1));
 	}
-	if (*file_name != '\0')
-		return (true);
+	if (*file_name == '\0')
+		return (false);
+	if (*wildcard_exp == *file_name)
+		return (wildcard_lazy_match(file_name + 1, wildcard_exp + 1));
 	return (false);
+}
+
+static bool should_remove(t_list *file, void *wildcard_exp)
+{
+	return (!wildcard_lazy_match(file->content, wildcard_exp));
 }
 
 char	**expand_wildcard(char *wildcard_exp, t_ctx *ctx)
