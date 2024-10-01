@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:09:46 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/29 14:49:22 by yliu             ###   ########.fr       */
+/*   Updated: 2024/09/29 14:49:56 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_expand_info	*construct_expand_info(char *input);
 void			destroy_expand_info(t_expand_info *expand_info);
 char			*expand_variable(char *str, t_ctx *ctx);
 char			*expand_quotes(char *str);
+char			**expand_wildcard(char *str, t_ctx *ctx);
 char			*trim_expanded_variable(t_expand_info *expand_info, t_ctx *ctx);
 
 char			*trim(t_expand_info *expand_info);

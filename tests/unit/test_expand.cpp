@@ -1,4 +1,9 @@
+#include <fcntl.h>
+
 #include <cstring>
+#include <filesystem>
+#include <iostream>
+#include <set>
 
 #include "gtest/gtest.h"
 
@@ -145,4 +150,61 @@ TEST(expand_quotes, QuotesAmongChars) {
   char *string = strdup("TheNameIs\"Alice\",And'Bob'.");
 
   EXPECT_STREQ(expand_quotes(string), "TheNameIsAlice,AndBob.");
+}
+
+class FileTest : public testing::Test {
+ protected:
+  //  private:
+  char *create_files[4] = {strdup("file1"), strdup("file2"), strdup("file3"),
+                           nullptr};
+  char *test_dir = strdup("wildcard_test_dir");
+
+  void SetUp() override {
+    mkdir(test_dir, 0700);
+    chdir(test_dir);
+    for (int i = 0; create_files[i] != nullptr; i++) {
+      creat(create_files[i], 0700);
+    }
+  }
+
+  void TearDown() override {
+    for (int i = 0; create_files[i] != nullptr; i++) {
+      if (remove(create_files[i]) == -1) {
+        perror("remove");
+      }
+    }
+    chdir("..");
+    if (rmdir(test_dir) == -1) {
+      perror("rmdir");
+    }
+  }
+};
+
+std::set<std::string> charArrayToStringSet(char **arr) {
+  std::set<std::string> result;
+  while (*arr) {
+    result.insert(std::string(*arr));
+    ++arr;
+  }
+  return result;
+}
+
+bool areCharArraysEqual(char **arr1, char **arr2) {
+  std::set<std::string> set1 = charArrayToStringSet(arr1);
+  std::set<std::string> set2 = charArrayToStringSet(arr2);
+  return set1 == set2;
+}
+
+TEST_F(FileTest, OneWildcard) {
+  char *expected[] = {strdup("file1"), strdup("file2"), strdup("file3"),
+                      nullptr};
+  char **ans = expand_wildcard(strdup("*"), nullptr);
+  EXPECT_TRUE(areCharArraysEqual(ans, expected));
+}
+
+TEST_F(FileTest, OneWildcardWithCommonPrefix) {
+  char *expected[] = {strdup("file1"), strdup("file2"), strdup("file3"),
+                      nullptr};
+  char **ans = expand_wildcard(strdup("file*"), nullptr);
+  EXPECT_TRUE(areCharArraysEqual(ans, expected));
 }

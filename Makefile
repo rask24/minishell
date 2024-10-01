@@ -53,6 +53,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/exec/handle_io.c \
 					$(SRC_DIR)/exec/spawn_command.c \
 					$(SRC_DIR)/exec/wait_for_children.c \
+					$(SRC_DIR)/expansion/expand_wildcard.c \
 					$(SRC_DIR)/lexer/constructor.c \
 					$(SRC_DIR)/lexer/get_next_token.c \
 					$(SRC_DIR)/lexer/is_start_of_input.c \
