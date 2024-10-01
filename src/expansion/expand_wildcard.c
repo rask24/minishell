@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:45:09 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/01 18:39:14 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/01 18:51:28 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ static bool should_remove(t_list *node, void *wildcard_exp1)
 		wildcard_exp++;
 		file_name++;
 	}
+	if (*file_name != '\0')
+		return (true);
 	return (false);
 }
 

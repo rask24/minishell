@@ -242,3 +242,9 @@ TEST_F(FileTest, Nomatch) {
   char **ans = expand_wildcard(strdup("*11"), nullptr);
   EXPECT_TRUE(areCharArraysEqual(ans, expected));
 }
+
+TEST_F(FileTest, FailsInShortMatchButNotInLongMatch) {
+  char *expected[] = {strdup("filefile"), nullptr};
+  char **ans = expand_wildcard(strdup("*e"), nullptr);
+  EXPECT_TRUE(areCharArraysEqual(ans, expected));
+}
