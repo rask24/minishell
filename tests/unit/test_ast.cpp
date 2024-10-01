@@ -86,7 +86,7 @@ TEST(push_redirect_info, MultipleRedirects) {
   destroy_ast(node);
 }
 
-TEST(push_redirect_info, OneRedirect) {
+TEST(push_redirect_info, OneRedirectHeredoc) {
   t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
   t_redirect_info *info =
       construct_heredoc_redirect_info("delimiter", 42, 4096, true);
@@ -100,7 +100,7 @@ TEST(push_redirect_info, OneRedirect) {
   destroy_ast(node);
 }
 
-TEST(push_redirect_info, MultipleRedirects) {
+TEST(push_redirect_info, MultipleRedirectsHeredoc) {
   t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
   t_redirect_info *info_1 =
       construct_heredoc_redirect_info("delimiter_1", 42, 4096, true);
