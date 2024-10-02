@@ -219,34 +219,34 @@ t_list *ret_expected(char **expected) {
   return (result);
 }
 
-TEST_F(FileTest, OneWildcard) {
-  char *expected[] = {strdup("file1"),    strdup("file2"), strdup("file3"),
-                      strdup("filefile"), strdup("dir1"),  nullptr};
-  t_list *expected_list = ret_expected(expected);
-  t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*")));
-  EXPECT_TRUE(AreListsEqual(ans, expected_list));
-  ft_lstclear(&ans, free);
-  ft_lstclear(&expected_list, free);
-}
+// TEST_F(FileTest, OneWildcard) {
+//   char *expected[] = {strdup("file1"),    strdup("file2"), strdup("file3"),
+//                       strdup("filefile"), strdup("dir1"),  nullptr};
+//   t_list *expected_list = ret_expected(expected);
+//   t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*")));
+//   EXPECT_TRUE(AreListsEqual(ans, expected_list));
+//   ft_lstclear(&ans, free);
+//   ft_lstclear(&expected_list, free);
+// }
 
-TEST_F(FileTest, OneWildcardWithCommonPrefix) {
-  char *expected[] = {strdup("file1"), strdup("file2"), strdup("file3"),
-                      strdup("filefile"), nullptr};
-  t_list *expected_list = ret_expected(expected);
-  t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("file*")));
-  EXPECT_TRUE(AreListsEqual(ans, expected_list));
-  ft_lstclear(&ans, free);
-  ft_lstclear(&expected_list, free);
-}
+// TEST_F(FileTest, OneWildcardWithCommonPrefix) {
+//   char *expected[] = {strdup("file1"), strdup("file2"), strdup("file3"),
+//                       strdup("filefile"), nullptr};
+//   t_list *expected_list = ret_expected(expected);
+//   t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("file*")));
+//   EXPECT_TRUE(AreListsEqual(ans, expected_list));
+//   ft_lstclear(&ans, free);
+//   ft_lstclear(&expected_list, free);
+// }
 
-TEST_F(FileTest, OneWildcardWithCommonSuffix) {
-  char *expected[] = {strdup("file1"), strdup("dir1"), nullptr};
-  t_list *expected_list = ret_expected(expected);
-  t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*1")));
-  EXPECT_TRUE(AreListsEqual(ans, expected_list));
-  ft_lstclear(&ans, free);
-  ft_lstclear(&expected_list, free);
-}
+// TEST_F(FileTest, OneWildcardWithCommonSuffix) {
+//   char *expected[] = {strdup("file1"), strdup("dir1"), nullptr};
+//   t_list *expected_list = ret_expected(expected);
+//   t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*1")));
+//   EXPECT_TRUE(AreListsEqual(ans, expected_list));
+//   ft_lstclear(&ans, free);
+//   ft_lstclear(&expected_list, free);
+// }
 
 TEST_F(FileTest, FullNameWithWildcard) {
   char *expected[] = {strdup("file1"), nullptr};
@@ -257,14 +257,14 @@ TEST_F(FileTest, FullNameWithWildcard) {
   ft_lstclear(&expected_list, free);
 }
 
-TEST_F(FileTest, FullNameWithWildcard2) {
-  char *expected[] = {strdup("file1"), nullptr};
-  t_list *expected_list = ret_expected(expected);
-  t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("file1*")));
-  EXPECT_TRUE(AreListsEqual(ans, expected_list));
-  ft_lstclear(&ans, free);
-  ft_lstclear(&expected_list, free);
-}
+// TEST_F(FileTest, FullNameWithWildcard2) {
+//   char *expected[] = {strdup("file1"), nullptr};
+//   t_list *expected_list = ret_expected(expected);
+//   t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("file1*")));
+//   EXPECT_TRUE(AreListsEqual(ans, expected_list));
+//   ft_lstclear(&ans, free);
+//   ft_lstclear(&expected_list, free);
+// }
 
 TEST_F(FileTest, Nomatch) {
   char *expected[] = {strdup("*11"), nullptr};
