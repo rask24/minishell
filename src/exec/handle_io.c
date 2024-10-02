@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:45:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/01 23:45:44 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/02 19:59:57 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,26 @@ static int	open_redirect_file(t_redirect_type type, const char *filepath
 	return (fd);
 }
 
+static const char	*expand_filepath(t_list *redirects, t_ctx *ctx)
+{
+	char		*tmp;
+	const char	*filepath;
+
+	tmp = expand_variable((char *)get_redirect_filepath(redirects), ctx);
+	filepath = expand_quotes(tmp);
+	free(tmp);
+	return (filepath);
+}
+
 static bool	handle_redirect(t_list *redirects, t_ctx *ctx)
 {
 	int				fd;
 	int				std_fd;
 	t_redirect_type	type;
-	char			*tmp;
 	const char		*filepath;
 
-	tmp = expand_variable((char *)get_redirect_filepath(redirects), ctx);
-	filepath = expand_quotes(tmp);
 	type = get_redirect_type(redirects);
+	filepath = expand_filepath(redirects, ctx);
 	fd = open_redirect_file(type, filepath, redirects->content, ctx);
 	if (fd == -1)
 	{
@@ -67,6 +76,7 @@ static bool	handle_redirect(t_list *redirects, t_ctx *ctx)
 	if (dup2(fd, std_fd) == -1)
 		print_error("dup2", strerror(errno));
 	close(fd);
+	free((char *)filepath);
 	return (true);
 }
 
