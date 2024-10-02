@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 23:24:42 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/02 19:37:46 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/02 19:41:08 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static int	open_pipe_expanded_heredoc(t_redirect_info *info, t_ctx *ctx)
 	if (pipe(pipe_fd) == -1)
 	{
 		print_error("pipe", strerror(errno));
+		close(info->heredoc_fd);
 		return (-1);
 	}
 	while (true)
