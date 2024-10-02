@@ -44,10 +44,13 @@ TEST(expand_variable, NoVariable) {
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USERRRRR");
+  char *ans = expand_variable(string, &ctx);
 
-  EXPECT_STREQ(expand_variable(string, &ctx), "");
+  EXPECT_STREQ(ans, "");
 
   destroy_env_list(env_list);
+  free(string);
+  free(ans);
 }
 
 TEST(expand_variable, StringAfterVariable) {
@@ -56,10 +59,13 @@ TEST(expand_variable, StringAfterVariable) {
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("student$USER");
+  char *ans = expand_variable(string, &ctx);
 
-  EXPECT_STREQ(expand_variable(string, &ctx), "studentAlice");
+  EXPECT_STREQ(ans, "studentAlice");
 
   destroy_env_list(env_list);
+  free(string);
+  free(ans);
 }
 
 TEST(expand_variable, ManyVariables) {
@@ -68,10 +74,13 @@ TEST(expand_variable, ManyVariables) {
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USERis$USER$USER$");
+  char *ans = expand_variable(string, &ctx);
 
-  EXPECT_STREQ(expand_variable(string, &ctx), "AliceAlice$");
+  EXPECT_STREQ(ans, "AliceAlice$");
 
   destroy_env_list(env_list);
+  free(string);
+  free(ans);
 }
 
 TEST(expand_variable, IgnoreSingleQuote) {
@@ -80,10 +89,13 @@ TEST(expand_variable, IgnoreSingleQuote) {
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USER'$USER'");
+  char *ans = expand_variable(string, &ctx);
 
-  EXPECT_STREQ(expand_variable(string, &ctx), "Alice'$USER'");
+  EXPECT_STREQ(ans, "Alice'$USER'");
 
   destroy_env_list(env_list);
+  free(string);
+  free(ans);
 }
 
 TEST(expand_variable, DoNotIgnoreDoubleQuote) {
@@ -92,10 +104,13 @@ TEST(expand_variable, DoNotIgnoreDoubleQuote) {
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USER\"$USER\"");
+  char *ans = expand_variable(string, &ctx);
 
-  EXPECT_STREQ(expand_variable(string, &ctx), "Alice\"Alice\"");
+  EXPECT_STREQ(ans, "Alice\"Alice\"");
 
   destroy_env_list(env_list);
+  free(string);
+  free(ans);
 }
 
 TEST(expand_variable, SingleQuotePutAmongNonIdentifierChars) {
@@ -104,10 +119,13 @@ TEST(expand_variable, SingleQuotePutAmongNonIdentifierChars) {
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USER,'$USER'");
+  char *ans = expand_variable(string, &ctx);
 
-  EXPECT_STREQ(expand_variable(string, &ctx), "Alice,'$USER'");
+  EXPECT_STREQ(ans, "Alice,'$USER'");
 
   destroy_env_list(env_list);
+  free(string);
+  free(ans);
 }
 
 TEST(expand_variable, DoubleQuoteAmongNonIdentifierChars) {
@@ -116,42 +134,59 @@ TEST(expand_variable, DoubleQuoteAmongNonIdentifierChars) {
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USER,\"$USER\"");
+  char *ans = expand_variable(string, &ctx);
 
-  EXPECT_STREQ(expand_variable(string, &ctx), "Alice,\"Alice\"");
+  EXPECT_STREQ(ans, "Alice,\"Alice\"");
 
   destroy_env_list(env_list);
+  free(string);
+  free(ans);
 }
 
 TEST(expand_variable, ExitStatus) {
   t_ctx ctx;
   ctx.exit_status = 42;
-  EXPECT_STREQ(expand_variable(strdup("$?$?"), &ctx), "4242");
+  char *ans = expand_variable(strdup("$?$?"), &ctx);
+  EXPECT_STREQ(ans, "4242");
+
+  free(ans);
 }
 
 TEST(expand_quotes, NoQuote) {
   char *string = strdup("hello");
   t_list *sample = ft_lstnew(string);
+  t_list *ans = expand_quotes_on_list(sample);
 
-  EXPECT_STREQ((char *)expand_quotes_on_list(sample)->content, "hello");
+  EXPECT_STREQ((char *)ans->content, "hello");
+
+  ft_lstclear(&ans, free);
 }
 
 TEST(expand_quotes, SingleQuote) {
   t_list *sample = ft_lstnew(strdup("'$USER'"));
+  t_list *ans = expand_quotes_on_list(sample);
 
-  EXPECT_STREQ((char *)expand_quotes_on_list(sample)->content, "$USER");
+  EXPECT_STREQ((char *)ans->content, "$USER");
+
+  ft_lstclear(&ans, free);
 }
 
 TEST(expand_quotes, DoubleQuote) {
   t_list *sample = ft_lstnew(strdup("\"Alice\""));
+  t_list *ans = expand_quotes_on_list(sample);
 
-  EXPECT_STREQ((char *)expand_quotes_on_list(sample)->content, "Alice");
+  EXPECT_STREQ((char *)ans->content, "Alice");
+
+  ft_lstclear(&ans, free);
 }
 
 TEST(expand_quotes, QuotesAmongChars) {
   t_list *sample = ft_lstnew(strdup("TheNameIs\"Alice\",And'Bob'."));
+  t_list *ans = expand_quotes_on_list(sample);
 
-  EXPECT_STREQ((char *)expand_quotes_on_list(sample)->content,
-               "TheNameIsAlice,AndBob.");
+  EXPECT_STREQ((char *)ans->content, "TheNameIsAlice,AndBob.");
+
+  ft_lstclear(&ans, free);
 }
 
 class FileTest : public testing::Test {
@@ -183,7 +218,7 @@ class FileTest : public testing::Test {
   }
 };
 
-std::set<std::string> t_list_to_string_set(t_list *list) {
+std::set<std::string> t_list_to_string_set(const t_list *list) {
   std::set<std::string> result;
   while (list) {
     result.insert(std::string((char *)list->content));
