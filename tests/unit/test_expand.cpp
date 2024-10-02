@@ -130,31 +130,32 @@ TEST(expand_variable, ExitStatus) {
 
 TEST(expand_quotes, NoQuote) {
   char *string = strdup("hello");
+  t_list *sample = ft_lstnew(string);
 
-  EXPECT_STREQ(expand_quotes(string), "hello");
+  EXPECT_STREQ((char *)expand_quotes_on_list(sample)->content, "hello");
 }
 
 TEST(expand_quotes, SingleQuote) {
-  char *string = strdup("'$USER'");
+  t_list *sample = ft_lstnew(strdup("'$USER'"));
 
-  EXPECT_STREQ(expand_quotes(string), "$USER");
+  EXPECT_STREQ((char *)expand_quotes_on_list(sample)->content, "$USER");
 }
 
 TEST(expand_quotes, DoubleQuote) {
-  char *string = strdup("\"Alice\"");
+  t_list *sample = ft_lstnew(strdup("\"Alice\""));
 
-  EXPECT_STREQ(expand_quotes(string), "Alice");
+  EXPECT_STREQ((char *)expand_quotes_on_list(sample)->content, "Alice");
 }
 
 TEST(expand_quotes, QuotesAmongChars) {
-  char *string = strdup("TheNameIs\"Alice\",And'Bob'.");
+  t_list *sample = ft_lstnew(strdup("TheNameIs\"Alice\",And'Bob'."));
 
-  EXPECT_STREQ(expand_quotes(string), "TheNameIsAlice,AndBob.");
+  EXPECT_STREQ((char *)expand_quotes_on_list(sample)->content,
+               "TheNameIsAlice,AndBob.");
 }
 
 class FileTest : public testing::Test {
  protected:
-  //  private:
   char *create_files[6] = {strdup("file1"),    strdup("file2"), strdup("file3"),
                            strdup("filefile"), strdup("dir1"),  nullptr};
   char *test_dir = strdup("wildcard_test_dir");
@@ -178,18 +179,18 @@ class FileTest : public testing::Test {
   }
 };
 
-std::set<std::string> charArrayToStringSet(char **arr) {
+std::set<std::string> t_list_to_string_set(t_list *list) {
   std::set<std::string> result;
-  while (*arr) {
-    result.insert(std::string(*arr));
-    ++arr;
+  while (list) {
+    result.insert(std::string((char *)list->content));
+    list = list->next;
   }
   return result;
 }
 
-bool areCharArraysEqual(char **arr1, char **arr2) {
-  std::set<std::string> set1 = charArrayToStringSet(arr1);
-  std::set<std::string> set2 = charArrayToStringSet(arr2);
+bool is_t_list_have_same_elements(t_list *list1, t_list *list2) {
+  std::set<std::string> set1 = t_list_to_string_set(list1);
+  std::set<std::string> set2 = t_list_to_string_set(list2);
   bool res = (set1 == set2);
   if (res == false) {
     if (set1.empty()) {
@@ -203,86 +204,90 @@ bool areCharArraysEqual(char **arr1, char **arr2) {
   return res;
 }
 
+t_list *ret_expected(char **expected) {
+  t_list *result;
+
+  result = NULL;
+  while (*expected) {
+    ft_lstadd_back(&result, ft_xlstnew(ft_xstrdup(*expected)));
+    expected++;
+  }
+  return (result);
+}
+
 TEST_F(FileTest, OneWildcard) {
   char *expected[] = {strdup("file1"),    strdup("file2"), strdup("file3"),
                       strdup("filefile"), strdup("dir1"),  nullptr};
-  char **ans = expand_wildcard(strdup("*"), nullptr);
-  EXPECT_TRUE(areCharArraysEqual(ans, expected));
-  ft_free_strs(ans);
-  for (int i = 0; expected[i] != nullptr; i++) {
-    free(expected[i]);
-  }
+  t_list *expected_list = ret_expected(expected);
+  t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*")));
+  EXPECT_TRUE(is_t_list_have_same_elements(ans, expected_list));
+  ft_lstclear(&ans, free);
+  ft_lstclear(&expected_list, free);
 }
 
 TEST_F(FileTest, OneWildcardWithCommonPrefix) {
   char *expected[] = {strdup("file1"), strdup("file2"), strdup("file3"),
                       strdup("filefile"), nullptr};
-  char **ans = expand_wildcard(strdup("file*"), nullptr);
-  EXPECT_TRUE(areCharArraysEqual(ans, expected));
-  ft_free_strs(ans);
-  for (int i = 0; expected[i] != nullptr; i++) {
-    free(expected[i]);
-  }
+  t_list *expected_list = ret_expected(expected);
+  t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("file*")));
+  EXPECT_TRUE(is_t_list_have_same_elements(ans, expected_list));
+  ft_lstclear(&ans, free);
+  ft_lstclear(&expected_list, free);
 }
 
 TEST_F(FileTest, OneWildcardWithCommonSuffix) {
   char *expected[] = {strdup("file1"), strdup("dir1"), nullptr};
-  char **ans = expand_wildcard(strdup("*1"), nullptr);
-  EXPECT_TRUE(areCharArraysEqual(ans, expected));
-  ft_free_strs(ans);
-  for (int i = 0; expected[i] != nullptr; i++) {
-    free(expected[i]);
-  }
+  t_list *expected_list = ret_expected(expected);
+  t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*1")));
+  EXPECT_TRUE(is_t_list_have_same_elements(ans, expected_list));
+  ft_lstclear(&ans, free);
+  ft_lstclear(&expected_list, free);
 }
 
 TEST_F(FileTest, FullNameWithWildcard) {
   char *expected[] = {strdup("file1"), nullptr};
-  char **ans = expand_wildcard(strdup("*file1"), nullptr);
-  EXPECT_TRUE(areCharArraysEqual(ans, expected));
-  ft_free_strs(ans);
-  for (int i = 0; expected[i] != nullptr; i++) {
-    free(expected[i]);
-  }
+  t_list *expected_list = ret_expected(expected);
+  t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*file1")));
+  EXPECT_TRUE(is_t_list_have_same_elements(ans, expected_list));
+  ft_lstclear(&ans, free);
+  ft_lstclear(&expected_list, free);
 }
 
 TEST_F(FileTest, FullNameWithWildcard2) {
   char *expected[] = {strdup("file1"), nullptr};
-  char **ans = expand_wildcard(strdup("file1*"), nullptr);
-  EXPECT_TRUE(areCharArraysEqual(ans, expected));
-  ft_free_strs(ans);
-  for (int i = 0; expected[i] != nullptr; i++) {
-    free(expected[i]);
-  }
+  t_list *expected_list = ret_expected(expected);
+  t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("file1*")));
+  EXPECT_TRUE(is_t_list_have_same_elements(ans, expected_list));
+  ft_lstclear(&ans, free);
+  ft_lstclear(&expected_list, free);
 }
 
 TEST_F(FileTest, Nomatch) {
   char *expected[] = {strdup("*11"), nullptr};
-  char **ans = expand_wildcard(strdup("*11"), nullptr);
-  EXPECT_TRUE(areCharArraysEqual(ans, expected));
-  ft_free_strs(ans);
-  for (int i = 0; expected[i] != nullptr; i++) {
-    free(expected[i]);
-  }
+  t_list *expected_list = ret_expected(expected);
+  t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*11")));
+  EXPECT_TRUE(is_t_list_have_same_elements(ans, expected_list));
+  ft_lstclear(&ans, free);
+  ft_lstclear(&expected_list, free);
 }
 
 TEST_F(FileTest, FailsInShortMatchButNotInLongMatch) {
   char *expected[] = {strdup("filefile"), nullptr};
-  char **ans = expand_wildcard(strdup("*e"), nullptr);
-  EXPECT_TRUE(areCharArraysEqual(ans, expected));
-  ft_free_strs(ans);
-  for (int i = 0; expected[i] != nullptr; i++) {
-    free(expected[i]);
-  }
+  t_list *expected_list = ret_expected(expected);
+  t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*e")));
+  EXPECT_TRUE(is_t_list_have_same_elements(ans, expected_list));
+  ft_lstclear(&ans, free);
+  ft_lstclear(&expected_list, free);
 }
 
 TEST_F(FileTest, FullNameWithWildcardCrazy) {
   char *expected[] = {strdup("file1"), nullptr};
-  char **ans = expand_wildcard(strdup("**fi**le1*********"), nullptr);
-  EXPECT_TRUE(areCharArraysEqual(ans, expected));
-  ft_free_strs(ans);
-  for (int i = 0; expected[i] != nullptr; i++) {
-    free(expected[i]);
-  }
+  t_list *expected_list = ret_expected(expected);
+  t_list *ans =
+      expand_wildcard_on_list(ft_xlstnew(strdup("**fi**le1*********")));
+  EXPECT_TRUE(is_t_list_have_same_elements(ans, expected_list));
+  ft_lstclear(&ans, free);
+  ft_lstclear(&expected_list, free);
 }
 
 TEST(expand_variable_on_list, NoExpand) {

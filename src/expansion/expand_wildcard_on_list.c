@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_wildcard.c                                  :+:      :+:    :+:   */
+/*   expand_wildcard_on_list.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:45:09 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/01 20:21:04 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/02 15:43:42 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,12 @@ static char	**convert_list_to_char_array(t_list *list)
 	return (array);
 }
 
-static t_list	*initialize_files(t_ctx *ctx)
+static t_list	*initialize_files(void)
 {
 	t_list			*files;
 	DIR				*tmp;
 	struct dirent	*dp;
 
-	(void)ctx;
 	files = NULL;
 	tmp = opendir("./");
 	if (tmp == NULL)
@@ -59,12 +58,12 @@ static bool	should_remove(t_list *file, void *wildcard_exp)
 	return (!wildcard_lazy_match(file->content, wildcard_exp));
 }
 
-char	**expand_wildcard(char *wildcard, t_ctx *ctx)
+static char	**expand_wildcard(char *wildcard)
 {
 	t_list	*files;
 	char	**array;
 
-	files = initialize_files(ctx);
+	files = initialize_files();
 	if (files == NULL)
 		return (NULL);
 	ft_lstremove_if(&files, should_remove, wildcard, free);
@@ -74,4 +73,26 @@ char	**expand_wildcard(char *wildcard, t_ctx *ctx)
 		array = convert_list_to_char_array(files);
 	ft_lstclear(&files, free);
 	return (array);
+}
+
+t_list	*expand_wildcard_on_list(t_list *list)
+{
+	t_list	*curr;
+	char	**wildcard_expanded_words;
+	t_list	*result;
+
+	curr = list;
+	result = NULL;
+	while (curr)
+	{
+		wildcard_expanded_words = expand_wildcard(curr->content);
+		while (*wildcard_expanded_words)
+		{
+			ft_lstadd_back(&result, ft_xlstnew(*wildcard_expanded_words));
+			wildcard_expanded_words++;
+		}
+		curr = curr->next;
+	}
+	ft_lstclear(&list, free);
+	return (result);
 }
