@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:37:49 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/02 14:58:22 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/02 16:20:15 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static bool	is_ifs(char c)
 	return (c == ' ' || c == '\t' || c == '\n');
 }
 
-static char	*get_next_ifs_splitted_word(char **input)
+static char	*get_next_ifs_split_word(char **input)
 {
 	int		i;
 	char	*result;
@@ -39,6 +39,7 @@ t_list	*expand_variable_on_list(t_list *list, t_ctx *ctx)
 {
 	t_list	*curr;
 	char	*ifs_combined_word;
+	char	*original_ptr;
 	char	*ifs_splitted_word;
 	t_list	*result;
 
@@ -47,13 +48,15 @@ t_list	*expand_variable_on_list(t_list *list, t_ctx *ctx)
 	while (curr)
 	{
 		ifs_combined_word = expand_variable(curr->content, ctx);
+		original_ptr = ifs_combined_word;
 		while (true)
 		{
-			ifs_splitted_word = get_next_ifs_splitted_word(&ifs_combined_word);
+			ifs_splitted_word = get_next_ifs_split_word(&ifs_combined_word);
 			if (ifs_splitted_word == NULL)
 				break ;
 			ft_lstadd_back(&result, ft_xlstnew(ifs_splitted_word));
 		}
+		free(original_ptr);
 		curr = curr->next;
 	}
 	ft_lstclear(&list, free);

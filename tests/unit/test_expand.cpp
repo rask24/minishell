@@ -188,13 +188,13 @@ std::set<std::string> t_list_to_string_set(t_list *list) {
   return result;
 }
 
-bool is_t_list_have_same_elements(t_list *list1, t_list *list2) {
+bool areListsEqual(t_list *list1, t_list *list2) {
   std::set<std::string> set1 = t_list_to_string_set(list1);
   std::set<std::string> set2 = t_list_to_string_set(list2);
   bool res = (set1 == set2);
   if (res == false) {
     if (set1.empty()) {
-      std::cout << "set1 is empty" << std::endl;
+      std::cerr << "set1 is empty" << std::endl;
     } else {
       for (auto &i : set1) {
         std::cout << i << std::endl;
@@ -220,7 +220,7 @@ TEST_F(FileTest, OneWildcard) {
                       strdup("filefile"), strdup("dir1"),  nullptr};
   t_list *expected_list = ret_expected(expected);
   t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*")));
-  EXPECT_TRUE(is_t_list_have_same_elements(ans, expected_list));
+  EXPECT_TRUE(areListsEqual(ans, expected_list));
   ft_lstclear(&ans, free);
   ft_lstclear(&expected_list, free);
 }
@@ -230,7 +230,7 @@ TEST_F(FileTest, OneWildcardWithCommonPrefix) {
                       strdup("filefile"), nullptr};
   t_list *expected_list = ret_expected(expected);
   t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("file*")));
-  EXPECT_TRUE(is_t_list_have_same_elements(ans, expected_list));
+  EXPECT_TRUE(areListsEqual(ans, expected_list));
   ft_lstclear(&ans, free);
   ft_lstclear(&expected_list, free);
 }
@@ -239,7 +239,7 @@ TEST_F(FileTest, OneWildcardWithCommonSuffix) {
   char *expected[] = {strdup("file1"), strdup("dir1"), nullptr};
   t_list *expected_list = ret_expected(expected);
   t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*1")));
-  EXPECT_TRUE(is_t_list_have_same_elements(ans, expected_list));
+  EXPECT_TRUE(areListsEqual(ans, expected_list));
   ft_lstclear(&ans, free);
   ft_lstclear(&expected_list, free);
 }
@@ -248,7 +248,7 @@ TEST_F(FileTest, FullNameWithWildcard) {
   char *expected[] = {strdup("file1"), nullptr};
   t_list *expected_list = ret_expected(expected);
   t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*file1")));
-  EXPECT_TRUE(is_t_list_have_same_elements(ans, expected_list));
+  EXPECT_TRUE(areListsEqual(ans, expected_list));
   ft_lstclear(&ans, free);
   ft_lstclear(&expected_list, free);
 }
@@ -257,7 +257,7 @@ TEST_F(FileTest, FullNameWithWildcard2) {
   char *expected[] = {strdup("file1"), nullptr};
   t_list *expected_list = ret_expected(expected);
   t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("file1*")));
-  EXPECT_TRUE(is_t_list_have_same_elements(ans, expected_list));
+  EXPECT_TRUE(areListsEqual(ans, expected_list));
   ft_lstclear(&ans, free);
   ft_lstclear(&expected_list, free);
 }
@@ -266,7 +266,7 @@ TEST_F(FileTest, Nomatch) {
   char *expected[] = {strdup("*11"), nullptr};
   t_list *expected_list = ret_expected(expected);
   t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*11")));
-  EXPECT_TRUE(is_t_list_have_same_elements(ans, expected_list));
+  EXPECT_TRUE(areListsEqual(ans, expected_list));
   ft_lstclear(&ans, free);
   ft_lstclear(&expected_list, free);
 }
@@ -275,7 +275,7 @@ TEST_F(FileTest, FailsInShortMatchButNotInLongMatch) {
   char *expected[] = {strdup("filefile"), nullptr};
   t_list *expected_list = ret_expected(expected);
   t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*e")));
-  EXPECT_TRUE(is_t_list_have_same_elements(ans, expected_list));
+  EXPECT_TRUE(areListsEqual(ans, expected_list));
   ft_lstclear(&ans, free);
   ft_lstclear(&expected_list, free);
 }
@@ -285,7 +285,7 @@ TEST_F(FileTest, FullNameWithWildcardCrazy) {
   t_list *expected_list = ret_expected(expected);
   t_list *ans =
       expand_wildcard_on_list(ft_xlstnew(strdup("**fi**le1*********")));
-  EXPECT_TRUE(is_t_list_have_same_elements(ans, expected_list));
+  EXPECT_TRUE(areListsEqual(ans, expected_list));
   ft_lstclear(&ans, free);
   ft_lstclear(&expected_list, free);
 }
