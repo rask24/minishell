@@ -162,7 +162,15 @@ class FileTest : public testing::Test {
 
   void SetUp() override {
     mkdir(test_dir, 0700);
+    if (errno != 0) {
+      perror("setup: mkdir");
+      exit(EXIT_FAILURE);
+    }
     chdir(test_dir);
+    if (errno != 0) {
+      perror("setup: chdir");
+      exit(EXIT_FAILURE);
+    }
     for (int i = 0; create_files[i] != nullptr; i++) {
       creat(create_files[i], 0700);
     }
@@ -174,7 +182,15 @@ class FileTest : public testing::Test {
       free(create_files[i]);
     }
     chdir("..");
+    if (errno != 0) {
+      perror("teardown: chdir");
+      exit(EXIT_FAILURE);
+    }
     rmdir(test_dir);
+    if (errno != 0) {
+      perror("teardown: rmdir");
+      exit(EXIT_FAILURE);
+    }
     free(test_dir);
   }
 };
