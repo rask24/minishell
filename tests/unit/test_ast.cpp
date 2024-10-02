@@ -56,6 +56,12 @@ TEST(push_cmd_arg, MultipleArgs) {
   destroy_ast(node);
 }
 
+TEST(get_heredoc_fd, NullRedirects) {
+  t_list *redirects = nullptr;
+
+  EXPECT_EQ(get_heredoc_fd(redirects), -1);
+}
+
 TEST(push_redirect_info, OneRedirect) {
   t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
   t_redirect_info *info = construct_redirect_info(REDIRECT_INPUT, "input.txt");
