@@ -156,42 +156,30 @@ TEST(expand_quotes, QuotesAmongChars) {
 
 class FileTest : public testing::Test {
  protected:
-  char *create_files[6] = {strdup("file1"),    strdup("file2"), strdup("file3"),
-                           strdup("filefile"), strdup("dir1"),  nullptr};
-  char *test_dir = strdup("wildcard_test_dir");
+  const std::vector<std::string> create_files = {"file1", "file2", "file3",
+                                                 "filefile", "dir1"};
+  const std::string test_dir = "wildcard_test_dir";
 
   void SetUp() override {
-    mkdir(test_dir, 0700);
-    if (errno != 0) {
-      perror("setup: mkdir");
-      exit(EXIT_FAILURE);
-    }
-    chdir(test_dir);
-    if (errno != 0) {
-      perror("setup: chdir");
-      exit(EXIT_FAILURE);
-    }
-    for (int i = 0; create_files[i] != nullptr; i++) {
-      creat(create_files[i], 0700);
+    ASSERT_EQ(mkdir(test_dir.c_str(), 0700), 0)
+        << "Failed to create test directory: " << strerror(errno);
+    ASSERT_EQ(chdir(test_dir.c_str()), 0)
+        << "Failed to change to test directory: " << strerror(errno);
+    for (const auto &file : create_files) {
+      ASSERT_NE(creat(file.c_str(), 0700), -1)
+          << "Failed to create file " << file << ": " << strerror(errno);
     }
   }
 
   void TearDown() override {
-    for (int i = 0; create_files[i] != nullptr; i++) {
-      remove(create_files[i]);
-      free(create_files[i]);
+    for (const auto &file : create_files) {
+      ASSERT_EQ(remove(file.c_str()), 0)
+          << "Failed to remove file " << file << ": " << strerror(errno);
     }
-    chdir("..");
-    if (errno != 0) {
-      perror("teardown: chdir");
-      exit(EXIT_FAILURE);
-    }
-    rmdir(test_dir);
-    if (errno != 0) {
-      perror("teardown: rmdir");
-      exit(EXIT_FAILURE);
-    }
-    free(test_dir);
+    ASSERT_EQ(chdir(".."), 0)
+        << "Failed to change to parent directory: " << strerror(errno);
+    ASSERT_EQ(rmdir(test_dir.c_str()), 0)
+        << "Failed to remove test directory: " << strerror(errno);
   }
 };
 
@@ -204,7 +192,7 @@ std::set<std::string> t_list_to_string_set(t_list *list) {
   return result;
 }
 
-bool areListsEqual(t_list *list1, t_list *list2) {
+bool AreListsEqual(t_list *list1, t_list *list2) {
   std::set<std::string> set1 = t_list_to_string_set(list1);
   std::set<std::string> set2 = t_list_to_string_set(list2);
   bool res = (set1 == set2);
@@ -236,7 +224,7 @@ TEST_F(FileTest, OneWildcard) {
                       strdup("filefile"), strdup("dir1"),  nullptr};
   t_list *expected_list = ret_expected(expected);
   t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*")));
-  EXPECT_TRUE(areListsEqual(ans, expected_list));
+  EXPECT_TRUE(AreListsEqual(ans, expected_list));
   ft_lstclear(&ans, free);
   ft_lstclear(&expected_list, free);
 }
@@ -246,7 +234,7 @@ TEST_F(FileTest, OneWildcardWithCommonPrefix) {
                       strdup("filefile"), nullptr};
   t_list *expected_list = ret_expected(expected);
   t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("file*")));
-  EXPECT_TRUE(areListsEqual(ans, expected_list));
+  EXPECT_TRUE(AreListsEqual(ans, expected_list));
   ft_lstclear(&ans, free);
   ft_lstclear(&expected_list, free);
 }
@@ -255,7 +243,7 @@ TEST_F(FileTest, OneWildcardWithCommonSuffix) {
   char *expected[] = {strdup("file1"), strdup("dir1"), nullptr};
   t_list *expected_list = ret_expected(expected);
   t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*1")));
-  EXPECT_TRUE(areListsEqual(ans, expected_list));
+  EXPECT_TRUE(AreListsEqual(ans, expected_list));
   ft_lstclear(&ans, free);
   ft_lstclear(&expected_list, free);
 }
@@ -264,7 +252,7 @@ TEST_F(FileTest, FullNameWithWildcard) {
   char *expected[] = {strdup("file1"), nullptr};
   t_list *expected_list = ret_expected(expected);
   t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*file1")));
-  EXPECT_TRUE(areListsEqual(ans, expected_list));
+  EXPECT_TRUE(AreListsEqual(ans, expected_list));
   ft_lstclear(&ans, free);
   ft_lstclear(&expected_list, free);
 }
@@ -273,7 +261,7 @@ TEST_F(FileTest, FullNameWithWildcard2) {
   char *expected[] = {strdup("file1"), nullptr};
   t_list *expected_list = ret_expected(expected);
   t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("file1*")));
-  EXPECT_TRUE(areListsEqual(ans, expected_list));
+  EXPECT_TRUE(AreListsEqual(ans, expected_list));
   ft_lstclear(&ans, free);
   ft_lstclear(&expected_list, free);
 }
@@ -282,7 +270,7 @@ TEST_F(FileTest, Nomatch) {
   char *expected[] = {strdup("*11"), nullptr};
   t_list *expected_list = ret_expected(expected);
   t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*11")));
-  EXPECT_TRUE(areListsEqual(ans, expected_list));
+  EXPECT_TRUE(AreListsEqual(ans, expected_list));
   ft_lstclear(&ans, free);
   ft_lstclear(&expected_list, free);
 }
@@ -291,7 +279,7 @@ TEST_F(FileTest, FailsInShortMatchButNotInLongMatch) {
   char *expected[] = {strdup("filefile"), nullptr};
   t_list *expected_list = ret_expected(expected);
   t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*e")));
-  EXPECT_TRUE(areListsEqual(ans, expected_list));
+  EXPECT_TRUE(AreListsEqual(ans, expected_list));
   ft_lstclear(&ans, free);
   ft_lstclear(&expected_list, free);
 }
@@ -301,7 +289,7 @@ TEST_F(FileTest, FullNameWithWildcardCrazy) {
   t_list *expected_list = ret_expected(expected);
   t_list *ans =
       expand_wildcard_on_list(ft_xlstnew(strdup("**fi**le1*********")));
-  EXPECT_TRUE(areListsEqual(ans, expected_list));
+  EXPECT_TRUE(AreListsEqual(ans, expected_list));
   ft_lstclear(&ans, free);
   ft_lstclear(&expected_list, free);
 }
