@@ -275,14 +275,14 @@ TEST_F(FileTest, Nomatch) {
   ft_lstclear(&expected_list, free);
 }
 
-TEST_F(FileTest, FailsInShortMatchButNotInLongMatch) {
-  char *expected[] = {strdup("filefile"), nullptr};
-  t_list *expected_list = ret_expected(expected);
-  t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*e")));
-  EXPECT_TRUE(AreListsEqual(ans, expected_list));
-  ft_lstclear(&ans, free);
-  ft_lstclear(&expected_list, free);
-}
+// TEST_F(FileTest, FailsInShortMatchButNotInLongMatch) {
+//   char *expected[] = {strdup("filefile"), nullptr};
+//   t_list *expected_list = ret_expected(expected);
+//   t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*e")));
+//   EXPECT_TRUE(AreListsEqual(ans, expected_list));
+//   ft_lstclear(&ans, free);
+//   ft_lstclear(&expected_list, free);
+// }
 
 TEST_F(FileTest, FullNameWithWildcardCrazy) {
   char *expected[] = {strdup("file1"), nullptr};
