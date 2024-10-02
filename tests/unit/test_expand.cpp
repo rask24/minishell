@@ -284,3 +284,27 @@ TEST_F(FileTest, FullNameWithWildcardCrazy) {
     free(expected[i]);
   }
 }
+
+TEST(expand_variable_on_list, NoExpand) {
+  t_list *list = nullptr;
+  std::vector<std::string> input = {"Hello", "$MULTIWORD", "World"};
+  for (const auto &i : input) {
+    ft_lstadd_back(&list, ft_xlstnew(strdup(i.c_str())));
+  }
+  char *envp[] = {strdup("MULTIWORD=Multiple Words Here"), nullptr};
+  t_env_list *env_list = convert_array_to_env(envp);
+  t_ctx ctx;
+  ctx.env = env_list;
+
+  t_list *result = expand_variable_on_list(list, &ctx);
+
+  std::vector<std::string> expected = {"Hello", "Multiple", "Words", "Here",
+                                       "World"};
+  EXPECT_STREQ((char *)result->content, "Hello");
+  EXPECT_STREQ((char *)result->next->content, "Multiple");
+  EXPECT_STREQ((char *)result->next->next->content, "Words");
+  EXPECT_STREQ((char *)result->next->next->next->content, "Here");
+  EXPECT_STREQ((char *)result->next->next->next->next->content, "World");
+
+  ft_lstclear(&result, free);
+}
