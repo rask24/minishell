@@ -35,9 +35,6 @@ $(TEST_NAME): $(GTEST_MARKER) $(TEST_OBJ) $(OBJ_EXCLUDE_MAIN)
 	@echo "Linking $@..."
 	@$(CXX) $(CXXFLAGS) $(TEST_OBJ) $(OBJ_EXCLUDE_MAIN) -o $@ -L$(GTEST_DIR)/lib $(LD_FLAGS) $(LD_LIBS) -lgtest -lgtest_main -lpthread
 
-# Dependencies
-# $(TEST_BUILD_DIR)/test_example_unit.o: $(BUILD_DIR)/
-
 -include $(TEST_DEP)
 
 # Compile test source files

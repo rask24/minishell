@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:25:57 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/26 23:28:21 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/30 18:28:12 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ int	spawn_command(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
 	else if (pid == 0)
 	{
 		argv = convert_cmd_args_to_array(node->cmd_args);
-		handle_io(conf, node->redirects);
+		if (!handle_io(conf, node->redirects))
+			exit(EXIT_FAILURE);
 		reset_signal_handlers();
 		execute_command_internal(argv, ctx);
 	}
