@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/01 23:21:16 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/02 19:37:17 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ typedef bool	(*t_cmp)(t_list *, t_list *);
 
 bool			is_identifier(const char *input);
 
-int				create_tmpfile(char *tmp, const char *target);
+int				create_tmpfile(char *tmp_name, size_t tmp_len,
+					const char *target);
 
 void			print_error(const char *func, const char *desc);
 void			print_error_exit(const char *func, const char *desc,

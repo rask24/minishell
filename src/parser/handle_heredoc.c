@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 19:38:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/01 23:20:46 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/02 19:38:07 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	open_heredoc_tmpfile(t_list *input_list)
 	int		fd;
 	char	tmpfile[TEMPLATE_LEN];
 
-	fd = create_tmpfile(tmpfile, HEREDOC_TMPFILE);
+	fd = create_tmpfile(tmpfile, TEMPLATE_LEN, HEREDOC_TMPFILE);
 	if (fd == -1)
 		return (-1);
 	write_heredoc(fd, input_list);

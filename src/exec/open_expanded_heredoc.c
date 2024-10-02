@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 23:24:42 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/01 23:43:23 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/02 19:37:46 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	open_tmpfile_expanded_heredoc(t_redirect_info *info, t_ctx *ctx)
 	char	*line;
 	char	*expanded;
 
-	fd = create_tmpfile(tmpfile, EX_HEREDOC_TMPFILE);
+	fd = create_tmpfile(tmpfile, TEMPLATE_LEN, EX_HEREDOC_TMPFILE);
 	if (fd == -1)
 		return (-1);
 	while (true)
