@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:45:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/02 19:59:57 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/03 20:53:51 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	open_redirect_file(t_redirect_type type, const char *filepath
 		fd = open(filepath, O_WRONLY | O_CREAT | O_APPEND,
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	else if (type == REDIRECT_HEREDOC)
-		fd = open_expanded_heredoc(info, ctx);
+		fd = open_heredoc(info, ctx);
 	else
 		fd = -1;
 	return (fd);

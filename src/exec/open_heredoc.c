@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   open_expanded_heredoc.c                            :+:      :+:    :+:   */
+/*   open_heredoc.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -72,7 +72,7 @@ static int	open_tmpfile_expanded_heredoc(t_redirect_info *info, t_ctx *ctx)
 	return (fd);
 }
 
-int	open_expanded_heredoc(t_redirect_info *info, t_ctx *ctx)
+int	open_heredoc(t_redirect_info *info, t_ctx *ctx)
 {
 	if (info->heredoc_fd == -1)
 		return (-1);
