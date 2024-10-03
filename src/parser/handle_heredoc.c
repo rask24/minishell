@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 19:38:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/03 20:50:27 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/03 20:52:00 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	open_heredoc(t_list *input_list, size_t heredoc_size)
 		return (open_heredoc_tmpfile(input_list));
 }
 
-void	set_redirect_heredoc_info(t_redirect_info *info, t_list *input_list,
+static void	set_redirect_heredoc_info(t_redirect_info *info, t_list *input_list,
 			size_t heredoc_size, bool should_expand)
 {
 	info->heredoc_fd = open_heredoc(input_list, heredoc_size);
