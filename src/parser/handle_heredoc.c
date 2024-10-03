@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 19:38:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/03 20:52:00 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/03 20:52:36 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,11 @@ void	handle_heredoc(const char *delimiter, t_redirect_info *info)
 	char	*line;
 	t_list	*input_list;
 	size_t	heredoc_size;
-	char	*expanded;
+	char	*expanded_delimiter;
 
 	input_list = NULL;
 	heredoc_size = 0;
-	expanded = expand_quotes((char *)delimiter);
+	expanded_delimiter = expand_quotes((char *)delimiter);
 	while (true)
 	{
 		line = readline("> ");
@@ -93,13 +93,13 @@ void	handle_heredoc(const char *delimiter, t_redirect_info *info)
 			print_heredoc_warning(delimiter);
 			break ;
 		}
-		if (ft_strcmp(line, expanded) == 0)
+		if (ft_strcmp(line, expanded_delimiter) == 0)
 			break ;
 		heredoc_size += ft_strlen(line) + 1;
 		ft_lstadd_back(&input_list, ft_xlstnew(line));
 	}
 	set_redirect_heredoc_info(info, input_list, heredoc_size,
-		ft_strcmp(expanded, delimiter) == 0);
+		ft_strcmp(expanded_delimiter, delimiter) == 0);
 	free(line);
-	free(expanded);
+	free(expanded_delimiter);
 }
