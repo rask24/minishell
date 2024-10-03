@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 19:38:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/02 19:38:07 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/03 20:50:27 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	handle_heredoc(const char *delimiter, t_redirect_info *info)
 		ft_lstadd_back(&input_list, ft_xlstnew(line));
 	}
 	set_redirect_heredoc_info(info, input_list, heredoc_size,
-		delimiter[0] == expanded[0]);
+		ft_strcmp(expanded, delimiter) == 0);
 	free(line);
 	free(expanded);
 }
