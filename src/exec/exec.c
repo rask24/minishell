@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:54:34 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/27 17:39:00 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/09/29 21:10:26 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	execute_ast_node(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
 		return (execute_command(node, ctx, conf));
 	else if (node->type == AST_PIPE)
 		return (execute_pipeline(node, ctx, conf));
+	else if (node->type == AST_SUBSHELL)
+		return (execute_subshell(node, ctx, conf));
 	else if (node->type == AST_AND || node->type == AST_OR)
 		return (execute_and_or(node, ctx, conf));
 	else

@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:45:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/30 19:34:32 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/02 20:20:49 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ static void	handle_pipeline(t_pipeline_conf *conf)
 
 bool	handle_io(t_pipeline_conf *conf, t_list *redirects)
 {
-	handle_pipeline(conf);
+	if (conf)
+		handle_pipeline(conf);
 	while (redirects)
 	{
 		if (!handle_redirect(redirects))
