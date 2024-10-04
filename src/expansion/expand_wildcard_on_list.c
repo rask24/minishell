@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:45:09 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/02 16:42:22 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/04 15:26:57 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,23 @@
 static t_list	*initialize_files(void)
 {
 	t_list			*files;
-	DIR				*tmp;
+	DIR				*cur_dir;
 	struct dirent	*dp;
 
 	files = NULL;
-	tmp = opendir("./");
-	if (tmp == NULL)
+	cur_dir = opendir("./");
+	if (cur_dir == NULL)
 		return (NULL);
 	while (true)
 	{
-		dp = readdir(tmp);
+		dp = readdir(cur_dir);
 		if (dp == NULL)
 			break ;
 		if (ft_strcmp(dp->d_name, ".") == 0 || ft_strcmp(dp->d_name, "..") == 0)
 			continue ;
 		ft_lstadd_back(&files, ft_xlstnew(ft_xstrdup(dp->d_name)));
 	}
-	closedir(tmp);
+	closedir(cur_dir);
 	return (files);
 }
 

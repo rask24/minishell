@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 20:20:45 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/01 21:51:23 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/04 15:30:36 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	exec_dp(bool **dp, const char *str, const char *pattern)
 	}
 }
 
-static void	exec_first_row(bool **dp, const char *pattern, int pattern_len)
+static void	exec_first_col(bool **dp, const char *pattern, int pattern_len)
 {
 	int	i;
 
@@ -52,17 +52,24 @@ static void	exec_first_row(bool **dp, const char *pattern, int pattern_len)
 static void	construct_dp(bool ***dp, int pattern_len, int str_len)
 {
 	int	i;
+	int	j;
 
 	*dp = (bool **)ft_xmalloc(sizeof(bool *) * (pattern_len + 1));
 	i = 0;
-	while (i <= pattern_len)
+	while (i < pattern_len + 1)
 	{
 		(*dp)[i] = (bool *)ft_xmalloc(sizeof(bool) * (str_len + 1));
+		j = 0;
+		while (j < str_len + 1)
+		{
+			(*dp)[i][j] = false;
+			j++;
+		}
 		i++;
 	}
 }
 
-static void	destruct_dp(bool **dp, int pattern_len)
+static void	destroy_dp(bool **dp, int pattern_len)
 {
 	int	i;
 
@@ -86,9 +93,9 @@ bool	wildcard_lazy_match(const char *str, const char *pattern)
 	str_len = strlen(str);
 	construct_dp(&dp, pattern_len, str_len);
 	dp[0][0] = true;
-	exec_first_row(dp, pattern, pattern_len);
+	exec_first_col(dp, pattern, pattern_len);
 	exec_dp(dp, str, pattern);
 	result = dp[pattern_len][str_len];
-	destruct_dp(dp, pattern_len);
+	destroy_dp(dp, pattern_len);
 	return (result);
 }
