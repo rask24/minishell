@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:41:56 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/01 23:30:49 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/04 23:05:28 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef enum e_redirect_type
 typedef struct s_redirect_info
 {
 	t_redirect_type	type;
-	const char		*filepath;
+	const char		*file_or_delim;
 	int				heredoc_fd;
 	size_t			heredoc_size;
 	bool			should_expand;
@@ -69,7 +69,7 @@ void				push_redirect_info(t_ast *ast, t_redirect_info *info);
 const char			*get_cmd_arg(t_list *cmd_args);
 t_redirect_type		get_redirect_type(t_list *redirects);
 int					get_heredoc_fd(t_list *redirects);
-const char			*get_redirect_filepath(t_list *redirects);
+const char			*get_redirect_file_or_delim(t_list *redirects);
 
 char				**convert_cmd_args_to_array(t_list *cmd_args);
 

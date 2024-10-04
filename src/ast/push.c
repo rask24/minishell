@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:13:36 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/01 19:30:18 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/04 23:03:36 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	push_redirect_info(t_ast *node, t_redirect_info *info)
 		return ;
 	}
 	if (info->type == REDIRECT_HEREDOC)
-		new_info = construct_heredoc_redirect_info(info->filepath,
+		new_info = construct_heredoc_redirect_info(info->file_or_delim,
 				info->heredoc_fd, info->heredoc_size, info->should_expand);
 	else
-		new_info = construct_redirect_info(info->type, info->filepath);
+		new_info = construct_redirect_info(info->type, info->file_or_delim);
 	ft_lstadd_back(&node->redirects, ft_lstnew(new_info));
 }

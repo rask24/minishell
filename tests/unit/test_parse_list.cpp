@@ -128,8 +128,10 @@ TEST(parse_list, MultipleLists) {
   EXPECT_EQ(get_redirect_type(node->left->right->redirects), REDIRECT_OUTPUT);
   EXPECT_EQ(get_redirect_type(node->left->right->redirects->next),
             REDIRECT_UNKNOWN);
-  EXPECT_STREQ(get_redirect_filepath(node->left->right->redirects), "out.txt");
-  EXPECT_EQ(get_redirect_filepath(node->left->right->redirects->next), nullptr);
+  EXPECT_STREQ(get_redirect_file_or_delim(node->left->right->redirects),
+               "out.txt");
+  EXPECT_EQ(get_redirect_file_or_delim(node->left->right->redirects->next),
+            nullptr);
   EXPECT_EQ(node->left->right->redirects->next, nullptr);
 
   EXPECT_EQ(node->right->type, AST_COMMAND);

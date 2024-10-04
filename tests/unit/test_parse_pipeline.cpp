@@ -150,7 +150,7 @@ TEST(parse_pipeline, MultiplePipelinesWithSubshells) {
 
   EXPECT_EQ(node4->type, AST_SUBSHELL);
   EXPECT_EQ(get_redirect_type(node4->redirects), REDIRECT_OUTPUT);
-  EXPECT_STREQ(get_redirect_filepath(node4->redirects), "out.txt");
+  EXPECT_STREQ(get_redirect_file_or_delim(node4->redirects), "out.txt");
   EXPECT_EQ(node4->redirects->next, nullptr);
 
   EXPECT_EQ(node5->type, AST_COMMAND);

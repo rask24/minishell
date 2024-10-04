@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:45:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/03 20:53:51 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/04 23:05:28 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static const char	*expand_filepath(t_list *redirects, t_ctx *ctx)
 	char		*tmp;
 	const char	*filepath;
 
-	tmp = expand_variable((char *)get_redirect_filepath(redirects), ctx);
+	tmp = expand_variable((char *)get_redirect_file_or_delim(redirects), ctx);
 	filepath = expand_quotes(tmp);
 	free(tmp);
 	return (filepath);

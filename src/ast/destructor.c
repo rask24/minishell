@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:58:00 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/01 12:50:21 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/04 23:03:36 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	_destroy_redirect_info(void *content)
 	info = (t_redirect_info *)content;
 	if (info->heredoc_fd != -1)
 		close(info->heredoc_fd);
-	free((char *)info->filepath);
+	free((char *)info->file_or_delim);
 	free(info);
 }
 

@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:25:24 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/01 23:30:40 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/04 23:05:28 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ t_redirect_type	get_redirect_type(t_list *redirects)
 	return (((t_redirect_info *)(redirects->content))->type);
 }
 
-const char	*get_redirect_filepath(t_list *redirects)
+const char	*get_redirect_file_or_delim(t_list *redirects)
 {
 	if (redirects == NULL)
 		return (NULL);
-	return (((t_redirect_info *)(redirects->content))->filepath);
+	return (((t_redirect_info *)(redirects->content))->file_or_delim);
 }
 
 int	get_heredoc_fd(t_list *redirects)
