@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #include "exec_internal.h"
+#include "expansion.h"
 
-static bool	is_builtin(char *cmd_name)
+static bool	is_builtin(const char *cmd_name)
 {
 	if (ft_strcmp(cmd_name, "echo") == 0)
 		return (true);
@@ -59,12 +60,12 @@ static void	restore_std_io(int *std_fds)
 
 static int	execute_builtin_command(t_ast *node, t_ctx *ctx)
 {
-	char	*cmd_name;
-	char	**argv;
-	int		status;
+	const char	*cmd_name;
+	char		**argv;
+	int			status;
 
 	status = 0;
-	cmd_name = node->cmd_args->content;
+	cmd_name = get_cmd_arg(node->cmd_args);
 	argv = convert_cmd_args_to_array(node->cmd_args);
 	if (!argv)
 		return (EXIT_FAILURE);
@@ -90,10 +91,11 @@ int	execute_command(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
 {
 	int	std_fds[3];
 
-	if (is_builtin(node->cmd_args->content))
+	node->cmd_args = expand(node->cmd_args, ctx);
+	if (is_builtin(get_cmd_arg(node->cmd_args)))
 	{
 		save_std_io(std_fds);
-		if (handle_io(conf, node->redirects))
+		if (handle_io(conf, node->redirects, ctx))
 			ctx->exit_status = execute_builtin_command(node, ctx);
 		else
 			ctx->exit_status = EXIT_FAILURE;
