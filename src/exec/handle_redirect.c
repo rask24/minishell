@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 15:08:14 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/05 23:01:34 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/06 00:15:13 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,24 +74,24 @@ bool	handle_redirect(t_list *redirects, t_ctx *ctx)
 {
 	int			fd;
 	const char	*filepath;
-	const char	*expanded_filepath;
 
 	filepath = get_redirect_file_or_delim(redirects);
-	expanded_filepath = expand_filepath(redirects, ctx);
-	if (expanded_filepath == NULL)
+	set_file_or_delim(redirects, expand_filepath(redirects, ctx));
+	if (get_redirect_file_or_delim(redirects) == NULL)
 	{
 		print_error(filepath, "ambiguous redirect");
+		free((char *)filepath);
 		return (false);
 	}
 	fd = open_redirect_file(redirects->content, ctx);
 	if (fd == -1)
 	{
 		if (get_redirect_type(redirects) != REDIRECT_HEREDOC)
-			print_error(expanded_filepath, strerror(errno));
+			print_error(get_redirect_file_or_delim(redirects), strerror(errno));
 		return (false);
 	}
 	redirect_std_fd(get_redirect_type(redirects), fd);
 	close(fd);
-	free((char *)expanded_filepath);
+	free((char *)filepath);
 	return (true);
 }
