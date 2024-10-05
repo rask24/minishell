@@ -39,6 +39,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/exec/execute_command.c \
 					$(SRC_DIR)/exec/execute_pipeline.c \
 					$(SRC_DIR)/exec/handle_io.c \
+					$(SRC_DIR)/exec/handle_redirect.c \
 					$(SRC_DIR)/exec/open_heredoc.c \
 					$(SRC_DIR)/exec/spawn_command.c \
 					$(SRC_DIR)/exec/wait_for_children.c \
