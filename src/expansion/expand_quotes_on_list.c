@@ -26,6 +26,5 @@ t_list	*expand_quotes_on_list(t_list *list)
 		ft_lstadd_back(&result, ft_xlstnew(wildcard_expanded));
 		curr = curr->next;
 	}
-	ft_lstclear(&list, free);
 	return (result);
 }

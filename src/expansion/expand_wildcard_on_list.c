@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:45:09 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/04 15:26:57 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/05 14:53:18 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,5 @@ t_list	*expand_wildcard_on_list(t_list *list)
 		ft_lstadd_back(&result, wildcard_expanded_words);
 		curr = curr->next;
 	}
-	ft_lstclear(&list, free);
 	return (result);
 }
