@@ -1,5 +1,4 @@
 import os
-from codecs import ascii_encode
 
 from conftest import PROMPT, get_command_output
 
@@ -118,6 +117,23 @@ def test_multiple_input_redirection(shell_session):
                 os.remove(file)
 
 
+# FIXME
+# def test_redirection_with_variable(shell_session):
+#     test_file = "test_output.txt"
+
+#     try:
+#         shell_session.sendline(f"export OUTPUT={test_file}")
+#         shell_session.sendline("echo Hello > $OUTPUT")
+#         shell_session.expect(PROMPT)
+
+#         assert os.path.exists(test_file)
+#         with open(test_file, "r") as f:
+#             assert f.read() == "Hello"
+#     finally:
+#         if os.path.exists(test_file):
+#             os.remove(test_file)
+
+
 def test_error_not_found_input_redirection(shell_session):
     test_file = "not_found.txt"
 
@@ -126,6 +142,26 @@ def test_error_not_found_input_redirection(shell_session):
 
     result = get_command_output(shell_session.before)
     assert result == f"minishell: {test_file}: No such file or directory"
+
+
+# def test_error_permission_denied_output_redirection_with_variable(shell_session):
+#     test_file = "test_output.txt"
+
+#     try:
+#         shell_session.sendline("export OUTPUT=test_output.txt")
+
+#         assert os.path.exists(test_file)
+#         os.chmod(test_file, 0o000)
+
+#         shell_session.sendline(f"echo Hello > $OUTPUT")
+#         shell_session.expect(PROMPT)
+
+#         result = get_command_output(shell_session.before)
+
+#         assert result == f"minishell: {test_file}: Permission denied"
+#     finally:
+#         if os.path.exists(test_file):
+#             os.remove(test_file)
 
 
 def test_error_permission_input_redirection(shell_session):
