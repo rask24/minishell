@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 15:08:14 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/05 15:35:57 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/05 23:01:34 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static const char	*expand_filepath(t_list *redirects, t_ctx *ctx)
 
 	original = ft_xlstnew(ft_xstrdup(get_redirect_file_or_delim(redirects)));
 	files = expand(original, ctx);
+	ft_lstclear(&original, free);
 	if (ft_lstsize(files) == 1)
 		ret = ft_xstrdup(files->content);
 	else
