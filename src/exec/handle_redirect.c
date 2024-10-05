@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 15:08:14 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/05 15:17:50 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/05 15:35:57 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,25 +71,26 @@ static void	redirect_std_fd(t_redirect_type type, int fd)
 
 bool	handle_redirect(t_list *redirects, t_ctx *ctx)
 {
-	int				fd;
-	const char		*filepath;
+	int			fd;
+	const char	*filepath;
+	const char	*expanded_filepath;
 
-	filepath = expand_filepath(redirects, ctx);
-	if (filepath == NULL)
+	filepath = get_redirect_file_or_delim(redirects);
+	expanded_filepath = expand_filepath(redirects, ctx);
+	if (expanded_filepath == NULL)
 	{
-		print_error(get_redirect_file_or_delim(redirects),
-			"ambiguous redirect");
+		print_error(filepath, "ambiguous redirect");
 		return (false);
 	}
 	fd = open_redirect_file(redirects->content, ctx);
 	if (fd == -1)
 	{
 		if (get_redirect_type(redirects) != REDIRECT_HEREDOC)
-			print_error(filepath, strerror(errno));
+			print_error(expanded_filepath, strerror(errno));
 		return (false);
 	}
 	redirect_std_fd(get_redirect_type(redirects), fd);
 	close(fd);
-	free((char *)filepath);
+	free((char *)expanded_filepath);
 	return (true);
 }
