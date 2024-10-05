@@ -14,6 +14,7 @@ TEST(builtins_cd, WithoutArgs) {
 
   t_ctx ctx;
   ctx.env = env;
+  ctx.cwd = getcwd(NULL, 0);
 
   builtins_cd(args, &ctx);
   char *expected = getcwd(NULL, 0);

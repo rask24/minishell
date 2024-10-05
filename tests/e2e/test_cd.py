@@ -73,3 +73,14 @@ def test_cd_remove_many_two_dots_then_path(shell_session):
     shell_session.expect(PROMPT)
     result = get_command_output(shell_session.before)
     assert "/Users" == result
+
+
+def test_cd_home(shell_session):
+    shell_session.sendline("cd")
+    shell_session.expect(PROMPT)
+    shell_session.sendline("pwd")
+    shell_session.expect(PROMPT)
+    result = get_command_output(shell_session.before)
+    import os
+
+    assert os.environ["HOME"] == result

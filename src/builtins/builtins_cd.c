@@ -6,14 +6,14 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:37:58 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/06 00:11:50 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/06 00:48:57 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "builtins_cd_internal.h"
 
-static int	handle_error(const char *strerror, char *dirname, char *optimized_full_path)
+static int	handle_error(const char *strerror, char *dirname, char *good_full_path)
 {
 	char	*error_msg;
 	char	*tmp;
@@ -23,17 +23,16 @@ static int	handle_error(const char *strerror, char *dirname, char *optimized_ful
 	free(tmp);
 	print_error("cd", error_msg);
 	free(error_msg);
-	free(optimized_full_path);
+	free(good_full_path);
 	return (EXIT_FAILURE);
 }
 
-// FIXME: change ctx->cwd
-static int	move_to_home(t_env_list *env)
+static int	move_to_home(t_ctx *ctx)
 {
 	char	*home_dir;
 	int		ret;
 
-	home_dir = lookup_value("HOME", env);
+	home_dir = lookup_value("HOME", ctx->env);
 	if (!home_dir)
 	{
 		print_error("cd", "HOME not set");
@@ -45,6 +44,8 @@ static int	move_to_home(t_env_list *env)
 		print_error("chdir", strerror(errno));
 		return (EXIT_FAILURE);
 	}
+	free(ctx->cwd);
+	ctx->cwd = ft_xstrdup(home_dir);
 	return (0);
 }
 
@@ -83,11 +84,11 @@ int	builtins_cd(char **args, t_ctx *ctx)
 {
 	char	*dirname;
 	char	*fullpath;
-	char	*optimized_full_path;
+	char	*good_full_path;
 	int		res;
 
 	if (args[1] == NULL)
-		return (move_to_home(ctx->env));
+		return (move_to_home(ctx));
 	if (args[2] != NULL)
 		return (print_error("cd", "too many arguments"), EXIT_FAILURE);
 	dirname = args[1];
@@ -95,13 +96,13 @@ int	builtins_cd(char **args, t_ctx *ctx)
 		fullpath = ft_xstrdup(dirname);
 	else
 		fullpath = join_path(ctx->cwd, dirname);
-	optimized_full_path = remove_long_path(fullpath);
+	good_full_path = remove_long_path(fullpath);
 	free(fullpath);
-	res = chdir(optimized_full_path);
+	res = chdir(good_full_path);
 	if (res == -1)
-		return (handle_error(strerror(errno), dirname, optimized_full_path));
+		return (handle_error(strerror(errno), dirname, good_full_path));
 	free(ctx->cwd);
-	remove_last_slash(&optimized_full_path);
-	ctx->cwd = optimized_full_path;
+	remove_last_slash(&good_full_path);
+	ctx->cwd = good_full_path;
 	return (res);
 }
