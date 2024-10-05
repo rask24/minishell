@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:41:56 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/04 23:05:28 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/05 23:16:06 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ const char			*get_cmd_arg(t_list *cmd_args);
 t_redirect_type		get_redirect_type(t_list *redirects);
 int					get_heredoc_fd(t_list *redirects);
 const char			*get_redirect_file_or_delim(t_list *redirects);
+void				set_file_or_delim(t_list *redirects,
+						const char *file_or_delim);
 
 char				**convert_cmd_args_to_array(t_list *cmd_args);
 
