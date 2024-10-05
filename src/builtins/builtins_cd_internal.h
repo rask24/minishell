@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansion_internal.h                               :+:      :+:    :+:   */
+/*   builtins_cd_internal.h                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/24 12:09:46 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/05 19:02:19 by yliu             ###   ########.fr       */
+/*   Created: 2024/10/05 16:53:44 by yliu              #+#    #+#             */
+/*   Updated: 2024/10/05 19:10:28 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPANSION_INTERNAL_H
-# define EXPANSION_INTERNAL_H
+#ifndef BUILTINS_CD_INTERNAL_H
+# define BUILTINS_CD_INTERNAL_H
 
-# include "builtins.h"
-# include "utils.h"
+#include "utils.h"
 
-typedef  t_string t_expand_info;
+char *remove_long_path(char *path);
 
-char			*expand_variable(char *str, t_ctx *ctx);
-char			*expand_quotes(char *str);
-char			*trim_expanded_variable(t_expand_info *expand_info, t_ctx *ctx);
 #endif

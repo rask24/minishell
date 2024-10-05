@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:37:58 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/25 18:19:26 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/05 19:20:38 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
+#include "builtins_cd_internal.h"
 
 static void	print_error_cd(const char *dirname, const char *strerror)
 {
@@ -71,6 +72,7 @@ int	builtins_cd(char **args, t_ctx *ctx)
 {
 	char	*dirname;
 	char	*fullpath;
+	char	*optimized_full_path;
 	int		res;
 
 	if (args[1] == NULL)
@@ -82,15 +84,17 @@ int	builtins_cd(char **args, t_ctx *ctx)
 		fullpath = ft_xstrdup(dirname);
 	else
 		fullpath = join_path(ctx->cwd, dirname);
-	res = chdir(fullpath);
+	optimized_full_path = remove_long_path(fullpath);
+	free(fullpath);
+	res = chdir(optimized_full_path);
 	if (res == -1)
 	{
 		print_error_cd(dirname, strerror(errno));
-		free(fullpath);
+		free(optimized_full_path);
 		return (EXIT_FAILURE);
 	}
 	free(ctx->cwd);
-	remove_last_slash(&fullpath);
-	ctx->cwd = fullpath;
+	remove_last_slash(&optimized_full_path);
+	ctx->cwd = optimized_full_path;
 	return (res);
 }

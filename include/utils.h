@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/27 00:10:42 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/05 19:01:57 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,15 @@ void			ft_lstsort(t_list **list, t_cmp cmp);
 void			ft_lstiterp(t_list *lst, void (*f)(void *, void *),
 					void *param);
 
+typedef struct s_string
+{
+	char		*left;
+	char		*right;
+}				t_string;
+
+t_string		*construct_string_struct(char *input);
+void			consume_char(t_string *string);
+void			destroy_string_struct(t_string *string);
+char			*trim(t_string *string);
+char			*trim_till(t_string *string, char *set);
 #endif
