@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:45:09 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/05 14:53:18 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/05 15:03:06 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ static t_list	*expand_wildcard(char *wildcard)
 	t_list	*files;
 
 	files = initialize_files();
-	if (files == NULL)
-		return (NULL);
 	ft_lstremove_if(&files, should_remove, wildcard, free);
 	if (files == NULL)
 		return (ft_xlstnew(ft_xstrdup(wildcard)));
