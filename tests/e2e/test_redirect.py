@@ -227,7 +227,7 @@ def test_error_ambiguous_redirection_wildcard(shell_session):
                 os.remove(file)
 
 
-# FiXME: Comment out after export is fixed
+# TODO: Comment out after export is fixed
 # def test_error_ambiguous_redirection_ifs(shell_session):
 #     shell_session.sendline("export FILES='a b c'")
 #     shell_session.sendline("echo Hello > $FILES")
