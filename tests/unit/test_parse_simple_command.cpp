@@ -53,7 +53,7 @@ TEST(parse_simple_command, OneRedirect) {
   EXPECT_EQ(node->type, AST_COMMAND);
   EXPECT_EQ(get_cmd_arg(node->cmd_args), nullptr);
   EXPECT_EQ(get_redirect_type(node->redirects), REDIRECT_OUTPUT);
-  EXPECT_STREQ(get_redirect_filepath(node->redirects), "ls.txt");
+  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects), "ls.txt");
 
   destroy_token_list(token_list);
   destroy_ast(node);
@@ -78,23 +78,25 @@ TEST(parse_simple_command, MultipleRedirects) {
   EXPECT_EQ(node->type, AST_COMMAND);
   EXPECT_EQ(get_cmd_arg(node->cmd_args), nullptr);
   EXPECT_EQ(get_redirect_type(node->redirects), REDIRECT_INPUT);
-  EXPECT_STREQ(get_redirect_filepath(node->redirects), "in1.txt");
+  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects), "in1.txt");
   EXPECT_EQ(get_redirect_type(node->redirects->next), REDIRECT_OUTPUT);
-  EXPECT_STREQ(get_redirect_filepath(node->redirects->next), "out1.txt");
+  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects->next), "out1.txt");
   EXPECT_EQ(get_redirect_type(node->redirects->next->next), REDIRECT_APPEND);
-  EXPECT_STREQ(get_redirect_filepath(node->redirects->next->next), "out2.txt");
+  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects->next->next),
+               "out2.txt");
   EXPECT_EQ(get_redirect_type(node->redirects->next->next->next),
             REDIRECT_INPUT);
-  EXPECT_STREQ(get_redirect_filepath(node->redirects->next->next->next),
+  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects->next->next->next),
                "in2.txt");
   EXPECT_EQ(get_redirect_type(node->redirects->next->next->next->next),
             REDIRECT_OUTPUT);
-  EXPECT_STREQ(get_redirect_filepath(node->redirects->next->next->next->next),
-               "out3.txt");
+  EXPECT_STREQ(
+      get_redirect_file_or_delim(node->redirects->next->next->next->next),
+      "out3.txt");
   EXPECT_EQ(get_redirect_type(node->redirects->next->next->next->next->next),
             REDIRECT_UNKNOWN);
   EXPECT_EQ(
-      get_redirect_filepath(node->redirects->next->next->next->next->next),
+      get_redirect_file_or_delim(node->redirects->next->next->next->next->next),
       nullptr);
 
   destroy_token_list(token_list);
@@ -116,9 +118,9 @@ TEST(parse_simple_command, CommandAndRedirect) {
   EXPECT_STREQ(get_cmd_arg(node->cmd_args->next), "-l");
   EXPECT_EQ(get_cmd_arg(node->cmd_args->next->next), nullptr);
   EXPECT_EQ(get_redirect_type(node->redirects), REDIRECT_OUTPUT);
-  EXPECT_STREQ(get_redirect_filepath(node->redirects), "out.txt");
+  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects), "out.txt");
   EXPECT_EQ(get_redirect_type(node->redirects->next), REDIRECT_UNKNOWN);
-  EXPECT_EQ(get_redirect_filepath(node->redirects->next), nullptr);
+  EXPECT_EQ(get_redirect_file_or_delim(node->redirects->next), nullptr);
 
   destroy_token_list(token_list);
   destroy_ast(node);
@@ -143,14 +145,16 @@ TEST(parse_simple_command, RedirectsAfterCommand) {
   EXPECT_STREQ(get_cmd_arg(node->cmd_args->next), "-l");
   EXPECT_EQ(get_cmd_arg(node->cmd_args->next->next), nullptr);
   EXPECT_EQ(get_redirect_type(node->redirects), REDIRECT_OUTPUT);
-  EXPECT_STREQ(get_redirect_filepath(node->redirects), "out1.txt");
+  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects), "out1.txt");
   EXPECT_EQ(get_redirect_type(node->redirects->next), REDIRECT_APPEND);
-  EXPECT_STREQ(get_redirect_filepath(node->redirects->next), "out2.txt");
+  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects->next), "out2.txt");
   EXPECT_EQ(get_redirect_type(node->redirects->next->next), REDIRECT_OUTPUT);
-  EXPECT_STREQ(get_redirect_filepath(node->redirects->next->next), "out3.txt");
+  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects->next->next),
+               "out3.txt");
   EXPECT_EQ(get_redirect_type(node->redirects->next->next->next),
             REDIRECT_UNKNOWN);
-  EXPECT_EQ(get_redirect_filepath(node->redirects->next->next->next), nullptr);
+  EXPECT_EQ(get_redirect_file_or_delim(node->redirects->next->next->next),
+            nullptr);
 
   destroy_token_list(token_list);
   destroy_ast(node);
@@ -175,14 +179,16 @@ TEST(parse_simple_command, RedirectsBeforeCommand) {
   EXPECT_STREQ(get_cmd_arg(node->cmd_args->next), "-e");
   EXPECT_EQ(get_cmd_arg(node->cmd_args->next->next), nullptr);
   EXPECT_EQ(get_redirect_type(node->redirects), REDIRECT_INPUT);
-  EXPECT_STREQ(get_redirect_filepath(node->redirects), "in1.txt");
+  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects), "in1.txt");
   EXPECT_EQ(get_redirect_type(node->redirects->next), REDIRECT_OUTPUT);
-  EXPECT_STREQ(get_redirect_filepath(node->redirects->next), "out.txt");
+  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects->next), "out.txt");
   EXPECT_EQ(get_redirect_type(node->redirects->next->next), REDIRECT_INPUT);
-  EXPECT_STREQ(get_redirect_filepath(node->redirects->next->next), "in2.txt");
+  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects->next->next),
+               "in2.txt");
   EXPECT_EQ(get_redirect_type(node->redirects->next->next->next),
             REDIRECT_UNKNOWN);
-  EXPECT_EQ(get_redirect_filepath(node->redirects->next->next->next), nullptr);
+  EXPECT_EQ(get_redirect_file_or_delim(node->redirects->next->next->next),
+            nullptr);
 
   destroy_token_list(token_list);
   destroy_ast(node);
@@ -207,14 +213,16 @@ TEST(parse_simple_command, RedirectsBeforeAndAfterCommand) {
   EXPECT_STREQ(get_cmd_arg(node->cmd_args->next), "-e");
   EXPECT_EQ(get_cmd_arg(node->cmd_args->next->next), nullptr);
   EXPECT_EQ(get_redirect_type(node->redirects), REDIRECT_INPUT);
-  EXPECT_STREQ(get_redirect_filepath(node->redirects), "in1.txt");
+  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects), "in1.txt");
   EXPECT_EQ(get_redirect_type(node->redirects->next), REDIRECT_OUTPUT);
-  EXPECT_STREQ(get_redirect_filepath(node->redirects->next), "out1.txt");
+  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects->next), "out1.txt");
   EXPECT_EQ(get_redirect_type(node->redirects->next->next), REDIRECT_OUTPUT);
-  EXPECT_STREQ(get_redirect_filepath(node->redirects->next->next), "out2.txt");
+  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects->next->next),
+               "out2.txt");
   EXPECT_EQ(get_redirect_type(node->redirects->next->next->next),
             REDIRECT_UNKNOWN);
-  EXPECT_EQ(get_redirect_filepath(node->redirects->next->next->next), nullptr);
+  EXPECT_EQ(get_redirect_file_or_delim(node->redirects->next->next->next),
+            nullptr);
 
   destroy_token_list(token_list);
   destroy_ast(node);

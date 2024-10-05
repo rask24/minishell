@@ -72,7 +72,7 @@ TEST(parse_command, OneSubshellWithOneRedirect) {
   t_ast *node = parse_command(&token_list);
 
   EXPECT_EQ(node->type, AST_SUBSHELL);
-  EXPECT_STREQ(get_redirect_filepath(node->redirects), "out.txt");
+  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects), "out.txt");
   EXPECT_EQ(get_redirect_type(node->redirects), REDIRECT_OUTPUT);
 
   EXPECT_EQ(node->left->type, AST_COMMAND);
@@ -107,9 +107,9 @@ TEST(parse_command, OneSubsellWithMultipleRedirects) {
   t_ast *node = parse_command(&token_list);
 
   EXPECT_EQ(node->type, AST_SUBSHELL);
-  EXPECT_STREQ(get_redirect_filepath(node->redirects), "out1.txt");
+  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects), "out1.txt");
   EXPECT_EQ(get_redirect_type(node->redirects), REDIRECT_OUTPUT);
-  EXPECT_STREQ(get_redirect_filepath(node->redirects->next), "out2.txt");
+  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects->next), "out2.txt");
   EXPECT_EQ(get_redirect_type(node->redirects->next), REDIRECT_APPEND);
   EXPECT_EQ(node->redirects->next->next, nullptr);
 

@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:41:56 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/26 17:03:02 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/04 23:05:28 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ typedef enum e_redirect_type
 typedef struct s_redirect_info
 {
 	t_redirect_type	type;
-	const char		*filepath;
+	const char		*file_or_delim;
 	int				heredoc_fd;
+	size_t			heredoc_size;
+	bool			should_expand;
 }					t_redirect_info;
 
 typedef struct s_ast
@@ -54,15 +56,21 @@ typedef struct s_ast
 t_ast				*construct_ast(t_ast_node_type type,
 						t_ast *left, t_ast *right);
 t_redirect_info		*construct_redirect_info(t_redirect_type type,
-						const char *filename, int heredoc_fd);
+						const char *filename);
+t_redirect_info		*construct_heredoc_redirect_info(const char *delimiter,
+						int heredoc_fd, size_t heredoc_size,
+						bool should_expand);
+
 void				destroy_ast(t_ast *ast);
+
 void				push_cmd_arg(t_ast *ast, const char *cmd_arg);
 void				push_redirect_info(t_ast *ast, t_redirect_info *info);
+
 const char			*get_cmd_arg(t_list *cmd_args);
 t_redirect_type		get_redirect_type(t_list *redirects);
 int					get_heredoc_fd(t_list *redirects);
-void				set_heredoc_fd(t_list *redirects, int fd);
-const char			*get_redirect_filepath(t_list *redirects);
+const char			*get_redirect_file_or_delim(t_list *redirects);
+
 char				**convert_cmd_args_to_array(t_list *cmd_args);
 
 #endif
