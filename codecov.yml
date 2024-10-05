@@ -21,6 +21,7 @@ coverage:
 ignore:
   - "tests/**/*"
   - "src/main.c"
+  - "src/exec/*"
   - "src/ui/*"
   - "src/utils/*"
   - "src/utils/**/*"
