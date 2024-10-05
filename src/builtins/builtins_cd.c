@@ -58,6 +58,15 @@ static char	*join_path(const char *cwd, const char *dirname)
 	return (full_path);
 }
 
+static void	remove_last_slash(char **fullpath)
+{
+	size_t	len;
+
+	len = ft_strlen(*fullpath);
+	if (len > 1 && (*fullpath)[len - 1] == '/')
+		(*fullpath)[len - 1] = '\0';
+}
+
 int	builtins_cd(char **args, t_ctx *ctx)
 {
 	char	*dirname;
@@ -81,6 +90,7 @@ int	builtins_cd(char **args, t_ctx *ctx)
 		return (EXIT_FAILURE);
 	}
 	free(ctx->cwd);
+	remove_last_slash(&fullpath);
 	ctx->cwd = fullpath;
 	return (res);
 }
