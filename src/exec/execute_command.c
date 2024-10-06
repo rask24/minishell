@@ -95,7 +95,7 @@ int	execute_command(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
 	expanded_cmd_args = expand(node->cmd_args, ctx);
 	ft_lstclear(&node->cmd_args, free);
 	node->cmd_args = expanded_cmd_args;
-	if (is_builtin(get_cmd_arg(node->cmd_args)))
+	if (node->cmd_args == NULL || is_builtin(get_cmd_arg(node->cmd_args)))
 	{
 		save_std_io(std_fds);
 		if (handle_io(conf, node->redirects, ctx))

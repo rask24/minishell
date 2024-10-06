@@ -117,6 +117,23 @@ def test_multiple_input_redirection(shell_session):
                 os.remove(file)
 
 
+def test_only_redirection(shell_session):
+    test_file1 = "test_output1.txt"
+    test_file2 = "test_output2.txt"
+
+    try:
+        shell_session.sendline(f"> {test_file1} >> {test_file2}")
+        shell_session.expect(PROMPT)
+
+        assert os.path.exists(test_file1)
+        assert os.path.exists(test_file2)
+    finally:
+        files = [test_file1, test_file2]
+        for file in files:
+            if os.path.exists(file):
+                os.remove(file)
+
+
 # FIXME
 # def test_redirection_with_variable(shell_session):
 #     test_file = "test_output.txt"
@@ -261,6 +278,42 @@ def test_error_ambiguous_redirection_wildcard(shell_session):
         for file in files:
             if os.path.exists(file):
                 os.remove(file)
+
+
+def test_error_only_redirection_permission_denied(shell_session):
+    test_file = "test_output.txt"
+
+    try:
+        with open(test_file, "w") as f:
+            f.write("Hello")
+            os.chmod(test_file, 0o000)
+
+            shell_session.sendline(f"> {test_file}")
+            shell_session.expect(PROMPT)
+
+            result = get_command_output(shell_session.before)
+            assert result == f"minishell: {test_file}: Permission denied"
+    finally:
+        if os.path.exists(test_file):
+            os.remove(test_file)
+
+
+def test_error_only_redirection_not_found(shell_session):
+    test_file = "not_found.txt"
+
+    shell_session.sendline(f"< {test_file}")
+    shell_session.expect(PROMPT)
+
+    result = get_command_output(shell_session.before)
+    assert result == f"minishell: {test_file}: No such file or directory"
+
+
+def test_error_only_redirection_ambiguous(shell_session):
+    shell_session.sendline("> ***")
+    shell_session.expect(PROMPT)
+
+    result = get_command_output(shell_session.before)
+    assert result == "minishell: ***: ambiguous redirect"
 
 
 # TODO: Comment out after export is fixed
