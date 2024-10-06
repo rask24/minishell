@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 15:08:14 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/06 00:19:47 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/06 15:11:48 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static const char	*expand_filepath(t_list *redirect, t_ctx *ctx)
 	t_list		*files;
 	const char	*ret;
 
+	if (get_redirect_type(redirect) == REDIRECT_HEREDOC)
+		return (ft_xstrdup(get_redirect_file_or_delim(redirect)));
 	original = ft_xlstnew(ft_xstrdup(get_redirect_file_or_delim(redirect)));
 	files = expand(original, ctx);
 	ft_lstclear(&original, free);

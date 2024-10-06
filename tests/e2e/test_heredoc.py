@@ -55,6 +55,30 @@ def test_heredoc_not_expand(shell_session):
     assert result == "$VAR"
 
 
+def test_heredoc_with_variable_delimiter(shell_session):
+    shell_session.sendline("export VAR='EOF' && cat << $VAR")
+    shell_session.expect("> ")
+    shell_session.sendline("EOF")
+    shell_session.expect("> ")
+    shell_session.sendline("$VAR")
+
+    shell_session.expect(PROMPT)
+    result = get_command_output(shell_session.before)
+    assert result == "EOF"
+
+
+def test_heredoc_with_wildcard_delimiter(shell_session):
+    shell_session.sendline("cat << *")
+    shell_session.expect("> ")
+    shell_session.sendline("Hello, world!")
+    shell_session.expect("> ")
+    shell_session.sendline("*")
+    shell_session.expect(PROMPT)
+
+    result = get_command_output(shell_session.before)
+    assert result == "Hello, world!"
+
+
 # FIXME: This test is failing on github actions
 # def test_warning_heredoc(shell_session):
 #     shell_session.sendline("cat << EOF")
