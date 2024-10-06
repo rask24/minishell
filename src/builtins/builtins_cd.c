@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:37:58 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/06 13:56:23 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/06 14:21:14 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,13 @@ static char	*join_path(const char *cwd, const char *dirname)
 	return (full_path);
 }
 
-static void	remove_last_slash(char **fullpath)
+static void	remove_last_slash(char *fullpath)
 {
 	size_t	len;
 
-	len = ft_strlen(*fullpath);
-	if (len > 1 && (*fullpath)[len - 1] == '/')
-		(*fullpath)[len - 1] = '\0';
+	len = ft_strlen(fullpath);
+	if (len > 1 && fullpath[len - 1] == '/')
+		fullpath[len - 1] = '\0';
 }
 
 int	builtins_cd(char **args, t_ctx *ctx)
@@ -102,7 +102,7 @@ int	builtins_cd(char **args, t_ctx *ctx)
 	if (res == -1)
 		return (handle_error(strerror(errno), dirname, good_full_path));
 	free(ctx->cwd);
-	remove_last_slash(&good_full_path);
+	remove_last_slash(good_full_path);
 	ctx->cwd = good_full_path;
 	return (res);
 }
