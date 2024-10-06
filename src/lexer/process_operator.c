@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 15:25:37 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/04 14:08:12 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/06 15:30:44 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,11 @@ static void	process_operator_type(t_lexer *lexer)
 		_update_lexer(lexer, TOKEN_DGREAT, 2);
 	else if (ft_strncmp(">", lexer->right, 1) == 0)
 		_update_lexer(lexer, TOKEN_GREAT, 1);
+	else
+	{
+		print_error("process_operator_type", "unexpected operator");
+		exit(EXIT_FAILURE);
+	}
 }
 
 t_token_list	*process_operator(t_lexer *lexer)
