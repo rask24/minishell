@@ -6,14 +6,15 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:37:58 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/06 22:22:03 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/06 22:45:27 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "builtins_cd_internal.h"
 
-static int	handle_error(const char *strerror, const char *dirname, char *full_path)
+static int	handle_error(const char *strerror, const char *dirname,
+							char *full_path)
 {
 	char	*error_msg;
 	char	*tmp;
