@@ -29,6 +29,32 @@ def test_heredoc_many_inputs(shell_session):
     assert result == f"{str}\n" * (iters - 1) + str
 
 
+# FIXME: Replace Hello!! with Hello, world!! after export is fixed
+def test_heredoc_expand(shell_session):
+    shell_session.sendline("export VAR='Hello!!' && cat << EOF")
+    shell_session.expect("> ")
+    shell_session.sendline("$VAR")
+    shell_session.expect("> ")
+    shell_session.sendline("EOF")
+
+    shell_session.expect(PROMPT)
+    result = get_command_output(shell_session.before)
+    assert result == "Hello!!"
+
+
+# FIXME: Replace Hello!! with Hello, world!! after export is fixed
+def test_heredoc_not_expand(shell_session):
+    shell_session.sendline("export VAR='Hello!!' && cat << 'EOF'")
+    shell_session.expect("> ")
+    shell_session.sendline("$VAR")
+    shell_session.expect("> ")
+    shell_session.sendline("EOF")
+
+    shell_session.expect(PROMPT)
+    result = get_command_output(shell_session.before)
+    assert result == "$VAR"
+
+
 # FIXME: This test is failing on github actions
 # def test_warning_heredoc(shell_session):
 #     shell_session.sendline("cat << EOF")

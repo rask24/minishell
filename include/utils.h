@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/05 19:01:57 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/06 14:08:40 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,19 @@
 
 # include "libft.h"
 
+# define TEMPLATE_LEN 40
+# define HEREDOC_PIPESIZE 4096
+# define HEREDOC_TMPFILE "minishell-thd"
+# define EX_HEREDOC_TMPFILE "ex-minishell-thd"
+
 typedef bool	(*t_pred)(t_list *node, void *param);
 typedef void	(*t_del)(void *);
 typedef bool	(*t_cmp)(t_list *, t_list *);
 
 bool			is_identifier(const char *input);
+
+int				create_tmpfile(char *tmp_name, size_t tmp_len,
+					const char *target);
 
 void			print_error(const char *func, const char *desc);
 void			print_error_exit(const char *func, const char *desc,

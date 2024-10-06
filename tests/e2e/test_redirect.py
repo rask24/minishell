@@ -199,3 +199,39 @@ def test_error_redirection_and_spawn(shell_session):
 
     result = get_command_output(shell_session.before)
     assert result == f"minishell: {test_file}: No such file or directory"
+
+
+def test_error_ambiguous_redirection_wildcard(shell_session):
+    test_file1 = "test_output1.txt"
+    test_file2 = "test_output2.txt"
+    test_file3 = "test_output3.txt"
+
+    try:
+        with open(test_file1, "w") as f:
+            f.write("Hello")
+        with open(test_file2, "w") as f:
+            f.write("World")
+        with open(test_file3, "w") as f:
+            f.write("42")
+
+        shell_session.sendline("echo Tokyo > test_output*.txt")
+        shell_session.expect(PROMPT)
+
+        result = get_command_output(shell_session.before)
+        assert result == "minishell: test_output*.txt: ambiguous redirect"
+
+    finally:
+        files = [test_file1, test_file2, test_file3]
+        for file in files:
+            if os.path.exists(file):
+                os.remove(file)
+
+
+# TODO: Comment out after export is fixed
+# def test_error_ambiguous_redirection_ifs(shell_session):
+#     shell_session.sendline("export FILES='a b c'")
+#     shell_session.sendline("echo Hello > $FILES")
+#     shell_session.expect(PROMPT)
+
+#     result = get_command_output(shell_session.before)
+#     assert result == "minishell: $FILES: ambiguous redirect"

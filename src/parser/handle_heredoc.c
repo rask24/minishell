@@ -6,12 +6,14 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 19:38:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/30 19:27:41 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/03 20:52:36 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdbool.h>
 #include <fcntl.h>
 
+#include "expansion.h"
 #include "parser_internal.h"
 #include "readline.h"
 #include "utils.h"
@@ -29,38 +31,12 @@ static void	write_heredoc(int fd, t_list *input_list)
 	ft_lstclear(&input_list, free);
 }
 
-static int	create_heredoc_tmpfile(char *tmpfile)
-{
-	int		fd;
-	char	*paths[5];
-	char	*path;
-	int		i;
-
-	paths[0] = "/tmp/";
-	paths[1] = "/var/tmp/";
-	paths[2] = "/usr/tmp/";
-	paths[3] = "./";
-	paths[4] = NULL;
-	i = 0;
-	while (paths[i])
-	{
-		path = ft_xstrjoin(paths[i], HEREDOC_TMPFILE);
-		fd = open(path, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR);
-		ft_strlcpy(tmpfile, path, HEREDOC_TMPFILE_LEN);
-		free(path);
-		if (fd != -1)
-			break ;
-		i++;
-	}
-	return (fd);
-}
-
 static int	open_heredoc_tmpfile(t_list *input_list)
 {
 	int		fd;
-	char	tmpfile[HEREDOC_TMPFILE_LEN];
+	char	tmpfile[TEMPLATE_LEN];
 
-	fd = create_heredoc_tmpfile(tmpfile);
+	fd = create_tmpfile(tmpfile, TEMPLATE_LEN, HEREDOC_TMPFILE);
 	if (fd == -1)
 		return (-1);
 	write_heredoc(fd, input_list);
@@ -91,14 +67,24 @@ static int	open_heredoc(t_list *input_list, size_t heredoc_size)
 		return (open_heredoc_tmpfile(input_list));
 }
 
-int	handle_heredoc(const char *delimiter)
+static void	set_redirect_heredoc_info(t_redirect_info *info, t_list *input_list,
+			size_t heredoc_size, bool should_expand)
+{
+	info->heredoc_fd = open_heredoc(input_list, heredoc_size);
+	info->heredoc_size = heredoc_size;
+	info->should_expand = should_expand;
+}
+
+void	handle_heredoc(const char *delimiter, t_redirect_info *info)
 {
 	char	*line;
 	t_list	*input_list;
 	size_t	heredoc_size;
+	char	*expanded_delimiter;
 
 	input_list = NULL;
 	heredoc_size = 0;
+	expanded_delimiter = expand_quotes((char *)delimiter);
 	while (true)
 	{
 		line = readline("> ");
@@ -107,13 +93,13 @@ int	handle_heredoc(const char *delimiter)
 			print_heredoc_warning(delimiter);
 			break ;
 		}
-		if (ft_strcmp(line, delimiter) == 0)
-		{
-			free(line);
+		if (ft_strcmp(line, expanded_delimiter) == 0)
 			break ;
-		}
 		heredoc_size += ft_strlen(line) + 1;
 		ft_lstadd_back(&input_list, ft_xlstnew(line));
 	}
-	return (open_heredoc(input_list, heredoc_size));
+	set_redirect_heredoc_info(info, input_list, heredoc_size,
+		ft_strcmp(expanded_delimiter, delimiter) == 0);
+	free(line);
+	free(expanded_delimiter);
 }
