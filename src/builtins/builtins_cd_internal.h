@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:53:44 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/05 20:26:57 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/06 22:16:58 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include "utils.h"
 
-char	*remove_long_path(char *path);
+char	*normalize_path(char *path);
 
 #endif

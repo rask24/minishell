@@ -6,14 +6,14 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:37:58 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/06 14:21:14 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/06 22:22:03 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "builtins_cd_internal.h"
 
-static int	handle_error(const char *strerror, char *dirname, char *full_path)
+static int	handle_error(const char *strerror, const char *dirname, char *full_path)
 {
 	char	*error_msg;
 	char	*tmp;
@@ -96,7 +96,7 @@ int	builtins_cd(char **args, t_ctx *ctx)
 		fullpath = ft_xstrdup(dirname);
 	else
 		fullpath = join_path(ctx->cwd, dirname);
-	good_full_path = remove_long_path(fullpath);
+	good_full_path = normalize_path(fullpath);
 	free(fullpath);
 	res = chdir(good_full_path);
 	if (res == -1)
