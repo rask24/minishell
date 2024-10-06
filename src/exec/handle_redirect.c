@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 15:08:14 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/06 15:11:48 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/06 16:44:29 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ bool	handle_redirect(t_list *redirect, t_ctx *ctx)
 	{
 		if (get_redirect_type(redirect) != REDIRECT_HEREDOC)
 			print_error(get_redirect_file_or_delim(redirect), strerror(errno));
+		free((char *)filepath);
 		return (false);
 	}
 	redirect_std_fd(get_redirect_type(redirect), fd);
