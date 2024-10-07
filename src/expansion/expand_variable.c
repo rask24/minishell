@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:08:50 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/07 16:01:09 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/07 16:16:43 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static const char	*construct_lookup(bool is_smart_expand)
 char	*expand_variable(char *input, t_ctx *ctx, bool is_smart_expand)
 {
 	t_expand_info	*expand_info;
-	char			*trimed;
+	char			*trimmed;
 	char			*expanded;
 	const char		*lookup;
 
@@ -43,13 +43,13 @@ char	*expand_variable(char *input, t_ctx *ctx, bool is_smart_expand)
 	while (*expand_info->right)
 	{
 		if (*expand_info->right == '\'' && is_smart_expand)
-			trimed = trim_single_quotes(expand_info);
+			trimmed = trim_single_quotes(expand_info);
 		else if (*expand_info->right == '$')
-			trimed = trim_expanded_variable(expand_info, ctx);
+			trimmed = trim_expanded_variable(expand_info, ctx);
 		else
-			trimed = trim_till(expand_info, lookup);
-		expanded = ft_xstrjoin2(expanded, trimed);
-		free(trimed);
+			trimmed = trim_till(expand_info, lookup);
+		expanded = ft_xstrjoin2(expanded, trimmed);
+		free(trimmed);
 	}
 	destroy_string_struct(expand_info);
 	free((char *)lookup);
