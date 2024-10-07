@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:08:50 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/29 13:41:28 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/05 19:01:57 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*expand_variable(char *input, t_ctx *ctx)
 	char			*trimed;
 	char			*expanded;
 
-	expand_info = construct_expand_info(input);
+	expand_info = construct_string_struct(input);
 	expanded = NULL;
 	while (*expand_info->right)
 	{
@@ -41,6 +41,6 @@ char	*expand_variable(char *input, t_ctx *ctx)
 		expanded = ft_xstrjoin2(expanded, trimed);
 		free(trimed);
 	}
-	destroy_expand_info(expand_info);
+	destroy_string_struct(expand_info);
 	return (expanded);
 }
