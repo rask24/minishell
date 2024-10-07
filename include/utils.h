@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/07 16:48:40 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/07 22:47:26 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,5 @@ t_string		*construct_string_struct(char *input);
 void			consume_char(t_string *string);
 void			destroy_string_struct(t_string *string);
 char			*trim(t_string *string);
-char			*trim_till(t_string *string, char *set);
+char			*trim_till(t_string *string, const char *set);
 #endif

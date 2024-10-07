@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 17:52:16 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/05 19:04:06 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/07 15:43:42 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*trim(t_string *string)
 	return (result);
 }
 
-char	*trim_till(t_string *string, char *set)
+char	*trim_till(t_string *string, const char *set)
 {
 	while (*string->right && !ft_strchr(set, *string->right))
 		string->right++;

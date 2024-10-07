@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:58:13 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/01 13:33:44 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/07 15:41:25 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 t_list	*expand(t_list *cmd_args, t_ctx *ctx);
 
-char	*expand_variable(char *str, t_ctx *ctx);
+char	*expand_variable(char *str, t_ctx *ctx, bool is_smart_expand);
 char	*expand_quotes(char *str);
 
 #endif

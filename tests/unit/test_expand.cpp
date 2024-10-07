@@ -20,7 +20,7 @@ TEST(expand_variable, NoExpand) {
 
   char *string = strdup("USER");
 
-  EXPECT_STREQ(expand_variable(string, &ctx), "USER");
+  EXPECT_STREQ(expand_variable(string, &ctx, true), "USER");
 
   destroy_env_list(env_list);
 }
@@ -33,7 +33,7 @@ TEST(expand_variable, OneVariable) {
 
   char *string = strdup("$USER");
 
-  EXPECT_STREQ(expand_variable(string, &ctx), "Alice");
+  EXPECT_STREQ(expand_variable(string, &ctx, true), "Alice");
 
   destroy_env_list(env_list);
 }
@@ -44,7 +44,7 @@ TEST(expand_variable, NoVariable) {
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USERRRRR");
-  char *ans = expand_variable(string, &ctx);
+  char *ans = expand_variable(string, &ctx, true);
 
   EXPECT_STREQ(ans, "");
 
@@ -59,7 +59,7 @@ TEST(expand_variable, StringAfterVariable) {
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("student$USER");
-  char *ans = expand_variable(string, &ctx);
+  char *ans = expand_variable(string, &ctx, true);
 
   EXPECT_STREQ(ans, "studentAlice");
 
@@ -74,7 +74,7 @@ TEST(expand_variable, ManyVariables) {
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USERis$USER$USER$");
-  char *ans = expand_variable(string, &ctx);
+  char *ans = expand_variable(string, &ctx, true);
 
   EXPECT_STREQ(ans, "AliceAlice$");
 
@@ -89,7 +89,7 @@ TEST(expand_variable, IgnoreSingleQuote) {
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USER'$USER'");
-  char *ans = expand_variable(string, &ctx);
+  char *ans = expand_variable(string, &ctx, true);
 
   EXPECT_STREQ(ans, "Alice'$USER'");
 
@@ -104,7 +104,7 @@ TEST(expand_variable, DoNotIgnoreDoubleQuote) {
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USER\"$USER\"");
-  char *ans = expand_variable(string, &ctx);
+  char *ans = expand_variable(string, &ctx, true);
 
   EXPECT_STREQ(ans, "Alice\"Alice\"");
 
@@ -119,7 +119,7 @@ TEST(expand_variable, SingleQuotePutAmongNonIdentifierChars) {
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USER,'$USER'");
-  char *ans = expand_variable(string, &ctx);
+  char *ans = expand_variable(string, &ctx, true);
 
   EXPECT_STREQ(ans, "Alice,'$USER'");
 
@@ -134,9 +134,54 @@ TEST(expand_variable, DoubleQuoteAmongNonIdentifierChars) {
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USER,\"$USER\"");
-  char *ans = expand_variable(string, &ctx);
+  char *ans = expand_variable(string, &ctx, true);
 
   EXPECT_STREQ(ans, "Alice,\"Alice\"");
+
+  destroy_env_list(env_list);
+  free(string);
+  free(ans);
+}
+
+TEST(expand_variable, SmartExpandIsFalseSimpleCase) {
+  char *envp[] = {strdup("USER=Alice"), nullptr};
+  t_env_list *env_list = convert_array_to_env(envp);
+  t_ctx ctx;
+  ctx.env = env_list;
+  char *string = strdup("'$USER'");
+  char *ans = expand_variable(string, &ctx, false);
+
+  EXPECT_STREQ(ans, "'Alice'");
+
+  destroy_env_list(env_list);
+  free(string);
+  free(ans);
+}
+
+TEST(expand_variable, SmartExpandIsFalseAmongWords) {
+  char *envp[] = {strdup("USER=Alice"), nullptr};
+  t_env_list *env_list = convert_array_to_env(envp);
+  t_ctx ctx;
+  ctx.env = env_list;
+  char *string = strdup("samplewords'$USER'samplewords");
+  char *ans = expand_variable(string, &ctx, false);
+
+  EXPECT_STREQ(ans, "samplewords'Alice'samplewords");
+
+  destroy_env_list(env_list);
+  free(string);
+  free(ans);
+}
+
+TEST(expand_variable, SmartExpandIsFalseAmongVariable) {
+  char *envp[] = {strdup("USER=Alice"), nullptr};
+  t_env_list *env_list = convert_array_to_env(envp);
+  t_ctx ctx;
+  ctx.env = env_list;
+  char *string = strdup("$USER'$USER'$USER");
+  char *ans = expand_variable(string, &ctx, false);
+
+  EXPECT_STREQ(ans, "Alice'Alice'Alice");
 
   destroy_env_list(env_list);
   free(string);
@@ -146,7 +191,7 @@ TEST(expand_variable, DoubleQuoteAmongNonIdentifierChars) {
 TEST(expand_variable, ExitStatus) {
   t_ctx ctx;
   ctx.exit_status = 42;
-  char *ans = expand_variable(strdup("$?$?"), &ctx);
+  char *ans = expand_variable(strdup("$?$?"), &ctx, true);
   EXPECT_STREQ(ans, "4242");
 
   free(ans);
