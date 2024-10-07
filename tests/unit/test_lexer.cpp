@@ -278,5 +278,11 @@ TEST(lexer, FakeCommentOut) {
 TEST(lexer, Ampersand) {
   const char *str = "ls &";
 
-  EXPECT_DEATH({ lexer(str); }, ".*");
+  t_token_list *token = lexer(str);
+
+  EXPECT_EQ(get_token_type(token), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token), "ls");
+
+  EXPECT_EQ(get_token_type(token->next), TOKEN_UNKNOWN);
+  EXPECT_STREQ(get_token_value(token->next), "&");
 }

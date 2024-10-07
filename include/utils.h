@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/06 14:08:40 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/07 16:48:40 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void			ft_lstiterp(t_list *lst, void (*f)(void *, void *),
 
 typedef struct s_string
 {
-	char		*left;
-	char		*right;
+	const char		*left;
+	const char		*right;
 }				t_string;
 
 t_string		*construct_string_struct(char *input);
