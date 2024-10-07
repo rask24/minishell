@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:08:50 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/07 16:16:43 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/07 16:17:32 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static char	*trim_single_quotes(t_expand_info *expand_info)
 static const char	*construct_lookup(bool is_smart_expand)
 {
 	if (is_smart_expand)
-		return (ft_xstrdup("$\'"));
+		return ("$\'");
 	else
-		return (ft_xstrdup("$"));
+		return ("$");
 }
 
 char	*expand_variable(char *input, t_ctx *ctx, bool is_smart_expand)
@@ -52,6 +52,5 @@ char	*expand_variable(char *input, t_ctx *ctx, bool is_smart_expand)
 		free(trimmed);
 	}
 	destroy_string_struct(expand_info);
-	free((char *)lookup);
 	return (expanded);
 }
