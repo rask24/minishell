@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 15:08:14 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/06 16:44:29 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/07 20:46:46 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,26 +75,25 @@ static void	redirect_std_fd(t_redirect_type type, int fd)
 bool	handle_redirect(t_list *redirect, t_ctx *ctx)
 {
 	int			fd;
-	const char	*filepath;
+	const char	*expanded_filepath;
 
-	filepath = get_redirect_file_or_delim(redirect);
-	set_file_or_delim(redirect, expand_filepath(redirect, ctx));
-	if (get_redirect_file_or_delim(redirect) == NULL)
+	expanded_filepath = expand_filepath(redirect, ctx);
+	if (expanded_filepath == NULL)
 	{
-		print_error(filepath, "ambiguous redirect");
-		free((char *)filepath);
+		print_error(get_redirect_file_or_delim(redirect), "ambiguous redirect");
+		set_file_or_delim(redirect, NULL);
 		return (false);
 	}
+	free((char *)get_redirect_file_or_delim(redirect));
+	set_file_or_delim(redirect, expanded_filepath);
 	fd = open_redirect_file(redirect->content, ctx);
 	if (fd == -1)
 	{
 		if (get_redirect_type(redirect) != REDIRECT_HEREDOC)
 			print_error(get_redirect_file_or_delim(redirect), strerror(errno));
-		free((char *)filepath);
 		return (false);
 	}
 	redirect_std_fd(get_redirect_type(redirect), fd);
 	close(fd);
-	free((char *)filepath);
 	return (true);
 }
