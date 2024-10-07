@@ -42,7 +42,7 @@ def test_heredoc_expand(shell_session):
     assert result == "Hello!!"
 
 
-def test_heredoc_expnad_quoted(shell_session):
+def test_heredoc_expand_quoted(shell_session):
     shell_session.sendline("export VAR='Hello!!' && cat << EOF")
     shell_session.expect("> ")
     shell_session.sendline("'$VAR'")
