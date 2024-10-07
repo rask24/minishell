@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 15:25:37 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/07 17:44:25 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/07 22:43:17 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,17 @@ static void	process_operator_type(t_lexer *lexer)
 		_update_lexer(lexer, TOKEN_DGREAT, 2);
 	else if (ft_strncmp(">", lexer->right, 1) == 0)
 		_update_lexer(lexer, TOKEN_GREAT, 1);
-	else
-		_update_lexer(lexer, TOKEN_UNKNOWN, 1);
+}
+
+static bool	is_single_ampersand(t_lexer *lexer)
+{
+	return (*lexer->right == '&' && *(lexer->right + 1) != '&');
 }
 
 t_token_list	*process_operator(t_lexer *lexer)
 {
+	if (is_single_ampersand(lexer))
+		return (process_word(lexer));
 	if (is_start_of_input(lexer))
 		process_operator_type(lexer);
 	else
