@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:54:34 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/27 17:39:00 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/07 18:05:25 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,13 @@ void	exec(char *input, t_ctx *ctx)
 	t_pipeline_conf	conf;
 
 	token_list = lexer(input);
-	if (token_list == NULL)
+	if (get_token_type(ft_lstlast(token_list)) == TOKEN_UNKNOWN)
+	{
+		print_error("lexer unexpected input",
+			get_token_value(ft_lstlast(token_list)));
+		destroy_token_list(token_list);
 		return ;
+	}
 	node = parser(token_list);
 	if (node == NULL)
 	{
