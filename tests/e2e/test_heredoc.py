@@ -42,6 +42,20 @@ def test_heredoc_expand(shell_session):
     assert result == "Hello!!"
 
 
+def test_heredoc_expnad_quoted(shell_session):
+    shell_session.sendline("export VAR='Hello!!' && cat << EOF")
+    shell_session.expect("> ")
+    shell_session.sendline("'$VAR'")
+    shell_session.expect("> ")
+    shell_session.sendline('"$VAR"')
+    shell_session.expect("> ")
+    shell_session.sendline("EOF")
+
+    shell_session.expect(PROMPT)
+    result = get_command_output(shell_session.before)
+    assert result == "'Hello!!'\n\"Hello!!\""
+
+
 # FIXME: Replace Hello!! with Hello, world!! after export is fixed
 def test_heredoc_not_expand(shell_session):
     shell_session.sendline("export VAR='Hello!!' && cat << 'EOF'")
