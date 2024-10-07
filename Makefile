@@ -27,6 +27,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/ast/getter.c \
 					$(SRC_DIR)/ast/push.c \
 					$(SRC_DIR)/builtins/builtins_cd.c \
+					$(SRC_DIR)/builtins/builtins_cd_utils.c \
 					$(SRC_DIR)/builtins/builtins_echo.c \
 					$(SRC_DIR)/builtins/builtins_env.c \
 					$(SRC_DIR)/builtins/builtins_exit.c \
@@ -49,7 +50,6 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/expansion/expand_variable.c \
 					$(SRC_DIR)/expansion/expand_variable_on_list.c \
 					$(SRC_DIR)/expansion/expand_wildcard_on_list.c \
-					$(SRC_DIR)/expansion/expansion_utils.c \
 					$(SRC_DIR)/expansion/trim_expanded_variable.c \
 					$(SRC_DIR)/expansion/wildcard_lazy_match.c \
 					$(SRC_DIR)/env/constructor.c \
@@ -93,6 +93,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/utils/ft_lstsort.c \
 					$(SRC_DIR)/utils/ft_xstrjoin2.c \
 					$(SRC_DIR)/utils/print_error.c \
+					$(SRC_DIR)/utils/string_struct.c \
 					$(SRC_DIR)/utils/wrapper/ft_xlstnew.c \
 					$(SRC_DIR)/utils/wrapper/ft_xstrdup.c \
 					$(SRC_DIR)/utils/wrapper/ft_xstrjoin.c \
