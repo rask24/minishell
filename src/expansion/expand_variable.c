@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:08:50 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/05 19:01:57 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/07 16:01:09 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,36 @@ static char	*trim_single_quotes(t_expand_info *expand_info)
 	return (trim(expand_info));
 }
 
-char	*expand_variable(char *input, t_ctx *ctx)
+static const char	*construct_lookup(bool is_smart_expand)
+{
+	if (is_smart_expand)
+		return (ft_xstrdup("$\'"));
+	else
+		return (ft_xstrdup("$"));
+}
+
+char	*expand_variable(char *input, t_ctx *ctx, bool is_smart_expand)
 {
 	t_expand_info	*expand_info;
 	char			*trimed;
 	char			*expanded;
+	const char		*lookup;
 
+	lookup = construct_lookup(is_smart_expand);
 	expand_info = construct_string_struct(input);
 	expanded = NULL;
 	while (*expand_info->right)
 	{
-		if (*expand_info->right == '\'')
+		if (*expand_info->right == '\'' && is_smart_expand)
 			trimed = trim_single_quotes(expand_info);
 		else if (*expand_info->right == '$')
 			trimed = trim_expanded_variable(expand_info, ctx);
 		else
-			trimed = trim_till(expand_info, "$\'");
+			trimed = trim_till(expand_info, lookup);
 		expanded = ft_xstrjoin2(expanded, trimed);
 		free(trimed);
 	}
 	destroy_string_struct(expand_info);
+	free((char *)lookup);
 	return (expanded);
 }

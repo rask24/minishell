@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:37:49 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/05 14:51:57 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/07 15:41:12 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_list	*expand_variable_on_list(t_list *list, t_ctx *ctx)
 	result = NULL;
 	while (curr)
 	{
-		ifs_combined_word = expand_variable(curr->content, ctx);
+		ifs_combined_word = expand_variable(curr->content, ctx, true);
 		original_ptr = ifs_combined_word;
 		while (true)
 		{
