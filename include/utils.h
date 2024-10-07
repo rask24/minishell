@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/02 19:37:17 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/06 14:08:40 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,15 @@ void			ft_lstsort(t_list **list, t_cmp cmp);
 void			ft_lstiterp(t_list *lst, void (*f)(void *, void *),
 					void *param);
 
+typedef struct s_string
+{
+	char		*left;
+	char		*right;
+}				t_string;
+
+t_string		*construct_string_struct(char *input);
+void			consume_char(t_string *string);
+void			destroy_string_struct(t_string *string);
+char			*trim(t_string *string);
+char			*trim_till(t_string *string, char *set);
 #endif
