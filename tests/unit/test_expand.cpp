@@ -402,13 +402,25 @@ TEST(expand_variable_on_list, NoExpand) {
 
   t_list *result = expand_variable_on_list(list, &ctx);
 
-  std::vector<std::string> expected = {"Hello", "Multiple", "Words", "Here",
-                                       "World"};
   EXPECT_STREQ((char *)result->content, "Hello");
   EXPECT_STREQ((char *)result->next->content, "Multiple");
   EXPECT_STREQ((char *)result->next->next->content, "Words");
   EXPECT_STREQ((char *)result->next->next->next->content, "Here");
   EXPECT_STREQ((char *)result->next->next->next->next->content, "World");
+
+  ft_lstclear(&result, free);
+}
+
+TEST(expand_variable_on_list, SpaceIsNotIFSPutInsideQuotes) {
+  t_list *list = nullptr;
+  std::vector<std::string> input = {"'hello world'"};
+  for (const auto &i : input) {
+    ft_lstadd_back(&list, ft_xlstnew(strdup(i.c_str())));
+  }
+
+  t_list *result = expand_variable_on_list(list, NULL);
+
+  EXPECT_STREQ((char *)result->content, "'hello world'");
 
   ft_lstclear(&result, free);
 }
