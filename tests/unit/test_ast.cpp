@@ -182,6 +182,26 @@ TEST(get_redirect_file_or_delim, NullRedirects) {
   EXPECT_EQ(get_redirect_file_or_delim(redirects), nullptr);
 }
 
+TEST(set_file_or_delim, NullRedirects) {
+  t_list *redirects = nullptr;
+
+  set_file_or_delim(redirects, "file.txt");
+  EXPECT_EQ(redirects, nullptr);
+}
+
+TEST(set_file_or_delim, OneRedirect) {
+  t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
+  t_redirect_info *info = construct_redirect_info(REDIRECT_INPUT, "input.txt");
+
+  push_redirect_info(node, info);
+
+  set_file_or_delim(node->redirects, strdup("file.txt"));
+
+  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects), "file.txt");
+
+  destroy_ast(node);
+}
+
 TEST(push_cmd_arg, InvalidNodeType) {
   t_ast *node = construct_ast(AST_PIPE, nullptr, nullptr);
 
