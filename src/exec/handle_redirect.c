@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 15:08:14 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/05 23:01:34 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/07 20:46:46 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,15 @@ static int	open_redirect_file(t_redirect_info *info, t_ctx *ctx)
 	return (fd);
 }
 
-static const char	*expand_filepath(t_list *redirects, t_ctx *ctx)
+static const char	*expand_filepath(t_list *redirect, t_ctx *ctx)
 {
 	t_list		*original;
 	t_list		*files;
 	const char	*ret;
 
-	original = ft_xlstnew(ft_xstrdup(get_redirect_file_or_delim(redirects)));
+	if (get_redirect_type(redirect) == REDIRECT_HEREDOC)
+		return (ft_xstrdup(get_redirect_file_or_delim(redirect)));
+	original = ft_xlstnew(ft_xstrdup(get_redirect_file_or_delim(redirect)));
 	files = expand(original, ctx);
 	ft_lstclear(&original, free);
 	if (ft_lstsize(files) == 1)
@@ -70,28 +72,28 @@ static void	redirect_std_fd(t_redirect_type type, int fd)
 	}
 }
 
-bool	handle_redirect(t_list *redirects, t_ctx *ctx)
+bool	handle_redirect(t_list *redirect, t_ctx *ctx)
 {
 	int			fd;
-	const char	*filepath;
 	const char	*expanded_filepath;
 
-	filepath = get_redirect_file_or_delim(redirects);
-	expanded_filepath = expand_filepath(redirects, ctx);
+	expanded_filepath = expand_filepath(redirect, ctx);
 	if (expanded_filepath == NULL)
 	{
-		print_error(filepath, "ambiguous redirect");
+		print_error(get_redirect_file_or_delim(redirect), "ambiguous redirect");
+		set_file_or_delim(redirect, NULL);
 		return (false);
 	}
-	fd = open_redirect_file(redirects->content, ctx);
+	free((char *)get_redirect_file_or_delim(redirect));
+	set_file_or_delim(redirect, expanded_filepath);
+	fd = open_redirect_file(redirect->content, ctx);
 	if (fd == -1)
 	{
-		if (get_redirect_type(redirects) != REDIRECT_HEREDOC)
-			print_error(expanded_filepath, strerror(errno));
+		if (get_redirect_type(redirect) != REDIRECT_HEREDOC)
+			print_error(get_redirect_file_or_delim(redirect), strerror(errno));
 		return (false);
 	}
-	redirect_std_fd(get_redirect_type(redirects), fd);
+	redirect_std_fd(get_redirect_type(redirect), fd);
 	close(fd);
-	free((char *)expanded_filepath);
 	return (true);
 }

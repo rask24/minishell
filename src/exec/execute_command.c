@@ -58,6 +58,10 @@ static void	restore_std_io(int *std_fds)
 	close(std_fds[2]);
 }
 
+/*
+** argv is NULL only if no arguments are passed to the command.
+** In this case, this function returns EXIT_SUCCESS.
+*/
 static int	execute_builtin_command(t_ast *node, t_ctx *ctx)
 {
 	const char	*cmd_name;
@@ -67,8 +71,8 @@ static int	execute_builtin_command(t_ast *node, t_ctx *ctx)
 	status = 0;
 	cmd_name = get_cmd_arg(node->cmd_args);
 	argv = convert_cmd_args_to_array(node->cmd_args);
-	if (!argv)
-		return (EXIT_FAILURE);
+	if (argv == NULL)
+		return (EXIT_SUCCESS);
 	if (ft_strcmp(cmd_name, "cd") == 0)
 		status = builtins_cd(argv, ctx);
 	else if (ft_strcmp(cmd_name, "pwd") == 0)
@@ -95,7 +99,7 @@ int	execute_command(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
 	expanded_cmd_args = expand(node->cmd_args, ctx);
 	ft_lstclear(&node->cmd_args, free);
 	node->cmd_args = expanded_cmd_args;
-	if (is_builtin(get_cmd_arg(node->cmd_args)))
+	if (node->cmd_args == NULL || is_builtin(get_cmd_arg(node->cmd_args)))
 	{
 		save_std_io(std_fds);
 		if (handle_io(conf, node->redirects, ctx))
