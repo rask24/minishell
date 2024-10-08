@@ -307,3 +307,29 @@ TEST(lexer, AmpersandBeforeSpace) {
   EXPECT_EQ(get_token_type(token->next), TOKEN_WORD);
   EXPECT_STREQ(get_token_value(token->next), "ls");
 }
+
+TEST(lexer, UncloseSingleQuote) {
+  const char *str = "echo 'hello world";
+
+  t_token_list *token = lexer(str);
+
+  EXPECT_EQ(get_token_type(token), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token), "echo");
+
+  token = token->next;
+  EXPECT_EQ(get_token_type(token), TOKEN_UNKNOWN);
+  EXPECT_STREQ(get_token_value(token), "'hello world");
+}
+
+TEST(lexer, UncloseDoubleQuote) {
+  const char *str = "echo \"hello world";
+
+  t_token_list *token = lexer(str);
+
+  EXPECT_EQ(get_token_type(token), TOKEN_WORD);
+  EXPECT_STREQ(get_token_value(token), "echo");
+
+  token = token->next;
+  EXPECT_EQ(get_token_type(token), TOKEN_UNKNOWN);
+  EXPECT_STREQ(get_token_value(token), "\"hello world");
+}
