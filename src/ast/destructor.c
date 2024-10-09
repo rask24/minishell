@@ -6,10 +6,11 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:58:00 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/04 23:03:36 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/09 19:58:36 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <unistd.h>
 
 #include "ast.h"
@@ -34,4 +35,5 @@ void	destroy_ast(t_ast *node)
 	ft_lstclear(&node->redirects, _destroy_redirect_info);
 	destroy_ast(node->left);
 	destroy_ast(node->right);
+	free(node);
 }
