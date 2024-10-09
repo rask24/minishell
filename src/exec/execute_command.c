@@ -91,7 +91,7 @@ static int	execute_builtin_command(t_ast *node, t_ctx *ctx)
 	return (status);
 }
 
-int	execute_command(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
+int	execute_command(t_ast *node, t_ctx *ctx, t_pipe_conf *conf)
 {
 	int		std_fds[3];
 	t_list	*expanded_cmd_args;

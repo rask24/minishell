@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:45:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/05 15:22:03 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/09 20:16:28 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "ctx.h"
 #include "exec_internal.h"
 
-static void	handle_pipeline(t_pipeline_conf *conf)
+static void	handle_pipeline(t_pipe_conf *conf)
 {
 	if (conf->fd_in != STDIN_FILENO)
 	{
@@ -36,7 +36,7 @@ static void	handle_pipeline(t_pipeline_conf *conf)
 	}
 }
 
-bool	handle_io(t_pipeline_conf *conf, t_list *redirects, t_ctx *ctx)
+bool	handle_io(t_pipe_conf *conf, t_list *redirects, t_ctx *ctx)
 {
 	handle_pipeline(conf);
 	while (redirects)
