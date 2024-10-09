@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/09 20:11:02 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/09 20:14:11 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,15 @@ static void	loop(t_ctx *ctx)
 	while (true)
 	{
 		input = readline(PROMPT);
+		if (input == NULL)
+		{
+			printf("exit\n");
+			break ;
+		}
 		if (ft_strcmp(input, "") == 0)
 		{
 			free(input);
 			continue ;
-		}
-		if (input == NULL)
-		{
-			ft_printf("exit\n");
-			break ;
 		}
 		exec(input, ctx);
 		add_history(input);
