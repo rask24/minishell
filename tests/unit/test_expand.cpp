@@ -253,8 +253,7 @@ class FileTest : public testing::Test {
 
   void TearDown() override {
     for (const auto &file : create_files) {
-      ASSERT_EQ(remove(file.c_str()), 0)
-          << "Failed to remove file " << file << ": " << strerror(errno);
+      remove(file.c_str());
     }
     ASSERT_EQ(chdir(".."), 0)
         << "Failed to change to parent directory: " << strerror(errno);
@@ -369,6 +368,22 @@ TEST_F(FileTest, FullNameWithWildcardCrazy) {
   t_list *expected_list = ret_expected(expected);
   t_list *ans =
       expand_wildcard_on_list(ft_xlstnew(strdup("**fi**le1*********")));
+  EXPECT_TRUE(AreListsEqual(ans, expected_list));
+  ft_lstclear(&ans, free);
+  ft_lstclear(&expected_list, free);
+}
+
+TEST_F(FileTest, NoFiles) {
+  const std::string test_dir = "wildcard_test_dir";
+  const std::vector<std::string> create_files1 = {"file1", "file2", "file3",
+                                                  "filefile", "dir1"};
+  for (const auto &file : create_files1) {
+    std::remove(file.c_str());
+  }
+
+  char *expected[] = {strdup("*"), nullptr};
+  t_list *expected_list = ret_expected(expected);
+  t_list *ans = expand_wildcard_on_list(ft_xlstnew(strdup("*")));
   EXPECT_TRUE(AreListsEqual(ans, expected_list));
   ft_lstclear(&ans, free);
   ft_lstclear(&expected_list, free);

@@ -164,3 +164,16 @@ TEST(builtins_export, NoEqualArg) {
                "declare -x key3\n");
   EXPECT_EQ(result, 0);
 }
+
+TEST(builtins_export, EnvIsNULL) {
+  t_ctx config;
+  config.env = NULL;
+
+  char *args[] = {ft_strdup("export"), NULL};
+  testing::internal::CaptureStdout();
+  int result = builtins_export(args, &config);
+  std::string output = testing::internal::GetCapturedStdout();
+
+  EXPECT_STREQ(output.c_str(), "");
+  EXPECT_EQ(result, 0);
+}
