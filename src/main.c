@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/29 16:13:13 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/09 20:11:02 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,18 @@ static void	destroy_ctx(t_ctx *ctx)
 	free(ctx);
 }
 
-int	main(int argc, char **argv, char **envp)
+static void	loop(t_ctx *ctx)
 {
-	char			*input;
-	t_ctx			*ctx;
-	struct termios	original_termios;
+	char	*input;
 
-	(void)argc;
-	(void)argv;
-	ctx = construct_ctx(envp);
-	init_signal_handlers();
-	save_terminal_configuration(&original_termios);
 	while (true)
 	{
 		input = readline(PROMPT);
+		if (ft_strcmp(input, "") == 0)
+		{
+			free(input);
+			continue ;
+		}
 		if (input == NULL)
 		{
 			ft_printf("exit\n");
@@ -56,8 +54,20 @@ int	main(int argc, char **argv, char **envp)
 		exec(input, ctx);
 		add_history(input);
 		free(input);
-		restore_terminal_configuration(&original_termios);
 	}
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_ctx			*ctx;
+	struct termios	original_termios;
+
+	(void)argc;
+	(void)argv;
+	ctx = construct_ctx(envp);
+	init_signal_handlers();
+	save_terminal_configuration(&original_termios);
+	loop(ctx);
 	destroy_env_list(ctx->env);
 	destroy_ctx(ctx);
 	return (EXIT_SUCCESS);
