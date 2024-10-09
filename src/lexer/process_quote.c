@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:45:32 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/08 20:35:02 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/09 10:33:30 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_token_list	*process_quote(t_lexer *lexer)
 	{
 		if (*lexer->right == '\0')
 		{
-			lexer->type = TOKEN_UNKNOWN;
+			lexer->type = TOKEN_UNTERMINATED_QUOTE;
 			tmp = ft_xstrndup(left_quote_ptr, lexer->right - left_quote_ptr);
 			lexer->value = tmp;
 			return (construct_token(lexer->type, lexer->value));

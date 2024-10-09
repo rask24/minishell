@@ -317,7 +317,7 @@ TEST(lexer, UncloseSingleQuote) {
   EXPECT_STREQ(get_token_value(token), "echo");
 
   token = token->next;
-  EXPECT_EQ(get_token_type(token), TOKEN_UNKNOWN);
+  EXPECT_EQ(get_token_type(token), TOKEN_UNTERMINATED_QUOTE);
   EXPECT_STREQ(get_token_value(token), "'hello world");
 }
 
@@ -330,6 +330,6 @@ TEST(lexer, UncloseDoubleQuote) {
   EXPECT_STREQ(get_token_value(token), "echo");
 
   token = token->next;
-  EXPECT_EQ(get_token_type(token), TOKEN_UNKNOWN);
+  EXPECT_EQ(get_token_type(token), TOKEN_UNTERMINATED_QUOTE);
   EXPECT_STREQ(get_token_value(token), "\"hello world");
 }
