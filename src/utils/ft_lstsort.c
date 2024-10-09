@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 14:42:55 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/28 14:42:09 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/08 20:16:25 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	ft_lstsort(t_list **list, t_cmp cmp)
 	t_list	*next_p;
 	bool	is_sorted;
 
+	if (list == NULL || *list == NULL || cmp == NULL)
+		return ;
 	is_sorted = true;
 	while (true)
 	{
