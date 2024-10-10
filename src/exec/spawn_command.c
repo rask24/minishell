@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:25:57 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/01 13:35:25 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/09 19:50:56 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*search_for_command(char *basename, t_env_list *env_list)
 		tmp = ft_xstrjoin(paths[i], "/");
 		joined_path = ft_xstrjoin(tmp, basename);
 		free(tmp);
-		if (access(joined_path, X_OK) == 0)
+		if (access(joined_path, X_OK) == 0 && !is_a_directory(joined_path))
 		{
 			ft_free_strs(paths);
 			return (joined_path);
