@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/09 20:14:11 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/10 18:50:12 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	destroy_ctx(t_ctx *ctx)
 	free(ctx);
 }
 
-static void	loop(t_ctx *ctx)
+static void	loop(t_ctx *ctx, struct termios *original_termios)
 {
 	char	*input;
 
@@ -54,6 +54,7 @@ static void	loop(t_ctx *ctx)
 		exec(input, ctx);
 		add_history(input);
 		free(input);
+		restore_terminal_configuration(original_termios);
 	}
 }
 
@@ -67,7 +68,7 @@ int	main(int argc, char **argv, char **envp)
 	ctx = construct_ctx(envp);
 	init_signal_handlers();
 	save_terminal_configuration(&original_termios);
-	loop(ctx);
+	loop(ctx, &original_termios);
 	destroy_env_list(ctx->env);
 	destroy_ctx(ctx);
 	return (EXIT_SUCCESS);
