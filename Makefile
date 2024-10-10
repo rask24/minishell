@@ -48,7 +48,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/expansion/expand.c \
 					$(SRC_DIR)/expansion/expand_quotes.c \
 					$(SRC_DIR)/expansion/expand_quotes_on_list.c \
-					$(SRC_DIR)/expansion/expand_variable.c \
+					$(SRC_DIR)/expansion/expand_variable_for_heredoc.c \
 					$(SRC_DIR)/expansion/expand_variable_on_list.c \
 					$(SRC_DIR)/expansion/expand_wildcard_on_list.c \
 					$(SRC_DIR)/expansion/trim_expanded_variable.c \

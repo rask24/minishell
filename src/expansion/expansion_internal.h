@@ -18,8 +18,7 @@
 
 typedef t_string	t_expand_info;
 
-char				*expand_variable(char *str, t_ctx *ctx,
-						bool is_smart_expand);
+char				*expand_variable_for_heredoc(char *str, t_ctx *ctx);
 char				*expand_quotes(char *input);
 
 t_list				*expand_quotes_on_list(t_list *list);
