@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:54:34 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/10 17:07:56 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/12 10:17:12 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,23 @@
 #include "lexer.h"
 #include "parser.h"
 #include "utils.h"
+
+static bool	is_valid_last_token(t_token_list *last_token)
+{
+	if (last_token == NULL)
+		return (false);
+	if (get_token_type(last_token) == TOKEN_UNTERMINATED_QUOTE)
+	{
+		print_error("unterminated quote", get_token_value(last_token));
+		return (false);
+	}
+	if (get_token_type(last_token) == TOKEN_UNKNOWN)
+	{
+		print_error("unknown token", get_token_value(last_token));
+		return (false);
+	}
+	return (true);
+}
 
 int	execute_ast_node(t_ast *node, t_ctx *ctx, t_pipe_conf *conf)
 {
@@ -42,10 +59,8 @@ void	exec(char *input, t_ctx *ctx)
 	t_ast			*node;
 
 	token_list = lexer(input);
-	if (get_token_type(ft_lstlast(token_list)) == TOKEN_UNKNOWN)
+	if (is_valid_last_token(ft_lstlast(token_list)) == false)
 	{
-		print_error("lexer unexpected input",
-			get_token_value(ft_lstlast(token_list)));
 		destroy_token_list(token_list);
 		return ;
 	}

@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 13:27:54 by yliu              #+#    #+#             */
-/*   Updated: 2024/08/30 15:32:32 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/09 10:33:59 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef enum e_token_type
 	TOKEN_GREAT,
 	TOKEN_DGREAT,
 	TOKEN_EOF,
+	TOKEN_UNTERMINATED_QUOTE,
 	TOKEN_UNKNOWN
 }					t_token_type;
 
