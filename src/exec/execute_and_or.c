@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 17:02:48 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/09 20:16:28 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/10 17:10:09 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 
 int	execute_and_or(t_ast *node, t_ctx *ctx, t_pipe_conf *conf)
 {
-	if (execute_ast_node(node->left, ctx, conf) == EXIT_FAILURE)
+	(void)conf;
+	if (execute_ast_node(node->left, ctx, NULL) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	conf = &(t_pipe_conf){.fd_in = STDIN_FILENO, .fd_out = STDOUT_FILENO};
 	if ((node->type == AST_AND && ctx->exit_status == EXIT_SUCCESS)
 		|| (node->type == AST_OR && ctx->exit_status != EXIT_SUCCESS))
-		return (execute_ast_node(node->right, ctx, conf));
+		return (execute_ast_node(node->right, ctx, NULL));
 	return (EXIT_SUCCESS);
 }

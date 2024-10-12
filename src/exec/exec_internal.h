@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:46:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/09 20:17:56 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/12 09:15:30 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@
 
 typedef struct s_pipe_conf
 {
-	int	fd_in;
-	int	fd_out;
+	int	prev_read;
+	int	prev_write;
+	int	next_read;
+	int	next_write;
 }	t_pipe_conf;
 
 typedef enum e_exit_status
@@ -39,7 +41,8 @@ int		execute_ast_node(t_ast *node, t_ctx *ctx, t_pipe_conf *conf);
 int		execute_and_or(t_ast *node, t_ctx *ctx, t_pipe_conf *conf);
 int		execute_pipeline(t_ast *node, t_ctx *ctx, t_pipe_conf *conf);
 int		execute_command(t_ast *cmd_node, t_ctx *ctx, t_pipe_conf *conf);
-bool	handle_io(t_pipe_conf *conf, t_list *redirects, t_ctx *ctx);
+bool	handle_io(t_pipe_conf *conf, t_list *redirects, t_ctx *ctx,
+			bool is_builtin);
 bool	handle_redirect(t_list *redirects, t_ctx *ctx);
 int		open_heredoc(t_redirect_info *info, t_ctx *ctx);
 void	wait_for_children(pid_t last_pid, t_ctx *ctx);

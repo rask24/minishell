@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:54:34 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/09 20:16:28 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/10 17:07:56 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	exec(char *input, t_ctx *ctx)
 {
 	t_token_list	*token_list;
 	t_ast			*node;
-	t_pipe_conf	conf;
 
 	token_list = lexer(input);
 	if (get_token_type(ft_lstlast(token_list)) == TOKEN_UNKNOWN)
@@ -56,8 +55,7 @@ void	exec(char *input, t_ctx *ctx)
 		destroy_token_list(token_list);
 		return ;
 	}
-	conf = (t_pipe_conf){.fd_in = STDIN_FILENO, .fd_out = STDOUT_FILENO};
-	if (execute_ast_node(node, ctx, &conf) == EXIT_FAILURE)
+	if (execute_ast_node(node, ctx, NULL) == EXIT_FAILURE)
 		print_error(__func__, "failed to execute command");
 	destroy_token_list(token_list);
 	destroy_ast(node);
