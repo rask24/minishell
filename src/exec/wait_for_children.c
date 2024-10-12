@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:20:58 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/12 10:02:25 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/12 10:10:55 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,44 @@
 
 #include "ctx.h"
 
-void	wait_for_children(void)
+static void	update_exit_status(pid_t wpid, int status,
+				pid_t last_pid, t_ctx *ctx)
+{
+	if (wpid == last_pid)
+	{
+		if (WIFEXITED(status))
+			ctx->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			ctx->exit_status = WTERMSIG(status) + 128;
+	}
+}
+
+static bool	wait_for_single_child(pid_t last_pid, t_ctx *ctx)
 {
 	int		status;
 	pid_t	wpid;
 
-	while (true)
+	wpid = waitpid(-1, &status, 0);
+	if (wpid == -1)
 	{
-		wpid = waitpid(-1, &status, 0);
-		if (wpid == -1)
-			return ;
+		if (errno == ECHILD)
+			return (false);
+		print_error("waitpid", strerror(errno));
+		return (false);
 	}
+	if (last_pid != -1)
+		update_exit_status(wpid, status, last_pid, ctx);
+	return (true);
+}
+
+void	wait_for_children(void)
+{
+	while (wait_for_single_child(-1, NULL))
+		;
 }
 
 void	wait_for_children_with_last_status(pid_t last_pid, t_ctx *ctx)
 {
-	int		status;
-	pid_t	wpid;
-
-	while (true)
-	{
-		wpid = waitpid(-1, &status, 0);
-		if (wpid == -1)
-			return ;
-		if (wpid == last_pid)
-		{
-			if (WIFEXITED(status))
-				ctx->exit_status = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				ctx->exit_status = WTERMSIG(status) + 128;
-		}
-	}
+	while (wait_for_single_child(last_pid, ctx))
+		;
 }
