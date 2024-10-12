@@ -51,6 +51,8 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/expansion/expand_variable_for_heredoc.c \
 					$(SRC_DIR)/expansion/expand_variable_on_list.c \
 					$(SRC_DIR)/expansion/expand_wildcard_on_list.c \
+					$(SRC_DIR)/expansion/split_by_ifs.c \
+					$(SRC_DIR)/expansion/normalize_list.c \
 					$(SRC_DIR)/expansion/trim_expanded_variable.c \
 					$(SRC_DIR)/expansion/wildcard_lazy_match.c \
 					$(SRC_DIR)/env/constructor.c \
