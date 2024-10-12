@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:15:45 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/12 09:15:19 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/12 10:12:29 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	update_last_pipe_conf(t_pipe_conf *conf)
 	conf->next_write = STDOUT_FILENO;
 }
 
-static void	close_pipe_fd(t_pipe_conf *conf)
+void	close_pipe_fd(t_pipe_conf *conf)
 {
 	if (conf->prev_read != STDIN_FILENO)
 		close(conf->prev_read);
