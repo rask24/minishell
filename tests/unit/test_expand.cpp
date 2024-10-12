@@ -17,6 +17,7 @@ TEST(expand_variable_for_heredoc, NoExpand) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
+  ctx.env = env_list;
 
   char *string = strdup("USER");
 
@@ -356,6 +357,7 @@ TEST(expand_variable_on_list, SpaceIsNotIFSPutInsideQuotes) {
   EXPECT_STREQ((char *)result->content, "'hello world'");
 
   ft_lstclear(&result, free);
+  ft_lstclear(&list, free);
 }
 
 TEST(expand_variable_on_list, VariableWithIFS) {
@@ -457,4 +459,5 @@ TEST(expand_variable_on_list, ApplyOnList) {
   EXPECT_STREQ((char *)result->next->next->next->next->content, "World");
 
   ft_lstclear(&result, free);
+  ft_lstclear(&list, free);
 }
