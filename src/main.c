@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/13 22:50:09 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/13 23:23:18 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static void	loop(t_ctx *ctx, struct termios *original_termios)
 
 	while (true)
 	{
+		init_signal_handlers();
 		input = readline(PROMPT);
 		if (input == NULL)
 		{
@@ -66,7 +67,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	ctx = construct_ctx(envp);
-	init_signal_handlers();
 	rl_event_hook = handle_sigint_hook;
 	save_termios(&original_termios);
 	loop(ctx, &original_termios);

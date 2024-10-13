@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:25:57 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/09 19:50:56 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/13 23:32:00 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "ast.h"
 #include "ctx.h"
 #include "exec_internal.h"
+#include "readline/readline.h"
 #include "ui.h"
 #include "utils.h"
 
@@ -99,6 +100,7 @@ int	spawn_command(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
 		reset_signal_handlers();
 		execute_command_internal(argv, ctx);
 	}
+	set_exec_signal_handlers();
 	if (conf->fd_out == STDOUT_FILENO)
 		wait_for_children(pid, ctx);
 	return (EXIT_SUCCESS);

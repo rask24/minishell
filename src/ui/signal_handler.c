@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 20:03:51 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/13 22:51:35 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/13 23:30:38 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	handle_sigint_hook(void)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-		return (1);
 	}
 	return (0);
 }
@@ -48,6 +47,12 @@ void	init_signal_handlers(void)
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 		print_error("signal", strerror(errno));
 	if (signal(SIGTSTP, SIG_IGN) == SIG_ERR)
+		print_error("signal", strerror(errno));
+}
+
+void	set_exec_signal_handlers(void)
+{
+	if (signal(SIGINT, SIG_IGN) == SIG_ERR)
 		print_error("signal", strerror(errno));
 }
 
