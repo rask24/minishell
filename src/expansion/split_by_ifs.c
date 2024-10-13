@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 00:52:40 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/13 00:58:05 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/13 17:37:30 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static bool	is_ifs(char c)
 	return (c == ' ' || c == '\t' || c == '\n');
 }
 
-t_list	*split_expanded_variable_by_ifs(char *expanded)
+static t_list	*split_expanded_variable_by_ifs(char *expanded)
 {
 	t_string	*expanded_;
 	t_list		*list;
