@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:15:45 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/13 15:17:39 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/13 15:55:15 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	execute_pipeline(t_ast *node, t_ctx *ctx, t_pipe_conf *conf)
 		if (pipe(pipe_fd) == -1)
 		{
 			print_error("pipe", strerror(errno));
+			free(conf);
 			return (EXIT_FAILURE);
 		}
 		update_pipe_conf(conf, pipe_fd);
