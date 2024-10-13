@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:15:45 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/12 10:12:29 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/13 15:17:39 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,12 @@ int	execute_pipeline(t_ast *node, t_ctx *ctx, t_pipe_conf *conf)
 		}
 		update_pipe_conf(conf, pipe_fd);
 		ret = execute_ast_node(cur->left, ctx, conf);
-		close_pipe_fd(conf);
 		if (ret == EXIT_FAILURE)
 			return (ret);
 		cur = cur->right;
 	}
 	update_last_pipe_conf(conf);
 	ret = execute_ast_node(cur, ctx, conf);
-	close_pipe_fd(conf);
 	free(conf);
 	return (ret);
 }
