@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:37:49 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/13 18:13:55 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/13 19:12:33 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 t_list	*expand_variable_on_list(t_list *curr, t_ctx *ctx)
 {
-	t_expand_info	*token_content_;
-	t_list			*tokens;
+	t_expand_info	*unexpanded_info;
+	t_list			*expanded_tokens;
 	t_list			*list;
 
 	list = NULL;
 	while (curr)
 	{
-		token_content_ = construct_string_struct(curr->content);
-		tokens = split_by_ifs(token_content_, ctx);
-		destroy_string_struct(token_content_);
-		ft_lstadd_back(&list, tokens);
+		unexpanded_info = construct_string_struct(curr->content);
+		expanded_tokens = split_by_ifs(unexpanded_info, ctx);
+		destroy_string_struct(unexpanded_info);
+		ft_lstadd_back(&list, expanded_tokens);
 		curr = curr->next;
 	}
 	return (list);
