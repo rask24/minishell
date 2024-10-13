@@ -1,19 +1,8 @@
 {
   "files.associations": {
-    "*.css": "css",
     "*.h": "c",
     "*.cpp": "cpp",
-    "*.hpp": "cpp",
-    "__config": "c",
-    "__tree": "c",
-    "deque": "c",
-    "memory_resource": "c",
-    "forward_list": "c",
-    "iterator": "c",
-    "list": "c",
-    "locale": "c",
-    "vector": "c",
-    "__hash_table": "c"
+    "*.hpp": "cpp"
   },
   "[c]": {
     "editor.tabSize": 4,
