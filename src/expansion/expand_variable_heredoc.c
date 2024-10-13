@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_variable_for_heredoc.c                      :+:      :+:    :+:   */
+/*   expand_variable_heredoc.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:08:50 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/12 23:27:41 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/13 17:55:26 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expansion.h"
 #include "expansion_internal.h"
 
-char	*expand_variable_for_heredoc(char *input, t_ctx *ctx)
+char	*expand_variable_heredoc(char *input, t_ctx *ctx)
 {
 	t_expand_info	*expand_info;
 	char			*trimmed;

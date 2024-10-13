@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:09:46 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/13 00:51:08 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/13 17:54:49 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 typedef t_string	t_expand_info;
 
-char				*expand_variable_for_heredoc(char *str, t_ctx *ctx);
+char				*expand_variable_heredoc(char *str, t_ctx *ctx);
 char				*expand_quotes(char *input);
 
 t_list				*expand_quotes_on_list(t_list *list);

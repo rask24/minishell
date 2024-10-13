@@ -13,7 +13,7 @@ extern "C" {
 #include "expansion/expansion_internal.h"
 }
 
-TEST(expand_variable_for_heredoc, NoExpand) {
+TEST(expand_variable_heredoc, NoExpand) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
@@ -21,12 +21,12 @@ TEST(expand_variable_for_heredoc, NoExpand) {
 
   char *string = strdup("USER");
 
-  EXPECT_STREQ(expand_variable_for_heredoc(string, &ctx), "USER");
+  EXPECT_STREQ(expand_variable_heredoc(string, &ctx), "USER");
 
   destroy_env_list(env_list);
 }
 
-TEST(expand_variable_for_heredoc, OneVariable) {
+TEST(expand_variable_heredoc, OneVariable) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
@@ -34,18 +34,18 @@ TEST(expand_variable_for_heredoc, OneVariable) {
 
   char *string = strdup("$USER");
 
-  EXPECT_STREQ(expand_variable_for_heredoc(string, &ctx), "Alice");
+  EXPECT_STREQ(expand_variable_heredoc(string, &ctx), "Alice");
 
   destroy_env_list(env_list);
 }
 
-TEST(expand_variable_for_heredoc, NoVariable) {
+TEST(expand_variable_heredoc, NoVariable) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USERRRRR");
-  char *ans = expand_variable_for_heredoc(string, &ctx);
+  char *ans = expand_variable_heredoc(string, &ctx);
 
   EXPECT_STREQ(ans, "");
 
@@ -54,13 +54,13 @@ TEST(expand_variable_for_heredoc, NoVariable) {
   free(ans);
 }
 
-TEST(expand_variable_for_heredoc, StringAfterVariable) {
+TEST(expand_variable_heredoc, StringAfterVariable) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("student$USER");
-  char *ans = expand_variable_for_heredoc(string, &ctx);
+  char *ans = expand_variable_heredoc(string, &ctx);
 
   EXPECT_STREQ(ans, "studentAlice");
 
@@ -69,13 +69,13 @@ TEST(expand_variable_for_heredoc, StringAfterVariable) {
   free(ans);
 }
 
-TEST(expand_variable_for_heredoc, ManyVariables) {
+TEST(expand_variable_heredoc, ManyVariables) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USERis$USER$USER$");
-  char *ans = expand_variable_for_heredoc(string, &ctx);
+  char *ans = expand_variable_heredoc(string, &ctx);
 
   EXPECT_STREQ(ans, "AliceAlice$");
 
@@ -84,13 +84,13 @@ TEST(expand_variable_for_heredoc, ManyVariables) {
   free(ans);
 }
 
-TEST(expand_variable_for_heredoc, IgnoreSingleQuote) {
+TEST(expand_variable_heredoc, IgnoreSingleQuote) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USER'$USER'");
-  char *ans = expand_variable_for_heredoc(string, &ctx);
+  char *ans = expand_variable_heredoc(string, &ctx);
 
   EXPECT_STREQ(ans, "Alice'Alice'");
 
@@ -99,13 +99,13 @@ TEST(expand_variable_for_heredoc, IgnoreSingleQuote) {
   free(ans);
 }
 
-TEST(expand_variable_for_heredoc, DoNotIgnoreDoubleQuote) {
+TEST(expand_variable_heredoc, DoNotIgnoreDoubleQuote) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USER\"$USER\"");
-  char *ans = expand_variable_for_heredoc(string, &ctx);
+  char *ans = expand_variable_heredoc(string, &ctx);
 
   EXPECT_STREQ(ans, "Alice\"Alice\"");
 
@@ -114,13 +114,13 @@ TEST(expand_variable_for_heredoc, DoNotIgnoreDoubleQuote) {
   free(ans);
 }
 
-TEST(expand_variable_for_heredoc, SingleQuotePutAmongNonIdentifierChars) {
+TEST(expand_variable_heredoc, SingleQuotePutAmongNonIdentifierChars) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USER,'$USER'");
-  char *ans = expand_variable_for_heredoc(string, &ctx);
+  char *ans = expand_variable_heredoc(string, &ctx);
 
   EXPECT_STREQ(ans, "Alice,'Alice'");
 
@@ -129,13 +129,13 @@ TEST(expand_variable_for_heredoc, SingleQuotePutAmongNonIdentifierChars) {
   free(ans);
 }
 
-TEST(expand_variable_for_heredoc, DoubleQuoteAmongNonIdentifierChars) {
+TEST(expand_variable_heredoc, DoubleQuoteAmongNonIdentifierChars) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USER,\"$USER\"");
-  char *ans = expand_variable_for_heredoc(string, &ctx);
+  char *ans = expand_variable_heredoc(string, &ctx);
 
   EXPECT_STREQ(ans, "Alice,\"Alice\"");
 
@@ -144,10 +144,10 @@ TEST(expand_variable_for_heredoc, DoubleQuoteAmongNonIdentifierChars) {
   free(ans);
 }
 
-TEST(expand_variable_for_heredoc, ExitStatus) {
+TEST(expand_variable_heredoc, ExitStatus) {
   t_ctx ctx;
   ctx.exit_status = 42;
-  char *ans = expand_variable_for_heredoc(strdup("$?$?"), &ctx);
+  char *ans = expand_variable_heredoc(strdup("$?$?"), &ctx);
   EXPECT_STREQ(ans, "4242");
 
   free(ans);
