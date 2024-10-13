@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 19:58:39 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/14 00:15:20 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/14 00:18:40 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 # define PROMPT "minishell$ "
 
-volatile sig_atomic_t	g_signum;
+extern volatile sig_atomic_t	g_signum;
 
 void	init_signal_handlers(void);
 void	reset_signal_handlers(void);
