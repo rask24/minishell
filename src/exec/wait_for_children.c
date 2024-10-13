@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:20:58 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/12 10:10:55 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/13 14:51:10 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,12 @@
 
 #include "ctx.h"
 
-static void	update_exit_status(pid_t wpid, int status,
-				pid_t last_pid, t_ctx *ctx)
+static void	update_exit_status(int status, t_ctx *ctx)
 {
-	if (wpid == last_pid)
-	{
-		if (WIFEXITED(status))
-			ctx->exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			ctx->exit_status = WTERMSIG(status) + 128;
-	}
+	if (WIFEXITED(status))
+		ctx->exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		ctx->exit_status = WTERMSIG(status) + 128;
 }
 
 static bool	wait_for_single_child(pid_t last_pid, t_ctx *ctx)
@@ -40,8 +36,8 @@ static bool	wait_for_single_child(pid_t last_pid, t_ctx *ctx)
 		print_error("waitpid", strerror(errno));
 		return (false);
 	}
-	if (last_pid != -1)
-		update_exit_status(wpid, status, last_pid, ctx);
+	if (last_pid != -1 && wpid == last_pid)
+		update_exit_status(status, ctx);
 	return (true);
 }
 
