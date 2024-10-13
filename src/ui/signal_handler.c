@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_signal_handlers.c                             :+:      :+:    :+:   */
+/*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 20:03:51 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/13 22:39:11 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/13 22:51:35 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,30 @@
 #include "readline/readline.h"
 #include "utils.h"
 
-static void	handle_sigint(int sig)
+volatile sig_atomic_t	g_signum = 0;
+
+int	handle_sigint_hook(void)
 {
-	(void)sig;
-	ft_putchar_fd('\n', STDOUT_FILENO);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	if (g_signum == SIGINT)
+	{
+		g_signum = 0;
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+		return (1);
+	}
+	return (0);
+}
+
+static void	set_signum(int sig)
+{
+	g_signum = sig;
 }
 
 void	init_signal_handlers(void)
 {
-	if (signal(SIGINT, handle_sigint) == SIG_ERR)
+	if (signal(SIGINT, set_signum) == SIG_ERR)
 		print_error("signal", strerror(errno));
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 		print_error("signal", strerror(errno));
