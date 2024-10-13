@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 20:03:51 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/03 17:52:03 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/13 22:39:11 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,13 @@ void	init_signal_handlers(void)
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 		print_error("signal", strerror(errno));
 	if (signal(SIGTSTP, SIG_IGN) == SIG_ERR)
+		print_error("signal", strerror(errno));
+}
+
+void	reset_signal_handlers(void)
+{
+	if (signal(SIGINT, SIG_DFL) == SIG_ERR)
+		print_error("signal", strerror(errno));
+	if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
 		print_error("signal", strerror(errno));
 }
