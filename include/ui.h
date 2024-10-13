@@ -6,13 +6,14 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 19:58:39 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/13 23:15:54 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/14 00:15:20 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UI_H
 # define UI_H
 
+# include <signal.h>
 # include <termios.h>
 
 # define PROMPT "minishell$ "
