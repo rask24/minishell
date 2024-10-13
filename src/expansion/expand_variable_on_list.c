@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:37:49 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/13 00:51:08 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/13 18:13:55 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_list	*expand_variable_on_list(t_list *curr, t_ctx *ctx)
 {
-	t_string	*token_content_;
-	t_list		*tokens;
-	t_list		*list;
+	t_expand_info	*token_content_;
+	t_list			*tokens;
+	t_list			*list;
 
 	list = NULL;
 	while (curr)

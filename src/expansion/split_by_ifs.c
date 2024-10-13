@@ -6,31 +6,31 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 00:52:40 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/13 17:37:30 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/13 18:16:02 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expansion_internal.h"
 
-static void	proceed_single_quote(t_string *str_)
+static void	proceed_single_quote(t_string *str_info)
 {
-	str_->right++;
-	while (*str_->right != '\0' && *str_->right != '\'')
-		str_->right++;
-	str_->right++;
+	str_info->right++;
+	while (*str_info->right != '\0' && *str_info->right != '\'')
+		str_info->right++;
+	str_info->right++;
 	return ;
 }
 
-static char	*trim_till_dollar(t_string *str_)
+static char	*trim_till_dollar(t_string *str_info)
 {
-	while (!(*str_->right == '$' || *str_->right == '\0'))
+	while (!(*str_info->right == '$' || *str_info->right == '\0'))
 	{
-		if (*str_->right == '\'')
-			proceed_single_quote(str_);
+		if (*str_info->right == '\'')
+			proceed_single_quote(str_info);
 		else
-			str_->right++;
+			str_info->right++;
 	}
-	return (trim(str_));
+	return (trim(str_info));
 }
 
 static bool	is_ifs(char c)
@@ -40,46 +40,46 @@ static bool	is_ifs(char c)
 
 static t_list	*split_expanded_variable_by_ifs(char *expanded)
 {
-	t_string	*expanded_;
-	t_list		*list;
+	t_expand_info	*expanded_info;
+	t_list			*list;
 
 	list = NULL;
-	expanded_ = construct_string_struct(expanded);
-	while (*expanded_->right != '\0')
+	expanded_info = construct_string_struct(expanded);
+	while (*expanded_info->right != '\0')
 	{
-		while (*expanded_->right != '\0' && !is_ifs(*expanded_->right))
-			expanded_->right++;
-		ft_lstadd_back(&list, ft_xlstnew(trim(expanded_)));
-		if (*expanded_->right == '\0')
+		while (*expanded_info->right != '\0' && !is_ifs(*expanded_info->right))
+			expanded_info->right++;
+		ft_lstadd_back(&list, ft_xlstnew(trim(expanded_info)));
+		if (*expanded_info->right == '\0')
 			break ;
-		while (*expanded_->right != '\0' && is_ifs(*expanded_->right))
-			consume_char(expanded_);
-		if (*expanded_->right == '\0')
+		while (*expanded_info->right != '\0' && is_ifs(*expanded_info->right))
+			consume_char(expanded_info);
+		if (*expanded_info->right == '\0')
 			ft_lstadd_back(&list, ft_xlstnew(ft_xstrdup("")));
 	}
-	destroy_string_struct(expanded_);
+	destroy_string_struct(expanded_info);
 	return (list);
 }
 
-t_list	*split_by_ifs(t_string *token_content_, t_ctx *ctx)
+t_list	*split_by_ifs(t_expand_info *expand_info, t_ctx *ctx)
 {
 	t_list	*list;
 	char	*tmp;
 	t_list	*normed_list;
 
 	list = NULL;
-	while (*token_content_->right != '\0')
+	while (*expand_info->right != '\0')
 	{
-		if (*token_content_->right == '$')
+		if (*expand_info->right == '$')
 		{
 			ft_lstadd_back(&list, ft_xlstnew(NULL));
-			tmp = trim_expanded_variable(token_content_, ctx);
+			tmp = trim_expanded_variable(expand_info, ctx);
 			ft_lstadd_back(&list, split_expanded_variable_by_ifs(tmp));
 			ft_lstadd_back(&list, ft_xlstnew(NULL));
 		}
 		else
 		{
-			tmp = trim_till_dollar(token_content_);
+			tmp = trim_till_dollar(expand_info);
 			ft_lstadd_back(&list, ft_xlstnew(tmp));
 		}
 	}
