@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:45:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/12 09:19:03 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/13 15:03:06 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 /*
 ** next_read should be closed only if the process is forked
 */
-static void	handle_pipeline(t_pipe_conf *conf, bool is_builtin)
+static void	handle_pipeline(t_pipe_conf *conf, bool is_forked)
 {
 	if (conf == NULL)
 		return ;
@@ -37,18 +37,14 @@ static void	handle_pipeline(t_pipe_conf *conf, bool is_builtin)
 			print_error("dup2", strerror(errno));
 		close(conf->next_write);
 	}
-	if (is_builtin)
-		return ;
-	if (conf->next_read != STDIN_FILENO)
+	if (is_forked && conf->next_read != STDIN_FILENO)
 		close(conf->next_read);
-	if (conf->prev_write != STDOUT_FILENO)
-		close(conf->prev_write);
 }
 
 bool	handle_io(t_pipe_conf *conf, t_list *redirects, t_ctx *ctx,
-			bool is_builtin)
+			bool is_forked)
 {
-	handle_pipeline(conf, is_builtin);
+	handle_pipeline(conf, is_forked);
 	while (redirects)
 	{
 		if (!handle_redirect(redirects, ctx))

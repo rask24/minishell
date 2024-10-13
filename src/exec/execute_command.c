@@ -102,7 +102,7 @@ int	execute_command(t_ast *node, t_ctx *ctx, t_pipe_conf *conf)
 	if (node->cmd_args == NULL || is_builtin(get_cmd_arg(node->cmd_args)))
 	{
 		save_std_io(std_fds);
-		if (handle_io(conf, node->redirects, ctx, true))
+		if (handle_io(conf, node->redirects, ctx, false))
 			ctx->exit_status = execute_builtin_command(node, ctx);
 		else
 			ctx->exit_status = EXIT_FAILURE;
