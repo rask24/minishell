@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:45:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/13 15:03:06 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/13 15:53:04 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	handle_pipeline(t_pipe_conf *conf, bool is_forked)
 			print_error("dup2", strerror(errno));
 		close(conf->next_write);
 	}
-	if (is_forked && conf->next_read != STDIN_FILENO)
+	if (is_forked && conf->next_read != -1 && conf->next_read != STDIN_FILENO)
 		close(conf->next_read);
 }
 
