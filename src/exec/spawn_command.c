@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:25:57 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/13 23:32:00 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/14 12:44:23 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include "ast.h"
 #include "ctx.h"
 #include "exec_internal.h"
-#include "readline/readline.h"
 #include "ui.h"
 #include "utils.h"
 
