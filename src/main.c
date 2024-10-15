@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/13 23:23:18 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/15 17:34:13 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	ctx = construct_ctx(envp);
-	rl_event_hook = handle_sigint_hook;
+	rl_signal_event_hook = handle_sigint_hook;
 	save_termios(&original_termios);
 	loop(ctx, &original_termios);
 	destroy_env_list(ctx->env);
