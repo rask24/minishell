@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/10 18:50:12 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/16 21:28:22 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,15 @@ static void	destroy_ctx(t_ctx *ctx)
 	free(ctx);
 }
 
-static void	loop(t_ctx *ctx, struct termios *original_termios)
+static void	loop(t_ctx *ctx)
 {
-	char	*input;
+	char			*input;
+	struct termios	original_termios;
 
+	save_termios(&original_termios);
 	while (true)
 	{
+		init_signal_handlers();
 		input = readline(PROMPT);
 		if (input == NULL)
 		{
@@ -54,21 +57,19 @@ static void	loop(t_ctx *ctx, struct termios *original_termios)
 		exec(input, ctx);
 		add_history(input);
 		free(input);
-		restore_terminal_configuration(original_termios);
+		restore_termios(&original_termios);
 	}
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_ctx			*ctx;
-	struct termios	original_termios;
 
 	(void)argc;
 	(void)argv;
 	ctx = construct_ctx(envp);
-	init_signal_handlers();
-	save_terminal_configuration(&original_termios);
-	loop(ctx, &original_termios);
+	rl_signal_event_hook = handle_sigint_hook;
+	loop(ctx);
 	destroy_env_list(ctx->env);
 	destroy_ctx(ctx);
 	return (EXIT_SUCCESS);

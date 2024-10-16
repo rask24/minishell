@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   restore_terminal_configuration.c                   :+:      :+:    :+:   */
+/*   termios.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 21:38:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/03 17:55:30 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/13 22:38:12 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,13 @@
 
 #include "utils.h"
 
-void	restore_terminal_configuration(struct termios *original_termios)
+void	save_termios(struct termios *original_termios)
+{
+	if (tcgetattr(STDIN_FILENO, original_termios) == -1)
+		print_error("tcgetattr", strerror(errno));
+}
+
+void	restore_termios(struct termios *original_termios)
 {
 	if (tcsetattr(STDIN_FILENO, TCSANOW, original_termios) == -1)
 		print_error("tcsetattr", strerror(errno));
