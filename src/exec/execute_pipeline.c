@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:15:45 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/14 13:43:34 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/15 14:22:15 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,14 @@ static int	free_and_return(t_pipe_conf *conf, int ret)
 {
 	free(conf);
 	return (ret);
+}
+
+void	close_pipe_fd(t_pipe_conf *conf)
+{
+	if (conf->prev_read != STDIN_FILENO)
+		close(conf->prev_read);
+	if (conf->next_write != STDOUT_FILENO)
+		close(conf->next_write);
 }
 
 // TODO: Is it necessary to add guard to check if conf is NULL?
