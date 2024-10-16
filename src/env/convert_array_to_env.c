@@ -6,19 +6,19 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:35:42 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/16 16:23:34 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/16 21:30:15 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 
-#define PATH "/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:."
+#define DFLPATH "/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:."
 
 static void	add_default_path(t_env_list *env_list)
 {
 	t_list		*tmp;
 
-	tmp = construct_env(ft_xstrdup("PATH"), ft_xstrdup(PATH));
+	tmp = construct_env(ft_xstrdup("PATH"), ft_xstrdup(DFLPATH));
 	ft_lstadd_back(&env_list, tmp);
 }
 
