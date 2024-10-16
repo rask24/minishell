@@ -49,9 +49,11 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/expansion/expand.c \
 					$(SRC_DIR)/expansion/expand_quotes.c \
 					$(SRC_DIR)/expansion/expand_quotes_on_list.c \
-					$(SRC_DIR)/expansion/expand_variable.c \
+					$(SRC_DIR)/expansion/expand_variable_heredoc.c \
 					$(SRC_DIR)/expansion/expand_variable_on_list.c \
 					$(SRC_DIR)/expansion/expand_wildcard_on_list.c \
+					$(SRC_DIR)/expansion/split_by_ifs.c \
+					$(SRC_DIR)/expansion/normalize_list.c \
 					$(SRC_DIR)/expansion/trim_expanded_variable.c \
 					$(SRC_DIR)/expansion/wildcard_lazy_match.c \
 					$(SRC_DIR)/env/constructor.c \
@@ -59,6 +61,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/env/convert_array_to_env.c \
 					$(SRC_DIR)/env/destructor.c \
 					$(SRC_DIR)/env/getter.c \
+					$(SRC_DIR)/env/init_env.c \
 					$(SRC_DIR)/env/lookup_value.c \
 					$(SRC_DIR)/env/setter.c \
 					$(SRC_DIR)/lexer/constructor.c \
@@ -88,12 +91,13 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/utils/create_tmpfile.c \
 					$(SRC_DIR)/utils/ft_lstinsert.c \
 					$(SRC_DIR)/utils/ft_lstiterp.c \
-					$(SRC_DIR)/utils/is_identifier.c \
 					$(SRC_DIR)/utils/ft_lstremove.c \
 					$(SRC_DIR)/utils/ft_lstremove_if.c \
 					$(SRC_DIR)/utils/ft_lstreplace.c \
 					$(SRC_DIR)/utils/ft_lstsort.c \
 					$(SRC_DIR)/utils/ft_xstrjoin2.c \
+					$(SRC_DIR)/utils/is_identifier.c \
+					$(SRC_DIR)/utils/is_ifs.c \
 					$(SRC_DIR)/utils/print_error.c \
 					$(SRC_DIR)/utils/string_struct.c \
 					$(SRC_DIR)/utils/wrapper/ft_xlstnew.c \

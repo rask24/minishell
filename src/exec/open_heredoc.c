@@ -35,7 +35,7 @@ static int	open_pipe_expanded_heredoc(t_redirect_info *info, t_ctx *ctx)
 		line = get_next_line(info->heredoc_fd);
 		if (line == NULL)
 			break ;
-		expanded = expand_variable(line, ctx, false);
+		expanded = expand_variable_heredoc(line, ctx);
 		ft_putstr_fd(expanded, pipe_fd[1]);
 		free(line);
 		free(expanded);
@@ -60,7 +60,7 @@ static int	open_tmpfile_expanded_heredoc(t_redirect_info *info, t_ctx *ctx)
 		line = get_next_line(info->heredoc_fd);
 		if (line == NULL)
 			break ;
-		expanded = expand_variable(line, ctx, false);
+		expanded = expand_variable_heredoc(line, ctx);
 		ft_putendl_fd(expanded, fd);
 		free(line);
 		free(expanded);

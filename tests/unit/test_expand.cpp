@@ -13,19 +13,20 @@ extern "C" {
 #include "expansion/expansion_internal.h"
 }
 
-TEST(expand_variable, NoExpand) {
+TEST(expand_variable_heredoc, NoExpand) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
+  ctx.env = env_list;
 
   char *string = strdup("USER");
 
-  EXPECT_STREQ(expand_variable(string, &ctx, true), "USER");
+  EXPECT_STREQ(expand_variable_heredoc(string, &ctx), "USER");
 
   destroy_env_list(env_list);
 }
 
-TEST(expand_variable, OneVariable) {
+TEST(expand_variable_heredoc, OneVariable) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
@@ -33,18 +34,18 @@ TEST(expand_variable, OneVariable) {
 
   char *string = strdup("$USER");
 
-  EXPECT_STREQ(expand_variable(string, &ctx, true), "Alice");
+  EXPECT_STREQ(expand_variable_heredoc(string, &ctx), "Alice");
 
   destroy_env_list(env_list);
 }
 
-TEST(expand_variable, NoVariable) {
+TEST(expand_variable_heredoc, NoVariable) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USERRRRR");
-  char *ans = expand_variable(string, &ctx, true);
+  char *ans = expand_variable_heredoc(string, &ctx);
 
   EXPECT_STREQ(ans, "");
 
@@ -53,13 +54,13 @@ TEST(expand_variable, NoVariable) {
   free(ans);
 }
 
-TEST(expand_variable, StringAfterVariable) {
+TEST(expand_variable_heredoc, StringAfterVariable) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("student$USER");
-  char *ans = expand_variable(string, &ctx, true);
+  char *ans = expand_variable_heredoc(string, &ctx);
 
   EXPECT_STREQ(ans, "studentAlice");
 
@@ -68,13 +69,13 @@ TEST(expand_variable, StringAfterVariable) {
   free(ans);
 }
 
-TEST(expand_variable, ManyVariables) {
+TEST(expand_variable_heredoc, ManyVariables) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USERis$USER$USER$");
-  char *ans = expand_variable(string, &ctx, true);
+  char *ans = expand_variable_heredoc(string, &ctx);
 
   EXPECT_STREQ(ans, "AliceAlice$");
 
@@ -83,28 +84,28 @@ TEST(expand_variable, ManyVariables) {
   free(ans);
 }
 
-TEST(expand_variable, IgnoreSingleQuote) {
+TEST(expand_variable_heredoc, IgnoreSingleQuote) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USER'$USER'");
-  char *ans = expand_variable(string, &ctx, true);
+  char *ans = expand_variable_heredoc(string, &ctx);
 
-  EXPECT_STREQ(ans, "Alice'$USER'");
+  EXPECT_STREQ(ans, "Alice'Alice'");
 
   destroy_env_list(env_list);
   free(string);
   free(ans);
 }
 
-TEST(expand_variable, DoNotIgnoreDoubleQuote) {
+TEST(expand_variable_heredoc, DoNotIgnoreDoubleQuote) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USER\"$USER\"");
-  char *ans = expand_variable(string, &ctx, true);
+  char *ans = expand_variable_heredoc(string, &ctx);
 
   EXPECT_STREQ(ans, "Alice\"Alice\"");
 
@@ -113,28 +114,28 @@ TEST(expand_variable, DoNotIgnoreDoubleQuote) {
   free(ans);
 }
 
-TEST(expand_variable, SingleQuotePutAmongNonIdentifierChars) {
+TEST(expand_variable_heredoc, SingleQuotePutAmongNonIdentifierChars) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USER,'$USER'");
-  char *ans = expand_variable(string, &ctx, true);
+  char *ans = expand_variable_heredoc(string, &ctx);
 
-  EXPECT_STREQ(ans, "Alice,'$USER'");
+  EXPECT_STREQ(ans, "Alice,'Alice'");
 
   destroy_env_list(env_list);
   free(string);
   free(ans);
 }
 
-TEST(expand_variable, DoubleQuoteAmongNonIdentifierChars) {
+TEST(expand_variable_heredoc, DoubleQuoteAmongNonIdentifierChars) {
   char *envp[] = {strdup("USER=Alice"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
   ctx.env = env_list;
   char *string = strdup("$USER,\"$USER\"");
-  char *ans = expand_variable(string, &ctx, true);
+  char *ans = expand_variable_heredoc(string, &ctx);
 
   EXPECT_STREQ(ans, "Alice,\"Alice\"");
 
@@ -143,55 +144,10 @@ TEST(expand_variable, DoubleQuoteAmongNonIdentifierChars) {
   free(ans);
 }
 
-TEST(expand_variable, SmartExpandIsFalseSimpleCase) {
-  char *envp[] = {strdup("USER=Alice"), nullptr};
-  t_env_list *env_list = convert_array_to_env(envp);
-  t_ctx ctx;
-  ctx.env = env_list;
-  char *string = strdup("'$USER'");
-  char *ans = expand_variable(string, &ctx, false);
-
-  EXPECT_STREQ(ans, "'Alice'");
-
-  destroy_env_list(env_list);
-  free(string);
-  free(ans);
-}
-
-TEST(expand_variable, SmartExpandIsFalseAmongWords) {
-  char *envp[] = {strdup("USER=Alice"), nullptr};
-  t_env_list *env_list = convert_array_to_env(envp);
-  t_ctx ctx;
-  ctx.env = env_list;
-  char *string = strdup("samplewords'$USER'samplewords");
-  char *ans = expand_variable(string, &ctx, false);
-
-  EXPECT_STREQ(ans, "samplewords'Alice'samplewords");
-
-  destroy_env_list(env_list);
-  free(string);
-  free(ans);
-}
-
-TEST(expand_variable, SmartExpandIsFalseAmongVariable) {
-  char *envp[] = {strdup("USER=Alice"), nullptr};
-  t_env_list *env_list = convert_array_to_env(envp);
-  t_ctx ctx;
-  ctx.env = env_list;
-  char *string = strdup("$USER'$USER'$USER");
-  char *ans = expand_variable(string, &ctx, false);
-
-  EXPECT_STREQ(ans, "Alice'Alice'Alice");
-
-  destroy_env_list(env_list);
-  free(string);
-  free(ans);
-}
-
-TEST(expand_variable, ExitStatus) {
+TEST(expand_variable_heredoc, ExitStatus) {
   t_ctx ctx;
   ctx.exit_status = 42;
-  char *ans = expand_variable(strdup("$?$?"), &ctx, true);
+  char *ans = expand_variable_heredoc(strdup("$?$?"), &ctx);
   EXPECT_STREQ(ans, "4242");
 
   free(ans);
@@ -389,21 +345,113 @@ TEST_F(FileTest, NoFiles) {
   ft_lstclear(&expected_list, free);
 }
 
-TEST(expand_variable_on_list, NoExpand) {
+TEST(expand_variable_on_list, SpaceIsNotIFSPutInsideQuotes) {
+  t_list *list = nullptr;
+  std::vector<std::string> input = {"'hello world'"};
+  for (const auto &i : input) {
+    ft_lstadd_back(&list, ft_xlstnew(strdup(i.c_str())));
+  }
+
+  t_list *result = expand_variable_on_list(list, NULL);
+
+  EXPECT_STREQ((char *)result->content, "'hello world'");
+
+  ft_lstclear(&result, free);
+  ft_lstclear(&list, free);
+}
+
+TEST(expand_variable_on_list, VariableWithIFS) {
+  char *envp[] = {strdup("GREET=hello world"), nullptr};
+  t_env_list *env_list = convert_array_to_env(envp);
+  t_ctx ctx;
+  ctx.env = env_list;
+
+  t_list *ans = expand_variable_on_list(ft_xlstnew(ft_xstrdup("$GREET")), &ctx);
+  EXPECT_STREQ((char *)ans->content, "hello");
+  EXPECT_STREQ((char *)ans->next->content, "world");
+
+  destroy_env_list(env_list);
+  ft_lstclear(&ans, free);
+}
+
+TEST(expand_variable_on_list, VariableWithIFSAhead) {
+  char *envp[] = {strdup("GREET=  hello world"), nullptr};
+  t_env_list *env_list = convert_array_to_env(envp);
+  t_ctx ctx;
+  ctx.env = env_list;
+
+  t_list *ans =
+      expand_variable_on_list(ft_xlstnew(ft_xstrdup("42$GREET")), &ctx);
+  EXPECT_STREQ((char *)ans->content, "42");
+  EXPECT_STREQ((char *)ans->next->content, "hello");
+  EXPECT_STREQ((char *)ans->next->next->content, "world");
+
+  destroy_env_list(env_list);
+  ft_lstclear(&ans, free);
+}
+
+TEST(expand_variable_on_list, VariableWithIFSAfter) {
+  char *envp[] = {strdup("GREET=hello world   "), nullptr};
+  t_env_list *env_list = convert_array_to_env(envp);
+  t_ctx ctx;
+  ctx.env = env_list;
+
+  t_list *ans =
+      expand_variable_on_list(ft_xlstnew(ft_xstrdup("$GREET,42")), &ctx);
+  EXPECT_STREQ((char *)ans->content, "hello");
+  EXPECT_STREQ((char *)ans->next->content, "world");
+  EXPECT_STREQ((char *)ans->next->next->content, ",42");
+
+  destroy_env_list(env_list);
+  ft_lstclear(&ans, free);
+}
+
+TEST(expand_variable_on_list, VariableWithIFSAndVariable) {
+  char *envp[] = {strdup("GREET=hello world   "), nullptr};
+  t_env_list *env_list = convert_array_to_env(envp);
+  t_ctx ctx;
+  ctx.env = env_list;
+
+  t_list *ans =
+      expand_variable_on_list(ft_xlstnew(ft_xstrdup("$GREET$GREET")), &ctx);
+  EXPECT_STREQ((char *)ans->content, "hello");
+  EXPECT_STREQ((char *)ans->next->content, "world");
+  EXPECT_STREQ((char *)ans->next->next->content, "hello");
+  EXPECT_STREQ((char *)ans->next->next->next->content, "world");
+
+  destroy_env_list(env_list);
+  ft_lstclear(&ans, free);
+}
+
+TEST(expand_variable_on_list, VariableWithIFSSurroundedBySingleQuotes) {
+  char *envp[] = {strdup("GREET=hello world   "), nullptr};
+  t_env_list *env_list = convert_array_to_env(envp);
+  t_ctx ctx;
+  ctx.env = env_list;
+
+  t_list *ans = expand_variable_on_list(
+      ft_xlstnew(ft_xstrdup("'paris'$GREET'tokyo'")), &ctx);
+  EXPECT_STREQ((char *)ans->content, "'paris'hello");
+  EXPECT_STREQ((char *)ans->next->content, "world");
+  EXPECT_STREQ((char *)ans->next->next->content, "'tokyo'");
+
+  destroy_env_list(env_list);
+  ft_lstclear(&ans, free);
+}
+
+TEST(expand_variable_on_list, ApplyOnList) {
   t_list *list = nullptr;
   std::vector<std::string> input = {"Hello", "$MULTIWORD", "World"};
   for (const auto &i : input) {
     ft_lstadd_back(&list, ft_xlstnew(strdup(i.c_str())));
   }
-  char *envp[] = {strdup("MULTIWORD=Multiple Words Here"), nullptr};
+  char *envp[] = {strdup("MULTIWORD=\tMultiple Words Here\t"), nullptr};
   t_env_list *env_list = convert_array_to_env(envp);
   t_ctx ctx;
   ctx.env = env_list;
 
   t_list *result = expand_variable_on_list(list, &ctx);
 
-  std::vector<std::string> expected = {"Hello", "Multiple", "Words", "Here",
-                                       "World"};
   EXPECT_STREQ((char *)result->content, "Hello");
   EXPECT_STREQ((char *)result->next->content, "Multiple");
   EXPECT_STREQ((char *)result->next->next->content, "Words");
@@ -411,4 +459,19 @@ TEST(expand_variable_on_list, NoExpand) {
   EXPECT_STREQ((char *)result->next->next->next->next->content, "World");
 
   ft_lstclear(&result, free);
+  ft_lstclear(&list, free);
+}
+
+TEST(expand_variable_on_list, IFScontainedVariableInsideDoubleQuote) {
+  char *envp[] = {strdup("GREET=hello world"), nullptr};
+  t_env_list *env_list = convert_array_to_env(envp);
+  t_ctx ctx;
+  ctx.env = env_list;
+
+  t_list *ans =
+      expand_variable_on_list(ft_xlstnew(ft_xstrdup("\"$GREET\"")), &ctx);
+  EXPECT_STREQ((char *)ans->content, "\"hello world\"");
+
+  destroy_env_list(env_list);
+  ft_lstclear(&ans, free);
 }
