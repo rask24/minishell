@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/16 21:25:59 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/16 23:26:46 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static t_ctx	*construct_ctx(char **envp)
 
 	ctx = ft_xmalloc(sizeof(t_ctx));
 	ctx->cwd = getcwd(NULL, 0);
-	ctx->env = convert_array_to_env(envp);
+	ctx->env = init_env(envp);
 	ctx->exit_status = EXIT_SUCCESS;
 	return (ctx);
 }
