@@ -6,18 +6,28 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:35:42 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/13 15:33:54 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/16 16:23:34 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 
+#define PATH "/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:."
+
+static void	add_default_path(t_env_list *env_list)
+{
+	t_list		*tmp;
+
+	tmp = construct_env(ft_xstrdup("PATH"), ft_xstrdup(PATH));
+	ft_lstadd_back(&env_list, tmp);
+}
+
 t_env_list	*convert_array_to_env(char **envp)
 {
-	t_env_list	*env_list;
 	char		*equal_ptr;
 	char		*name;
 	char		*value;
+	t_env_list	*env_list;
 
 	env_list = NULL;
 	while (*envp)
@@ -28,5 +38,7 @@ t_env_list	*convert_array_to_env(char **envp)
 		ft_lstadd_back(&env_list, construct_env(name, value));
 		envp++;
 	}
+	if (lookup_value("PATH", env_list) == NULL)
+		add_default_path(env_list);
 	return (env_list);
 }

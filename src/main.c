@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/10 18:50:12 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/16 16:28:08 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static t_ctx	*construct_ctx(char **envp)
 static void	destroy_ctx(t_ctx *ctx)
 {
 	free(ctx->cwd);
+	destroy_env_list(ctx->env);
 	free(ctx);
 }
 
