@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   save_terminal_configuration.c                      :+:      :+:    :+:   */
+/*   event_hook.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/23 21:34:50 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/03 17:55:23 by reasuke          ###   ########.fr       */
+/*   Created: 2024/10/13 23:34:34 by reasuke           #+#    #+#             */
+/*   Updated: 2024/10/14 00:15:38 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
+#include <signal.h>
 #include <stdio.h>
-#include <string.h>
-#include <termios.h>
 #include <unistd.h>
 
-#include "utils.h"
+#include "libft.h"
+#include "readline/readline.h"
+#include "ui.h"
 
-void	save_terminal_configuration(struct termios *original_termios)
+int	handle_sigint_hook(void)
 {
-	if (tcgetattr(STDIN_FILENO, original_termios) == -1)
-		print_error("tcgetattr", strerror(errno));
+	if (g_signum == SIGINT)
+	{
+		g_signum = 0;
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+	return (0);
 }

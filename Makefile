@@ -60,6 +60,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/env/convert_array_to_env.c \
 					$(SRC_DIR)/env/destructor.c \
 					$(SRC_DIR)/env/getter.c \
+					$(SRC_DIR)/env/init_env.c \
 					$(SRC_DIR)/env/lookup_value.c \
 					$(SRC_DIR)/env/setter.c \
 					$(SRC_DIR)/lexer/constructor.c \
@@ -83,10 +84,9 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/token/constructor.c \
 					$(SRC_DIR)/token/destructor.c \
 					$(SRC_DIR)/token/getter.c  \
-					$(SRC_DIR)/ui/init_signal_handlers.c \
-					$(SRC_DIR)/ui/reset_signal_handlers.c \
-					$(SRC_DIR)/ui/restore_terminal_configuration.c \
-					$(SRC_DIR)/ui/save_terminal_configuration.c \
+					$(SRC_DIR)/ui/event_hook.c \
+					$(SRC_DIR)/ui/signal_handler.c \
+					$(SRC_DIR)/ui/termios.c \
 					$(SRC_DIR)/utils/create_tmpfile.c \
 					$(SRC_DIR)/utils/ft_lstinsert.c \
 					$(SRC_DIR)/utils/ft_lstiterp.c \
