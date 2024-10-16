@@ -82,10 +82,9 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/token/constructor.c \
 					$(SRC_DIR)/token/destructor.c \
 					$(SRC_DIR)/token/getter.c  \
-					$(SRC_DIR)/ui/init_signal_handlers.c \
-					$(SRC_DIR)/ui/reset_signal_handlers.c \
-					$(SRC_DIR)/ui/restore_terminal_configuration.c \
-					$(SRC_DIR)/ui/save_terminal_configuration.c \
+					$(SRC_DIR)/ui/event_hook.c \
+					$(SRC_DIR)/ui/signal_handler.c \
+					$(SRC_DIR)/ui/termios.c \
 					$(SRC_DIR)/utils/create_tmpfile.c \
 					$(SRC_DIR)/utils/ft_lstinsert.c \
 					$(SRC_DIR)/utils/ft_lstiterp.c \

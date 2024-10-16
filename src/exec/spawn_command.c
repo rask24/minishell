@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:25:57 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/15 14:21:58 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/16 22:37:21 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int	spawn_command(t_ast *node, t_ctx *ctx, t_pipe_conf *conf)
 		reset_signal_handlers();
 		execute_command_internal(argv, ctx);
 	}
+	set_exec_signal_handlers();
 	if (conf)
 		close_pipe_fd(conf);
 	if (conf == NULL || conf->next_write == STDOUT_FILENO)
