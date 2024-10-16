@@ -1,8 +1,10 @@
 {
   "files.associations": {
+    "*.css": "css",
     "*.h": "c",
     "*.cpp": "cpp",
-    "*.hpp": "cpp"
+    "*.hpp": "cpp",
+    "condition_variable": "c"
   },
   "[c]": {
     "editor.tabSize": 4,
