@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_expand_variable.c                              :+:      :+:    :+:   */
+/*   trim_expanded_variable.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 22:59:05 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/29 13:27:17 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/09 20:22:24 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static bool	is_identifier_char(char c)
 	return (c && (ft_isalnum(c) || c == '_'));
 }
 
-char	*trim_expanded_variable(t_expand_info *expand_info, t_ctx *ctx)
+char	*trim_expanded_variable(t_string *expand_info, t_ctx *ctx)
 {
 	char	*candidate_key;
 	char	*value;

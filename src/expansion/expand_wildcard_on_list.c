@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <dirent.h>
-
 #include "expansion_internal.h"
+#include <dirent.h>
 
 static t_list	*initialize_files(void)
 {
