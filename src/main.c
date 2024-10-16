@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/16 16:28:08 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/16 21:25:59 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	main(int argc, char **argv, char **envp)
 	init_signal_handlers();
 	save_terminal_configuration(&original_termios);
 	loop(ctx, &original_termios);
-	destroy_env_list(ctx->env);
 	destroy_ctx(ctx);
 	return (EXIT_SUCCESS);
 }
