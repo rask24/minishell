@@ -2,15 +2,12 @@
   "files.associations": {
     "*.h": "c",
     "*.cpp": "cpp",
-    "*.hpp": "cpp",
-    "__config": "c"
+    "*.hpp": "cpp"
   },
   "[c]": {
     "editor.tabSize": 4,
     "editor.insertSpaces": false,
-    "editor.rulers": [
-      80
-    ],
+    "editor.rulers": [80],
     "editor.defaultFormatter": null,
     "editor.wordBasedSuggestions": "allDocuments",
     "editor.suggest.insertMode": "replace",
@@ -22,9 +19,7 @@
   "[cpp]": {
     "editor.defaultFormatter": "ms-vscode.cpptools",
     "editor.formatOnSave": true,
-    "editor.rulers": [
-      80
-    ],
+    "editor.rulers": [80],
     "editor.wordBasedSuggestions": "allDocuments",
     "editor.suggest.insertMode": "replace",
     "editor.semanticHighlighting.enabled": true,
@@ -40,17 +35,10 @@
     "editor.codeActionsOnSave": {
       "source.organizeImports": "always"
     },
-    "editor.rulers": [
-      100
-    ]
+    "editor.rulers": [100]
   },
   "python.analysis.autoImportCompletions": true,
   "python.analysis.typeCheckingMode": "basic",
-  "isort.args": [
-    "--settings-file",
-    "tests/e2e/pyproject.toml"
-  ],
-  "flake8.args": [
-    "--config=tests/e2e/.flake8"
-  ]
+  "isort.args": ["--settings-file", "tests/e2e/pyproject.toml"],
+  "flake8.args": ["--config=tests/e2e/.flake8"]
 }

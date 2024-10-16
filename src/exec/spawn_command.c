@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:25:57 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/09 19:50:56 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/14 13:43:41 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,14 @@
 #include "exec_internal.h"
 #include "ui.h"
 #include "utils.h"
+
+static void	close_pipe_fd(t_pipe_conf *conf)
+{
+	if (conf->prev_read != STDIN_FILENO)
+		close(conf->prev_read);
+	if (conf->next_write != STDOUT_FILENO)
+		close(conf->next_write);
+}
 
 static bool	is_a_directory(const char *path)
 {
@@ -80,7 +88,7 @@ static void	execute_command_internal(char **argv, t_ctx *ctx)
 	}
 }
 
-int	spawn_command(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
+int	spawn_command(t_ast *node, t_ctx *ctx, t_pipe_conf *conf)
 {
 	pid_t	pid;
 	char	**argv;
@@ -94,12 +102,14 @@ int	spawn_command(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
 	else if (pid == 0)
 	{
 		argv = convert_cmd_args_to_array(node->cmd_args);
-		if (!handle_io(conf, node->redirects, ctx))
+		if (!handle_io(conf, node->redirects, ctx, true))
 			exit(EXIT_FAILURE);
 		reset_signal_handlers();
 		execute_command_internal(argv, ctx);
 	}
-	if (conf->fd_out == STDOUT_FILENO)
-		wait_for_children(pid, ctx);
+	if (conf)
+		close_pipe_fd(conf);
+	if (conf == NULL || conf->next_write == STDOUT_FILENO)
+		wait_for_children_with_last_status(pid, ctx);
 	return (EXIT_SUCCESS);
 }
