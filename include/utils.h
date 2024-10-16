@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/07 22:47:26 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/16 15:17:42 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef void	(*t_del)(void *);
 typedef bool	(*t_cmp)(t_list *, t_list *);
 
 bool			is_identifier(const char *input);
+bool			is_ifs(char c);
 
 int				create_tmpfile(char *tmp_name, size_t tmp_len,
 					const char *target);
