@@ -57,18 +57,15 @@ TEST(convert_env_to_array, MultiEnv) {
 
 TEST(convert_array_to_env, OneEnv) {
   char *envp[] = {strdup("HOME=/home/user"), nullptr};
-  char *def_path =
-      strdup("/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:.");
+  // char *def_path =
+  //     strdup("/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:.");
   t_env_list *env_list = convert_array_to_env(envp);
 
   EXPECT_STREQ(get_env_key(env_list), "HOME");
   EXPECT_STREQ(get_env_value(env_list), "/home/user");
 
-  EXPECT_STREQ(get_env_key(env_list->next), "PATH");
-  EXPECT_STREQ(get_env_value(env_list->next), def_path);
-
-  EXPECT_EQ(get_env_key(env_list->next->next), nullptr);
-  EXPECT_EQ(get_env_value(env_list->next->next), nullptr);
+  EXPECT_EQ(get_env_key(env_list->next), nullptr);
+  EXPECT_EQ(get_env_value(env_list->next), nullptr);
 
   destroy_env_list(env_list);
 }
@@ -96,4 +93,22 @@ TEST(lookup_value, OneEnv) {
   EXPECT_EQ(lookup_value("PATH", env), nullptr);
 
   destroy_env_list(env);
+}
+
+TEST(init_env, OneEnv) {
+  char *envp[] = {strdup("HOME=/home/user"), nullptr};
+  char *def_path =
+      strdup("/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:.");
+  t_env_list *env_list = init_env(envp);
+
+  EXPECT_STREQ(get_env_key(env_list), "HOME");
+  EXPECT_STREQ(get_env_value(env_list), "/home/user");
+
+  EXPECT_STREQ(get_env_key(env_list->next), "PATH");
+  EXPECT_STREQ(get_env_value(env_list->next), def_path);
+
+  EXPECT_EQ(get_env_key(env_list->next->next), nullptr);
+  EXPECT_EQ(get_env_value(env_list->next->next), nullptr);
+
+  destroy_env_list(env_list);
 }
