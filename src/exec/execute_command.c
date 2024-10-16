@@ -91,7 +91,7 @@ static int	execute_builtin_command(t_ast *node, t_ctx *ctx)
 	return (status);
 }
 
-int	execute_command(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
+int	execute_command(t_ast *node, t_ctx *ctx, t_pipe_conf *conf)
 {
 	int		std_fds[3];
 	t_list	*expanded_cmd_args;
@@ -102,11 +102,13 @@ int	execute_command(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
 	if (node->cmd_args == NULL || is_builtin(get_cmd_arg(node->cmd_args)))
 	{
 		save_std_io(std_fds);
-		if (handle_io(conf, node->redirects, ctx))
+		if (handle_io(conf, node->redirects, ctx, false))
 			ctx->exit_status = execute_builtin_command(node, ctx);
 		else
 			ctx->exit_status = EXIT_FAILURE;
 		restore_std_io(std_fds);
+		if (conf && conf->next_write == STDOUT_FILENO)
+			wait_for_children();
 		return (EXIT_SUCCESS);
 	}
 	else

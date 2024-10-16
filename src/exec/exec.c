@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:54:34 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/09 11:57:45 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/12 10:17:12 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static bool	is_valid_last_token(t_token_list *last_token)
 	return (true);
 }
 
-int	execute_ast_node(t_ast *node, t_ctx *ctx, t_pipeline_conf *conf)
+int	execute_ast_node(t_ast *node, t_ctx *ctx, t_pipe_conf *conf)
 {
 	if (node == NULL)
 		return (EXIT_FAILURE);
@@ -57,7 +57,6 @@ void	exec(char *input, t_ctx *ctx)
 {
 	t_token_list	*token_list;
 	t_ast			*node;
-	t_pipeline_conf	conf;
 
 	token_list = lexer(input);
 	if (is_valid_last_token(ft_lstlast(token_list)) == false)
@@ -71,8 +70,7 @@ void	exec(char *input, t_ctx *ctx)
 		destroy_token_list(token_list);
 		return ;
 	}
-	conf = (t_pipeline_conf){.fd_in = STDIN_FILENO, .fd_out = STDOUT_FILENO};
-	if (execute_ast_node(node, ctx, &conf) == EXIT_FAILURE)
+	if (execute_ast_node(node, ctx, NULL) == EXIT_FAILURE)
 		print_error(__func__, "failed to execute command");
 	destroy_token_list(token_list);
 	destroy_ast(node);
