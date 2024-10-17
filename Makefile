@@ -100,6 +100,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/utils/is_ifs.c \
 					$(SRC_DIR)/utils/print_error.c \
 					$(SRC_DIR)/utils/string_struct.c \
+					$(SRC_DIR)/utils/wrapper/ft_xitoa.c \
 					$(SRC_DIR)/utils/wrapper/ft_xlstnew.c \
 					$(SRC_DIR)/utils/wrapper/ft_xstrdup.c \
 					$(SRC_DIR)/utils/wrapper/ft_xstrjoin.c \

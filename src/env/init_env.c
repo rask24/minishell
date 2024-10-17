@@ -6,12 +6,13 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 21:35:41 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/17 17:06:23 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/17 17:49:45 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "env.h"
+
 #define DFLPATH "/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:."
 
 static void	add_default_path(t_env_list *env_list)
@@ -36,7 +37,7 @@ static void	deal_shlvl(t_env_list *env_list)
 		return ;
 	}
 	shlvl = ft_atoi(shlvl_str);
-	update_env_value(is_already_exist("SHLVL", env_list), ft_itoa(shlvl + 1));
+	update_env_value(is_already_exist("SHLVL", env_list), ft_xitoa(shlvl + 1));
 }
 
 t_env_list	*init_env(char **envp)
