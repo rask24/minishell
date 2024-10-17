@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 02:28:39 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/17 23:47:33 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/17 23:59:41 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ bool	try_parse_redirect(t_ast *node, t_token_list **cur_token)
 
 	token_type = get_token_type(*cur_token);
 	redirect_info.type = (t_redirect_type)token_type;
-	if (!expect_token(cur_token, token_type))
-		return (destroy_and_return(node, cur_token, true));
+	consume_token(cur_token);
 	redirect_info.file_or_delim = get_token_value(*cur_token);
 	if (!expect_token(cur_token, TOKEN_WORD))
 		return (destroy_and_return(node, cur_token, true));
