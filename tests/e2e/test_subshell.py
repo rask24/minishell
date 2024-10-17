@@ -1,5 +1,3 @@
-from webbrowser import get
-
 from conftest import PROMPT, get_command_output
 
 
