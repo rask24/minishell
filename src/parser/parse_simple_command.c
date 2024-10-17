@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:26:37 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/18 00:06:46 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/18 00:11:15 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static bool	try_parse_cmd_arg(t_ast *node, t_token_list **cur_token)
 {
 	push_cmd_arg(node, get_token_value(*cur_token));
 	if (!consume_token(cur_token))
-		return (destroy_and_return(node, cur_token, true));
+		return (abort_parse_return(node, cur_token, true));
 	return (true);
 }
 

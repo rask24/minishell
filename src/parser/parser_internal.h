@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:22:57 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/18 00:06:29 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/18 00:11:15 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		create_heredoc(t_list *input_list, size_t heredoc_size);
 bool	consume_token(t_token_list **cur_token);
 bool	expect_token(t_token_list **cur_token, t_token_type type);
 t_ast	*abort_parse_syntax_error(t_ast *node, t_token_list **cur_token);
-bool	destroy_and_return(t_ast *node, t_token_list **cur_token,
+bool	abort_parse_return(t_ast *node, t_token_list **cur_token,
 			bool is_syntax_error);
 
 #endif
