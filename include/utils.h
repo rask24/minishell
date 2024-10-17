@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/16 15:17:42 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/17 17:41:45 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void			print_error_exit(const char *func, const char *desc,
 void			print_syntax_error(const char *token_value);
 void			print_heredoc_warning(const char *delimiter);
 
+char			*ft_xitoa(int n);
 t_list			*ft_xlstnew(void *content);
 char			*ft_xstrdup(const char *s);
 char			*ft_xstrjoin(const char *s1, const char *s2);
