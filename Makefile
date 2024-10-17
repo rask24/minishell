@@ -118,7 +118,7 @@ WHITE			= \033[0;97m
 
 # Rules
 .PHONY: all
-all: CFLAGS += $(DEV_FLAGS)
+all: CFLAGS += $(PROD_FLAGS)
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(LIBREADLINE) $(SRC) $(OBJ) $(HEADER)

@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:55:24 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/18 00:42:22 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/17 23:45:54 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,13 @@ t_ast	*handle_syntax_error(t_ast *node, const char *token_value)
 	print_syntax_error(token_value);
 	destroy_ast(node);
 	return (NULL);
+}
+
+bool	destroy_and_return(t_ast *node, t_token_list **cur_token,
+			bool is_syntax_error)
+{
+	if (is_syntax_error)
+		print_syntax_error(get_token_value(*cur_token));
+	destroy_ast(node);
+	return (false);
 }

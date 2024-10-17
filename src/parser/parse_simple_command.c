@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:26:37 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/17 21:08:55 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/17 23:50:46 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ static bool	is_valid_head_token_simple_command(t_token_list **cur_token)
 static bool	try_parse_cmd_arg(t_ast *node, t_token_list **cur_token)
 {
 	push_cmd_arg(node, get_token_value(*cur_token));
-	return (consume_token(cur_token));
+	if (!consume_token(cur_token))
+		return (destroy_and_return(node, cur_token, true));
+	return (true);
 }
 
 /*
@@ -54,7 +56,7 @@ t_ast	*parse_simple_command(t_token_list **cur_token)
 		else
 			break ;
 		if (!parse_func(node, cur_token))
-			return (handle_syntax_error(node, get_token_value(*cur_token)));
+			return (NULL);
 	}
 	return (node);
 }
