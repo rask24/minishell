@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:45:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/13 21:30:07 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/16 17:19:30 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ static void	handle_pipeline(t_pipe_conf *conf, bool is_forked)
 bool	handle_io(t_pipe_conf *conf, t_list *redirects, t_ctx *ctx,
 			bool is_forked)
 {
-	handle_pipeline(conf, is_forked);
+	if (conf)
+		handle_pipeline(conf, is_forked);
 	while (redirects)
 	{
 		if (!handle_redirect(redirects, ctx))

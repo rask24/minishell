@@ -6,58 +6,26 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:37:49 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/07 15:41:12 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/13 19:12:33 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expansion_internal.h"
 
-static bool	is_ifs(char c)
+t_list	*expand_variable_on_list(t_list *curr, t_ctx *ctx)
 {
-	return (c == ' ' || c == '\t' || c == '\n');
-}
+	t_expand_info	*unexpanded_info;
+	t_list			*expanded_tokens;
+	t_list			*list;
 
-static char	*get_next_ifs_split_word(char **input)
-{
-	int		i;
-	char	*result;
-
-	i = 0;
-	result = NULL;
-	if (**input == '\0')
-		return (NULL);
-	while (is_ifs(**input))
-		(*input)++;
-	while (!is_ifs((*input)[i]) && (*input)[i] != '\0')
-		i++;
-	result = ft_xstrndup(*input, i);
-	*input += i;
-	return (result);
-}
-
-t_list	*expand_variable_on_list(t_list *list, t_ctx *ctx)
-{
-	t_list	*curr;
-	char	*ifs_combined_word;
-	char	*original_ptr;
-	char	*ifs_splitted_word;
-	t_list	*result;
-
-	curr = list;
-	result = NULL;
+	list = NULL;
 	while (curr)
 	{
-		ifs_combined_word = expand_variable(curr->content, ctx, true);
-		original_ptr = ifs_combined_word;
-		while (true)
-		{
-			ifs_splitted_word = get_next_ifs_split_word(&ifs_combined_word);
-			if (ifs_splitted_word == NULL)
-				break ;
-			ft_lstadd_back(&result, ft_xlstnew(ifs_splitted_word));
-		}
-		free(original_ptr);
+		unexpanded_info = construct_string_struct(curr->content);
+		expanded_tokens = split_by_ifs(unexpanded_info, ctx);
+		destroy_string_struct(unexpanded_info);
+		ft_lstadd_back(&list, expanded_tokens);
 		curr = curr->next;
 	}
-	return (result);
+	return (list);
 }

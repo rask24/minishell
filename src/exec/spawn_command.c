@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:25:57 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/16 21:26:50 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/16 22:37:21 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,6 @@
 #include "exec_internal.h"
 #include "ui.h"
 #include "utils.h"
-
-static void	close_pipe_fd(t_pipe_conf *conf)
-{
-	if (conf->prev_read != STDIN_FILENO)
-		close(conf->prev_read);
-	if (conf->next_write != STDOUT_FILENO)
-		close(conf->next_write);
-}
 
 static bool	is_a_directory(const char *path)
 {

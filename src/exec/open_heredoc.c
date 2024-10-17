@@ -34,7 +34,7 @@ static bool	write_heredoc(int read_fd, int write_fd, t_ctx *ctx)
 		}
 		if (line == NULL)
 			break ;
-		expanded = expand_variable(line, ctx, false);
+		expanded = expand_variable_heredoc(line, ctx);
 		ft_putstr_fd(expanded, write_fd);
 		free(line);
 		free(expanded);

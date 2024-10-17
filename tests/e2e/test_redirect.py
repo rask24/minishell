@@ -298,6 +298,23 @@ def test_error_only_redirection_permission_denied(shell_session):
             os.remove(test_file)
 
 
+def test_pipeline_with_redirection(shell_session):
+    test_file = "test_output.txt"
+
+    try:
+        shell_session.sendline(f"/bin/echo Hello > {test_file} | /bin/cat")
+        shell_session.expect(PROMPT)
+
+        result = get_command_output(shell_session.before)
+        assert result == ""
+
+        with open(test_file, "r") as f:
+            assert f.read() == "Hello\n"
+    finally:
+        if os.path.exists(test_file):
+            os.remove(test_file)
+
+
 def test_error_only_redirection_not_found(shell_session):
     test_file = "not_found.txt"
 
@@ -322,5 +339,63 @@ def test_error_only_redirection_ambiguous(shell_session):
 #     shell_session.sendline("echo Hello > $FILES")
 #     shell_session.expect(PROMPT)
 
+
 #     result = get_command_output(shell_session.before)
 #     assert result == "minishell: $FILES: ambiguous redirect"
+
+
+def test_subshell_output_redirection(shell_session):
+    test_file = "test_output.txt"
+
+    try:
+        shell_session.sendline(f"(echo Hello) > {test_file}")
+        shell_session.expect(PROMPT)
+
+        assert os.path.exists(test_file)
+        with open(test_file, "r") as f:
+            assert f.read() == "Hello\n"
+    finally:
+        if os.path.exists(test_file):
+            os.remove(test_file)
+
+
+def test_subshell_both_side_redirection(shell_session):
+    test_file1 = "test_output1.txt"
+    test_file2 = "test_output2.txt"
+
+    try:
+        shell_session.sendline(f"(echo Hello > {test_file1}) > {test_file2}")
+        shell_session.expect(PROMPT)
+
+        assert os.path.exists(test_file1)
+        with open(test_file1, "r") as f:
+            assert f.read() == "Hello\n"
+
+        assert os.path.exists(test_file2)
+        with open(test_file2, "r") as f:
+            assert f.read() == ""
+    finally:
+        for file in [test_file1, test_file2]:
+            if os.path.exists(file):
+                os.remove(file)
+
+
+def test_subshell_both_side_redirection_pipeline(shell_session):
+    test_file1 = "test_output1.txt"
+    test_file2 = "test_output2.txt"
+
+    try:
+        shell_session.sendline(f"echo Hello | (cat > {test_file1}) > {test_file2}")
+        shell_session.expect(PROMPT)
+
+        assert os.path.exists(test_file1)
+        with open(test_file1, "r") as f:
+            assert f.read() == "Hello\n"
+
+        assert os.path.exists(test_file2)
+        with open(test_file2, "r") as f:
+            assert f.read() == ""
+    finally:
+        for file in [test_file1, test_file2]:
+            if os.path.exists(file):
+                os.remove(file)
