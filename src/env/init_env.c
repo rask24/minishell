@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 21:35:41 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/17 22:20:28 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/17 23:14:53 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static void	deal_shlvl(t_env_list *env_list)
 	t_list		*tmp;
 	char		*shlvl_str;
 	int			shlvl;
+	int			new_shlvl;
 
 	shlvl_str = lookup_value("SHLVL", env_list);
 	if (shlvl_str == NULL)
@@ -38,15 +39,17 @@ static void	deal_shlvl(t_env_list *env_list)
 	}
 	shlvl = ft_atoi(shlvl_str);
 	if (errno == EINVAL || errno == ERANGE)
-		shlvl = 0;
-	if (shlvl < 0)
-		shlvl = -1;
-	if (shlvl > 1000)
+		new_shlvl = 1;
+	else if (shlvl < 0)
+		new_shlvl = 0;
+	else if (shlvl >= 999)
 	{
 		print_error("warning", "shell level (1000) too high, resetting to 1");
-		shlvl = 0;
+		new_shlvl = 1;
 	}
-	update_env_value(is_already_exist("SHLVL", env_list), ft_xitoa(shlvl + 1));
+	else
+		new_shlvl = shlvl + 1;
+	update_env_value(is_already_exist("SHLVL", env_list), ft_xitoa(new_shlvl));
 }
 
 t_env_list	*init_env(char **envp)

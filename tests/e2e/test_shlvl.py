@@ -2,7 +2,7 @@ from conftest import PROMPT, get_command_output
 
 
 def check_shlvl_increment_recursively(shell_session, i, INITIAL_SHLVL):
-    if i == 4:
+    if i == 2:
         shell_session.sendline("exit")
         return
 
@@ -90,4 +90,24 @@ def test_shlvl_with_max(shell_session):
     shell_session.expect(PROMPT)
 
     INITIAL_SHLVL = 0
+    check_shlvl_increment_recursively(shell_session, 1, INITIAL_SHLVL)
+
+
+def test_shlvl_with_max_minus_one(shell_session):
+    shell_session.sendline("echo $SHLVL")
+    shell_session.expect(PROMPT)
+    shell_session.sendline("export SHLVL=998")
+    shell_session.expect(PROMPT)
+
+    INITIAL_SHLVL = 998
+    check_shlvl_increment_recursively(shell_session, 1, INITIAL_SHLVL)
+
+
+def test_shlvl_with_fourtytwo(shell_session):
+    shell_session.sendline("echo $SHLVL")
+    shell_session.expect(PROMPT)
+    shell_session.sendline("export SHLVL=42")
+    shell_session.expect(PROMPT)
+
+    INITIAL_SHLVL = 42
     check_shlvl_increment_recursively(shell_session, 1, INITIAL_SHLVL)
