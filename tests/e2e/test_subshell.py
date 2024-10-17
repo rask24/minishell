@@ -97,3 +97,23 @@ def test_shlvl_with_minus_overflow(shell_session):
 
     INITIAL_SHLVL = 0
     recursive(shell_session, 1, INITIAL_SHLVL)
+
+
+def test_shlvl_with_max(shell_session):
+    shell_session.sendline("echo $SHLVL")
+    shell_session.expect(PROMPT)
+    shell_session.sendline("export SHLVL=999")
+    shell_session.expect(PROMPT)
+
+    INITIAL_SHLVL = 0
+    recursive(shell_session, 1, INITIAL_SHLVL)
+
+
+def test_shlvl_with_max_minus_one(shell_session):
+    shell_session.sendline("echo $SHLVL")
+    shell_session.expect(PROMPT)
+    shell_session.sendline("export SHLVL=998")
+    shell_session.expect(PROMPT)
+
+    INITIAL_SHLVL = 0
+    recursive(shell_session, 1, INITIAL_SHLVL)

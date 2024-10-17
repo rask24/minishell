@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 21:35:41 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/17 18:23:31 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/17 22:20:28 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ static void	deal_shlvl(t_env_list *env_list)
 		shlvl = 0;
 	if (shlvl < 0)
 		shlvl = -1;
+	if (shlvl > 1000)
+	{
+		print_error("warning", "shell level (1000) too high, resetting to 1");
+		shlvl = 0;
+	}
 	update_env_value(is_already_exist("SHLVL", env_list), ft_xitoa(shlvl + 1));
 }
 
