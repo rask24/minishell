@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 21:35:41 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/17 17:00:58 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/17 17:06:23 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	deal_shlvl(t_env_list *env_list)
 		return ;
 	}
 	shlvl = ft_atoi(shlvl_str);
-	update_env_value(is_already_exit("SHLVL", env_list), ft_itoa(shlvl + 1));
+	update_env_value(is_already_exist("SHLVL", env_list), ft_itoa(shlvl + 1));
 }
 
 t_env_list	*init_env(char **envp)
