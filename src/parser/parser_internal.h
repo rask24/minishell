@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:22:57 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/18 00:11:15 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/18 00:23:20 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,30 @@
 
 typedef bool	(*t_parse_simple_commnad)(t_ast *node, t_token_list **token);
 
-t_ast	*parse_simple_command(t_token_list **cur_token);
-t_ast	*parse_pipeline(t_token_list **cur_token);
-t_ast	*parse_command(t_token_list **cur_token);
-t_ast	*parse_list(t_token_list **cur_token);
+typedef enum e_heredoc_status
+{
+	HEREDOC_SUCCESS,
+	HEREDOC_FAILURE,
+	HEREDOC_INTERRUPTED,
+}	t_heredoc_status;
 
-bool	try_parse_redirect(t_ast *node, t_token_list **cur_token);
-bool	is_redirect_token(t_token_type type);
+t_ast				*parse_simple_command(t_token_list **cur_token);
+t_ast				*parse_pipeline(t_token_list **cur_token);
+t_ast				*parse_command(t_token_list **cur_token);
+t_ast				*parse_list(t_token_list **cur_token);
 
-void	handle_heredoc(const char *delimiter, t_redirect_info *info);
-int		create_heredoc(t_list *input_list, size_t heredoc_size);
+bool				try_parse_redirect(t_ast *node, t_token_list **cur_token);
+bool				is_redirect_token(t_token_type type);
 
-bool	consume_token(t_token_list **cur_token);
-bool	expect_token(t_token_list **cur_token, t_token_type type);
-t_ast	*abort_parse_syntax_error(t_ast *node, t_token_list **cur_token);
-bool	abort_parse_return(t_ast *node, t_token_list **cur_token,
-			bool is_syntax_error);
+t_heredoc_status	handle_heredoc(const char *delimiter,
+						t_redirect_info *info);
+int					create_heredoc(t_list *input_list, size_t heredoc_size);
+
+bool				consume_token(t_token_list **cur_token);
+bool				expect_token(t_token_list **cur_token, t_token_type type);
+t_ast				*abort_parse_syntax_error(t_ast *node,
+						t_token_list **cur_token);
+bool				abort_parse_return(t_ast *node, t_token_list **cur_token,
+						bool is_syntax_error);
 
 #endif

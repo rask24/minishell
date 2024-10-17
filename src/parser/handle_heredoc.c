@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 19:38:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/17 23:53:20 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/18 00:21:54 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,21 @@
 #include "ui.h"
 #include "utils.h"
 
+static t_heredoc_status	calc_heredoc_status(t_list *input_list,
+							t_redirect_info *info)
+{
+	if (input_list && input_list->content == NULL)
+		return (HEREDOC_INTERRUPTED);
+	else if (info->heredoc_fd == -1)
+		return (HEREDOC_FAILURE);
+	else
+		return (HEREDOC_SUCCESS);
+}
+
 static void	set_redirect_heredoc_info(t_redirect_info *info, t_list *input_list,
 			size_t heredoc_size, bool should_expand)
 {
-	if (input_list && input_list->content == NULL)
-		info->heredoc_fd = -2;
-	else
+	if (!(input_list && input_list->content == NULL))
 		info->heredoc_fd = create_heredoc(input_list, heredoc_size);
 	info->heredoc_size = heredoc_size;
 	info->should_expand = should_expand;
@@ -63,19 +72,22 @@ static t_list	*read_heredoc_input(const char *delimiter, size_t *heredoc_size)
 	return (input_list);
 }
 
-void	handle_heredoc(const char *delimiter, t_redirect_info *info)
+t_heredoc_status	handle_heredoc(const char *delimiter, t_redirect_info *info)
 {
-	t_list	*input_list;
-	size_t	heredoc_size;
-	char	*expanded_delimiter;
+	t_list				*input_list;
+	size_t				heredoc_size;
+	char				*expanded_delimiter;
+	t_heredoc_status	status;
 
-	heredoc_size = 0;
 	expanded_delimiter = expand_quotes((char *)delimiter);
+	heredoc_size = 0;
 	rl_event_hook = handle_heredoc_sigint_hook;
 	input_list = read_heredoc_input(expanded_delimiter, &heredoc_size);
 	rl_event_hook = NULL;
 	set_redirect_heredoc_info(info, input_list, heredoc_size,
 		ft_strcmp(expanded_delimiter, delimiter) == 0);
+	status = calc_heredoc_status(input_list, info);
 	free(expanded_delimiter);
 	ft_lstclear(&input_list, free);
+	return (status);
 }
