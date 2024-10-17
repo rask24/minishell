@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   open_heredoc.c                                     :+:      :+:    :+:   */
+/*   create_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 20:29:10 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/17 20:34:01 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/17 20:55:05 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void	write_heredoc(int fd, t_list *input_list)
 		ft_putendl_fd(node->content, fd);
 		node = node->next;
 	}
-	ft_lstclear(&input_list, free);
 }
 
 static int	open_heredoc_tmpfile(t_list *input_list)
