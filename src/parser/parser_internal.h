@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:22:57 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/01 23:20:54 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/17 20:34:16 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ bool	try_parse_redirect(t_ast *node, t_token_list **cur_token);
 bool	is_redirect_token(t_token_type type);
 
 void	handle_heredoc(const char *delimiter, t_redirect_info *info);
+int		create_heredoc(t_list *input_list, size_t heredoc_size);
 
 bool	consume_token(t_token_list **cur_token);
 bool	expect_token(t_token_list **cur_token, t_token_type type);
