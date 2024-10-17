@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:26:37 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/17 23:50:46 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/18 00:06:46 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_ast	*parse_simple_command(t_token_list **cur_token)
 	t_parse_simple_commnad	parse_func;
 
 	if (!is_valid_head_token_simple_command(cur_token))
-		return (handle_syntax_error(NULL, get_token_value(*cur_token)));
+		return (abort_parse_syntax_error(NULL, cur_token));
 	node = construct_ast(AST_COMMAND, NULL, NULL);
 	while (get_token_type(*cur_token) != TOKEN_EOF)
 	{

@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:55:24 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/18 00:02:48 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/18 00:05:39 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,11 @@ bool	expect_token(t_token_list **cur_token, t_token_type type)
 	return (true);
 }
 
-t_ast	*handle_syntax_error(t_ast *node, const char *token_value)
+t_ast	*abort_parse_syntax_error(t_ast *node, t_token_list **cur_token)
 {
+	const char	*token_value;
+
+	token_value = get_token_value(*cur_token);
 	if (token_value == NULL)
 		token_value = "EOF";
 	print_syntax_error(token_value);
