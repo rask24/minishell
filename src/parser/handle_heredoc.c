@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 19:38:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/17 21:06:07 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/17 21:53:47 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 static void	set_redirect_heredoc_info(t_redirect_info *info, t_list *input_list,
 			size_t heredoc_size, bool should_expand)
 {
-	if (input_list->content == NULL)
+	if (input_list && input_list->content == NULL)
 		info->heredoc_fd = -2;
 	else
 		info->heredoc_fd = create_heredoc(input_list, heredoc_size);
