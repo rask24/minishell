@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/18 23:07:11 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/18 23:29:27 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,15 @@ static void	destroy_ctx(t_ctx *ctx)
 	free(ctx);
 }
 
+static void	set_signal_exit_status(t_ctx *ctx)
+{
+	if (g_signum)
+	{
+		ctx->exit_status = 128 + g_signum;
+		g_signum = 0;
+	}
+}
+
 static void	loop(t_ctx *ctx)
 {
 	char			*input;
@@ -43,14 +52,8 @@ static void	loop(t_ctx *ctx)
 	while (true)
 	{
 		init_signal_handlers();
+		set_signal_exit_status(ctx);
 		input = readline(PROMPT);
-		if (g_signum == SIGINT)
-		{
-			g_signum = 0;
-			ctx->exit_status = 128 + SIGINT;
-			free(input);
-			continue ;
-		}
 		if (input == NULL)
 		{
 			printf("exit\n");
