@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   destructor.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:58:00 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/09 19:58:36 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/18 22:59:47 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "ast.h"
 #include "libft.h"
 
-static void	_destroy_redirect_info(void *content)
+static void	destroy_redirect_info(void *content)
 {
 	t_redirect_info	*info;
 
@@ -32,7 +32,7 @@ void	destroy_ast(t_ast *node)
 	if (node == NULL)
 		return ;
 	ft_lstclear(&node->cmd_args, free);
-	ft_lstclear(&node->redirects, _destroy_redirect_info);
+	ft_lstclear(&node->redirects, destroy_redirect_info);
 	destroy_ast(node->left);
 	destroy_ast(node->right);
 	free(node);
