@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 23:34:34 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/14 00:15:38 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/18 22:17:55 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,10 @@ int	handle_sigint_hook(void)
 {
 	if (g_signum == SIGINT)
 	{
-		g_signum = 0;
-		ft_putchar_fd('\n', STDOUT_FILENO);
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		rl_done = 1;
 	}
 	return (0);
 }
