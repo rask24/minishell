@@ -107,8 +107,11 @@ TEST(init_env, OneEnv) {
   EXPECT_STREQ(get_env_key(env_list->next), "PATH");
   EXPECT_STREQ(get_env_value(env_list->next), def_path);
 
-  EXPECT_EQ(get_env_key(env_list->next->next), nullptr);
-  EXPECT_EQ(get_env_value(env_list->next->next), nullptr);
+  EXPECT_STREQ(get_env_key(env_list->next->next), "SHLVL");
+  EXPECT_STREQ(get_env_value(env_list->next->next), "1");
+
+  EXPECT_EQ(get_env_key(env_list->next->next->next), nullptr);
+  EXPECT_EQ(get_env_value(env_list->next->next->next), nullptr);
 
   destroy_env_list(env_list);
 }
