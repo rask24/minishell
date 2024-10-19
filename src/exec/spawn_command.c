@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:25:57 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/16 22:37:21 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/19 15:36:49 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static char	*search_for_command(char *basename, t_env_list *env_list)
 	return (NULL);
 }
 
-static void	execute_command_internal(char **argv, t_ctx *ctx)
+static void	execute_external_command(char **argv, t_ctx *ctx)
 {
 	char	*cmd_path;
 
@@ -97,7 +97,7 @@ int	spawn_command(t_ast *node, t_ctx *ctx, t_pipe_conf *conf)
 		if (!handle_io(conf, node->redirects, ctx, true))
 			exit(EXIT_FAILURE);
 		reset_signal_handlers();
-		execute_command_internal(argv, ctx);
+		execute_external_command(argv, ctx);
 	}
 	set_exec_signal_handlers();
 	if (conf)
