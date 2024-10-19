@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 21:35:41 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/19 17:33:06 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/19 20:25:49 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,21 @@ static void	add_default_path(t_env_list *env_list)
 	ft_lstadd_back(&env_list, tmp);
 }
 
-static bool	is_pure_number(const char *str)
-{
-	while (*str)
-	{
-		if (!ft_isdigit(*str))
-			return (false);
-		str++;
-	}
-	return (true);
-}
-
 static int	calcu_new_shlvl(const char *shlvl_str)
 {
-	int	shlvl;
-	int	new_shlvl;
+	int		shlvl;
+	int		new_shlvl;
+	char	*end_ptr;
 
-	shlvl = ft_atoi(shlvl_str);
-	if (errno == EINVAL || errno == ERANGE)
+	errno = 0;
+	shlvl = ft_strtol(shlvl_str, &end_ptr, 10);
+	if (errno == ERANGE || errno == EINVAL)
 		new_shlvl = 1;
 	else if (shlvl < 0)
 		new_shlvl = 0;
 	else if (shlvl >= 999)
 	{
-		if (is_pure_number(shlvl_str) && shlvl < INT_MAX)
+		if (*end_ptr == '\0' && shlvl < INT_MAX)
 			ft_dprintf(STDERR_FILENO, ERRMSG, shlvl + 1);
 		new_shlvl = 1;
 	}
