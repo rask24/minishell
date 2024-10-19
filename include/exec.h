@@ -6,13 +6,14 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:54:48 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/19 16:22:19 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/19 16:27:34 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
 
+# include "ast.h"
 # include "ctx.h"
 # include "env.h"
 
