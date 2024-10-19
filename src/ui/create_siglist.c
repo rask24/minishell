@@ -15,6 +15,8 @@
 
 #include "utils.h"
 
+// SIGEMT is not defined on Linux Ubuntu
+// siglist[SIGEMT] = "EMT instruction";
 static void	fill_siglist_first(const char **siglist)
 {
 	siglist[0] = "Bogus signal";
@@ -24,7 +26,6 @@ static void	fill_siglist_first(const char **siglist)
 	siglist[SIGILL] = "Illegal instruction";
 	siglist[SIGTRAP] = "BPT trace/trap";
 	siglist[SIGABRT] = "ABORT instruction";
-	siglist[SIGEMT] = "EMT instruction";
 	siglist[SIGFPE] = "Floating point exception";
 	siglist[SIGKILL] = "Killed";
 	siglist[SIGBUS] = "Bus error";
@@ -35,6 +36,8 @@ static void	fill_siglist_first(const char **siglist)
 	siglist[SIGTERM] = "Terminated";
 }
 
+// SIGINO is not defined on Linux Ubuntu
+// 	siglist[SIGINFO] = "Information request";
 static void	fill_siglist_second(const char **siglist)
 {
 	siglist[SIGURG] = "Urgent IO condition";
@@ -52,7 +55,6 @@ static void	fill_siglist_second(const char **siglist)
 	siglist[SIGWINCH] = "Window changed";
 	siglist[SIGUSR1] = "User signal 1";
 	siglist[SIGUSR2] = "User signal 2";
-	siglist[SIGINFO] = "Information request";
 }
 
 static void	init_siglist(const char **siglist)
