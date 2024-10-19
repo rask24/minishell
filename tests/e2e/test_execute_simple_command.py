@@ -48,6 +48,22 @@ def test_relative_shell_script(shell_session):
             os.remove(test_file)
 
 
+def test_empty_command(shell_session):
+    shell_session.sendline("")
+    shell_session.expect(PROMPT)
+
+    result = get_command_output(shell_session.before)
+    assert result == ""
+
+
+def test_empty_command_with_spaces(shell_session):
+    shell_session.sendline(" \t  \n ")
+    shell_session.expect(PROMPT)
+
+    result = get_command_output(shell_session.before)
+    assert result == ""
+
+
 def test_error_empty_command(shell_session):
     shell_session.sendline("''")
     shell_session.expect(PROMPT)
