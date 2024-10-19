@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/06 12:54:34 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/16 17:13:26 by reasuke          ###   ########.fr       */
+/*   Created: 2024/10/19 16:12:25 by reasuke           #+#    #+#             */
+/*   Updated: 2024/10/19 19:51:32 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
 #include <stdbool.h>
-#include <string.h>
+#include <stdio.h>
 
 #include "ast.h"
 #include "ctx.h"
-#include "env.h"
-#include "exec_internal.h"
+#include "exec.h"
 #include "lexer.h"
 #include "parser.h"
-#include "utils.h"
+#include "readline.h"
+#include "token.h"
+#include "ui.h"
 
 static bool	is_valid_last_token(t_token_list *last_token)
 {
@@ -39,29 +39,13 @@ static bool	is_valid_last_token(t_token_list *last_token)
 	return (true);
 }
 
-int	execute_ast_node(t_ast *node, t_ctx *ctx, t_pipe_conf *conf)
-{
-	if (node == NULL)
-		return (EXIT_FAILURE);
-	else if (node->type == AST_COMMAND)
-		return (execute_command(node, ctx, conf));
-	else if (node->type == AST_PIPE)
-		return (execute_pipeline(node, ctx, conf));
-	else if (node->type == AST_AND || node->type == AST_OR)
-		return (execute_and_or(node, ctx, conf));
-	else if (node->type == AST_SUBSHELL)
-		return (execute_subshell(node, ctx, conf));
-	else
-		return (EXIT_FAILURE);
-}
-
-void	exec(char *input, t_ctx *ctx)
+static void	exec(char *input, t_ctx *ctx)
 {
 	t_token_list	*token_list;
 	t_ast			*node;
 
 	token_list = lexer(input);
-	if (is_valid_last_token(ft_lstlast(token_list)) == false)
+	if (!is_valid_last_token(ft_lstlast(token_list)))
 	{
 		destroy_token_list(token_list);
 		return ;
@@ -76,4 +60,54 @@ void	exec(char *input, t_ctx *ctx)
 		print_error(__func__, "failed to execute command");
 	destroy_token_list(token_list);
 	destroy_ast(node);
+}
+
+static bool	is_empty_input(char *input)
+{
+	char	*trimmed_input;
+
+	trimmed_input = ft_strtrim(input, " \t\n");
+	if (ft_strcmp(trimmed_input, "") == 0)
+	{
+		free(trimmed_input);
+		free(input);
+		return (true);
+	}
+	free(trimmed_input);
+	return (false);
+}
+
+static void	set_signal_exit_status(t_ctx *ctx)
+{
+	if (g_signum)
+	{
+		ctx->exit_status = 128 + g_signum;
+		g_signum = 0;
+	}
+}
+
+void	loop(t_ctx *ctx)
+{
+	char			*input;
+	struct termios	original_termios;
+
+	rl_event_hook = handle_sigint_hook;
+	save_termios(&original_termios);
+	while (true)
+	{
+		init_signal_handlers();
+		set_signal_exit_status(ctx);
+		input = readline(PROMPT);
+		if (input == NULL)
+		{
+			printf("exit\n");
+			break ;
+		}
+		if (is_empty_input(input))
+			continue ;
+		exec(input, ctx);
+		add_history(input);
+		free(input);
+		restore_termios(&original_termios);
+	}
 }
