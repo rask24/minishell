@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:12:25 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/19 16:23:31 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/19 18:51:44 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,21 @@ static void	exec(char *input, t_ctx *ctx)
 	destroy_ast(node);
 }
 
+static bool	is_empty_input(char *input)
+{
+	char	*trimmed_input;
+
+	trimmed_input = ft_strtrim(input, " \t\n");
+	if (ft_strcmp(trimmed_input, "") == 0)
+	{
+		free(trimmed_input);
+		free(input);
+		return (true);
+	}
+	free(trimmed_input);
+	return (false);
+}
+
 void	loop(t_ctx *ctx)
 {
 	char			*input;
@@ -78,11 +93,8 @@ void	loop(t_ctx *ctx)
 			printf("exit\n");
 			break ;
 		}
-		if (ft_strcmp(input, "") == 0)
-		{
-			free(input);
+		if (is_empty_input(input))
 			continue ;
-		}
 		exec(input, ctx);
 		add_history(input);
 		free(input);
