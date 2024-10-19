@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 18:29:00 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/16 17:40:42 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/19 15:37:45 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,6 @@ int	execute_subshell(t_ast *node, t_ctx *ctx, t_pipe_conf *conf)
 	}
 	if (conf)
 		close_pipe_fd(conf);
-	wait_for_children_with_last_status(pid, ctx);
+	wait_children_with_last_status(pid, ctx);
 	return (EXIT_SUCCESS);
 }

@@ -45,7 +45,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/exec/handle_redirect.c \
 					$(SRC_DIR)/exec/open_heredoc.c \
 					$(SRC_DIR)/exec/spawn_command.c \
-					$(SRC_DIR)/exec/wait_for_children.c \
+					$(SRC_DIR)/exec/wait_children.c \
 					$(SRC_DIR)/expansion/expand.c \
 					$(SRC_DIR)/expansion/expand_quotes.c \
 					$(SRC_DIR)/expansion/expand_quotes_on_list.c \

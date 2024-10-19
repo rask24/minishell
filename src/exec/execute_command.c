@@ -108,7 +108,7 @@ int	execute_command(t_ast *node, t_ctx *ctx, t_pipe_conf *conf)
 			ctx->exit_status = EXIT_FAILURE;
 		restore_std_io(std_fds);
 		if (conf && conf->next_write == STDOUT_FILENO)
-			wait_for_children();
+			wait_children();
 		return (EXIT_SUCCESS);
 	}
 	else

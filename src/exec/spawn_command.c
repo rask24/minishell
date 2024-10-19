@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:25:57 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/19 15:36:49 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/19 15:37:45 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,6 @@ int	spawn_command(t_ast *node, t_ctx *ctx, t_pipe_conf *conf)
 	if (conf)
 		close_pipe_fd(conf);
 	if (conf == NULL || conf->next_write == STDOUT_FILENO)
-		wait_for_children_with_last_status(pid, ctx);
+		wait_children_with_last_status(pid, ctx);
 	return (EXIT_SUCCESS);
 }

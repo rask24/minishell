@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:46:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/16 17:39:53 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/19 15:37:59 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ bool	handle_io(t_pipe_conf *conf, t_list *redirects, t_ctx *ctx,
 			bool is_forked);
 bool	handle_redirect(t_list *redirects, t_ctx *ctx);
 int		open_heredoc(t_redirect_info *info, t_ctx *ctx);
-void	wait_for_children(void);
-void	wait_for_children_with_last_status(pid_t last_pid, t_ctx *ctx);
+void	wait_children(void);
+void	wait_children_with_last_status(pid_t last_pid, t_ctx *ctx);
 int		spawn_command(t_ast *node, t_ctx *ctx, t_pipe_conf *conf);
 
 #endif
