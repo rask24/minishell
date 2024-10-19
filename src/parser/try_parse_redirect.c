@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 02:28:39 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/04 23:03:36 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/18 00:24:26 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,23 @@ bool	is_redirect_token(t_token_type type)
 
 bool	try_parse_redirect(t_ast *node, t_token_list **cur_token)
 {
-	t_redirect_info	redirect_info;
-	t_token_type	token_type;
+	t_redirect_info		redirect_info;
+	t_token_type		token_type;
+	t_heredoc_status	status;
 
 	token_type = get_token_type(*cur_token);
 	redirect_info.type = (t_redirect_type)token_type;
-	if (!expect_token(cur_token, token_type))
-		return (false);
+	consume_token(cur_token);
 	redirect_info.file_or_delim = get_token_value(*cur_token);
 	if (!expect_token(cur_token, TOKEN_WORD))
-		return (false);
+		return (abort_parse_return(node, cur_token, true));
 	if (redirect_info.type == REDIRECT_HEREDOC)
 	{
-		handle_heredoc(redirect_info.file_or_delim, &redirect_info);
-		if (redirect_info.heredoc_fd == -1)
+		status = handle_heredoc(redirect_info.file_or_delim, &redirect_info);
+		if (status == HEREDOC_FAILURE)
 			print_error("heredoc", "failed to open heredoc file");
+		else if (status == HEREDOC_INTERRUPTED)
+			return (abort_parse_return(node, cur_token, false));
 	}
 	push_redirect_info(node, &redirect_info);
 	return (true);
