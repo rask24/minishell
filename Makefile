@@ -36,8 +36,8 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/builtins/builtins_export_utils.c \
 					$(SRC_DIR)/builtins/builtins_pwd.c \
 					$(SRC_DIR)/builtins/builtins_unset.c \
-					$(SRC_DIR)/exec/exec.c \
 					$(SRC_DIR)/exec/execute_and_or.c \
+					$(SRC_DIR)/exec/execute_ast_node.c \
 					$(SRC_DIR)/exec/execute_pipeline.c \
 					$(SRC_DIR)/exec/execute_command.c \
 					$(SRC_DIR)/exec/execute_subshell.c \
@@ -45,7 +45,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/exec/handle_redirect.c \
 					$(SRC_DIR)/exec/open_heredoc.c \
 					$(SRC_DIR)/exec/spawn_command.c \
-					$(SRC_DIR)/exec/wait_for_children.c \
+					$(SRC_DIR)/exec/wait_children.c \
 					$(SRC_DIR)/expansion/expand.c \
 					$(SRC_DIR)/expansion/expand_quotes.c \
 					$(SRC_DIR)/expansion/expand_quotes_on_list.c \
@@ -82,6 +82,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/parser/parser_utils.c \
 					$(SRC_DIR)/parser/parser.c \
 					$(SRC_DIR)/parser/try_parse_redirect.c \
+					$(SRC_DIR)/routine/loop.c \
 					$(SRC_DIR)/token/constructor.c \
 					$(SRC_DIR)/token/destructor.c \
 					$(SRC_DIR)/token/getter.c  \

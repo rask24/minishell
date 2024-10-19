@@ -6,16 +6,14 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/18 23:29:27 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/19 18:17:59 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ctx.h"
 #include "env.h"
-#include "exec.h"
-#include "readline.h"
-#include "ui.h"
-#include "utils.h"
+#include "libft.h"
+#include "routine.h"
 
 static t_ctx	*construct_ctx(char **envp)
 {
@@ -34,53 +32,17 @@ static void	destroy_ctx(t_ctx *ctx)
 	free(ctx);
 }
 
-static void	set_signal_exit_status(t_ctx *ctx)
-{
-	if (g_signum)
-	{
-		ctx->exit_status = 128 + g_signum;
-		g_signum = 0;
-	}
-}
-
-static void	loop(t_ctx *ctx)
-{
-	char			*input;
-	struct termios	original_termios;
-
-	save_termios(&original_termios);
-	while (true)
-	{
-		init_signal_handlers();
-		set_signal_exit_status(ctx);
-		input = readline(PROMPT);
-		if (input == NULL)
-		{
-			printf("exit\n");
-			break ;
-		}
-		if (ft_strcmp(input, "") == 0)
-		{
-			free(input);
-			continue ;
-		}
-		exec(input, ctx);
-		add_history(input);
-		free(input);
-		restore_termios(&original_termios);
-	}
-}
-
 int	main(int argc, char **argv, char **envp)
 {
-	t_ctx			*ctx;
+	t_ctx	*ctx;
+	int		exit_status;
 
 	(void)argc;
 	(void)argv;
 	ctx = construct_ctx(envp);
-	rl_event_hook = handle_sigint_hook;
 	loop(ctx);
+	exit_status = ctx->exit_status;
 	destroy_env_list(ctx->env);
 	destroy_ctx(ctx);
-	return (EXIT_SUCCESS);
+	return (exit_status);
 }
