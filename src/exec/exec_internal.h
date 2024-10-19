@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:46:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/19 15:37:59 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/19 15:43:53 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef enum e_exit_status
 }	t_exit_status;
 
 int		execute_ast_node(t_ast *node, t_ctx *ctx, t_pipe_conf *conf);
-int		execute_and_or(t_ast *node, t_ctx *ctx, t_pipe_conf *conf);
+int		execute_and_or(t_ast *node, t_ctx *ctx);
 int		execute_pipeline(t_ast *node, t_ctx *ctx, t_pipe_conf *conf);
 int		execute_subshell(t_ast *node, t_ctx *ctx, t_pipe_conf *conf);
 int		execute_command(t_ast *cmd_node, t_ctx *ctx, t_pipe_conf *conf);
