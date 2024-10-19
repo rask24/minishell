@@ -36,8 +36,8 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/builtins/builtins_export_utils.c \
 					$(SRC_DIR)/builtins/builtins_pwd.c \
 					$(SRC_DIR)/builtins/builtins_unset.c \
-					$(SRC_DIR)/exec/exec.c \
 					$(SRC_DIR)/exec/execute_and_or.c \
+					$(SRC_DIR)/exec/execute_ast_node.c \
 					$(SRC_DIR)/exec/execute_pipeline.c \
 					$(SRC_DIR)/exec/execute_command.c \
 					$(SRC_DIR)/exec/execute_subshell.c \

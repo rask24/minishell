@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:46:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/19 15:51:05 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/19 16:22:32 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,16 @@
 # include "builtins.h"
 # include "ctx.h"
 # include "env.h"
+# include "exec.h"
 # include "libft.h"
 
 # define CMD_NOT_FOUND "command not found"
-
-typedef struct s_pipe_conf
-{
-	int	prev_read;
-	int	prev_write;
-	int	next_read;
-	int	next_write;
-}	t_pipe_conf;
 
 typedef enum e_exit_status
 {
 	EXIT_OTHER_ERR = 126,
 	EXIT_NOT_FOUND_ERR = 127,
 }	t_exit_status;
-
-int		execute_ast_node(t_ast *node, t_ctx *ctx, t_pipe_conf *conf);
 
 int		execute_and_or(t_ast *node, t_ctx *ctx);
 int		execute_pipeline(t_ast *node, t_ctx *ctx);
