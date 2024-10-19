@@ -11,9 +11,7 @@ def check_shlvl_increment_recursively(shell_session, i, initial_shlvl):
     shell_session.sendline("echo $SHLVL")
     shell_session.expect(PROMPT)
 
-    str = get_command_output(shell_session.before)
-    print(str)
-    current_shlvl = int(str)
+    current_shlvl = int(get_command_output(shell_session.before))
 
     assert current_shlvl == (i + initial_shlvl)
     check_shlvl_increment_recursively(shell_session, i + 1, initial_shlvl)
