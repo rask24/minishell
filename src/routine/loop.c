@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:12:25 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/19 18:51:44 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/19 19:51:32 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,16 +77,26 @@ static bool	is_empty_input(char *input)
 	return (false);
 }
 
+static void	set_signal_exit_status(t_ctx *ctx)
+{
+	if (g_signum)
+	{
+		ctx->exit_status = 128 + g_signum;
+		g_signum = 0;
+	}
+}
+
 void	loop(t_ctx *ctx)
 {
 	char			*input;
 	struct termios	original_termios;
 
-	rl_signal_event_hook = handle_sigint_hook;
+	rl_event_hook = handle_sigint_hook;
 	save_termios(&original_termios);
 	while (true)
 	{
 		init_signal_handlers();
+		set_signal_exit_status(ctx);
 		input = readline(PROMPT);
 		if (input == NULL)
 		{
