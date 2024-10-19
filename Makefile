@@ -85,6 +85,7 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/token/constructor.c \
 					$(SRC_DIR)/token/destructor.c \
 					$(SRC_DIR)/token/getter.c  \
+					$(SRC_DIR)/ui/create_siglist.c \
 					$(SRC_DIR)/ui/event_hook.c \
 					$(SRC_DIR)/ui/signal_handler.c \
 					$(SRC_DIR)/ui/termios.c \

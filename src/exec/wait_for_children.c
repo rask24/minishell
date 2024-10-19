@@ -6,21 +6,31 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:20:58 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/15 15:45:52 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/19 16:46:10 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <signal.h>
+#include <stdio.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
 #include "ctx.h"
+#include "ui.h"
 
 static void	update_exit_status(int status, t_ctx *ctx)
 {
+	const char	**siglist;
+
+	siglist = create_siglist();
 	if (WIFEXITED(status))
 		ctx->exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
+	{
 		ctx->exit_status = WTERMSIG(status) + 128;
+		if (WTERMSIG(status) != SIGINT)
+			printf("%s: %d\n", siglist[WTERMSIG(status)], WTERMSIG(status));
+	}
 }
 
 static bool	wait_for_single_child(pid_t last_pid, t_ctx *ctx)
