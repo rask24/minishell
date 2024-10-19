@@ -23,6 +23,7 @@ ignore:
   - "src/main.c"
   - "src/exec/*"
   - "src/ui/*"
+  - "src/routine/*"
   - "src/utils/*"
   - "src/utils/**/*"
 
