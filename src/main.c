@@ -6,16 +6,14 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/19 16:15:19 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/19 16:19:21 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ctx.h"
 #include "env.h"
-#include "exec.h"
+#include "libft.h"
 #include "routine.h"
-#include "ui.h"
-#include "utils.h"
 
 static t_ctx	*construct_ctx(char **envp)
 {
@@ -37,12 +35,14 @@ static void	destroy_ctx(t_ctx *ctx)
 int	main(int argc, char **argv, char **envp)
 {
 	t_ctx	*ctx;
+	int		exit_status;
 
 	(void)argc;
 	(void)argv;
 	ctx = construct_ctx(envp);
 	loop(ctx);
+	exit_status = ctx->exit_status;
 	destroy_env_list(ctx->env);
 	destroy_ctx(ctx);
-	return (EXIT_SUCCESS);
+	return (exit_status);
 }
