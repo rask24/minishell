@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:20:58 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/19 23:41:21 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/19 23:50:50 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static void	print_signa_termination_info(int status)
 		ft_putchar_fd('\n', STDERR_FILENO);
 	else
 		print_signal_info(siglist[WTERMSIG(status)], WTERMSIG(status));
+	free(siglist);
 }
 
 static void	update_exit_status(int status, t_ctx *ctx)
