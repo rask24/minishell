@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/16 15:17:42 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/19 16:56:34 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void			print_error_exit(const char *func, const char *desc,
 					int exit_status);
 void			print_syntax_error(const char *token_value);
 void			print_heredoc_warning(const char *delimiter);
+void			print_signal_info(const char *sig_detail, int signum);
 
 t_list			*ft_xlstnew(void *content);
 char			*ft_xstrdup(const char *s);

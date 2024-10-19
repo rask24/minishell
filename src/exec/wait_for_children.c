@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:20:58 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/19 16:46:10 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/19 16:59:03 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,27 @@
 #include "ctx.h"
 #include "ui.h"
 
-static void	update_exit_status(int status, t_ctx *ctx)
+static void	print_signa_termination_info(int status)
 {
 	const char	**siglist;
 
 	siglist = create_siglist();
+	if (!WIFSIGNALED(status))
+		return ;
+	if (WTERMSIG(status) == SIGINT)
+		ft_putchar_fd('\n', STDERR_FILENO);
+	else
+		print_signal_info(siglist[WTERMSIG(status)], WTERMSIG(status));
+}
+
+static void	update_exit_status(int status, t_ctx *ctx)
+{
 	if (WIFEXITED(status))
 		ctx->exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 	{
 		ctx->exit_status = WTERMSIG(status) + 128;
-		if (WTERMSIG(status) != SIGINT)
-			printf("%s: %d\n", siglist[WTERMSIG(status)], WTERMSIG(status));
+		print_signa_termination_info(status);
 	}
 }
 
