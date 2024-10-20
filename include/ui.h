@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 19:58:39 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/14 00:18:40 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/19 16:38:55 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@
 
 extern volatile sig_atomic_t	g_signum;
 
-void	init_signal_handlers(void);
-void	reset_signal_handlers(void);
-void	set_exec_signal_handlers(void);
-int		handle_sigint_hook(void);
-void	save_termios(struct termios *original_termios);
-void	restore_termios(struct termios *original_termios);
+void		init_signal_handlers(void);
+void		reset_signal_handlers(void);
+void		set_exec_signal_handlers(void);
+int			handle_sigint_hook(void);
+void		save_termios(struct termios *original_termios);
+void		restore_termios(struct termios *original_termios);
+
+const char	**create_siglist(void);
 
 #endif
