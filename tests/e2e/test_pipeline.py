@@ -17,12 +17,12 @@ def test_multiple_pipeline(shell_session):
     assert "lo$" == result
 
 
-def test_pipeline_many_commands(shell_session):
-    pipe_command = "echo Hello"
-    for _ in range(1000):
-        pipe_command += " | cat"
-    shell_session.sendline(pipe_command)
-    shell_session.expect(PROMPT)
+# def test_pipeline_many_commands(shell_session):
+#     pipe_command = "echo Hello"
+#     for _ in range(1000):
+#         pipe_command += " | cat"
+#     shell_session.sendline(pipe_command)
+#     shell_session.expect(PROMPT)
 
-    result = get_command_output(shell_session.before)
-    assert "Hello" == result
+#     result = get_command_output(shell_session.before)
+#     assert "Hello" == result

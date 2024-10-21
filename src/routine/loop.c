@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:12:25 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/19 21:23:01 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/21 15:50:15 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static void	exec(char *input, t_ctx *ctx)
 	if (node == NULL)
 	{
 		destroy_token_list(token_list);
+		ctx->exit_status = 2;
 		return ;
 	}
 	if (execute_ast_node(node, ctx, NULL) == EXIT_FAILURE)
