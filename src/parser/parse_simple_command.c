@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_simple_command.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:26:37 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/21 00:10:36 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/21 18:38:42 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,15 @@
 #include "parser_internal.h"
 #include "token.h"
 #include "utils.h"
+
+static bool	is_simple_command_follow_set(t_token_list *cur_token)
+{
+	return (get_token_type(cur_token) == TOKEN_EOF
+		|| get_token_type(cur_token) == TOKEN_AND_IF
+		|| get_token_type(cur_token) == TOKEN_OR_IF
+		|| get_token_type(cur_token) == TOKEN_PIPE
+		|| get_token_type(cur_token) == TOKEN_R_PARENTHESIS);
+}
 
 static bool	is_valid_head_token_simple_command(t_token_list **cur_token)
 {
@@ -43,18 +52,18 @@ t_ast	*parse_simple_command(t_token_list **cur_token)
 	t_parse_simple_commnad	parse_func;
 
 	if (!is_valid_head_token_simple_command(cur_token))
-		return (handle_syntax_error(NULL, get_token_value(*cur_token)));
+		return (NULL);
 	node = construct_ast(AST_COMMAND, NULL, NULL);
-	while (get_token_type(*cur_token) != TOKEN_EOF)
+	while (!is_simple_command_follow_set(*cur_token))
 	{
 		if (get_token_type(*cur_token) == TOKEN_WORD)
 			parse_func = try_parse_cmd_arg;
 		else if (is_redirect_token(get_token_type(*cur_token)))
 			parse_func = try_parse_redirect;
 		else
-			break ;
+			return (NULL);
 		if (!parse_func(node, cur_token))
-			return (handle_syntax_error(node, get_token_value(*cur_token)));
+			return (NULL);
 	}
 	return (node);
 }

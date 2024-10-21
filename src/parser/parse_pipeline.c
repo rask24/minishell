@@ -3,16 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   parse_pipeline.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 22:18:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/25 14:15:41 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/21 18:54:03 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "parser_internal.h"
 #include "token.h"
+
+static bool	is_pipeline_follow_set(t_token_list *cur_token)
+{
+	return (get_token_type(cur_token) == TOKEN_EOF
+		|| get_token_type(cur_token) == TOKEN_AND_IF
+		|| get_token_type(cur_token) == TOKEN_OR_IF
+		|| get_token_type(cur_token) == TOKEN_PIPE
+		|| get_token_type(cur_token) == TOKEN_R_PARENTHESIS);
+}
 
 t_ast	*push_pipe_node(t_ast *node, t_ast *new_node)
 {
@@ -37,15 +46,16 @@ t_ast	*parse_pipeline(t_token_list **cur_token)
 	node = parse_command(cur_token);
 	if (node == NULL)
 		return (NULL);
-	while (get_token_type(*cur_token) == TOKEN_PIPE)
+	while (true)
 	{
+		if (!is_pipeline_follow_set(*cur_token))
+			return (NULL);
+		if (get_token_type(*cur_token) != TOKEN_PIPE)
+			break ;
 		consume_token(cur_token);
 		tmp = parse_command(cur_token);
 		if (tmp == NULL)
-		{
-			destroy_ast(node);
 			return (NULL);
-		}
 		node = push_pipe_node(node, tmp);
 	}
 	return (node);
