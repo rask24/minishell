@@ -6,12 +6,10 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:20:58 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/22 22:42:20 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/22 22:44:11 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
-#include <stdio.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
