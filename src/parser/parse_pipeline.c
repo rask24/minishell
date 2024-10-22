@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 22:18:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/21 18:54:03 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/22 20:52:29 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static bool	is_pipeline_follow_set(t_token_list *cur_token)
 		|| get_token_type(cur_token) == TOKEN_R_PARENTHESIS);
 }
 
-t_ast	*push_pipe_node(t_ast *node, t_ast *new_node)
+static t_ast	*push_pipe_node(t_ast *node, t_ast *new_node)
 {
 	if (node == NULL || new_node == NULL)
 		return (NULL);
