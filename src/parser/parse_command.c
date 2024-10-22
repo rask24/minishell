@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 02:19:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/22 21:02:39 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/22 22:47:40 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ t_ast	*parse_command(t_token_list **cur_token)
 	if (tmp == NULL)
 		return (NULL);
 	node = construct_ast(AST_SUBSHELL, tmp, NULL);
-	if (!expect_token(cur_token, TOKEN_R_PARENTHESIS))
-		return (handle_syntax_error(node, get_token_value(*cur_token)));
+	if (get_token_type(*cur_token) != TOKEN_R_PARENTHESIS)
+		return (NULL);
+	consume_token(cur_token);
 	while (true)
 	{
 		if (is_command_follow_set(*cur_token))
