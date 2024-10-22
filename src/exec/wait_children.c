@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:20:58 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/22 22:41:22 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/22 22:42:20 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ static void	print_signal_termination_info(int status)
 {
 	const char	**siglist;
 
-	siglist = create_siglist();
 	if (!WIFSIGNALED(status))
 		return ;
+	siglist = create_siglist();
 	if (WTERMSIG(status) == SIGINT)
 		ft_putchar_fd('\n', STDERR_FILENO);
 	else
