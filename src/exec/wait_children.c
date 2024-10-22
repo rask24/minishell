@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:20:58 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/19 23:50:50 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/22 22:41:22 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "ctx.h"
 #include "ui.h"
 
-static void	print_signa_termination_info(int status)
+static void	print_signal_termination_info(int status)
 {
 	const char	**siglist;
 
@@ -39,7 +39,7 @@ static void	update_exit_status(int status, t_ctx *ctx)
 	else if (WIFSIGNALED(status))
 	{
 		ctx->exit_status = WTERMSIG(status) + 128;
-		print_signa_termination_info(status);
+		print_signal_termination_info(status);
 	}
 }
 
