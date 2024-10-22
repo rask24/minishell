@@ -25,35 +25,35 @@ def test_subshell_with_pipeline_simple(shell_session):
     assert "Hello" == result
 
 
-def test_subshell_with_missing_closing_parenthesis(shell_session):
+def test_error_subshell_with_missing_closing_parenthesis(shell_session):
     shell_session.sendline("(echo Hello")
     shell_session.expect(PROMPT)
     result = get_command_output(shell_session.before)
     assert "minishell: syntax error near unexpected token `EOF'" in result
 
 
-def test_subshell_with_extra_closing_parenthesis(shell_session):
+def test_error_subshell_with_extra_closing_parenthesis(shell_session):
     shell_session.sendline("(echo Hello))")
     shell_session.expect(PROMPT)
     result = get_command_output(shell_session.before)
     assert "minishell: syntax error near unexpected token `)'" in result
 
 
-def test_subshell_with_unmatched_opening_parenthesis(shell_session):
+def test_error_subshell_with_unmatched_opening_parenthesis(shell_session):
     shell_session.sendline("(echo Hello) (echo World)")
     shell_session.expect(PROMPT)
     result = get_command_output(shell_session.before)
     assert "minishell: syntax error near unexpected token `('" in result
 
 
-def test_subshell_with_misplaced_pipe(shell_session):
+def test_error_subshell_with_misplaced_pipe(shell_session):
     shell_session.sendline("(echo Hello |)")
     shell_session.expect(PROMPT)
     result = get_command_output(shell_session.before)
     assert "minishell: syntax error near unexpected token `)'" in result
 
 
-def test_nested_subshell_with_error(shell_session):
+def test_error_nested_subshell_with_error(shell_session):
     shell_session.sendline("(echo Hello (echo nested)")
     shell_session.expect(PROMPT)
     result = get_command_output(shell_session.before)
@@ -74,7 +74,7 @@ def test_subshell_with_redirect_outside(shell_session):
     assert "" in result
 
 
-def test_empty_subshell(shell_session):
+def test_error_empty_subshell(shell_session):
     shell_session.sendline("()")
     shell_session.expect(PROMPT)
     result = get_command_output(shell_session.before)
@@ -89,7 +89,7 @@ def test_subshell_outside_of_pipeline(shell_session):
     assert "World$" == result
 
 
-def test_subshell_after_cmd(shell_session):
+def test_error_subshell_after_cmd(shell_session):
     shell_session.sendline("echo Hello (ls)")
     shell_session.expect(PROMPT)
 
