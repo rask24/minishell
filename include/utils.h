@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/17 17:41:45 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/19 23:40:27 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void			print_error_exit(const char *func, const char *desc,
 					int exit_status);
 void			print_syntax_error(const char *token_value);
 void			print_heredoc_warning(const char *delimiter);
+void			print_signal_info(const char *sig_detail, int signum);
 
 char			*ft_xitoa(int n);
 t_list			*ft_xlstnew(void *content);
