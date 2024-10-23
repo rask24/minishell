@@ -38,3 +38,24 @@ TEST(consume_token, CurrentTokenIsNull) {
 
   destroy_token_list(token_list);
 }
+
+TEST(handle_parse_status, ParseSuccess) {
+  t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
+  t_ast *result = handle_parse_status(node, PARSE_SUCCESS);
+
+  EXPECT_EQ(result, node);
+}
+
+TEST(handle_parse_status, ParseFailure) {
+  t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
+  t_ast *result = handle_parse_status(node, PARSE_FAILURE);
+
+  EXPECT_EQ(result, nullptr);
+}
+
+TEST(handle_parse_status, ParseAbort) {
+  t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
+  t_ast *result = handle_parse_status(node, PARSE_ABORT);
+
+  EXPECT_EQ(result->type, AST_UNKNOWN);
+}
