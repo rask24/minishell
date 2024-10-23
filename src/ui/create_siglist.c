@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 17:02:30 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/13 17:45:38 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/23 12:59:04 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 #include "utils.h"
 
-// SIGEMT is not defined on Linux Ubuntu
-// siglist[SIGEMT] = "EMT instruction";
 static void	fill_siglist_first(const char **siglist)
 {
 	siglist[0] = "Bogus signal";
@@ -36,8 +34,6 @@ static void	fill_siglist_first(const char **siglist)
 	siglist[SIGTERM] = "Terminated";
 }
 
-// SIGINO is not defined on Linux Ubuntu
-// 	siglist[SIGINFO] = "Information request";
 static void	fill_siglist_second(const char **siglist)
 {
 	siglist[SIGURG] = "Urgent IO condition";
@@ -57,6 +53,13 @@ static void	fill_siglist_second(const char **siglist)
 	siglist[SIGUSR2] = "User signal 2";
 }
 
+/*
+** - SIGEMT is not defined on Linux Ubuntu
+** siglist[SIGEMT] = "EMT instruction";
+**
+** - SIGINFO is not defined on Linux Ubuntu
+** siglist[SIGINFO] = "Information request";
+*/
 static void	init_siglist(const char **siglist)
 {
 	int		i;
