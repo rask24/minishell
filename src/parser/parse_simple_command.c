@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:26:37 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/23 17:43:59 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/23 18:57:14 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ t_ast	*parse_simple_command(t_token_list **cur_token)
 {
 	t_ast			*node;
 	t_try_parse		parse_func;
-	t_parse_status	status;
 
 	if (!is_simple_command_first_set(cur_token))
 		return (NULL);
@@ -72,14 +71,9 @@ t_ast	*parse_simple_command(t_token_list **cur_token)
 		parse_func = get_parse_func(cur_token);
 		if (parse_func == NULL)
 			return (destroy_ast(node));
-		status = parse_func(node, cur_token);
-		if (status == PARSE_FAILURE)
-			return (destroy_ast(node));
-		else if (status == PARSE_ABORT)
-		{
-			destroy_ast(node);
-			return (construct_ast(AST_UNKNOWN, NULL, NULL));
-		}
+		node = handle_parse_status(node, parse_func(node, cur_token));
+		if (node == NULL || node->type == AST_UNKNOWN)
+			return (node);
 	}
 	return (node);
 }

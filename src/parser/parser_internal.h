@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:22:57 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/23 17:46:30 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/23 18:53:51 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ t_parse_status	handle_heredoc(const char *delimiter, t_redirect_info *info);
 int				create_heredoc(t_list *input_list, size_t heredoc_size);
 
 bool			consume_token(t_token_list **cur_token);
+t_ast			*handle_parse_status(t_ast *node, t_parse_status status);
 
 #endif
