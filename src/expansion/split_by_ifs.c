@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 00:52:40 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/16 15:17:07 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/23 22:00:11 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ t_list	*split_by_ifs(t_expand_info *expand_info, t_ctx *ctx)
 		{
 			expanded_var = trim_expanded_variable(expand_info, ctx);
 			segment = extract_var_segment(expanded_var, is_quoted);
+			free(expanded_var);
 		}
 		else
 			segment = extract_none_var_segment(expand_info, &is_quoted);
