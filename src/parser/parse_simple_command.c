@@ -39,12 +39,13 @@ static bool	try_parse_cmd_arg(t_ast *node, t_token_list **cur_token)
 }
 
 /*
-** simple_command  : cmd_prefix cmd_word cmd_suffix
-**                 | cmd_prefix cmd_word
-**                 | cmd_prefix
-**                 |            cmd_word cmd_suffix
-**                 |            cmd_word
-**                 ;
+** simple_command : element
+**                | simple_command element
+**                ;
+**
+** element        : cmd_word
+**                | io_redirect
+**                ;
 */
 t_ast	*parse_simple_command(t_token_list **cur_token)
 {
