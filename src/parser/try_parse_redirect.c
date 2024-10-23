@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   try_parse_redirect.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 02:28:39 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/04 23:03:36 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/22 22:21:20 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,14 @@ bool	try_parse_redirect(t_ast *node, t_token_list **cur_token)
 	t_token_type	token_type;
 
 	token_type = get_token_type(*cur_token);
+	if (get_token_type(*cur_token) != token_type)
+		return (false);
 	redirect_info.type = (t_redirect_type)token_type;
-	if (!expect_token(cur_token, token_type))
+	consume_token(cur_token);
+	if (get_token_type(*cur_token) != TOKEN_WORD)
 		return (false);
 	redirect_info.file_or_delim = get_token_value(*cur_token);
-	if (!expect_token(cur_token, TOKEN_WORD))
-		return (false);
+	consume_token(cur_token);
 	if (redirect_info.type == REDIRECT_HEREDOC)
 	{
 		handle_heredoc(redirect_info.file_or_delim, &redirect_info);
