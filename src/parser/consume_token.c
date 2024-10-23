@@ -1,32 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*   consume_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:55:24 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/23 14:22:05 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/23 14:58:11 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 
-#include "ast.h"
 #include "token.h"
-#include "utils.h"
 
 bool	consume_token(t_token_list **cur_token)
 {
 	if (*cur_token == NULL)
-		return (false);
-	*cur_token = (*cur_token)->next;
-	return (true);
-}
-
-bool	expect_token(t_token_list **cur_token, t_token_type type)
-{
-	if (*cur_token == NULL || get_token_type(*cur_token) != type)
 		return (false);
 	*cur_token = (*cur_token)->next;
 	return (true);
