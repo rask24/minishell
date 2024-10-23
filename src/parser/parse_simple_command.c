@@ -35,9 +35,7 @@ static bool	is_simple_command_follow_set(t_token_list *cur_token)
 static bool	try_parse_cmd_arg(t_ast *node, t_token_list **cur_token)
 {
 	push_cmd_arg(node, get_token_value(*cur_token));
-	if (!consume_token(cur_token))
-		return (abort_parse_return(node, cur_token, true));
-	return (true);
+	return (consume_token(cur_token));
 }
 
 /*

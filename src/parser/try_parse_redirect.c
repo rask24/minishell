@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   try_parse_redirect.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 02:28:39 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/22 22:21:20 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/23 14:20:49 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ bool	try_parse_redirect(t_ast *node, t_token_list **cur_token)
 		if (status == HEREDOC_FAILURE)
 			print_error("heredoc", "failed to open heredoc file");
 		else if (status == HEREDOC_INTERRUPTED)
-			return (abort_parse_return(node, cur_token, false));
+			return (false);
 	}
 	push_redirect_info(node, &redirect_info);
 	return (true);
