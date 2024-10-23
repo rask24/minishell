@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:26:37 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/23 11:40:50 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/23 13:35:25 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ static bool	try_parse_cmd_arg(t_ast *node, t_token_list **cur_token)
 }
 
 /*
-** simple_command : element
-**                | simple_command element
+** simple_command : cmd_element
+**                | simple_command cmd_element
 **                ;
 **
-** element        : cmd_word
+** cmd_element    : cmd_word
 **                | io_redirect
 **                ;
 */
