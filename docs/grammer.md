@@ -23,21 +23,14 @@ command          : simple_command
                  | '(' list ')'
                  | '(' list ')' redirect_list
                  ;
-simple_command   : cmd_prefix cmd_word cmd_suffix
-                 | cmd_prefix cmd_word
-                 | cmd_prefix
-                 |            cmd_word cmd_suffix
-                 |            cmd_word
+simple_command   : cmd_element
+                 | simple_command cmd_element
+                 ;
+
+cmd_element      : cmd_word
+                 | io_redirect
                  ;
 cmd_word         : WORD
-                 ;
-cmd_prefix       :            io_redirect
-                 | cmd_prefix io_redirect
-                 ;
-cmd_suffix       :            io_redirect
-                 | cmd_suffix io_redirect
-                 |            WORD
-                 | cmd_suffix WORD
                  ;
 redirect_list    :               io_redirect
                  | redirect_list io_redirect
