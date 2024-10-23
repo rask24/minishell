@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 15:08:14 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/07 20:46:46 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/23 19:32:14 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ bool	handle_redirect(t_list *redirect, t_ctx *ctx)
 	if (expanded_filepath == NULL)
 	{
 		print_error(get_redirect_file_or_delim(redirect), "ambiguous redirect");
+		free((char *)get_redirect_file_or_delim(redirect));
 		set_file_or_delim(redirect, NULL);
 		return (false);
 	}
