@@ -27,13 +27,15 @@ static bool	write_heredoc(int read_fd, int write_fd, t_ctx *ctx)
 	while (true)
 	{
 		line = get_next_line(read_fd);
-		if (errno)
-		{
-			print_error("get_next_line", strerror(errno));
-			return (false);
-		}
 		if (line == NULL)
+		{
+			if (errno)
+			{
+				print_error("get_next_line", strerror(errno));
+				return (false);
+			}
 			break ;
+		}
 		expanded = expand_variable_heredoc(line, ctx);
 		ft_putstr_fd(expanded, write_fd);
 		free(line);
