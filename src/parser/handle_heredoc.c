@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 19:38:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/23 15:20:54 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/23 15:29:52 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "ui.h"
 #include "utils.h"
 
-static t_heredoc_status	calc_heredoc_status(t_list *input_list)
+static t_parse_status	calc_heredoc_status(t_list *input_list)
 {
 	if (input_list && input_list->content == NULL)
 		return (PARSE_ABORT);
@@ -69,12 +69,12 @@ static t_list	*read_heredoc_input(const char *delimiter, size_t *heredoc_size)
 	return (input_list);
 }
 
-t_heredoc_status	handle_heredoc(const char *delimiter, t_redirect_info *info)
+t_parse_status	handle_heredoc(const char *delimiter, t_redirect_info *info)
 {
-	t_list				*input_list;
-	size_t				heredoc_size;
-	char				*expanded_delimiter;
-	t_heredoc_status	status;
+	t_list			*input_list;
+	size_t			heredoc_size;
+	char			*expanded_delimiter;
+	t_parse_status	status;
 
 	expanded_delimiter = expand_quotes((char *)delimiter);
 	heredoc_size = 0;
