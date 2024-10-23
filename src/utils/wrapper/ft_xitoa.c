@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   ft_xitoa.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/06 19:11:50 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/22 22:48:26 by yliu             ###   ########.fr       */
+/*   Created: 2024/10/17 17:39:13 by yliu              #+#    #+#             */
+/*   Updated: 2024/10/17 17:55:22 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
-#include "parser_internal.h"
-#include "token.h"
+#include "utils.h"
 
-t_ast	*parser(t_token_list *token_list)
+char	*ft_xitoa(int n)
 {
-	t_ast			*node;
-	t_token_list	**cur_token;
+	char	*str;
 
-	cur_token = &token_list;
-	node = parse_list(cur_token);
-	if (node == NULL || get_token_type(*cur_token) != TOKEN_EOF)
+	str = ft_itoa(n);
+	if (str == NULL)
 	{
-		handle_syntax_error(node, get_token_value(*cur_token));
-		return (NULL);
+		print_error("ft_itoa", "cannot allocate memory");
+		exit(EXIT_FAILURE);
 	}
-	return (node);
+	return (str);
 }

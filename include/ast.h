@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:41:56 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/05 23:16:06 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/22 23:29:42 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_redirect_info		*construct_heredoc_redirect_info(const char *delimiter,
 						int heredoc_fd, size_t heredoc_size,
 						bool should_expand);
 
-void				destroy_ast(t_ast *ast);
+t_ast				*destroy_ast(t_ast *ast);
 
 void				push_cmd_arg(t_ast *ast, const char *cmd_arg);
 void				push_redirect_info(t_ast *ast, t_redirect_info *info);
