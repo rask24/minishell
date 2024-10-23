@@ -44,6 +44,8 @@ TEST(handle_parse_status, ParseSuccess) {
   t_ast *result = handle_parse_status(node, PARSE_SUCCESS);
 
   EXPECT_EQ(result, node);
+
+  destroy_ast(result);
 }
 
 TEST(handle_parse_status, ParseFailure) {
@@ -55,7 +57,28 @@ TEST(handle_parse_status, ParseFailure) {
 
 TEST(handle_parse_status, ParseAbort) {
   t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
+
   t_ast *result = handle_parse_status(node, PARSE_ABORT);
 
+  ASSERT_NE(result, nullptr);
   EXPECT_EQ(result->type, AST_UNKNOWN);
+  EXPECT_EQ(result->left, nullptr);
+  EXPECT_EQ(result->right, nullptr);
+
+  destroy_ast(result);
+}
+
+TEST(handle_parse_status, ComplexTreeHandling) {
+  t_ast *left = construct_ast(AST_COMMAND, nullptr, nullptr);
+  t_ast *right = construct_ast(AST_PIPE, nullptr, nullptr);
+  t_ast *node = construct_ast(AST_AND, left, right);
+
+  t_ast *result = handle_parse_status(node, PARSE_ABORT);
+
+  ASSERT_NE(result, nullptr);
+  EXPECT_EQ(result->type, AST_UNKNOWN);
+  EXPECT_EQ(result->left, nullptr);
+  EXPECT_EQ(result->right, nullptr);
+
+  destroy_ast(result);
 }
