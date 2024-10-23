@@ -6,10 +6,11 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 20:29:10 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/17 20:55:05 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/23 18:15:20 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <errno.h>
 #include <stdlib.h>
 #include <fcntl.h>
 
