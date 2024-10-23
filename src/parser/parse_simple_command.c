@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:26:37 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/23 15:33:44 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/23 17:43:59 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 static bool	is_simple_command_first_set(t_token_list **cur_token)
 {
 	return (get_token_type(*cur_token) == TOKEN_WORD
-		|| is_redirect_token(get_token_type(*cur_token)));
+		|| is_redirect_first_set(*cur_token));
 }
 
 static bool	is_simple_command_follow_set(t_token_list *cur_token)
@@ -38,22 +38,23 @@ static t_parse_status	try_parse_cmd_arg(t_ast *node, t_token_list **cur_token)
 	return (consume_token(cur_token));
 }
 
-static t_try_parse	get_parse_func(t_token_type type)
+static t_try_parse	get_parse_func(t_token_list **cur_token)
 {
-	if (type == TOKEN_WORD)
+	if (get_token_type(*cur_token) == TOKEN_WORD)
 		return (try_parse_cmd_arg);
-	else if (is_redirect_token(type))
+	else if (is_redirect_first_set(*cur_token))
 		return (try_parse_redirect);
 	return (NULL);
 }
 
 /*
-** simple_command  : cmd_prefix cmd_word cmd_suffix
-**                 | cmd_prefix cmd_word
-**                 | cmd_prefix
-**                 |            cmd_word cmd_suffix
-**                 |            cmd_word
-**                 ;
+** simple_command : cmd_element
+**                | simple_command cmd_element
+**                ;
+**
+** cmd_element    : cmd_word
+**                | io_redirect
+**                ;
 */
 t_ast	*parse_simple_command(t_token_list **cur_token)
 {
@@ -68,7 +69,7 @@ t_ast	*parse_simple_command(t_token_list **cur_token)
 	{
 		if (is_simple_command_follow_set(*cur_token))
 			break ;
-		parse_func = get_parse_func(get_token_type(*cur_token));
+		parse_func = get_parse_func(cur_token);
 		if (parse_func == NULL)
 			return (destroy_ast(node));
 		status = parse_func(node, cur_token);
