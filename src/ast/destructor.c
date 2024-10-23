@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:58:00 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/18 22:59:47 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/22 23:28:55 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,14 @@ static void	destroy_redirect_info(void *content)
 	free(info);
 }
 
-void	destroy_ast(t_ast *node)
+t_ast	*destroy_ast(t_ast *node)
 {
 	if (node == NULL)
-		return ;
+		return (NULL);
 	ft_lstclear(&node->cmd_args, free);
 	ft_lstclear(&node->redirects, destroy_redirect_info);
 	destroy_ast(node->left);
 	destroy_ast(node->right);
 	free(node);
+	return (NULL);
 }
