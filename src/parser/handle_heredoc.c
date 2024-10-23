@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 19:38:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/23 15:29:52 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/23 15:36:11 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_parse_status	handle_heredoc(const char *delimiter, t_redirect_info *info)
 	heredoc_size = 0;
 	rl_event_hook = handle_heredoc_sigint_hook;
 	input_list = read_heredoc_input(expanded_delimiter, &heredoc_size);
-	rl_event_hook = NULL;
+	rl_event_hook = handle_sigint_hook;
 	set_redirect_heredoc_info(info, input_list, heredoc_size,
 		ft_strcmp(expanded_delimiter, delimiter) == 0);
 	status = calc_heredoc_status(input_list);
