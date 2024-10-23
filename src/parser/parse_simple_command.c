@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:26:37 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/23 15:26:55 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/23 15:33:44 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,15 @@ static t_parse_status	try_parse_cmd_arg(t_ast *node, t_token_list **cur_token)
 	return (consume_token(cur_token));
 }
 
+static t_try_parse	get_parse_func(t_token_type type)
+{
+	if (type == TOKEN_WORD)
+		return (try_parse_cmd_arg);
+	else if (is_redirect_token(type))
+		return (try_parse_redirect);
+	return (NULL);
+}
+
 /*
 ** simple_command  : cmd_prefix cmd_word cmd_suffix
 **                 | cmd_prefix cmd_word
@@ -59,11 +68,8 @@ t_ast	*parse_simple_command(t_token_list **cur_token)
 	{
 		if (is_simple_command_follow_set(*cur_token))
 			break ;
-		if (get_token_type(*cur_token) == TOKEN_WORD)
-			parse_func = try_parse_cmd_arg;
-		else if (is_redirect_token(get_token_type(*cur_token)))
-			parse_func = try_parse_redirect;
-		else
+		parse_func = get_parse_func(get_token_type(*cur_token));
+		if (parse_func == NULL)
 			return (destroy_ast(node));
 		status = parse_func(node, cur_token);
 		if (status == PARSE_FAILURE)
