@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:26:37 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/23 00:44:41 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/23 11:40:50 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 static bool	is_simple_command_first_set(t_token_list **cur_token)
 {
 	return (get_token_type(*cur_token) == TOKEN_WORD
-		|| is_redirect_token(get_token_type(*cur_token)));
+		|| is_redirect_first_set(*cur_token));
 }
 
 static bool	is_simple_command_follow_set(t_token_list *cur_token)
@@ -60,7 +60,7 @@ t_ast	*parse_simple_command(t_token_list **cur_token)
 			break ;
 		if (get_token_type(*cur_token) == TOKEN_WORD)
 			parse_func = try_parse_cmd_arg;
-		else if (is_redirect_token(get_token_type(*cur_token)))
+		else if (is_redirect_first_set(*cur_token))
 			parse_func = try_parse_redirect;
 		else
 			return (destroy_ast(node));

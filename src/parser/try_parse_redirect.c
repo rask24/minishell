@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 02:28:39 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/23 00:54:28 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/23 00:58:55 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 #include "token.h"
 #include "utils.h"
 
-bool	is_redirect_token(t_token_type type)
+bool	is_redirect_first_set(t_token_list *cur_token)
 {
+	t_token_type	type;
+
+	type = get_token_type(cur_token);
 	return (type == TOKEN_LESS
 		|| type == TOKEN_GREAT
 		|| type == TOKEN_DLESS
