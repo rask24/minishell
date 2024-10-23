@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:22:57 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/23 14:56:01 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/23 15:16:08 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 # include "ast.h"
 # include "token.h"
 
-typedef bool	(*t_parse_simple_commnad)(t_ast *node, t_token_list **token);
+typedef bool	(*t_try_parse)(t_ast *node, t_token_list **token);
 
 typedef enum e_heredoc_status
 {
-	HEREDOC_SUCCESS,
-	HEREDOC_FAILURE,
-	HEREDOC_INTERRUPTED,
+	PARSE_SUCCESS,
+	PARSE_FAILURE,
+	PARSE_ABORT,
 }	t_heredoc_status;
 
 t_ast				*parse_simple_command(t_token_list **cur_token);

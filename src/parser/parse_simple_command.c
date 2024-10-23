@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_simple_command.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:26:37 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/22 23:29:02 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/23 15:01:48 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ static bool	try_parse_cmd_arg(t_ast *node, t_token_list **cur_token)
 */
 t_ast	*parse_simple_command(t_token_list **cur_token)
 {
-	t_ast					*node;
-	t_parse_simple_commnad	parse_func;
+	t_ast		*node;
+	t_try_parse	parse_func;
 
 	if (!is_simple_command_first_set(cur_token))
 		return (NULL);
