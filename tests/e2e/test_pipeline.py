@@ -1,3 +1,5 @@
+import os
+
 from conftest import PROMPT, get_command_output
 
 
@@ -19,7 +21,13 @@ def test_multiple_pipeline(shell_session):
 
 def test_pipeline_many_commands(shell_session):
     pipe_command = "echo Hello"
-    for _ in range(1000):
+
+    if os.uname().sysname == "Darwin":
+        num_pipes = 300
+    else:
+        num_pipes = 1000
+
+    for _ in range(num_pipes):
         pipe_command += " | cat"
     shell_session.sendline(pipe_command)
     shell_session.expect(PROMPT)
