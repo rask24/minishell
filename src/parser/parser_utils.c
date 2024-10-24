@@ -6,15 +6,15 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:55:24 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/18 00:42:22 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/23 18:59:34 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 
 #include "ast.h"
+#include "parser_internal.h"
 #include "token.h"
-#include "utils.h"
 
 bool	consume_token(t_token_list **cur_token)
 {
@@ -24,19 +24,14 @@ bool	consume_token(t_token_list **cur_token)
 	return (true);
 }
 
-bool	expect_token(t_token_list **cur_token, t_token_type type)
+t_ast	*handle_parse_status(t_ast *node, t_parse_status status)
 {
-	if (*cur_token == NULL || get_token_type(*cur_token) != type)
-		return (false);
-	*cur_token = (*cur_token)->next;
-	return (true);
-}
-
-t_ast	*handle_syntax_error(t_ast *node, const char *token_value)
-{
-	if (token_value == NULL)
-		token_value = "EOF";
-	print_syntax_error(token_value);
-	destroy_ast(node);
-	return (NULL);
+	if (status == PARSE_FAILURE)
+		return (destroy_ast(node));
+	else if (status == PARSE_ABORT)
+	{
+		destroy_ast(node);
+		return (construct_ast(AST_UNKNOWN, NULL, NULL));
+	}
+	return (node);
 }

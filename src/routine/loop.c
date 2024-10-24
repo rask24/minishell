@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:12:25 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/23 13:55:30 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/23 17:32:16 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,10 @@ static void	exec(char *input, t_ctx *ctx)
 		destroy_token_list(token_list);
 		return ;
 	}
-	node = parser(token_list);
+	node = parser(token_list, ctx);
 	if (node == NULL)
 	{
 		destroy_token_list(token_list);
-		ctx->exit_status = 2;
 		return ;
 	}
 	if (execute_ast_node(node, ctx, NULL) == EXIT_FAILURE)
