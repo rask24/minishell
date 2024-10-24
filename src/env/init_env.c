@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 21:35:41 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/24 23:05:48 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/24 23:28:32 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	add_default_path(t_env_list *env_list)
 	ft_lstadd_back(&env_list, tmp);
 }
 
-static int	calcu_new_shlvl(const char *shlvl_str)
+static int	calc_new_shlvl(const char *shlvl_str)
 {
 	int		shlvl;
 	int		new_shlvl;
@@ -63,7 +63,7 @@ static void	deal_shlvl(t_env_list *env_list)
 		ft_lstadd_back(&env_list, tmp);
 		return ;
 	}
-	new_shlvl = calcu_new_shlvl(shlvl_str);
+	new_shlvl = calc_new_shlvl(shlvl_str);
 	update_env_value(lookup_env("SHLVL", env_list), ft_xitoa(new_shlvl));
 }
 
