@@ -46,7 +46,7 @@ jobs:
       - name: Run tests
         run: |
           make all -j
-          make test -j
+          make test
 
 
   covrage:
