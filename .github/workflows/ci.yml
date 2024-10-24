@@ -44,7 +44,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential
       - name: Run tests
-        run: make test -j
+        run: |
+          make all -j
+          make test -j
+
 
   covrage:
     name: Generate and Upload Coverage
