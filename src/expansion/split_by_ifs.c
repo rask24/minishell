@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 00:52:40 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/16 15:17:07 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/24 10:05:45 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_list	*extract_var_segment(char *expanded_var, bool is_quoted)
 	list = NULL;
 	ft_lstadd_back(&list, ft_xlstnew(NULL));
 	if (is_quoted)
-		ft_lstadd_back(&list, ft_xlstnew(expanded_var));
+		ft_lstadd_back(&list, ft_xlstnew(ft_xstrdup(expanded_var)));
 	else
 		ft_lstadd_back(&list, split_expanded_variable_by_ifs(expanded_var));
 	ft_lstadd_back(&list, ft_xlstnew(NULL));
@@ -87,6 +87,7 @@ t_list	*split_by_ifs(t_expand_info *expand_info, t_ctx *ctx)
 		{
 			expanded_var = trim_expanded_variable(expand_info, ctx);
 			segment = extract_var_segment(expanded_var, is_quoted);
+			free(expanded_var);
 		}
 		else
 			segment = extract_none_var_segment(expand_info, &is_quoted);
