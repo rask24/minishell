@@ -61,7 +61,7 @@ TEST(handle_parse_status, ParseAbort) {
   t_ast *result = handle_parse_status(node, PARSE_ABORT);
 
   ASSERT_NE(result, nullptr);
-  EXPECT_EQ(result->type, AST_UNKNOWN);
+  EXPECT_EQ(result->type, AST_ABORT);
   EXPECT_EQ(result->left, nullptr);
   EXPECT_EQ(result->right, nullptr);
 
@@ -76,7 +76,7 @@ TEST(handle_parse_status, ComplexTreeHandling) {
   t_ast *result = handle_parse_status(node, PARSE_ABORT);
 
   ASSERT_NE(result, nullptr);
-  EXPECT_EQ(result->type, AST_UNKNOWN);
+  EXPECT_EQ(result->type, AST_ABORT);
   EXPECT_EQ(result->left, nullptr);
   EXPECT_EQ(result->right, nullptr);
 
