@@ -104,16 +104,18 @@ def test_cd_error_too_many_args(shell_session):
 def test_cd_no_home_set(shell_session):
     shell_session.sendline("export HOME_BAK=$HOME")
     shell_session.expect(PROMPT)
-    shell_session.sendline("unset HOME")
-    shell_session.expect(PROMPT)
-    shell_session.sendline("cd")
-    shell_session.expect(PROMPT)
-    shell_session.sendline("echo $?")
-    shell_session.expect(PROMPT)
-    result = get_command_output(shell_session.before)
-    assert result == "1"
-    shell_session.sendline("export HOME=$HOME_BAK")
-    shell_session.expect(PROMPT)
+    try:
+        shell_session.sendline("unset HOME")
+        shell_session.expect(PROMPT)
+        shell_session.sendline("cd")
+        shell_session.expect(PROMPT)
+        shell_session.sendline("echo $?")
+        shell_session.expect(PROMPT)
+        result = get_command_output(shell_session.before)
+        assert result == "1"
+    finally:
+        shell_session.sendline("export HOME=$HOME_BAK")
+        shell_session.expect(PROMPT)
 
 
 def test_cd_many_slashes(shell_session):
@@ -135,7 +137,7 @@ def test_cd_error_permission_denied(shell_session):
         assert result == "1"
 
 
-def test_cd_error_permission_denied(shell_session):
+def test_cd_error_permission_denied1(shell_session):
     shell_session.sendline("mkdir test_no_access")
     shell_session.expect(PROMPT)
 

@@ -1,5 +1,3 @@
-import os
-
 from conftest import PROMPT, get_command_output
 
 

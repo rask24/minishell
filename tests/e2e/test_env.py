@@ -1,5 +1,3 @@
-import os
-
 from conftest import PROMPT, get_command_output
 
 
@@ -15,6 +13,8 @@ def test_env_with_custom_var(shell_session):
 def test_env_with_args(shell_session):
     shell_session.sendline("env arg1")
     shell_session.expect(PROMPT)
+    error_output = get_command_output(shell_session.before)
+    assert "minishell: env: too many arguments" == error_output
     shell_session.sendline("echo $?")
     shell_session.expect(PROMPT)
     result = get_command_output(shell_session.before)
@@ -24,6 +24,11 @@ def test_env_with_args(shell_session):
 def test_env_after_unset(shell_session):
     shell_session.sendline("export TEMP_VAR=temp_value")
     shell_session.expect(PROMPT)
+    shell_session.sendline("env")
+    shell_session.expect(PROMPT)
+    initial_result = get_command_output(shell_session.before)
+    assert "TEMP_VAR=temp_value" in initial_result
+
     shell_session.sendline("unset TEMP_VAR")
     shell_session.expect(PROMPT)
     shell_session.sendline("env")
@@ -39,6 +44,15 @@ def test_env_invalid_value(shell_session):
     shell_session.expect(PROMPT)
     result = get_command_output(shell_session.before)
     assert "INVALID_VAR=" not in result
+
+
+def test_env_invalid_value1(shell_session):
+    shell_session.sendline("export INVALID-VAR=value")
+    shell_session.expect(PROMPT)
+    shell_session.sendline("env")
+    shell_session.expect(PROMPT)
+    result = get_command_output(shell_session.before)
+    assert "INVALID-VAR=value" not in result
 
 
 def test_env_multiple_exports(shell_session):
