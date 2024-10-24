@@ -4,7 +4,6 @@ import subprocess
 from conftest import PROMPT, get_command_output
 
 # TODO: Add test for unset PATH
-# TODO: Check exit status of the command
 
 
 def test_full_pwd_command(shell_session):
@@ -71,6 +70,12 @@ def test_error_empty_command(shell_session):
     result = get_command_output(shell_session.before)
     assert result == "minishell: : command not found"
 
+    shell_session.sendline("echo $?")
+    shell_session.expect(PROMPT)
+
+    result = get_command_output(shell_session.before)
+    assert result == "127"
+
 
 def test_error_dotdot(shell_session):
     shell_session.sendline("..")
@@ -78,6 +83,12 @@ def test_error_dotdot(shell_session):
 
     result = get_command_output(shell_session.before)
     assert result == "minishell: ..: command not found"
+
+    shell_session.sendline("echo $?")
+    shell_session.expect(PROMPT)
+
+    result = get_command_output(shell_session.before)
+    assert result == "127"
 
 
 def test_error_command_not_found(shell_session):
@@ -87,6 +98,12 @@ def test_error_command_not_found(shell_session):
     result = get_command_output(shell_session.before)
     assert result == "minishell: aaaaaaaaaaaaaaaaaaa: command not found"
 
+    shell_session.sendline("echo $?")
+    shell_session.expect(PROMPT)
+
+    result = get_command_output(shell_session.before)
+    assert result == "127"
+
 
 def test_error_relative_no_such_file_or_directory(shell_session):
     shell_session.sendline("./aaaaaaaaaaaaaaaaaaa")
@@ -94,6 +111,12 @@ def test_error_relative_no_such_file_or_directory(shell_session):
 
     result = get_command_output(shell_session.before)
     assert result == "minishell: ./aaaaaaaaaaaaaaaaaaa: No such file or directory"
+
+    shell_session.sendline("echo $?")
+    shell_session.expect(PROMPT)
+
+    result = get_command_output(shell_session.before)
+    assert result == "127"
 
 
 def test_error_full_no_such_file_or_directory(shell_session):
@@ -103,6 +126,12 @@ def test_error_full_no_such_file_or_directory(shell_session):
     result = get_command_output(shell_session.before)
     assert result == "minishell: /bin/aaaaaaaaaaaaaaaaaaa: No such file or directory"
 
+    shell_session.sendline("echo $?")
+    shell_session.expect(PROMPT)
+
+    result = get_command_output(shell_session.before)
+    assert result == "127"
+
 
 def test_error_is_a_directory(shell_session):
     shell_session.sendline("/bin")
@@ -110,6 +139,12 @@ def test_error_is_a_directory(shell_session):
 
     result = get_command_output(shell_session.before)
     assert result == "minishell: /bin: Is a directory"
+
+    shell_session.sendline("echo $?")
+    shell_session.expect(PROMPT)
+
+    result = get_command_output(shell_session.before)
+    assert result == "126"
 
 
 def test_error_permission_denied(shell_session):
@@ -124,6 +159,12 @@ def test_error_permission_denied(shell_session):
 
         result = get_command_output(shell_session.before)
         assert result == f"minishell: ./{test_file}: Permission denied"
+
+        shell_session.sendline("echo $?")
+        shell_session.expect(PROMPT)
+
+        result = get_command_output(shell_session.before)
+        assert result == "126"
     finally:
         if os.path.exists(test_file):
             os.remove(test_file)
@@ -144,6 +185,12 @@ def test_error_too_many_levels_symbolic_links(shell_session):
 
         result = get_command_output(shell_session.before)
         assert result == f"minishell: ./{test_file1}: Too many levels of symbolic links"
+
+        shell_session.sendline("echo $?")
+        shell_session.expect(PROMPT)
+
+        result = get_command_output(shell_session.before)
+        assert result == "126"
     finally:
         for file in [test_file1, test_file2]:
             subprocess.run(["rm", "-f", file], check=True)
@@ -159,3 +206,9 @@ def test_error_file_name_too_long(shell_session):
 
     result = get_command_output(shell_session.before)
     assert result == f"minishell: ./{test_file}: File name too long"
+
+    shell_session.sendline("echo $?")
+    shell_session.expect(PROMPT)
+
+    result = get_command_output(shell_session.before)
+    assert result == "126"
