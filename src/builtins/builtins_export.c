@@ -6,43 +6,58 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 13:41:00 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/24 17:32:32 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/24 19:23:45 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-static void	print_error_export(const char *input)
+static void	register_value(char *key, char *value, t_ctx *ctx, bool is_append)
 {
-	char	*tmp;
-	char	*error_msg;
+	t_env_list	*update_target;
+	char		*new_value;
 
-	tmp = ft_xstrjoin("`", input);
-	error_msg = ft_xstrjoin(tmp, "': not a valid identifier");
-	free(tmp);
-	print_error("export", error_msg);
-	free(error_msg);
+	update_target = is_already_exist(key, ctx->env);
+	if (update_target)
+	{
+		if (is_append)
+		{
+			new_value = ft_xstrjoin(get_env_value(update_target), value);
+			free(value);
+		}
+		else
+			new_value = value;
+		update_env_value(update_target, new_value);
+	}
+	else
+		ft_lstadd_back(&ctx->env, construct_env(ft_xstrdup(key), value));
 }
 
-static int	add_complete_env(const char *input, char *equal_ptr,
-		t_ctx *ctx)
+static int	add_complete_env(const char *input, char *equal_ptr, t_ctx *ctx)
 {
-	char		*key;
-	char		*value;
-	t_env_list	*update_target;
+	char	*plus_ptr;
+	char	*key;
+	char	*value;
+	bool	is_append;
 
-	key = ft_xstrndup(input, equal_ptr - input);
+	plus_ptr = strchr(input, '+');
+	if (plus_ptr != NULL && plus_ptr + 1 == equal_ptr)
+	{
+		is_append = true;
+		key = ft_xstrndup(input, plus_ptr - input);
+	}
+	else
+	{
+		is_append = false;
+		key = ft_xstrndup(input, equal_ptr - input);
+	}
 	if (!is_identifier(key))
 	{
 		print_error_export(input);
 		return (EXIT_FAILURE);
 	}
 	value = ft_xstrdup(ft_strchr(input, '=') + 1);
-	update_target = is_already_exist(key, ctx->env);
-	if (update_target)
-		update_env_value(update_target, value);
-	else
-		ft_lstadd_back(&ctx->env, construct_env(ft_xstrdup(key), value));
+	register_value(key, value, ctx, is_append);
 	free(key);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 14:52:34 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/21 14:53:25 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/24 19:23:49 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,16 @@ t_env_list	*is_already_exist(char *key, t_env_list *env)
 		env = env->next;
 	}
 	return (NULL);
+}
+
+void	print_error_export(const char *input)
+{
+	char	*tmp;
+	char	*error_msg;
+
+	tmp = ft_xstrjoin("`", input);
+	error_msg = ft_xstrjoin(tmp, "': not a valid identifier");
+	free(tmp);
+	print_error("export", error_msg);
+	free(error_msg);
 }
