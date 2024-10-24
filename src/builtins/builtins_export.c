@@ -6,17 +6,20 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 13:41:00 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/24 19:23:45 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/24 21:26:17 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-static void	register_value(char *key, char *value, t_ctx *ctx, bool is_append)
+static void	register_value(char *key, const char *input, t_ctx *ctx,
+							bool is_append)
 {
 	t_env_list	*update_target;
+	char		*value;
 	char		*new_value;
 
+	value = ft_xstrdup(ft_strchr(input, '=') + 1);
 	update_target = is_already_exist(key, ctx->env);
 	if (update_target)
 	{
@@ -37,7 +40,6 @@ static int	add_complete_env(const char *input, char *equal_ptr, t_ctx *ctx)
 {
 	char	*plus_ptr;
 	char	*key;
-	char	*value;
 	bool	is_append;
 
 	plus_ptr = strchr(input, '+');
@@ -54,10 +56,10 @@ static int	add_complete_env(const char *input, char *equal_ptr, t_ctx *ctx)
 	if (!is_identifier(key))
 	{
 		print_error_export(input);
+		free(key);
 		return (EXIT_FAILURE);
 	}
-	value = ft_xstrdup(ft_strchr(input, '=') + 1);
-	register_value(key, value, ctx, is_append);
+	register_value(key, input, ctx, is_append);
 	free(key);
 	return (EXIT_SUCCESS);
 }
