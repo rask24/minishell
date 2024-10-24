@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:55:24 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/23 18:59:34 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/24 17:38:04 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_ast	*handle_parse_status(t_ast *node, t_parse_status status)
 	else if (status == PARSE_ABORT)
 	{
 		destroy_ast(node);
-		return (construct_ast(AST_UNKNOWN, NULL, NULL));
+		return (construct_ast(AST_ABORT, NULL, NULL));
 	}
 	return (node);
 }

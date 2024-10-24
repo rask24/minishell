@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:41:56 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/22 23:29:42 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/24 17:38:04 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef enum e_ast_node_type
 	AST_COMMAND,
 	AST_PIPE,
 	AST_SUBSHELL,
-	AST_UNKNOWN,
+	AST_ABORT,
 }					t_ast_node_type;
 
 typedef enum e_redirect_type
