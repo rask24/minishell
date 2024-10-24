@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 02:19:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/23 00:56:26 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/23 18:54:37 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static bool	is_command_follow_set(t_token_list *cur_token)
 */
 t_ast	*parse_command(t_token_list **cur_token)
 {
-	t_ast	*node;
-	t_ast	*tmp;
+	t_ast			*node;
+	t_ast			*tmp;
 
 	if (get_token_type(*cur_token) != TOKEN_L_PARENTHESIS)
 		return (parse_simple_command(cur_token));
@@ -50,8 +50,9 @@ t_ast	*parse_command(t_token_list **cur_token)
 			break ;
 		if (!is_redirect_first_set(*cur_token))
 			return (destroy_ast(node));
-		if (!try_parse_redirect(node, cur_token))
-			return (destroy_ast(node));
+		node = handle_parse_status(node, try_parse_redirect(node, cur_token));
+		if (node == NULL || node->type == AST_UNKNOWN)
+			return (node);
 	}
 	return (node);
 }

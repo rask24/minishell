@@ -18,11 +18,35 @@
 #include "exec_internal.h"
 #include "expansion.h"
 
+static bool	write_heredoc(int read_fd, int write_fd, t_ctx *ctx)
+{
+	char	*line;
+	char	*expanded;
+
+	errno = 0;
+	while (true)
+	{
+		line = get_next_line(read_fd);
+		if (line == NULL)
+		{
+			if (errno)
+			{
+				print_error("get_next_line", strerror(errno));
+				return (false);
+			}
+			break ;
+		}
+		expanded = expand_variable_heredoc(line, ctx);
+		ft_putstr_fd(expanded, write_fd);
+		free(line);
+		free(expanded);
+	}
+	return (true);
+}
+
 static int	open_pipe_expanded_heredoc(t_redirect_info *info, t_ctx *ctx)
 {
 	int		pipe_fd[2];
-	char	*line;
-	char	*expanded;
 
 	if (pipe(pipe_fd) == -1)
 	{
@@ -30,15 +54,12 @@ static int	open_pipe_expanded_heredoc(t_redirect_info *info, t_ctx *ctx)
 		close(info->heredoc_fd);
 		return (-1);
 	}
-	while (true)
+	if (!write_heredoc(info->heredoc_fd, pipe_fd[1], ctx))
 	{
-		line = get_next_line(info->heredoc_fd);
-		if (line == NULL)
-			break ;
-		expanded = expand_variable_heredoc(line, ctx);
-		ft_putstr_fd(expanded, pipe_fd[1]);
-		free(line);
-		free(expanded);
+		close(info->heredoc_fd);
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+		return (-1);
 	}
 	close(info->heredoc_fd);
 	close(pipe_fd[1]);
@@ -49,21 +70,16 @@ static int	open_tmpfile_expanded_heredoc(t_redirect_info *info, t_ctx *ctx)
 {
 	int		fd;
 	char	tmpfile[TEMPLATE_LEN];
-	char	*line;
-	char	*expanded;
 
 	fd = create_tmpfile(tmpfile, TEMPLATE_LEN, EX_HEREDOC_TMPFILE);
 	if (fd == -1)
 		return (-1);
-	while (true)
+	if (!write_heredoc(info->heredoc_fd, fd, ctx))
 	{
-		line = get_next_line(info->heredoc_fd);
-		if (line == NULL)
-			break ;
-		expanded = expand_variable_heredoc(line, ctx);
-		ft_putendl_fd(expanded, fd);
-		free(line);
-		free(expanded);
+		close(info->heredoc_fd);
+		close(fd);
+		unlink(tmpfile);
+		return (-1);
 	}
 	close(info->heredoc_fd);
 	close(fd);

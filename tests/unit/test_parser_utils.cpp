@@ -31,29 +31,6 @@ TEST(consume_token, MultipleTokens) {
   destroy_token_list(token_list);
 }
 
-TEST(expect_token, MultipleTokens) {
-  // ls -l src
-  t_token_list *token_list = construct_token_list({{TOKEN_WORD, "ls"},
-                                                   {TOKEN_WORD, "-l"},
-                                                   {TOKEN_WORD, "src"},
-                                                   {TOKEN_EOF, nullptr}});
-
-  EXPECT_EQ(get_token_type(token_list), TOKEN_WORD);
-  EXPECT_STREQ(get_token_value(token_list), "ls");
-  EXPECT_TRUE(expect_token(&token_list, TOKEN_WORD));
-  EXPECT_EQ(get_token_type(token_list), TOKEN_WORD);
-  EXPECT_STREQ(get_token_value(token_list), "-l");
-  EXPECT_TRUE(expect_token(&token_list, TOKEN_WORD));
-  EXPECT_EQ(get_token_type(token_list), TOKEN_WORD);
-  EXPECT_STREQ(get_token_value(token_list), "src");
-  EXPECT_TRUE(expect_token(&token_list, TOKEN_WORD));
-  EXPECT_EQ(get_token_type(token_list), TOKEN_EOF);
-  EXPECT_TRUE(expect_token(&token_list, TOKEN_EOF));
-  EXPECT_EQ(token_list, nullptr);
-
-  destroy_token_list(token_list);
-}
-
 TEST(consume_token, CurrentTokenIsNull) {
   t_token_list *token_list = nullptr;
 
@@ -62,26 +39,46 @@ TEST(consume_token, CurrentTokenIsNull) {
   destroy_token_list(token_list);
 }
 
-TEST(expect_token, CurrentTokenIsNull) {
-  t_token_list *token_list = nullptr;
+TEST(handle_parse_status, ParseSuccess) {
+  t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
+  t_ast *result = handle_parse_status(node, PARSE_SUCCESS);
 
-  EXPECT_FALSE(expect_token(&token_list, TOKEN_WORD));
+  EXPECT_EQ(result, node);
 
-  destroy_token_list(token_list);
+  destroy_ast(result);
 }
 
-TEST(expect_token, UnexpectedToken) {
-  // ls > >>
-  t_token_list *token_list = construct_token_list({{TOKEN_WORD, "ls"},
-                                                   {TOKEN_GREAT, ">"},
-                                                   {TOKEN_DGREAT, ">>"},
-                                                   {TOKEN_EOF, nullptr}});
+TEST(handle_parse_status, ParseFailure) {
+  t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
+  t_ast *result = handle_parse_status(node, PARSE_FAILURE);
 
-  EXPECT_EQ(get_token_type(token_list), TOKEN_WORD);
-  EXPECT_EQ(get_token_type(token_list->next), TOKEN_GREAT);
-  EXPECT_EQ(get_token_type(token_list->next->next), TOKEN_DGREAT);
-  // unexpected token
-  EXPECT_FALSE(expect_token(&token_list->next->next, TOKEN_WORD));
+  EXPECT_EQ(result, nullptr);
+}
 
-  destroy_token_list(token_list);
+TEST(handle_parse_status, ParseAbort) {
+  t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
+
+  t_ast *result = handle_parse_status(node, PARSE_ABORT);
+
+  ASSERT_NE(result, nullptr);
+  EXPECT_EQ(result->type, AST_UNKNOWN);
+  EXPECT_EQ(result->left, nullptr);
+  EXPECT_EQ(result->right, nullptr);
+
+  destroy_ast(result);
+}
+
+TEST(handle_parse_status, ComplexTreeHandling) {
+  t_ast *left = construct_ast(AST_COMMAND, nullptr, nullptr);
+  t_ast *right = construct_ast(AST_PIPE, nullptr, nullptr);
+  t_ast *node = construct_ast(AST_AND, left, right);
+
+  t_ast *result = handle_parse_status(node, PARSE_ABORT);
+
+  ASSERT_NE(result, nullptr);
+  EXPECT_EQ(result->type, AST_UNKNOWN);
+  EXPECT_EQ(result->left, nullptr);
+  EXPECT_EQ(result->right, nullptr);
+
+  destroy_ast(result);
 }
