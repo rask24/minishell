@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:12:25 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/23 17:32:16 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/24 15:27:34 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	loop(t_ctx *ctx)
 
 	rl_event_hook = handle_sigint_hook;
 	save_termios(&original_termios);
+	rl_outstream = stderr;
 	while (true)
 	{
 		init_signal_handlers();
