@@ -3,8 +3,6 @@ import subprocess
 
 from conftest import PROMPT, get_command_output
 
-# TODO: Add test for unset PATH
-
 
 def test_full_pwd_command(shell_session):
     shell_session.sendline("/bin/pwd")
@@ -125,6 +123,22 @@ def test_error_full_no_such_file_or_directory(shell_session):
 
     result = get_command_output(shell_session.before)
     assert result == "minishell: /bin/aaaaaaaaaaaaaaaaaaa: No such file or directory"
+
+    shell_session.sendline("echo $?")
+    shell_session.expect(PROMPT)
+
+    result = get_command_output(shell_session.before)
+    assert result == "127"
+
+
+def test_error_path_is_unset(shell_session):
+    shell_session.sendline("unset PATH")
+    shell_session.expect(PROMPT)
+    shell_session.sendline("ls")
+    shell_session.expect(PROMPT)
+
+    result = get_command_output(shell_session.before)
+    assert result == "minishell: ls: No such file or directory"
 
     shell_session.sendline("echo $?")
     shell_session.expect(PROMPT)
