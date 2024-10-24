@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 13:41:00 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/24 21:48:01 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/24 23:05:48 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	register_value(char *key, const char *equal_ptr, t_ctx *ctx,
 	char		*new_value;
 
 	value = ft_xstrdup(equal_ptr + 1);
-	update_target = is_already_exist(key, ctx->env);
+	update_target = lookup_env(key, ctx->env);
 	if (update_target)
 	{
 		if (is_append)
@@ -74,7 +74,7 @@ static int	add_no_value_env(char *input, t_ctx *ctx)
 		print_error_export(input);
 		return (EXIT_FAILURE);
 	}
-	if (!is_already_exist(input, ctx->env))
+	if (!lookup_env(input, ctx->env))
 	{
 		env = construct_env_with_bool(ft_xstrdup(input), NULL, false);
 		ft_lstadd_back(&ctx->env, env);
