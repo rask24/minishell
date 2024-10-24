@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:11:50 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/24 14:55:11 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/24 17:30:39 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,17 @@ static t_ast	*handle_syntax_error(t_ast *node, t_token_list **cur_token)
 	return (destroy_ast(node));
 }
 
+static bool	has_unknown_node(t_ast *node)
+{
+	if (node->type == AST_UNKNOWN)
+		return (true);
+	if (node->left && has_unknown_node(node->left))
+		return (true);
+	if (node->right && has_unknown_node(node->right))
+		return (true);
+	return (false);
+}
+
 t_ast	*parser(t_token_list *token_list, t_ctx *ctx)
 {
 	t_ast			*node;
@@ -41,7 +52,7 @@ t_ast	*parser(t_token_list *token_list, t_ctx *ctx)
 		ctx->exit_status = 2;
 		return (handle_syntax_error(node, cur_token));
 	}
-	else if (node->type == AST_UNKNOWN)
+	else if (has_unknown_node(node))
 	{
 		ctx->exit_status = 128 + SIGINT;
 		return (destroy_ast(node));
