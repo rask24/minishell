@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 02:19:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/23 18:54:37 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/24 17:38:04 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_ast	*parse_command(t_token_list **cur_token)
 		if (!is_redirect_first_set(*cur_token))
 			return (destroy_ast(node));
 		node = handle_parse_status(node, try_parse_redirect(node, cur_token));
-		if (node == NULL || node->type == AST_UNKNOWN)
+		if (node == NULL || node->type == AST_ABORT)
 			return (node);
 	}
 	return (node);

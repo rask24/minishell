@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_export.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 13:41:00 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/25 18:21:58 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/24 17:32:32 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	add_complete_env(const char *input, char *equal_ptr,
 	key = ft_xstrndup(input, equal_ptr - input);
 	if (!is_identifier(key))
 	{
-		print_error_export(key);
+		print_error_export(input);
 		return (EXIT_FAILURE);
 	}
 	value = ft_xstrdup(ft_strchr(input, '=') + 1);
@@ -66,11 +66,7 @@ static int	add_no_value_env(char *input, t_ctx *ctx)
 
 static int	add_no_key_env(char *input)
 {
-	char	*error_msg;
-
-	error_msg = ft_xstrjoin(input, ": not a valid identifier");
-	print_error("export", error_msg);
-	free(error_msg);
+	print_error_export(input);
 	return (EXIT_FAILURE);
 }
 
