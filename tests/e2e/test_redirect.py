@@ -134,21 +134,21 @@ def test_only_redirection(shell_session):
                 os.remove(file)
 
 
-# FIXME
-# def test_redirection_with_variable(shell_session):
-#     test_file = "test_output.txt"
+def test_redirection_with_variable(shell_session):
+    test_file = "test_redirection_with_variable.txt"
 
-#     try:
-#         shell_session.sendline(f"export OUTPUT={test_file}")
-#         shell_session.sendline("echo Hello > $OUTPUT")
-#         shell_session.expect(PROMPT)
+    try:
+        shell_session.sendline(f"export OUTPUT={test_file}")
+        shell_session.expect(PROMPT)
+        shell_session.sendline("echo -n Hello > $OUTPUT")
+        shell_session.expect(PROMPT)
 
-#         assert os.path.exists(test_file)
-#         with open(test_file, "r") as f:
-#             assert f.read() == "Hello"
-#     finally:
-#         if os.path.exists(test_file):
-#             os.remove(test_file)
+        assert os.path.exists(test_file)
+        with open(test_file, "r") as f:
+            assert f.read() == "Hello"
+    finally:
+        if os.path.exists(test_file):
+            os.remove(test_file)
 
 
 def test_error_not_found_input_redirection(shell_session):
@@ -161,24 +161,25 @@ def test_error_not_found_input_redirection(shell_session):
     assert result == f"minishell: {test_file}: No such file or directory"
 
 
-# def test_error_permission_denied_output_redirection_with_variable(shell_session):
-#     test_file = "test_output.txt"
+def test_error_permission_denied_output_redirection_with_variable(shell_session):
+    test_file = "test_error_permission_denied_output_redirection_with_variable.txt"
 
-#     try:
-#         shell_session.sendline("export OUTPUT=test_output.txt")
+    try:
+        with open(test_file, "w") as _:
+            shell_session.sendline(f"export OUTPUT={test_file}")
+            shell_session.expect(PROMPT)
 
-#         assert os.path.exists(test_file)
-#         os.chmod(test_file, 0o000)
+            os.chmod(test_file, 0o000)
 
-#         shell_session.sendline(f"echo Hello > $OUTPUT")
-#         shell_session.expect(PROMPT)
+            shell_session.sendline("echo Hello > $OUTPUT")
+            shell_session.expect(PROMPT)
 
-#         result = get_command_output(shell_session.before)
+            result = get_command_output(shell_session.before)
 
-#         assert result == f"minishell: {test_file}: Permission denied"
-#     finally:
-#         if os.path.exists(test_file):
-#             os.remove(test_file)
+            assert result == f"minishell: {test_file}: Permission denied"
+    finally:
+        if os.path.exists(test_file):
+            os.remove(test_file)
 
 
 def test_error_permission_input_redirection(shell_session):
@@ -334,15 +335,14 @@ def test_error_only_redirection_ambiguous(shell_session):
     assert result == "minishell: ***: ambiguous redirect"
 
 
-# TODO: Comment out after export is fixed
-# def test_error_ambiguous_redirection_ifs(shell_session):
-#     shell_session.sendline("export FILES='a b c'")
-#     shell_session.sendline("echo Hello > $FILES")
-#     shell_session.expect(PROMPT)
+def test_error_ambiguous_redirection_ifs(shell_session):
+    shell_session.sendline("export FILES='a b c'")
+    shell_session.expect(PROMPT)
+    shell_session.sendline("echo Hello > $FILES")
+    shell_session.expect(PROMPT)
 
-
-#     result = get_command_output(shell_session.before)
-#     assert result == "minishell: $FILES: ambiguous redirect"
+    result = get_command_output(shell_session.before)
+    assert result == "minishell: $FILES: ambiguous redirect"
 
 
 def test_subshell_output_redirection(shell_session):
