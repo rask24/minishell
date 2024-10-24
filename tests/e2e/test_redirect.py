@@ -4,7 +4,7 @@ from conftest import PROMPT, get_command_output
 
 
 def test_output_redirection(shell_session):
-    test_file = "test_output.txt"
+    test_file = "test_output_redirection.txt"
 
     try:
         shell_session.sendline(f"echo Output! > {test_file}")
@@ -19,7 +19,7 @@ def test_output_redirection(shell_session):
 
 
 def test_append_redirection(shell_session):
-    test_file = "test_append.txt"
+    test_file = "test_append_redirection.txt"
 
     try:
         shell_session.sendline(f"echo Line1 > {test_file}")
@@ -36,7 +36,7 @@ def test_append_redirection(shell_session):
 
 
 def test_input_redirection(shell_session):
-    test_file = "test_input.txt"
+    test_file = "test_input_redirection.txt"
     try:
         shell_session.sendline(f"echo Input! > {test_file}")
         shell_session.expect(PROMPT)
@@ -51,8 +51,8 @@ def test_input_redirection(shell_session):
 
 
 def test_combined_redirection(shell_session):
-    input_file = "test_input.txt"
-    output_file = "test_output.txt"
+    input_file = "test_combined_redirection_input.txt"
+    output_file = "test_combined_redirection_output.txt"
 
     try:
         shell_session.sendline(f"echo Combined! > {input_file}")
@@ -69,9 +69,9 @@ def test_combined_redirection(shell_session):
 
 
 def test_multiple_output_redirection(shell_session):
-    file1 = "test_output1.txt"
-    file2 = "test_output2.txt"
-    file3 = "test_output3.txt"
+    file1 = "test_multiple_output_redirection1.txt"
+    file2 = "test_multiple_output_redirection2.txt"
+    file3 = "test_multiple_output_redirection3.txt"
 
     try:
         shell_session.sendline(f"> {file1} echo Hello > {file2} > {file3}")
@@ -95,9 +95,9 @@ def test_multiple_output_redirection(shell_session):
 
 
 def test_multiple_input_redirection(shell_session):
-    file1 = "test_input1.txt"
-    file2 = "test_input2.txt"
-    file3 = "test_input3.txt"
+    file1 = "test_multiple_input_redirection1.txt"
+    file2 = "test_multiple_input_redirection2.txt"
+    file3 = "test_multiple_input_redirection3.txt"
 
     try:
         shell_session.sendline(f"echo Hello > {file1}")
@@ -118,8 +118,8 @@ def test_multiple_input_redirection(shell_session):
 
 
 def test_only_redirection(shell_session):
-    test_file1 = "test_output1.txt"
-    test_file2 = "test_output2.txt"
+    test_file1 = "test_only_redirection1.txt"
+    test_file2 = "test_only_redirection2.txt"
 
     try:
         shell_session.sendline(f"> {test_file1} >> {test_file2}")
@@ -152,7 +152,7 @@ def test_only_redirection(shell_session):
 
 
 def test_error_not_found_input_redirection(shell_session):
-    test_file = "not_found.txt"
+    test_file = "test_error_not_found_input_redirection.txt"
 
     shell_session.sendline(f"cat < {test_file}")
     shell_session.expect(PROMPT)
@@ -182,7 +182,7 @@ def test_error_not_found_input_redirection(shell_session):
 
 
 def test_error_permission_input_redirection(shell_session):
-    test_file = "test_output.txt"
+    test_file = "test_error_permission_input_redirection.txt"
 
     try:
         with open(test_file, "w") as f:
@@ -200,9 +200,9 @@ def test_error_permission_input_redirection(shell_session):
 
 
 def test_error_permission_output_redirection(shell_session):
-    test_file1 = "test_output1.txt"
-    test_file2 = "test_output2.txt"
-    test_file3 = "test_output3.txt"
+    test_file1 = "test_error_permission_output_redirection1.txt"
+    test_file2 = "test_error_permission_output_redirection2.txt"
+    test_file3 = "test_error_permission_output_redirection3.txt"
 
     try:
         with open(test_file2, "w") as f:
@@ -227,7 +227,7 @@ def test_error_permission_output_redirection(shell_session):
 
 
 def test_error_redirection_and_builtin(shell_session):
-    test_file = "test_output.txt"
+    test_file = "test_error_redirection_and_builtin.txt"
 
     try:
         with open(test_file, "w") as f:
@@ -245,7 +245,7 @@ def test_error_redirection_and_builtin(shell_session):
 
 
 def test_error_redirection_and_spawn(shell_session):
-    test_file = "test.txt"
+    test_file = "test_error_redirection_and_spawn.txt"
 
     shell_session.sendline(f"cat < {test_file} && echo World")
     shell_session.expect(PROMPT)
@@ -255,9 +255,10 @@ def test_error_redirection_and_spawn(shell_session):
 
 
 def test_error_ambiguous_redirection_wildcard(shell_session):
-    test_file1 = "test_output1.txt"
-    test_file2 = "test_output2.txt"
-    test_file3 = "test_output3.txt"
+    test_name = "test_error_ambiguous_redirection_wildcard"
+    test_file1 = f"{test_name}1.txt"
+    test_file2 = f"{test_name}2.txt"
+    test_file3 = f"{test_name}3.txt"
 
     try:
         with open(test_file1, "w") as f:
@@ -267,11 +268,11 @@ def test_error_ambiguous_redirection_wildcard(shell_session):
         with open(test_file3, "w") as f:
             f.write("42")
 
-        shell_session.sendline("echo Tokyo > test_output*.txt")
+        shell_session.sendline(f"echo Tokyo > {test_name}*.txt")
         shell_session.expect(PROMPT)
 
         result = get_command_output(shell_session.before)
-        assert result == "minishell: test_output*.txt: ambiguous redirect"
+        assert result == f"minishell: {test_name}*.txt: ambiguous redirect"
 
     finally:
         files = [test_file1, test_file2, test_file3]
@@ -281,7 +282,7 @@ def test_error_ambiguous_redirection_wildcard(shell_session):
 
 
 def test_error_only_redirection_permission_denied(shell_session):
-    test_file = "test_output.txt"
+    test_file = "test_error_only_redirection_permission_denied.txt"
 
     try:
         with open(test_file, "w") as f:
@@ -299,7 +300,7 @@ def test_error_only_redirection_permission_denied(shell_session):
 
 
 def test_pipeline_with_redirection(shell_session):
-    test_file = "test_output.txt"
+    test_file = "test_pipeline_with_redirection.txt"
 
     try:
         shell_session.sendline(f"/bin/echo Hello > {test_file} | /bin/cat")
@@ -316,7 +317,7 @@ def test_pipeline_with_redirection(shell_session):
 
 
 def test_error_only_redirection_not_found(shell_session):
-    test_file = "not_found.txt"
+    test_file = "test_error_only_redirection_not_found.txt"
 
     shell_session.sendline(f"< {test_file}")
     shell_session.expect(PROMPT)
@@ -345,7 +346,7 @@ def test_error_only_redirection_ambiguous(shell_session):
 
 
 def test_subshell_output_redirection(shell_session):
-    test_file = "test_output.txt"
+    test_file = "test_subshell_output_redirection.txt"
 
     try:
         shell_session.sendline(f"(echo Hello) > {test_file}")
@@ -360,8 +361,8 @@ def test_subshell_output_redirection(shell_session):
 
 
 def test_subshell_both_side_redirection(shell_session):
-    test_file1 = "test_output1.txt"
-    test_file2 = "test_output2.txt"
+    test_file1 = "test_subshell_both_side_redirection1.txt"
+    test_file2 = "test_subshell_both_side_redirection2.txt"
 
     try:
         shell_session.sendline(f"(echo Hello > {test_file1}) > {test_file2}")
@@ -381,8 +382,8 @@ def test_subshell_both_side_redirection(shell_session):
 
 
 def test_subshell_both_side_redirection_pipeline(shell_session):
-    test_file1 = "test_output1.txt"
-    test_file2 = "test_output2.txt"
+    test_file1 = "test_subshell_both_side_redirection_pipeline1.txt"
+    test_file2 = "test_subshell_both_side_redirection_pipeline2.txt"
 
     try:
         shell_session.sendline(f"echo Hello | (cat > {test_file1}) > {test_file2}")
