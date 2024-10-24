@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:12:25 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/24 15:27:34 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/24 15:30:41 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	loop(t_ctx *ctx)
 		input = readline(PROMPT);
 		if (input == NULL)
 		{
-			printf("exit\n");
+			ft_putendl_fd("exit", STDERR_FILENO);
 			break ;
 		}
 		if (is_empty_input(input))
