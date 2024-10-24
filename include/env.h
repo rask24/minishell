@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 12:35:50 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/16 21:37:52 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/24 20:17:54 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ char			*get_env_key(t_env_list *env);
 char			*get_env_value(t_env_list *env);
 t_env_list		*init_env(char **envp);
 char			*lookup_value(const char *key, t_env_list *env_list);
-const char		*return_entire_path(const char *basename, t_env_list *env_list);
 void			set_env_is_valid_value(t_env_list *env, bool is_valid_value);
 void			set_env_value(t_env_list *env, char *value);
 
