@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:20:58 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/19 15:38:26 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/23 12:51:51 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,29 @@
 #include <unistd.h>
 
 #include "ctx.h"
+#include "ui.h"
+
+static void	print_signal_termination_info(int status)
+{
+	const char	**siglist;
+
+	siglist = create_siglist();
+	if (WTERMSIG(status) == SIGINT)
+		ft_putchar_fd('\n', STDERR_FILENO);
+	else
+		print_signal_info(siglist[WTERMSIG(status)], WTERMSIG(status));
+	free(siglist);
+}
 
 static void	update_exit_status(int status, t_ctx *ctx)
 {
 	if (WIFEXITED(status))
 		ctx->exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
+	{
 		ctx->exit_status = WTERMSIG(status) + 128;
+		print_signal_termination_info(status);
+	}
 }
 
 static bool	wait_for_single_child(pid_t last_pid, t_ctx *ctx)

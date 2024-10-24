@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 02:19:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/22 23:55:37 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/23 00:56:26 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_ast	*parse_command(t_token_list **cur_token)
 	{
 		if (is_command_follow_set(*cur_token))
 			break ;
-		if (!is_redirect_token(get_token_type(*cur_token)))
+		if (!is_redirect_first_set(*cur_token))
 			return (destroy_ast(node));
 		if (!try_parse_redirect(node, cur_token))
 			return (destroy_ast(node));

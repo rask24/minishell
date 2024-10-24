@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:12:25 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/21 15:50:15 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/23 13:55:30 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static void	exec(char *input, t_ctx *ctx)
 	t_ast			*node;
 
 	token_list = lexer(input);
-	if (!is_valid_last_token(ft_lstlast(token_list)))
+	if (get_token_type(token_list) == TOKEN_EOF
+		|| !is_valid_last_token(ft_lstlast(token_list)))
 	{
 		destroy_token_list(token_list);
 		return ;
