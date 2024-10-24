@@ -42,6 +42,8 @@ def test_export_invalid_identifier(shell_session):
     shell_session.expect(PROMPT)
     shell_session.sendline("export 123invalid=value")
     shell_session.expect(PROMPT)
+    result = get_command_output(shell_session.before)
+    assert result == "minishell: export: `123invalid=value': not a valid identifier"
     shell_session.sendline("echo $?")
     shell_session.expect(PROMPT)
     result = get_command_output(shell_session.before)

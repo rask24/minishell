@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_export.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 13:41:00 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/25 18:21:58 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/24 15:41:09 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	add_complete_env(const char *input, char *equal_ptr,
 	key = ft_xstrndup(input, equal_ptr - input);
 	if (!is_identifier(key))
 	{
-		print_error_export(key);
+		print_error_export(input);
 		return (EXIT_FAILURE);
 	}
 	value = ft_xstrdup(ft_strchr(input, '=') + 1);
