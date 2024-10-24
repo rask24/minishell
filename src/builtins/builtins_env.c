@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:41:44 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/25 18:20:07 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/24 20:11:09 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 static void	print_env_entry(void *content)
 {
-	if (((t_env *)content)->is_valid_value)
-		printf("%s=%s\n", ((t_env *)content)->key, ((t_env *)content)->value);
+	t_env	*env_item;
+
+	env_item = (t_env *)content;
+	if (env_item->is_valid_value)
+		ft_printf("%s=%s\n", env_item->key, env_item->value);
 }
 
 int	builtins_env(char **args, t_ctx *ctx)
