@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:12:25 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/23 17:32:16 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/24 16:09:42 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,13 @@
 #include "token.h"
 #include "ui.h"
 
-static bool	is_valid_last_token(t_token_list *last_token)
+static bool	is_valid_last_token(t_token_list *last_token, t_ctx *ctx)
 {
 	if (last_token == NULL)
 		return (false);
 	if (get_token_type(last_token) == TOKEN_UNTERMINATED_QUOTE)
 	{
+		ctx->exit_status = 2;
 		print_error("unterminated quote", get_token_value(last_token));
 		return (false);
 	}
@@ -46,7 +47,7 @@ static void	exec(char *input, t_ctx *ctx)
 
 	token_list = lexer(input);
 	if (get_token_type(token_list) == TOKEN_EOF
-		|| !is_valid_last_token(ft_lstlast(token_list)))
+		|| !is_valid_last_token(ft_lstlast(token_list), ctx))
 	{
 		destroy_token_list(token_list);
 		return ;
