@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 20:03:51 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/24 22:28:17 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/24 22:37:08 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "readline/readline.h"
 #include "utils.h"
 
-volatile sig_atomic_t g_signum = 0;
+volatile sig_atomic_t	g_signum = 0;
 
 static void	set_signum(int sig)
 {
@@ -29,13 +29,13 @@ static void	set_signum(int sig)
 
 static int	setup_sigaction(int signum, void (*handler)(int))
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	ft_bzero(&sa, sizeof(struct sigaction));
 	sa.sa_handler = handler;
 	sa.sa_flags = SA_RESTART;
 	sigemptyset(&sa.sa_mask);
-	return sigaction(signum, &sa, NULL);
+	return (sigaction(signum, &sa, NULL));
 }
 
 void	init_signal_handlers(void)
