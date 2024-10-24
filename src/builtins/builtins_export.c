@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_export.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 13:41:00 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/24 17:32:32 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/24 20:08:04 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	print_error_export(const char *input)
 }
 
 static int	add_complete_env(const char *input, char *equal_ptr,
-		t_ctx *ctx)
+				t_ctx *ctx)
 {
 	char		*key;
 	char		*value;
