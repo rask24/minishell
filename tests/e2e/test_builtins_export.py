@@ -25,6 +25,17 @@ def test_export_update_variable(shell_session):
     assert result == "new"
 
 
+def test_export_empty(shell_session):
+    shell_session.sendline("./minishell")
+    shell_session.expect(PROMPT)
+    shell_session.sendline("export TEST_VAR=")
+    shell_session.expect(PROMPT)
+    shell_session.sendline("echo $TEST_VAR")
+    shell_session.expect(PROMPT)
+    result = get_command_output(shell_session.before)
+    assert result == ""
+
+
 def test_export_no_value(shell_session):
     shell_session.sendline("./minishell")
     shell_session.expect(PROMPT)
