@@ -141,19 +141,21 @@ def test_cd_error_permission_denied1(shell_session):
     shell_session.sendline("mkdir test_no_access")
     shell_session.expect(PROMPT)
 
-    shell_session.sendline("chmod 000 test_no_access")
-    shell_session.expect(PROMPT)
+    try:
+        shell_session.sendline("chmod 000 test_no_access")
+        shell_session.expect(PROMPT)
 
-    shell_session.sendline("cd test_no_access")
-    shell_session.expect(PROMPT)
+        shell_session.sendline("cd test_no_access")
+        shell_session.expect(PROMPT)
 
-    shell_session.sendline("echo $?")
-    shell_session.expect(PROMPT)
-    result = get_command_output(shell_session.before)
-    assert result == "1"
+        shell_session.sendline("echo $?")
+        shell_session.expect(PROMPT)
+        result = get_command_output(shell_session.before)
+        assert result == "1"
 
-    shell_session.sendline("chmod 755 test_no_access")
-    shell_session.expect(PROMPT)
+    finally:
+        shell_session.sendline("chmod 755 test_no_access")
+        shell_session.expect(PROMPT)
 
-    shell_session.sendline("rmdir test_no_access")
-    shell_session.expect(PROMPT)
+        shell_session.sendline("rmdir test_no_access")
+        shell_session.expect(PROMPT)
