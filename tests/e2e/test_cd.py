@@ -138,24 +138,15 @@ def test_cd_error_permission_denied(shell_session):
 
 
 def test_cd_error_permission_denied1(shell_session):
-    shell_session.sendline("mkdir test_no_access")
-    shell_session.expect(PROMPT)
-
+    no_accesable_dir = "test_no_access"
     try:
-        shell_session.sendline("chmod 000 test_no_access")
-        shell_session.expect(PROMPT)
-
+        os.makedirs(no_accesable_dir, mode=0o000)
         shell_session.sendline("cd test_no_access")
         shell_session.expect(PROMPT)
-
         shell_session.sendline("echo $?")
         shell_session.expect(PROMPT)
         result = get_command_output(shell_session.before)
         assert result == "1"
-
     finally:
-        shell_session.sendline("chmod 755 test_no_access")
-        shell_session.expect(PROMPT)
-
-        shell_session.sendline("rmdir test_no_access")
-        shell_session.expect(PROMPT)
+        if os.path.exists(no_accesable_dir):
+            os.rmdir(no_accesable_dir)

@@ -33,7 +33,7 @@ def test_export_no_value(shell_session):
     shell_session.sendline("export | grep TEST_EMPTY")
     shell_session.expect(PROMPT)
     result = get_command_output(shell_session.before)
-    assert "declare -x TEST_EMPTY" in result
+    assert result == "declare -x TEST_EMPTY"
     assert '=""' not in result
 
 
@@ -55,6 +55,8 @@ def test_export_no_key(shell_session):
     shell_session.expect(PROMPT)
     shell_session.sendline("export =value")
     shell_session.expect(PROMPT)
+    result = get_command_output(shell_session.before)
+    assert result == "minishell: export: `=value': not a valid identifier"
     shell_session.sendline("echo $?")
     shell_session.expect(PROMPT)
     result = get_command_output(shell_session.before)
@@ -135,6 +137,8 @@ def test_export_invalid_chars(shell_session):
     shell_session.expect(PROMPT)
     shell_session.sendline("export TEST@VAR=invalid")
     shell_session.expect(PROMPT)
+    result = get_command_output(shell_session.before)
+    assert result == "minishell: export: `TEST@VAR=invalid': not a valid identifier"
     shell_session.sendline("echo $?")
     shell_session.expect(PROMPT)
     result = get_command_output(shell_session.before)

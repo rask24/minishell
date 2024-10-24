@@ -45,20 +45,13 @@ def test_unset_nonexistent_var(shell_session):
 def test_unset_path_var(shell_session):
     shell_session.sendline("echo $PATH")
     shell_session.expect(PROMPT)
-    original_path = get_command_output(shell_session.before)
+    shell_session.sendline("unset PATH")
+    shell_session.expect(PROMPT)
 
-    try:
-        shell_session.sendline("unset PATH")
-        shell_session.expect(PROMPT)
-
-        shell_session.sendline("echo $PATH")
-        shell_session.expect(PROMPT)
-        result = get_command_output(shell_session.before)
-        assert result == ""
-
-    finally:
-        shell_session.sendline(f"export PATH='{original_path}'")
-        shell_session.expect(PROMPT)
+    shell_session.sendline("echo $PATH")
+    shell_session.expect(PROMPT)
+    result = get_command_output(shell_session.before)
+    assert result == ""
 
 
 def test_unset_empty_args(shell_session):

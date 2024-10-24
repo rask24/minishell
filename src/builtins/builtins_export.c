@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 13:41:00 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/24 15:41:09 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/24 17:32:32 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,7 @@ static int	add_no_value_env(char *input, t_ctx *ctx)
 
 static int	add_no_key_env(char *input)
 {
-	char	*error_msg;
-
-	error_msg = ft_xstrjoin(input, ": not a valid identifier");
-	print_error("export", error_msg);
-	free(error_msg);
+	print_error_export(input);
 	return (EXIT_FAILURE);
 }
 
