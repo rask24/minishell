@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 17:46:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/19 21:24:00 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/25 19:54:37 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@
 # include <stdbool.h>
 
 # include "ast.h"
-# include "builtins.h"
 # include "ctx.h"
-# include "env.h"
 # include "exec.h"
 # include "libft.h"
 

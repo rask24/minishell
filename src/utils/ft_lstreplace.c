@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstreplace.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 09:44:37 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/24 12:17:33 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/25 19:48:38 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdlib.h>
 
 #include "utils.h"
 
