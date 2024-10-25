@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:58:13 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/13 17:55:26 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/25 19:47:12 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPANSION_H
 # define EXPANSION_H
 
-# include "builtins.h"
+# include "ctx.h"
 # include "libft.h"
-# include "env.h"
 
 t_list	*expand(t_list *cmd_args, t_ctx *ctx);
 

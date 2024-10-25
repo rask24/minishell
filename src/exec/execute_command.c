@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtins.h"
 #include "exec_internal.h"
 #include "expansion.h"
 

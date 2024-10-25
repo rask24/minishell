@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   process_operator.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 15:25:37 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/18 23:00:32 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/25 19:56:43 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_internal.h"
+#include "utils.h"
 
 static void	discards_operator(t_lexer *lexer, int n)
 {

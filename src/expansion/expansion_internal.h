@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_internal.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:09:46 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/13 18:17:23 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/25 19:55:31 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPANSION_INTERNAL_H
 # define EXPANSION_INTERNAL_H
 
-# include "builtins.h"
-# include "utils.h"
+# include "ctx.h"
+# include "libft.h"
 
 typedef t_string	t_expand_info;
 

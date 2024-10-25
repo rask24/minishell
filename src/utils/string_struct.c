@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   string_struct.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 17:52:16 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/07 15:43:42 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/25 19:48:56 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdlib.h>
 
 #include "utils.h"
 
