@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 22:18:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/22 23:37:37 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/25 18:50:33 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ t_ast	*parse_pipeline(t_token_list **cur_token)
 	t_ast	*tmp;
 
 	node = parse_command(cur_token);
-	if (node == NULL)
-		return (NULL);
+	if (node == NULL || node->type == AST_ABORT)
+		return (node);
 	while (true)
 	{
 		if (!is_pipeline_follow_set(*cur_token))
@@ -54,8 +54,11 @@ t_ast	*parse_pipeline(t_token_list **cur_token)
 			break ;
 		consume_token(cur_token);
 		tmp = parse_command(cur_token);
-		if (tmp == NULL)
-			return (destroy_ast(node));
+		if (tmp == NULL || tmp->type == AST_ABORT)
+		{
+			destroy_ast(node);
+			return (tmp);
+		}
 		node = push_pipe_node(node, tmp);
 	}
 	return (node);

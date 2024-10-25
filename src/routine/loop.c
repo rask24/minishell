@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:12:25 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/24 16:30:41 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/25 19:58:27 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 #include "exec.h"
 #include "lexer.h"
 #include "parser.h"
-#include "readline.h"
+#include "readline/history.h"
+#include "readline/readline.h"
 #include "token.h"
 #include "ui.h"
 

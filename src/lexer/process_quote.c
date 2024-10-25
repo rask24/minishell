@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   process_quote.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:45:32 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/09 10:33:30 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/25 19:56:51 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_internal.h"
+#include "utils.h"
 
 t_token_list	*process_quote(t_lexer *lexer)
 {

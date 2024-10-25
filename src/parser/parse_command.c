@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 02:19:16 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/24 17:38:04 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/25 18:51:27 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ t_ast	*parse_command(t_token_list **cur_token)
 		return (parse_simple_command(cur_token));
 	consume_token(cur_token);
 	tmp = parse_list(cur_token);
-	if (tmp == NULL)
-		return (NULL);
+	if (tmp == NULL || tmp->type == AST_ABORT)
+		return (tmp);
 	node = construct_ast(AST_SUBSHELL, tmp, NULL);
 	if (get_token_type(*cur_token) != TOKEN_R_PARENTHESIS)
 		return (destroy_ast(node));
