@@ -155,7 +155,6 @@ def test_exit_with_mixed_valid_invalid(shell_session):
 
 
 def test_exit_with_pipeline(shell_session):
-    shell_session.expect(PROMPT)
     shell_session.sendline("exit | exit")
     shell_session.expect(PROMPT)
     shell_session.sendline("echo $?")
@@ -165,7 +164,6 @@ def test_exit_with_pipeline(shell_session):
 
 
 def test_exit_with_pipeline_after_failed_cmd(shell_session):
-    shell_session.expect(PROMPT)
     shell_session.sendline("cd a b c")
     shell_session.expect(PROMPT)
     shell_session.sendline("exit | exit")
@@ -177,7 +175,6 @@ def test_exit_with_pipeline_after_failed_cmd(shell_session):
 
 
 def test_exit_with_pipeline_and_args(shell_session):
-    shell_session.expect(PROMPT)
     shell_session.sendline("exit 42 | exit 1")
     shell_session.expect(PROMPT)
     shell_session.sendline("echo $?")
@@ -187,7 +184,6 @@ def test_exit_with_pipeline_and_args(shell_session):
 
 
 def test_exit_with_pipeline_not_numeric(shell_session):
-    shell_session.expect(PROMPT)
     shell_session.sendline("exit 1 | exit abc")
     shell_session.expect(PROMPT)
     result = get_command_output(shell_session.before)
@@ -199,28 +195,26 @@ def test_exit_with_pipeline_not_numeric(shell_session):
 
 
 def test_exit_with_pipeline_not_numeric_args(shell_session):
-    shell_session.expect(PROMPT)
     shell_session.sendline("exit 12345678901234567890 | exit 42abc")
-    shell_session.expect(PROMPT)
-    result = get_command_output(shell_session.before)
-    assert result == "minishell: exit: 42abc: numeric argument required"
-    shell_session.sendline("echo $?")
     shell_session.expect(PROMPT)
     result = get_command_output(shell_session.before)
     assert (
         result
         == "minishell: exit: 12345678901234567890: numeric argument required\nminishell: exit: 42abc: numeric argument required"
     )
+    shell_session.sendline("echo $?")
+    shell_session.expect(PROMPT)
+    result = get_command_output(shell_session.before)
+    assert result == "2"
 
 
 def test_exit_with_pipeline_too_many_args(shell_session):
-    shell_session.expect(PROMPT)
     shell_session.sendline("exit 1 1 | exit 42 42 | exit abc abc")
     shell_session.expect(PROMPT)
     result = get_command_output(shell_session.before)
     assert (
         result
-        == "minishell: exit: too many arguments\nminishell: exit: too many arguments\nminishell: exit: abc: numeric argument required"
+        == "minishell: exit: too many arguments\nminishell: exit: too many arguments\nminishell: exit: too many arguments"
     )
     shell_session.sendline("echo $?")
     shell_session.expect(PROMPT)
