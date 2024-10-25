@@ -29,7 +29,7 @@ def test_hostname_command_from_path(shell_session):
 
 
 def test_relative_shell_script(shell_session):
-    test_file = "test_exec"
+    test_file = "test_relative_shell_script.sh"
 
     try:
         with open(test_file, "w") as f:
@@ -162,7 +162,7 @@ def test_error_is_a_directory(shell_session):
 
 
 def test_error_permission_denied(shell_session):
-    test_file = "test_exec"
+    test_file = "test_error_permission_denied.sh"
 
     try:
         with open(test_file, "w") as f:
