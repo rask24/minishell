@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_export_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 14:52:34 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/24 20:12:35 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/25 13:09:38 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,14 @@ bool	cmp_func(t_env_list *a, t_env_list *b)
 	return (ft_strcmp(get_env_key(a), get_env_key(b)) > 0);
 }
 
-void	update_env_value(t_env_list *env, char *value)
+void	print_error_export(const char *input)
 {
-	free(get_env_value(env));
-	set_env_value(env, value);
-	return ;
-}
+	char	*tmp;
+	char	*error_msg;
 
-t_env_list	*is_already_exist(char *key, t_env_list *env)
-{
-	while (env)
-	{
-		if (ft_strcmp(get_env_key(env), key) == 0)
-			return (env);
-		env = env->next;
-	}
-	return (NULL);
+	tmp = ft_xstrjoin("`", input);
+	error_msg = ft_xstrjoin(tmp, "': not a valid identifier");
+	free(tmp);
+	print_error("export", error_msg);
+	free(error_msg);
 }

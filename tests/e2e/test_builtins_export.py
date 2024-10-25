@@ -154,3 +154,40 @@ def test_export_invalid_chars(shell_session):
     shell_session.expect(PROMPT)
     result = get_command_output(shell_session.before)
     assert result == "1"
+
+
+def test_export_append(shell_session):
+    shell_session.sendline("./minishell")
+    shell_session.expect(PROMPT)
+    shell_session.sendline("export TEST_VAR=value")
+    shell_session.expect(PROMPT)
+    shell_session.sendline("export TEST_VAR+=append")
+    shell_session.expect(PROMPT)
+    shell_session.sendline("echo $TEST_VAR")
+    shell_session.expect(PROMPT)
+    result = get_command_output(shell_session.before)
+    assert result == "valueappend"
+
+
+def test_export_append_empty(shell_session):
+    shell_session.sendline("./minishell")
+    shell_session.expect(PROMPT)
+    shell_session.sendline("export TEST_VAR=value")
+    shell_session.expect(PROMPT)
+    shell_session.sendline("export TEST_VAR+=")
+    shell_session.expect(PROMPT)
+    shell_session.sendline("echo $TEST_VAR")
+    shell_session.expect(PROMPT)
+    result = get_command_output(shell_session.before)
+    assert result == "value"
+
+
+def test_export_append_to_empty(shell_session):
+    shell_session.sendline("./minishell")
+    shell_session.expect(PROMPT)
+    shell_session.sendline("export TEST_VAR+=value")
+    shell_session.expect(PROMPT)
+    shell_session.sendline("echo $TEST_VAR")
+    shell_session.expect(PROMPT)
+    result = get_command_output(shell_session.before)
+    assert result == "value"
