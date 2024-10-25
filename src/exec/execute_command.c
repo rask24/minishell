@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_command.c                           :+:      :+:    :+:   */
+/*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:18:33 by reasuke           #+#    #+#             */
-/*   Updated: 2024/09/25 18:12:45 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/25 19:58:00 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	restore_std_io(int *std_fds)
 ** argv is NULL only if no arguments are passed to the command.
 ** In this case, this function returns EXIT_SUCCESS.
 */
-static int	execute_builtin_command(t_ast *node, t_ctx *ctx)
+static int	execute_builtin_command(t_ast *node, t_ctx *ctx, t_pipe_conf *conf)
 {
 	const char	*cmd_name;
 	char		**argv;
@@ -87,7 +87,7 @@ static int	execute_builtin_command(t_ast *node, t_ctx *ctx)
 	else if (ft_strcmp(cmd_name, "unset") == 0)
 		status = builtins_unset(argv, ctx);
 	else if (ft_strcmp(cmd_name, "exit") == 0)
-		status = builtins_exit(argv, ctx);
+		status = builtins_exit(argv, ctx, conf);
 	ft_free_strs(argv);
 	return (status);
 }
@@ -104,7 +104,7 @@ int	execute_command(t_ast *node, t_ctx *ctx, t_pipe_conf *conf)
 	{
 		save_std_io(std_fds);
 		if (handle_io(conf, node->redirects, ctx, false))
-			ctx->exit_status = execute_builtin_command(node, ctx);
+			ctx->exit_status = execute_builtin_command(node, ctx, conf);
 		else
 			ctx->exit_status = EXIT_FAILURE;
 		restore_std_io(std_fds);

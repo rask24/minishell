@@ -18,49 +18,49 @@ TEST(builtins_exit, NoArg) {
   t_ctx config;
   config.exit_status = 0;
 
-  EXPECT_EXIT(builtins_exit(args, &config), ::testing::ExitedWithCode(0),
+  EXPECT_EXIT(builtins_exit(args, &config, NULL), ::testing::ExitedWithCode(0),
               "exit\n");
 }
 
 TEST(builtins_exit, OneArgNormal) {
   char *args[] = {strdup("exit"), strdup("0"), NULL};
 
-  EXPECT_EXIT(builtins_exit(args, NULL), ::testing::ExitedWithCode(0),
+  EXPECT_EXIT(builtins_exit(args, NULL, NULL), ::testing::ExitedWithCode(0),
               "exit\n");
 }
 
 TEST(builtins_exit, OneArgError) {
   char *args[] = {strdup("exit"), strdup("42"), NULL};
 
-  EXPECT_EXIT(builtins_exit(args, NULL), ::testing::ExitedWithCode(42),
+  EXPECT_EXIT(builtins_exit(args, NULL, NULL), ::testing::ExitedWithCode(42),
               "exit\n");
 }
 
 TEST(builtins_exit, OneArgErrorPlus) {
   char *args[] = {strdup("exit"), strdup("+42"), NULL};
 
-  EXPECT_EXIT(builtins_exit(args, NULL), ::testing::ExitedWithCode(42),
+  EXPECT_EXIT(builtins_exit(args, NULL, NULL), ::testing::ExitedWithCode(42),
               "exit\n");
 }
 
 TEST(builtins_exit, OneArgError1) {
   char *args[] = {strdup("exit"), strdup("-1"), NULL};
 
-  EXPECT_EXIT(builtins_exit(args, NULL), ::testing::ExitedWithCode(255),
+  EXPECT_EXIT(builtins_exit(args, NULL, NULL), ::testing::ExitedWithCode(255),
               "exit\n");
 }
 
 TEST(builtins_exit, OneArgError2) {
   char *args[] = {strdup("exit"), strdup("2147483649"), NULL};
 
-  EXPECT_EXIT(builtins_exit(args, NULL), ::testing::ExitedWithCode(1),
+  EXPECT_EXIT(builtins_exit(args, NULL, NULL), ::testing::ExitedWithCode(1),
               "exit\n");
 }
 
 TEST(builtins_exit, OneArgError3) {
   char *args[] = {strdup("exit"), strdup("9223372036854775807"), NULL};
 
-  EXPECT_EXIT(builtins_exit(args, NULL), ::testing::ExitedWithCode(255),
+  EXPECT_EXIT(builtins_exit(args, NULL, NULL), ::testing::ExitedWithCode(255),
               "exit\n");
 }
 
@@ -82,7 +82,7 @@ TEST(builtins_exit, OneArgError3) {
 TEST(builtins_exit, OneArgError6) {
   char *args[] = {strdup("exit"), strdup("000042"), NULL};
 
-  EXPECT_EXIT(builtins_exit(args, NULL), ::testing::ExitedWithCode(42),
+  EXPECT_EXIT(builtins_exit(args, NULL, NULL), ::testing::ExitedWithCode(42),
               "exit\n");
 }
 
@@ -109,6 +109,6 @@ TEST(builtins_exit, OneArgError6) {
 TEST(builtins_exit, WithHyphen) {
   char *args[] = {strdup("exit"), strdup("--"), strdup("1"), NULL};
 
-  EXPECT_EXIT(builtins_exit(args, NULL), ::testing::ExitedWithCode(1),
+  EXPECT_EXIT(builtins_exit(args, NULL, NULL), ::testing::ExitedWithCode(1),
               "exit\n");
 }
