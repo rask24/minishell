@@ -30,7 +30,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential
       - name: Build project
-        run: make all
+        run: make all -j $(nproc)
 
   unit_test:
     name: Unit Test
@@ -44,7 +44,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential
       - name: Run tests
-        run: make test
+        run: |
+          make all -j $(nproc)
+          make test
+
 
   covrage:
     name: Generate and Upload Coverage
@@ -81,7 +84,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential
       - name: Build project
-        run: make all
+        run: make all -j $(nproc)
       - uses: actions/setup-python@v2
         with:
           python-version: '3.12.4'
