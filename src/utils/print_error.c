@@ -6,15 +6,17 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:20:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/19 16:56:04 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/24 20:25:56 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <errno.h>
 #include <string.h>
+#include <unistd.h>
+
+#include "libft.h"
 
 /*
 ** Using printf for line buffering
@@ -54,78 +56,20 @@ void	print_error_exit(const char *func, const char *desc, int exit_status)
 
 void	print_syntax_error(const char *token_value)
 {
-	int	stdout_fd;
-	int	res;
-
-	stdout_fd = dup(STDOUT_FILENO);
-	if (stdout_fd == -1)
-	{
-		perror("minishell: dup");
-		return ;
-	}
-	if (dup2(STDERR_FILENO, STDOUT_FILENO) == -1)
-	{
-		perror("minishell: dup2");
-		close(stdout_fd);
-		return ;
-	}
-	res = printf("minishell: syntax error near unexpected token `%s'\n",
-			token_value);
-	if (res < 0)
-		perror("minishell: printf");
-	if (dup2(stdout_fd, STDOUT_FILENO) == -1)
-		perror("minishell: dup2");
-	close(stdout_fd);
+	ft_dprintf(STDERR_FILENO,
+		"minishell: syntax error near unexpected token `%s'\n",
+		token_value);
 }
 
 void	print_heredoc_warning(const char *delimiter)
 {
-	int		stdout_fd;
-	int		res;
-
-	stdout_fd = dup(STDOUT_FILENO);
-	if (stdout_fd == -1)
-	{
-		perror("minishell: dup");
-		return ;
-	}
-	if (dup2(STDERR_FILENO, STDOUT_FILENO) == -1)
-	{
-		perror("minishell: dup2");
-		close(stdout_fd);
-		return ;
-	}
-	res = printf("%s: %s: %s`%s')\n",
-			"minishell", "warning",
-			"here-document delimited by end-of-file (wanted ", delimiter);
-	if (res < 0)
-		perror("minishell: printf");
-	if (dup2(stdout_fd, STDOUT_FILENO) == -1)
-		perror("minishell: dup2");
-	close(stdout_fd);
+	ft_dprintf(STDERR_FILENO,
+		"%s: %s: %s`%s')\n",
+		"minishell", "warning",
+		"here-document delimited by end-of-file (wanted ", delimiter);
 }
 
 void	print_signal_info(const char *sig_detail, int signum)
 {
-	int		stdout_fd;
-	int		res;
-
-	stdout_fd = dup(STDOUT_FILENO);
-	if (stdout_fd == -1)
-	{
-		perror("minishell: dup");
-		return ;
-	}
-	if (dup2(STDERR_FILENO, STDOUT_FILENO) == -1)
-	{
-		perror("minishell: dup2");
-		close(stdout_fd);
-		return ;
-	}
-	res = printf("minishell: %s: %d\n", sig_detail, signum);
-	if (res < 0)
-		perror("minishell: printf");
-	if (dup2(stdout_fd, STDOUT_FILENO) == -1)
-		perror("minishell: dup2");
-	close(stdout_fd);
+	ft_dprintf(STDERR_FILENO, "minishell: %s: %d\n", sig_detail, signum);
 }

@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 14:52:34 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/24 23:08:15 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/25 13:09:38 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 void	print_a_export(void *content)
 {
-	if (((t_env *)content)->is_valid_value)
-		printf("declare -x %s=\"%s\"\n", ((t_env *)content)->key,
-			((t_env *)content)->value);
+	t_env	*env_item;
+
+	env_item = (t_env *)content;
+	if (env_item->is_valid_value)
+		ft_printf("declare -x %s=\"%s\"\n", env_item->key, env_item->value);
 	else
-		printf("declare -x %s\n", ((t_env *)content)->key);
+		ft_printf("declare -x %s\n", env_item->key);
 }
 
 bool	cmp_func(t_env_list *a, t_env_list *b)

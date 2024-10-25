@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_echo.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:44:03 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/29 16:23:12 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/24 16:26:36 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <unistd.h>
 
 #include "builtins.h"
+#include "libft.h"
 
 static void	print_args(char **args)
 {
@@ -24,8 +25,8 @@ static void	print_args(char **args)
 	while (args[i])
 	{
 		if (i != 0)
-			printf(" ");
-		printf("%s", args[i]);
+			ft_putstr_fd(" ", STDOUT_FILENO);
+		ft_putstr_fd(args[i], STDOUT_FILENO);
 		i++;
 	}
 }
@@ -56,7 +57,7 @@ int	builtins_echo(char **args, t_ctx *ctx)
 	else
 	{
 		print_args(args + 1);
-		printf("\n");
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	}
 	return (EXIT_SUCCESS);
 }
