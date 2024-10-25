@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:11:50 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/24 17:38:30 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/25 19:03:08 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static t_ast	*handle_syntax_error(t_ast *node, t_token_list **cur_token)
 
 static bool	has_abort_node(t_ast *node)
 {
+	if (node == NULL)
+		return (false);
 	if (node->type == AST_ABORT)
 		return (true);
 	if (node->left && has_abort_node(node->left))
@@ -47,15 +49,15 @@ t_ast	*parser(t_token_list *token_list, t_ctx *ctx)
 
 	cur_token = &token_list;
 	node = parse_list(cur_token);
-	if (node == NULL || get_token_type(*cur_token) != TOKEN_EOF)
-	{
-		ctx->exit_status = 2;
-		return (handle_syntax_error(node, cur_token));
-	}
-	else if (has_abort_node(node))
+	if (has_abort_node(node))
 	{
 		ctx->exit_status = 128 + SIGINT;
 		return (destroy_ast(node));
+	}
+	else if (node == NULL || get_token_type(*cur_token) != TOKEN_EOF)
+	{
+		ctx->exit_status = 2;
+		return (handle_syntax_error(node, cur_token));
 	}
 	return (node);
 }
