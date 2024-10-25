@@ -101,6 +101,50 @@ def test_only_heredoc(shell_session):
     assert result == ""
 
 
+def test_multiple_heredoc(shell_session):
+    shell_session.sendline("cat << EOF << END")
+    shell_session.expect("> ")
+    shell_session.sendline("Hello, world!")
+    shell_session.expect("> ")
+    shell_session.sendline("EOF")
+    shell_session.expect("> ")
+    shell_session.sendline("Goodbye, world!")
+    shell_session.expect("> ")
+    shell_session.sendline("END")
+    shell_session.expect(PROMPT)
+
+    result = get_command_output(shell_session.before)
+    assert result == "Goodbye, world!"
+
+
+def test_heredoc_with_subshell(shell_session):
+    shell_session.sendline("(cat) << EOF")
+    shell_session.expect("> ")
+    shell_session.sendline("Hello, world!")
+    shell_session.expect("> ")
+    shell_session.sendline("EOF")
+    shell_session.expect(PROMPT)
+
+    result = get_command_output(shell_session.before)
+    assert result == "Hello, world!"
+
+
+def test_heredoc_with_multiple_subshell(shell_session):
+    shell_session.sendline("((cat) << EOF) << END")
+    shell_session.expect("> ")
+    shell_session.sendline("Hello, world!")
+    shell_session.expect("> ")
+    shell_session.sendline("EOF")
+    shell_session.expect("> ")
+    shell_session.sendline("Goodbye, world!")
+    shell_session.expect("> ")
+    shell_session.sendline("END")
+    shell_session.expect(PROMPT)
+
+    result = get_command_output(shell_session.before)
+    assert result == "Hello, world!"
+
+
 # This test is not working on GitHub Actions
 # def test_warning_heredoc(shell_session):
 #     shell_session.sendline("cat << EOF")
