@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:47:26 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/25 20:27:30 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/25 20:51:21 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@ static int	exec_valid_exit(int exit_pos, char **args)
 {
 	long	res;
 	char	*end_ptr;
+	char	*msg;
 
 	errno = 0;
 	res = ft_strtol(args[exit_pos], &end_ptr, 10);
 	if (errno == ERANGE || errno == EINVAL || *end_ptr != '\0')
 	{
-		print_error("exit", ft_xstrjoin(args[exit_pos],
-				": numeric argument required"));
+		msg = ft_xstrjoin(args[exit_pos], ": numeric argument required");
+		print_error("exit", msg);
+		free(msg);
 		return (2);
 	}
 	return (res & 0xFF);
