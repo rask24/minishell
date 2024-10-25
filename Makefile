@@ -62,7 +62,8 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/env/destructor.c \
 					$(SRC_DIR)/env/getter.c \
 					$(SRC_DIR)/env/init_env.c \
-					$(SRC_DIR)/env/lookup_value.c \
+					$(SRC_DIR)/env/lookup.c \
+					$(SRC_DIR)/env/update.c \
 					$(SRC_DIR)/env/setter.c \
 					$(SRC_DIR)/lexer/constructor.c \
 					$(SRC_DIR)/lexer/get_next_token.c \
