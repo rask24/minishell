@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:41:56 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/24 17:38:04 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/26 19:55:11 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_redirect_info		*construct_heredoc_redirect_info(const char *delimiter,
 
 t_ast				*destroy_ast(t_ast *ast);
 
-void				push_cmd_arg(t_ast *ast, const char *cmd_arg);
+void				push_cmd_arg(t_ast *ast, char *cmd_arg);
 void				push_redirect_info(t_ast *ast, t_redirect_info *info);
 
 const char			*get_cmd_arg(t_list *cmd_args);
