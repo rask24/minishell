@@ -35,7 +35,7 @@ TEST(construct_ast, MultipleNodes) {
 TEST(push_cmd_arg, OneArg) {
   t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
 
-  push_cmd_arg(node, "ls");
+  push_cmd_arg(node, strdup("ls"));
 
   EXPECT_STREQ(get_cmd_arg(node->cmd_args), "ls");
 
@@ -45,9 +45,9 @@ TEST(push_cmd_arg, OneArg) {
 TEST(push_cmd_arg, MultipleArgs) {
   t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
 
-  push_cmd_arg(node, "ls");
-  push_cmd_arg(node, "-l");
-  push_cmd_arg(node, "-a");
+  push_cmd_arg(node, strdup("ls"));
+  push_cmd_arg(node, strdup("-l"));
+  push_cmd_arg(node, strdup("-a"));
 
   EXPECT_STREQ(get_cmd_arg(node->cmd_args), "ls");
   EXPECT_STREQ(get_cmd_arg(node->cmd_args->next), "-l");
@@ -132,11 +132,11 @@ TEST(construct_ast, ComplexNodes) {
   t_ast *right = construct_ast(AST_COMMAND, nullptr, nullptr);
   t_ast *node = construct_ast(AST_PIPE, left, right);
 
-  push_cmd_arg(left, "ls");
-  push_cmd_arg(left, "-l");
-  push_cmd_arg(left, "-a");
-  push_cmd_arg(right, "cat");
-  push_cmd_arg(right, "file.txt");
+  push_cmd_arg(left, strdup("ls"));
+  push_cmd_arg(left, strdup("-l"));
+  push_cmd_arg(left, strdup("-a"));
+  push_cmd_arg(right, strdup("cat"));
+  push_cmd_arg(right, strdup("file.txt"));
 
   t_redirect_info *info_1 =
       construct_redirect_info(REDIRECT_INPUT, "input.txt");
@@ -205,7 +205,7 @@ TEST(set_file_or_delim, OneRedirect) {
 TEST(push_cmd_arg, InvalidNodeType) {
   t_ast *node = construct_ast(AST_PIPE, nullptr, nullptr);
 
-  push_cmd_arg(node, "ls");
+  push_cmd_arg(node, strdup("ls"));
   EXPECT_EQ(node->cmd_args, nullptr);
 }
 
@@ -230,7 +230,7 @@ TEST(convert_cmd_args_to_array, NullCmdArgs) {
 TEST(convert_cmd_args_to_array, OneArg) {
   t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
 
-  push_cmd_arg(node, "ls");
+  push_cmd_arg(node, strdup("ls"));
 
   char **cmd_args = convert_cmd_args_to_array(node->cmd_args);
 
@@ -244,9 +244,9 @@ TEST(convert_cmd_args_to_array, OneArg) {
 TEST(convert_cmd_args_to_array, MultipleArgs) {
   t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
 
-  push_cmd_arg(node, "ls");
-  push_cmd_arg(node, "-l");
-  push_cmd_arg(node, "-a");
+  push_cmd_arg(node, strdup("ls"));
+  push_cmd_arg(node, strdup("-l"));
+  push_cmd_arg(node, strdup("-a"));
 
   char **cmd_args = convert_cmd_args_to_array(node->cmd_args);
 
