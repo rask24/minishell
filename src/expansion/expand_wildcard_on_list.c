@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:45:09 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/06 16:56:03 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/26 19:36:24 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static t_list	*initialize_files(void)
 		dp = readdir(cur_dir);
 		if (dp == NULL)
 			break ;
-		if (ft_strcmp(dp->d_name, ".") == 0 || ft_strcmp(dp->d_name, "..") == 0)
+		if (ft_strncmp(dp->d_name, ".", 1) == 0)
 			continue ;
 		ft_lstadd_back(&files, ft_xlstnew(ft_xstrdup(dp->d_name)));
 	}
