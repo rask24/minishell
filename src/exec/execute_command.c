@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:18:33 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/26 18:50:44 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/26 19:07:35 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	save_std_io(int *fd_array)
 		print_error("dup", strerror(errno));
 }
 
-static void	close_std_io(int *std_fds)
+static void	restore_std_io(int *std_fds)
 {
 	if (dup2(std_fds[0], STDIN_FILENO) == -1)
 		print_error("dup2", strerror(errno));
@@ -109,7 +109,7 @@ int	execute_command(t_ast *node, t_ctx *ctx, t_pipe_conf *conf)
 					std_fds);
 		else
 			ctx->exit_status = EXIT_FAILURE;
-		close_std_io(std_fds);
+		restore_std_io(std_fds);
 		if (conf && conf->next_write == STDOUT_FILENO)
 			wait_children();
 		return (EXIT_SUCCESS);
