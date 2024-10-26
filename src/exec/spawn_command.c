@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:25:57 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/19 15:37:45 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/26 18:18:11 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static char	*search_for_command(char *basename, t_env_list *env_list)
 static void	execute_external_command(char **argv, t_ctx *ctx)
 {
 	char	*cmd_path;
+	char	**env_array;
 
 	cmd_path = argv[0];
 	if (lookup_value("PATH", ctx->env) && ft_strchr(cmd_path, '/') == NULL)
@@ -71,8 +72,10 @@ static void	execute_external_command(char **argv, t_ctx *ctx)
 	}
 	if (is_a_directory(cmd_path))
 		print_error_exit(cmd_path, strerror(EISDIR), EXIT_OTHER_ERR);
-	if (execve(cmd_path, argv, (char **)convert_env_to_array(ctx->env)) == -1)
+	env_array = convert_env_to_array(ctx->env);
+	if (execve(cmd_path, argv, env_array) == -1)
 	{
+		ft_free_strs(env_array);
 		if (errno == ENOENT)
 			print_error_exit(argv[0], strerror(errno), EXIT_NOT_FOUND_ERR);
 		else
