@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:47:26 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/26 19:12:05 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/26 19:17:14 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 static void	close_std_io(int *std_fds)
 {
+	if (std_fds == NULL)
+		return ;
 	close(std_fds[0]);
 	close(std_fds[1]);
 	close(std_fds[2]);
