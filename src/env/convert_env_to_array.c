@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   convert_env_to_array.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 21:32:41 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/20 21:58:34 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/26 18:06:49 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,19 @@
 const char	**convert_env_to_array(t_env_list *env)
 {
 	const char	**env_array;
-	const char	**tmp_array;
+	char		*tmp;
+	int			i;
 
 	env_array = ft_xmalloc(sizeof(char *) * (ft_lstsize(env) + 1));
-	tmp_array = env_array;
+	i = 0;
 	while (env)
 	{
-		*tmp_array = ft_xstrjoin(get_env_key(env),
-				ft_xstrjoin("=", get_env_value(env)));
+		tmp = ft_xstrjoin(get_env_key(env), "=");
+		env_array[i] = ft_xstrjoin(tmp, get_env_value(env));
+		free(tmp);
 		env = env->next;
-		tmp_array++;
+		i++;
 	}
-	*tmp_array = NULL;
+	env_array[i] = NULL;
 	return (env_array);
 }
