@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:25:57 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/26 18:14:03 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/26 18:18:11 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void	execute_external_command(char **argv, t_ctx *ctx)
 	}
 	if (is_a_directory(cmd_path))
 		print_error_exit(cmd_path, strerror(EISDIR), EXIT_OTHER_ERR);
-	env_array = (char **)convert_env_to_array(ctx->env);
+	env_array = convert_env_to_array(ctx->env);
 	if (execve(cmd_path, argv, env_array) == -1)
 	{
 		ft_free_strs(env_array);

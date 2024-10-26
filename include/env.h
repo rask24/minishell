@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 12:35:50 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/26 18:17:33 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/26 18:18:36 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_env_list		*construct_env(char *name, char *value);
 t_env_list		*construct_env_with_bool(char *key, char *value,
 					bool is_valid_value);
 t_env_list		*convert_array_to_env(char **envp);
-const char		**convert_env_to_array(t_env_list *env_list);
+char			**convert_env_to_array(t_env_list *env_list);
 void			destroy_env(t_env_list *env);
 void			destroy_env_helper(void *content);
 void			destroy_env_list(t_env_list *env_list);
