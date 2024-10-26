@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:44:57 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/25 19:57:00 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/26 18:51:00 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 int				builtins_cd(char **args, t_ctx *ctx);
 int				builtins_echo(char **args, t_ctx *ctx);
 int				builtins_env(char **args, t_ctx *ctx);
-int				builtins_exit(char **args, t_ctx *ctx, t_pipe_conf *conf);
+int				builtins_exit(char **args, t_ctx *ctx, t_pipe_conf *conf,
+					int *std_fds);
 int				builtins_export(char **args, t_ctx *ctx);
 int				builtins_pwd(char **args, t_ctx *ctx);
 int				builtins_unset(char **args, t_ctx *ctx);
