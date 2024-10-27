@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:41:56 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/26 19:55:11 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/27 09:46:41 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,6 @@ t_ast				*construct_ast(t_ast_node_type type,
 						t_ast *left, t_ast *right);
 t_redirect_info		*construct_redirect_info(t_redirect_type type,
 						const char *filename);
-t_redirect_info		*construct_heredoc_redirect_info(const char *delimiter,
-						int heredoc_fd, size_t heredoc_size,
-						bool should_expand);
 
 t_ast				*destroy_ast(t_ast *ast);
 
