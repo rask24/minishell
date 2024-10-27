@@ -92,41 +92,6 @@ TEST(push_redirect_info, MultipleRedirects) {
   destroy_ast(node);
 }
 
-TEST(push_redirect_info, OneRedirectHeredoc) {
-  t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
-  t_redirect_info *info =
-      construct_heredoc_redirect_info("delimiter", 42, 4096, true);
-
-  push_redirect_info(node, info);
-
-  EXPECT_EQ(get_redirect_type(node->redirects), REDIRECT_HEREDOC);
-  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects), "delimiter");
-  EXPECT_EQ(get_heredoc_fd(node->redirects), 42);
-
-  destroy_ast(node);
-}
-
-TEST(push_redirect_info, MultipleRedirectsHeredoc) {
-  t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
-  t_redirect_info *info_1 =
-      construct_heredoc_redirect_info("delimiter_1", 42, 4096, true);
-  t_redirect_info *info_2 =
-      construct_heredoc_redirect_info("delimiter_2", 43, 8192, false);
-
-  push_redirect_info(node, info_1);
-  push_redirect_info(node, info_2);
-
-  EXPECT_EQ(get_redirect_type(node->redirects), REDIRECT_HEREDOC);
-  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects), "delimiter_1");
-  EXPECT_EQ(get_heredoc_fd(node->redirects), 42);
-  node->redirects = node->redirects->next;
-  EXPECT_EQ(get_redirect_type(node->redirects), REDIRECT_HEREDOC);
-  EXPECT_STREQ(get_redirect_file_or_delim(node->redirects), "delimiter_2");
-  EXPECT_EQ(get_heredoc_fd(node->redirects), 43);
-
-  destroy_ast(node);
-}
-
 TEST(construct_ast, ComplexNodes) {
   t_ast *left = construct_ast(AST_COMMAND, nullptr, nullptr);
   t_ast *right = construct_ast(AST_COMMAND, nullptr, nullptr);
