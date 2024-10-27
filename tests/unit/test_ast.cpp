@@ -92,6 +92,16 @@ TEST(push_redirect_info, MultipleRedirects) {
   destroy_ast(node);
 }
 
+TEST(push_redirect_info, NullRedirectInfo) {
+  t_ast *node = construct_ast(AST_COMMAND, nullptr, nullptr);
+
+  push_redirect_info(node, nullptr);
+
+  EXPECT_EQ(node->redirects, nullptr);
+
+  destroy_ast(node);
+}
+
 TEST(construct_ast, ComplexNodes) {
   t_ast *left = construct_ast(AST_COMMAND, nullptr, nullptr);
   t_ast *right = construct_ast(AST_COMMAND, nullptr, nullptr);
