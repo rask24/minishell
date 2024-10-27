@@ -6,11 +6,12 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 19:38:07 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/27 10:04:51 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/27 10:28:45 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -22,15 +23,21 @@
 
 static size_t	calc_heredoc_size(t_list *input_list)
 {
-	size_t	size;
+	size_t	heredoc_size;
+	size_t	line_size;
 
-	size = 0;
+	heredoc_size = 0;
 	while (input_list)
 	{
-		size += ft_strlen(input_list->content) + 1;
+		if (input_list->content == NULL)
+			break ;
+		line_size = ft_strlen(input_list->content) + 1;
+		if (SIZE_MAX - heredoc_size < line_size)
+			return (SIZE_MAX);
+		heredoc_size += line_size;
 		input_list = input_list->next;
 	}
-	return (size);
+	return (heredoc_size);
 }
 
 static void	set_redirect_heredoc_info(t_redirect_info *info, t_list *input_list,
