@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:45:09 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/26 19:36:24 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/27 11:53:53 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static t_list	*initialize_files(void)
 		dp = readdir(cur_dir);
 		if (dp == NULL)
 			break ;
-		if (ft_strncmp(dp->d_name, ".", 1) == 0)
+		if (ft_strcmp(dp->d_name, ".") == 0 || ft_strcmp(dp->d_name, "..") == 0)
 			continue ;
 		ft_lstadd_back(&files, ft_xlstnew(ft_xstrdup(dp->d_name)));
 	}
@@ -46,15 +46,23 @@ static bool	simple_cmp(t_list *a, t_list *b)
 	return (ft_strcmp(a->content, b->content) > 0);
 }
 
-static t_list	*expand_wildcard(char *wildcard)
+static bool	should_remove_hidden(t_list *file, void *wildcard_exp)
+{
+	(void)wildcard_exp;
+	return (((char *)(file->content))[0] == '.');
+}
+
+static t_list	*expand_wildcard(char *wildcard_exp)
 {
 	t_list	*files;
 
 	files = initialize_files();
+	if (wildcard_exp[0] != '.')
+		ft_lstremove_if(&files, should_remove_hidden, wildcard_exp, free);
+	ft_lstremove_if(&files, should_remove, wildcard_exp, free);
 	ft_lstsort(&files, simple_cmp);
-	ft_lstremove_if(&files, should_remove, wildcard, free);
 	if (files == NULL)
-		return (ft_xlstnew(ft_xstrdup(wildcard)));
+		return (ft_xlstnew(ft_xstrdup(wildcard_exp)));
 	return (files);
 }
 
