@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:41:56 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/24 17:38:04 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/27 09:48:28 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef enum e_ast_node_type
 	AST_PIPE,
 	AST_SUBSHELL,
 	AST_ABORT,
-}					t_ast_node_type;
+}	t_ast_node_type;
 
 typedef enum e_redirect_type
 {
@@ -33,7 +33,7 @@ typedef enum e_redirect_type
 	REDIRECT_OUTPUT = TOKEN_GREAT,
 	REDIRECT_APPEND = TOKEN_DGREAT,
 	REDIRECT_HEREDOC = TOKEN_DLESS,
-}					t_redirect_type;
+}				t_redirect_type;
 
 typedef struct s_redirect_info
 {
@@ -53,19 +53,20 @@ typedef struct s_ast
 	t_list			*redirects;
 }					t_ast;
 
+// constructor.c
 t_ast				*construct_ast(t_ast_node_type type,
 						t_ast *left, t_ast *right);
 t_redirect_info		*construct_redirect_info(t_redirect_type type,
 						const char *filename);
-t_redirect_info		*construct_heredoc_redirect_info(const char *delimiter,
-						int heredoc_fd, size_t heredoc_size,
-						bool should_expand);
 
+// destructor.c
 t_ast				*destroy_ast(t_ast *ast);
 
-void				push_cmd_arg(t_ast *ast, const char *cmd_arg);
+// push.c
+void				push_cmd_arg(t_ast *ast, char *cmd_arg);
 void				push_redirect_info(t_ast *ast, t_redirect_info *info);
 
+// getter.c
 const char			*get_cmd_arg(t_list *cmd_args);
 t_redirect_type		get_redirect_type(t_list *redirects);
 int					get_heredoc_fd(t_list *redirects);
@@ -73,6 +74,7 @@ const char			*get_redirect_file_or_delim(t_list *redirects);
 void				set_file_or_delim(t_list *redirects,
 						const char *file_or_delim);
 
+// convert_cmd_args_to_array.c
 char				**convert_cmd_args_to_array(t_list *cmd_args);
 
 #endif
