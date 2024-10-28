@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:26:37 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/24 17:38:04 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/26 19:53:48 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ static bool	is_simple_command_follow_set(t_token_list *cur_token)
 
 static t_parse_status	try_parse_cmd_arg(t_ast *node, t_token_list **cur_token)
 {
-	push_cmd_arg(node, get_token_value(*cur_token));
+	char	*cmd_arg;
+
+	cmd_arg = ft_xstrdup(get_token_value(*cur_token));
+	push_cmd_arg(node, cmd_arg);
 	return (consume_token(cur_token));
 }
 
