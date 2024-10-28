@@ -65,7 +65,6 @@ SRC				= $(SRC_DIR)/main.c \
 					$(SRC_DIR)/env/lookup.c \
 					$(SRC_DIR)/env/update.c \
 					$(SRC_DIR)/env/setter.c \
-					$(SRC_DIR)/lexer/constructor.c \
 					$(SRC_DIR)/lexer/get_next_token.c \
 					$(SRC_DIR)/lexer/is_start_of_input.c \
 					$(SRC_DIR)/lexer/lexer.c \

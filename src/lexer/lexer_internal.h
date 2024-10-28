@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_internal.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:25:14 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/25 19:56:06 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/10/27 17:36:08 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ typedef struct s_lexer
 	t_token_type	type;
 }					t_lexer;
 
-void				construct_lexer(const char *input, t_lexer *lexer);
 t_token_list		*get_next_token(t_lexer *lexer);
 bool				is_start_of_input(t_lexer *lexer);
 
