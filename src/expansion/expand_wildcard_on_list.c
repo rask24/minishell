@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:45:09 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/06 16:56:03 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/29 17:46:00 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,41 +36,47 @@ static t_list	*initialize_files(void)
 	return (files);
 }
 
-static bool	should_remove(t_list *file, void *wildcard_exp)
-{
-	return (!wildcard_lazy_match(file->content, wildcard_exp));
-}
-
 static bool	simple_cmp(t_list *a, t_list *b)
 {
 	return (ft_strcmp(a->content, b->content) > 0);
 }
 
-static t_list	*expand_wildcard(char *wildcard)
+static bool	should_remove(t_list *file, void *wildcard_exp)
 {
-	t_list	*files;
+	return (!wildcard_lazy_match(file->content, wildcard_exp));
+}
 
-	files = initialize_files();
-	ft_lstsort(&files, simple_cmp);
-	ft_lstremove_if(&files, should_remove, wildcard, free);
-	if (files == NULL)
-		return (ft_xlstnew(ft_xstrdup(wildcard)));
-	return (files);
+static bool	should_remove_hidden(t_list *file, void *wildcard_exp)
+{
+	(void)wildcard_exp;
+	return (((char *)(file->content))[0] == '.');
 }
 
 t_list	*expand_wildcard_on_list(t_list *list)
 {
-	t_list	*curr;
-	t_list	*wildcard_expanded_words;
+	char	*wildcard_exp;
+	t_list	*files;
 	t_list	*result;
 
-	curr = list;
 	result = NULL;
-	while (curr)
+	while (list)
 	{
-		wildcard_expanded_words = expand_wildcard(curr->content);
-		ft_lstadd_back(&result, wildcard_expanded_words);
-		curr = curr->next;
+		wildcard_exp = list->content;
+		if (ft_strchr(wildcard_exp, '*') == NULL)
+			files = ft_xlstnew(ft_xstrdup(wildcard_exp));
+		else
+		{
+			files = initialize_files();
+			if (wildcard_exp[0] != '.')
+				ft_lstremove_if(&files, should_remove_hidden, wildcard_exp,
+					free);
+			ft_lstremove_if(&files, should_remove, wildcard_exp, free);
+			ft_lstsort(&files, simple_cmp);
+			if (files == NULL)
+				files = ft_xlstnew(ft_xstrdup(wildcard_exp));
+		}
+		ft_lstadd_back(&result, files);
+		list = list->next;
 	}
 	return (result);
 }
