@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:45:09 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/29 17:40:47 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/29 17:46:00 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,19 @@ t_list	*expand_wildcard_on_list(t_list *list)
 	while (list)
 	{
 		wildcard_exp = list->content;
-		files = initialize_files();
-		if (wildcard_exp[0] != '.')
-			ft_lstremove_if(&files, should_remove_hidden, wildcard_exp, free);
-		ft_lstremove_if(&files, should_remove, wildcard_exp, free);
-		ft_lstsort(&files, simple_cmp);
-		if (files == NULL)
+		if (ft_strchr(wildcard_exp, '*') == NULL)
 			files = ft_xlstnew(ft_xstrdup(wildcard_exp));
+		else
+		{
+			files = initialize_files();
+			if (wildcard_exp[0] != '.')
+				ft_lstremove_if(&files, should_remove_hidden, wildcard_exp,
+					free);
+			ft_lstremove_if(&files, should_remove, wildcard_exp, free);
+			ft_lstsort(&files, simple_cmp);
+			if (files == NULL)
+				files = ft_xlstnew(ft_xstrdup(wildcard_exp));
+		}
 		ft_lstadd_back(&result, files);
 		list = list->next;
 	}
