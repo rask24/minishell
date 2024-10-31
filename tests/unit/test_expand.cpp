@@ -192,8 +192,8 @@ TEST(expand_quotes, QuotesAmongChars) {
 
 class FileTest : public testing::Test {
  protected:
-  const std::vector<std::string> create_files = {"file1", "file2", "file3",
-                                                 "filefile", "dir1", ".file"};
+  const std::vector<std::string> create_files = {"file1",    "file2", "file3",
+                                                 "filefile", "dir1",  ".file"};
   const std::string test_dir = "wildcard_test_dir";
 
   void SetUp() override {
@@ -339,8 +339,8 @@ TEST_F(FileTest, HiddenFile) {
 }
 
 TEST_F(FileTest, NoFiles) {
-  const std::vector<std::string> create_files1 = {"file1", "file2", "file3",
-                                                  "filefile", "dir1", ".file"};
+  const std::vector<std::string> create_files1 = {"file1",    "file2", "file3",
+                                                  "filefile", "dir1",  ".file"};
   for (const auto &file : create_files1) {
     std::remove(file.c_str());
   }
@@ -479,6 +479,20 @@ TEST(expand_variable_on_list, IFScontainedVariableInsideDoubleQuote) {
   t_list *ans =
       expand_variable_on_list(ft_xlstnew(ft_xstrdup("\"$GREET\"")), &ctx);
   EXPECT_STREQ((char *)ans->content, "\"hello world\"");
+
+  destroy_env_list(env_list);
+  ft_lstclear(&ans, free);
+}
+
+TEST(expand_variable_on_list, VariableInsideSingleQuoteInsideDoubleQuote) {
+  char *envp[] = {strdup("GREET=hello"), nullptr};
+  t_env_list *env_list = convert_array_to_env(envp);
+  t_ctx ctx;
+  ctx.env = env_list;
+
+  t_list *ans =
+      expand_variable_on_list(ft_xlstnew(ft_xstrdup("\"'$GREET'\"")), &ctx);
+  EXPECT_STREQ((char *)ans->content, "\"'hello'\"");
 
   destroy_env_list(env_list);
   ft_lstclear(&ans, free);
