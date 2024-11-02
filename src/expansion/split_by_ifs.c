@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 00:52:40 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/24 10:05:45 by yliu             ###   ########.fr       */
+/*   Updated: 2024/10/31 23:34:57 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_list	*extract_none_var_segment(t_string *str_info, bool *is_quoted)
 {
 	while (!(*str_info->right == '$' || *str_info->right == '\0'))
 	{
-		if (*str_info->right == '\'')
+		if (*str_info->right == '\'' && !*is_quoted)
 			proceed_single_quote(str_info);
 		else
 			if (*str_info->right == '\"')
