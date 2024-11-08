@@ -6,7 +6,7 @@
 /*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:20:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/24 20:25:56 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/11/08 21:46:04 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,5 @@ void	print_heredoc_warning(const char *delimiter)
 
 void	print_signal_info(const char *sig_detail, int signum)
 {
-	ft_dprintf(STDERR_FILENO, "minishell: %s: %d\n", sig_detail, signum);
+	ft_dprintf(STDERR_FILENO, "%s: %d\n", sig_detail, signum);
 }
