@@ -74,3 +74,14 @@ TEST(builtins_echo, WithoutNWithMultipleWords) {
   EXPECT_STREQ(testing::internal::GetCapturedStdout().c_str(),
                "Hello, world! 42\n");
 }
+
+TEST(builtins_echo, BrokenNoption) {
+  // echo - n Hello
+  char *args[] = {strdup("echo"), strdup("-"), strdup("n"), strdup("Hello"),
+                  NULL};
+  t_ctx ctx;
+
+  testing::internal::CaptureStdout();
+  builtins_echo(args, &ctx);
+  EXPECT_STREQ(testing::internal::GetCapturedStdout().c_str(), "- n Hello\n");
+}
