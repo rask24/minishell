@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:54:29 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/24 12:54:27 by yliu             ###   ########.fr       */
+/*   Updated: 2024/11/10 11:11:19 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,16 @@ static void	process_slashes(char **original_path, char **cursor)
 	(*cursor)++;
 }
 
+static void	process_normal_segment(char **original_path, char **cursor)
+{
+	while (**original_path != '\0' && **original_path != '/')
+	{
+		**cursor = **original_path;
+		(*original_path)++;
+		(*cursor)++;
+	}
+}
+
 char	*normalize_path(char *original_path)
 {
 	char	*normalized_path;
@@ -51,11 +61,7 @@ char	*normalize_path(char *original_path)
 		else if (*original_path == '/')
 			process_slashes(&original_path, &cursor);
 		else
-		{
-			*cursor = *original_path;
-			original_path++;
-			cursor++;
-		}
+			process_normal_segment(&original_path, &cursor);
 	}
 	*cursor = '\0';
 	return (normalized_path);
