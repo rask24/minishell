@@ -497,3 +497,26 @@ TEST(expand_variable_on_list, VariableInsideSingleQuoteInsideDoubleQuote) {
   destroy_env_list(env_list);
   ft_lstclear(&ans, free);
 }
+
+TEST(expand_variable_on_list, DollarSignFollowedBySpace) {
+  char *envp[] = {strdup("USER=testuser"), nullptr};
+  t_env_list *env_list = convert_array_to_env(envp);
+  t_ctx ctx;
+  ctx.env = env_list;
+  t_list *ans = expand_variable_on_list(ft_xlstnew(ft_xstrdup("$ USER")), &ctx);
+  EXPECT_STREQ((char *)ans->content, "$ USER");
+  destroy_env_list(env_list);
+  ft_lstclear(&ans, free);
+}
+
+TEST(expand_variable_on_list, DollarSignFollowedTab) {
+  char *envp[] = {strdup("USER=testuser"), nullptr};
+  t_env_list *env_list = convert_array_to_env(envp);
+  t_ctx ctx;
+  ctx.env = env_list;
+  t_list *ans =
+      expand_variable_on_list(ft_xlstnew(ft_xstrdup("$\tUSER")), &ctx);
+  EXPECT_STREQ((char *)ans->content, "$\tUSER");
+  destroy_env_list(env_list);
+  ft_lstclear(&ans, free);
+}
