@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_echo.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 20:44:03 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/24 16:26:36 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/11/09 20:12:02 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,23 @@ static void	print_args(char **args)
 
 static bool	has_n_option(char *arg)
 {
-	int	i;
+	int		i;
+	bool	has_n;
 
 	if (arg == NULL)
 		return (false);
 	if (arg[0] != '-')
 		return (false);
+	has_n = false;
 	i = 1;
 	while (arg[i])
 	{
 		if (arg[i] != 'n')
 			return (false);
+		has_n |= true;
 		i++;
 	}
-	return (true);
+	return (has_n);
 }
 
 int	builtins_echo(char **args, t_ctx *ctx)
