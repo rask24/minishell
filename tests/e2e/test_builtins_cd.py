@@ -150,3 +150,12 @@ def test_cd_error_permission_denied1(shell_session):
     finally:
         if os.path.exists(no_accesable_dir):
             os.rmdir(no_accesable_dir)
+
+
+def test_cd_threedots(shell_session):
+    shell_session.sendline("cd ...")
+    shell_session.expect(PROMPT)
+    shell_session.sendline("echo $?")
+    shell_session.expect(PROMPT)
+    result = get_command_output(shell_session.before)
+    assert result == "1"
