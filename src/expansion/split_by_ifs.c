@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 00:52:40 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/31 23:34:57 by yliu             ###   ########.fr       */
+/*   Updated: 2024/11/17 20:10:32 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ static void	proceed_single_quote(t_string *str_info)
 	return ;
 }
 
-static t_list	*extract_none_var_segment(t_string *str_info, bool *is_quoted)
+static t_list	*extract_none_var_segment(t_string *str_info, bool *is_double_quoted)
 {
 	while (!(*str_info->right == '$' || *str_info->right == '\0'))
 	{
-		if (*str_info->right == '\'' && !*is_quoted)
+		if (*str_info->right == '\'' && !*is_double_quoted)
 			proceed_single_quote(str_info);
 		else
 			if (*str_info->right == '\"')
-				*is_quoted = !*is_quoted;
+				*is_double_quoted = !*is_double_quoted;
 		str_info->right++;
 	}
 	return (ft_xlstnew(trim(str_info)));
@@ -57,13 +57,13 @@ static t_list	*split_expanded_variable_by_ifs(char *expanded)
 	return (list);
 }
 
-t_list	*extract_var_segment(char *expanded_var, bool is_quoted)
+t_list	*extract_var_segment(char *expanded_var, bool is_double_quoted)
 {
 	t_list	*list;
 
 	list = NULL;
 	ft_lstadd_back(&list, ft_xlstnew(NULL));
-	if (is_quoted)
+	if (is_double_quoted)
 		ft_lstadd_back(&list, ft_xlstnew(ft_xstrdup(expanded_var)));
 	else
 		ft_lstadd_back(&list, split_expanded_variable_by_ifs(expanded_var));
@@ -74,23 +74,23 @@ t_list	*extract_var_segment(char *expanded_var, bool is_quoted)
 t_list	*split_by_ifs(t_expand_info *expand_info, t_ctx *ctx)
 {
 	t_list	*list;
-	bool	is_quoted;
+	bool	is_double_quoted;
 	char	*expanded_var;
 	t_list	*segment;
 	t_list	*normed_list;
 
 	list = NULL;
-	is_quoted = false;
+	is_double_quoted = false;
 	while (*expand_info->right != '\0')
 	{
 		if (*expand_info->right == '$')
 		{
 			expanded_var = trim_expanded_variable(expand_info, ctx);
-			segment = extract_var_segment(expanded_var, is_quoted);
+			segment = extract_var_segment(expanded_var, is_double_quoted);
 			free(expanded_var);
 		}
 		else
-			segment = extract_none_var_segment(expand_info, &is_quoted);
+			segment = extract_none_var_segment(expand_info, &is_double_quoted);
 		ft_lstadd_back(&list, segment);
 	}
 	normed_list = normalize_list(list);
