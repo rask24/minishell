@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 00:52:40 by yliu              #+#    #+#             */
-/*   Updated: 2024/11/17 20:10:32 by yliu             ###   ########.fr       */
+/*   Updated: 2024/11/17 20:57:54 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static void	proceed_single_quote(t_string *str_info)
 	return ;
 }
 
-static t_list	*extract_none_var_segment(t_string *str_info, bool *is_double_quoted)
+static t_list	*extract_none_var_segment(t_string *str_info,
+											bool *is_double_quoted)
 {
 	while (!(*str_info->right == '$' || *str_info->right == '\0'))
 	{
