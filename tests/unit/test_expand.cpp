@@ -520,3 +520,14 @@ TEST(expand_variable_on_list, DollarSignFollowedTab) {
   destroy_env_list(env_list);
   ft_lstclear(&ans, free);
 }
+
+TEST(expand_variable_on_list, DollarSignEndOfString) {
+  char *envp[] = {strdup("USER=testuser"), nullptr};
+  t_env_list *env_list = convert_array_to_env(envp);
+  t_ctx ctx;
+  ctx.env = env_list;
+  t_list *ans = expand_variable_on_list(ft_xlstnew(ft_xstrdup("\"$\"")), &ctx);
+  EXPECT_STREQ((char *)ans->content, "\"$\"");
+  destroy_env_list(env_list);
+  ft_lstclear(&ans, free);
+}
