@@ -6,7 +6,7 @@
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:54:29 by yliu              #+#    #+#             */
-/*   Updated: 2024/11/10 11:11:19 by yliu             ###   ########.fr       */
+/*   Updated: 2024/11/17 21:06:17 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	process_two_dots(char **original_path, char *normalized_path,
 
 static void	process_slashes(char **original_path, char **cursor)
 {
-	while (*(*original_path + 1) != '\0' && *(*original_path + 1) == '/')
+	while (*(*original_path + 1) == '/')
 		(*original_path)++;
 	**cursor = **original_path;
 	(*original_path)++;
