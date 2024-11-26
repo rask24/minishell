@@ -85,3 +85,36 @@ TEST(builtins_echo, BrokenNoption) {
   builtins_echo(args, &ctx);
   EXPECT_STREQ(testing::internal::GetCapturedStdout().c_str(), "- n Hello\n");
 }
+
+TEST(builtins_echo, MultipleOption) {
+  // echo -n -n Hello
+  char *args[] = {strdup("echo"), strdup("-n"), strdup("-n"), strdup("Hello"),
+                  NULL};
+  t_ctx ctx;
+
+  testing::internal::CaptureStdout();
+  builtins_echo(args, &ctx);
+  EXPECT_STREQ(testing::internal::GetCapturedStdout().c_str(), "Hello");
+}
+
+TEST(builtins_echo, MultipleOption2) {
+  // echo -n Hello -n
+  char *args[] = {strdup("echo"), strdup("-n"), strdup("Hello"), strdup("-n"),
+                  NULL};
+  t_ctx ctx;
+
+  testing::internal::CaptureStdout();
+  builtins_echo(args, &ctx);
+  EXPECT_STREQ(testing::internal::GetCapturedStdout().c_str(), "Hello -n");
+}
+
+TEST(builtins_echo, MultipleOption3) {
+  // echo -nnnn Hello -n
+  char *args[] = {strdup("echo"), strdup("-nnnn"), strdup("Hello"),
+                  strdup("-n"), NULL};
+  t_ctx ctx;
+
+  testing::internal::CaptureStdout();
+  builtins_echo(args, &ctx);
+  EXPECT_STREQ(testing::internal::GetCapturedStdout().c_str(), "Hello -n");
+}
