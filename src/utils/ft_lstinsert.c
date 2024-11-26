@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/23 15:30:41 by yliu              #+#    #+#             */
-/*   Updated: 2024/09/24 01:20:50 by yliu             ###   ########.fr       */
+/*   Created: 2024/11/25 11:39:12 by yliu              #+#    #+#             */
+/*   Updated: 2024/11/25 18:48:36 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,27 @@
 
 void	ft_lstinsert(t_list **lst, t_list *trg, t_list *insert)
 {
-	if (lst == NULL || *lst == NULL)
+	t_list	*trg_prev;
+
+	if (lst == NULL || insert == NULL)
 		return ;
-	if (trg == NULL)
+	if (*lst == NULL)
 	{
-		ft_lstlast(insert)->next = *lst;
 		*lst = insert;
 		return ;
 	}
-	ft_lstlast(insert)->next = trg->next;
-	trg->next = insert;
+	if (trg == NULL)
+	{
+		ft_lstlast(*lst)->next = insert;
+		return ;
+	}
+	else
+	{
+		ft_lstlast(insert)->next = trg;
+		trg_prev = ft_lst_before(*lst, trg);
+		if (trg_prev == NULL)
+			*lst = insert;
+		else
+			trg_prev->next = insert;
+	}
 }

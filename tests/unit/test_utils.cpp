@@ -109,7 +109,7 @@ TEST(ft_lstinsert, InsertMiddle) {
   ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("paris")));
 
   t_list *insert = ft_lstnew(ft_xstrdup("world"));
-  t_list *insert_ptr = lst;
+  t_list *insert_ptr = lst->next;
 
   ft_lstinsert(&lst, insert_ptr, insert);
 
@@ -126,7 +126,7 @@ TEST(ft_lstinsert, InsertHead) {
   ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("paris")));
 
   t_list *insert = ft_lstnew(ft_xstrdup("hello"));
-  t_list *insert_ptr = NULL;
+  t_list *insert_ptr = lst;
 
   ft_lstinsert(&lst, insert_ptr, insert);
 
@@ -143,7 +143,7 @@ TEST(ft_lstinsert, InsertLast) {
   ft_lstadd_back(&lst, ft_lstnew(ft_xstrdup("tokyo")));
 
   t_list *insert = ft_lstnew(ft_xstrdup("paris"));
-  t_list *insert_ptr = ft_lstlast(lst);
+  t_list *insert_ptr = NULL;
 
   ft_lstinsert(&lst, insert_ptr, insert);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 22:27:21 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/25 19:48:23 by reasuke          ###   ########.fr       */
+/*   Updated: 2024/11/25 11:40:48 by yliu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ char			*ft_xstrndup(const char *s, size_t n);
 void			ft_lstremove(t_list **lst, t_list *node, t_del del);
 void			ft_lstremove_if(t_list **lst, t_pred should_remove, void *param,
 					t_del del);
-void			ft_lstreplace(t_list **lst, t_list *node, t_list *new_node);
 void			ft_lstinsert(t_list **lst, t_list *insert_ptr, t_list *insert);
 void			ft_lstsort(t_list **list, t_cmp cmp);
 void			ft_lstiterp(t_list *lst, void (*f)(void *, void *),
