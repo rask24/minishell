@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:37:58 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/24 12:02:44 by yliu             ###   ########.fr       */
+/*   Updated: 2024/12/10 14:42:08 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,6 @@ int	builtins_cd(char **args, t_ctx *ctx)
 	free(ctx->cwd);
 	remove_last_slash(good_full_path);
 	ctx->cwd = good_full_path;
+	update_env_pwd(ctx);
 	return (res);
 }

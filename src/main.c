@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:59:54 by reasuke           #+#    #+#             */
-/*   Updated: 2024/10/19 20:23:21 by yliu             ###   ########.fr       */
+/*   Updated: 2024/12/09 20:45:45 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_ctx	*construct_ctx(char **envp)
 
 	ctx = ft_xmalloc(sizeof(t_ctx));
 	ctx->cwd = getcwd(NULL, 0);
-	ctx->env = init_env(envp);
+	ctx->env = init_env(envp, ctx->cwd);
 	ctx->exit_status = EXIT_SUCCESS;
 	return (ctx);
 }
