@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cd_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:54:29 by yliu              #+#    #+#             */
-/*   Updated: 2024/11/17 21:06:17 by yliu             ###   ########.fr       */
+/*   Updated: 2024/12/10 14:42:44 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins_cd_internal.h"
+#include "ctx.h"
+#include "env.h"
 
 static void	process_two_dots(char **original_path, char *normalized_path,
 								char **cursor)
@@ -65,4 +67,18 @@ char	*normalize_path(char *original_path)
 	}
 	*cursor = '\0';
 	return (normalized_path);
+}
+
+void	update_env_pwd(t_ctx *ctx)
+{
+	t_env_list	*env_pwd;
+
+	env_pwd = lookup_env("PWD", ctx->env);
+	if (env_pwd == NULL)
+	{
+		env_pwd = construct_env(ft_xstrdup("PWD"), ft_xstrdup(ctx->cwd));
+		ft_lstadd_back(&ctx->env, env_pwd);
+	}
+	else
+		update_env_value(env_pwd, ft_xstrdup(ctx->cwd));
 }
