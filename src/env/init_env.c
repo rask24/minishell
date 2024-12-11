@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yliu <yliu@student.42.jp>                  +#+  +:+       +#+        */
+/*   By: reasuke <reasuke@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 21:35:41 by yliu              #+#    #+#             */
-/*   Updated: 2024/10/24 23:28:32 by yliu             ###   ########.fr       */
+/*   Updated: 2024/12/11 22:56:19 by reasuke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,16 @@ static void	add_default_path(t_env_list *env_list)
 	t_list	*tmp;
 
 	tmp = construct_env(ft_xstrdup("PATH"), ft_xstrdup(DFLPATH));
+	ft_lstadd_back(&env_list, tmp);
+}
+
+static void	add_env_pwd(t_env_list *env_list, char *cwd)
+{
+	t_list	*tmp;
+
+	if (cwd == NULL)
+		return ;
+	tmp = construct_env(ft_xstrdup("PWD"), ft_xstrdup(cwd));
 	ft_lstadd_back(&env_list, tmp);
 }
 
@@ -67,13 +77,15 @@ static void	deal_shlvl(t_env_list *env_list)
 	update_env_value(lookup_env("SHLVL", env_list), ft_xitoa(new_shlvl));
 }
 
-t_env_list	*init_env(char **envp)
+t_env_list	*init_env(char **envp, char *cwd)
 {
 	t_env_list	*env_list;
 
 	env_list = convert_array_to_env(envp);
 	if (lookup_value("PATH", env_list) == NULL)
 		add_default_path(env_list);
+	if (lookup_value("PWD", env_list) == NULL)
+		add_env_pwd(env_list, cwd);
 	deal_shlvl(env_list);
 	return (env_list);
 }
